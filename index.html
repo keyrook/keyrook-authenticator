@@ -108,7 +108,7 @@
   <h2 id="privacy">Privacy Policy</h2>
 
   <div class="policy">
-    <p class="updated">Last updated: 8 October 2026</p>
+    <p class="updated">Last updated: 17 October 2026</p>
     <p class="lede">Keyrook Authenticator works without an account, and then nothing leaves your computer. Sync between your browsers is optional. If you turn it on, your two-factor accounts are encrypted on your device before they are uploaded, with a key the server never receives: we store them, but we cannot read them. We keep your email address and what is needed to run the account, use it for nothing else, and sell nothing. You can sign in with a password, or with Google or GitHub, which tell us who you are and nothing more.</p>
     <p>Keyrook Authenticator is made by BRICK IT ALL LLC ("we"). Sync is available from version 0.2.0.</p>
     <h3>Without an account</h3>
@@ -133,6 +133,7 @@
       <li><strong>Your email address</strong>, to identify your account and to send you a code that proves the address is yours. If you sign in with Google or GitHub, the address comes from them, already verified, and no code is sent.</li>
       <li><strong>If you sign in with Google or GitHub: who you are there.</strong> The identifier that provider gives your account — a number, not your name — and the verified email address it reports. We ask Google for <code>openid email</code> and GitHub for <code>user:email</code>, nothing more; we use the answer once to sign you in and keep no access token, so we cannot read your mail, your files or your repositories, or act for you anywhere. An account made this way has no password, and we store nothing that could stand in for one. Our use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
       <li><strong>Your two-factor accounts, encrypted.</strong> Each one is encrypted on your device with your account's data key before it is uploaded. We store the ciphertext and the little we need to keep your devices in step: a random identifier for each entry, a revision number, when it last changed, whether it was deleted, and which of your devices changed it. We cannot read the issuer, account name, secret, note or picture.</li>
+      <li><strong>What Keyrook's other apps keep in the same account, if you use them.</strong> A Keyrook account also works in Keyrook's other apps; Passhold, the password manager, is the first. If you sign in to one with it, what that app syncs is stored in the same account, encrypted on your device before it is uploaded, and described by that app's own privacy policy. Keyrook Authenticator does not read or change it.</li>
       <li><strong>What lets you sign in, none of it usable as your password.</strong> If your account has a password, it never leaves your device. It is stretched on your device into two unrelated keys: one stays there; the other proves your password to us, and we store only a salted, slow hash of that proof, mixed with a secret held apart from the database. We also store your data key in encrypted form, so a new device can open it with your password, and, if you made one, the same for your recovery key.</li>
       <li><strong>Your signed-in devices</strong> — a name such as "Chrome on Mac", when each signed in and was last used, and a hash of its session tokens, so you can see the list and sign a device out.</li>
       <li><strong>A new browser asking to join.</strong> A browser signed in with Google or GitHub gets your entries only when one already signed in approves it. Until then we hold its name and a one-time public key; once you approve, your data key encrypted for that browser alone, which we cannot open. The request is deleted when it is used or declined, and stops working after ten minutes.</li>
@@ -141,21 +142,21 @@
     <ul>
       <li><strong>Your IP address</strong>, which every connection carries. To limit abuse — someone guessing passwords or requesting codes in bulk — the server counts recent requests per address. It keeps only a one-way digest of the address, for at most an hour.</li>
       <li><strong>Signing in with Google or GitHub</strong> happens on their site, under their privacy policy, and they learn that you signed in to Keyrook. The extension takes you to their sign-in page and back, or opens it in the browser's own sign-in window to confirm a change to your account.</li>
-      <li>Requests reach the server through <strong>Cloudflare</strong>, which protects it and sees connection details such as your IP address. Our hosting provider's web server writes routine access logs (IP address, time, the address requested); we have archiving of those logs switched off, and we do not combine them with your account.</li>
+      <li>Requests pass through a network provider that protects the service and sees connection details such as your IP address. It and the server write routine access logs (IP address, time, the address requested); we keep no archive of them, and we do not combine them with your account.</li>
     </ul>
     <h4>Emails we send</h4>
     <p>Only what the account needs: the code that confirms your address when you sign up, and a notice if someone tries to sign up with an address that already has an account. An account made with Google or GitHub gets no email from us at all. No newsletters, no marketing.</p>
     <h4>Who processes it for us</h4>
     <ul>
-      <li><strong>A2 Hosting</strong> runs the server and its database, in Singapore.</li>
-      <li><strong>Cloudflare</strong> carries the connections between your browser and the server.</li>
-      <li><strong>MailChannels</strong> relays the emails we send.</li>
-      <li><strong>Google</strong> (Gmail) holds an off-site copy of each daily database backup. The backup is encrypted, and the key to open it is not stored with it.</li>
+      <li><strong>A hosting provider</strong> runs the server and its database.</li>
+      <li><strong>A network provider</strong> carries and protects the connections between your browser and the server.</li>
+      <li><strong>An email delivery service</strong> sends the emails above.</li>
+      <li><strong>An email provider</strong> holds an off-site copy of each daily database backup. The backup is encrypted, and the key to open it is not stored with it.</li>
     </ul>
-    <p>They handle the data only to provide those services to us. Some of them are in the United States, so your data may be processed outside your country.</p>
+    <p>They handle the data only to provide those services to us. Some of them are in the United States, so your data may be processed outside your country. To know which companies they are, write to us.</p>
     <h4>How long we keep it</h4>
     <ul>
-      <li><strong>Your account and everything synced</strong>: until you delete the account. Deleting it (Settings → Account &amp; sync → Delete account, which asks for your password, or for you to sign in with Google or GitHub again) removes your email address, your encrypted entries, your devices and your recovery data from our database at once.</li>
+      <li><strong>Your account and everything synced</strong>: until you delete the account. Deleting it (Settings → Account &amp; sync → Delete account, which asks for your password, or for you to sign in with Google or GitHub again) removes your email address, your encrypted entries, your devices and your recovery data from our database at once — including what any other Keyrook app synced to the same account.</li>
       <li><strong>Backups</strong>: encrypted daily copies of the database are kept for 14 days on the server, and the off-site copies are deleted within 60 days. Deleted accounts disappear from backups as they expire.</li>
       <li><strong>Sign-ins in progress</strong>: a Google or GitHub sign-in that has not finished, and a request to join from a new browser, stop working after ten minutes and are deleted within a day.</li>
       <li><strong>Sign-up codes</strong>: a code works for 15 minutes. The record of the request, with the address it went to, is deleted within a day once its hour has passed.</li>

@@ -1,6 +1,6 @@
 # Privacy Policy — Keyrook Authenticator
 
-_Last updated: 8 October 2026_
+_Last updated: 17 October 2026_
 
 ## The short version
 
@@ -77,6 +77,12 @@ them is recorded, kept or uploaded, with or without an account.
   each entry, a revision number, when it last changed, whether it was deleted,
   and which of your devices changed it. We cannot read the issuer, account name,
   secret, note or picture.
+- **What Keyrook's other apps keep in the same account, if you use them.** A
+  Keyrook account also works in Keyrook's other apps; Passhold, the password
+  manager, is the first. If you sign in to one with it, what that app syncs is
+  stored in the same account, encrypted on your device before it is uploaded,
+  and described by that app's own privacy policy. Keyrook Authenticator does
+  not read or change it.
 - **What lets you sign in, none of it usable as your password.** If your
   account has a password, it never leaves your device. It is stretched on your device into two
   unrelated keys: one stays there; the other proves your password to us, and we
@@ -103,11 +109,10 @@ them is recorded, kept or uploaded, with or without an account.
   privacy policy, and they learn that you signed in to Keyrook. The
   extension takes you to their sign-in page and back, or opens it in the
   browser's own sign-in window to confirm a change to your account.
-- Requests reach the server through **Cloudflare**, which protects it and sees
-  connection details such as your IP address. Our hosting provider's web server
-  writes routine access logs (IP address, time, the address requested); we have
-  archiving of those logs switched off, and we do not combine them with your
-  account.
+- Requests pass through a network provider that protects the service and sees
+  connection details such as your IP address. It and the server write routine
+  access logs (IP address, time, the address requested); we keep no archive of
+  them, and we do not combine them with your account.
 
 ### Emails we send
 
@@ -118,21 +123,24 @@ newsletters, no marketing.
 
 ### Who processes it for us
 
-- **A2 Hosting** runs the server and its database, in Singapore.
-- **Cloudflare** carries the connections between your browser and the server.
-- **MailChannels** relays the emails we send.
-- **Google** (Gmail) holds an off-site copy of each daily database backup. The
-  backup is encrypted, and the key to open it is not stored with it.
+- **A hosting provider** runs the server and its database.
+- **A network provider** carries and protects the connections between your
+  browser and the server.
+- **An email delivery service** sends the emails above.
+- **An email provider** holds an off-site copy of each daily database backup.
+  The backup is encrypted, and the key to open it is not stored with it.
 
 They handle the data only to provide those services to us. Some of them are in
-the United States, so your data may be processed outside your country.
+the United States, so your data may be processed outside your country. To know
+which companies they are, write to us.
 
 ### How long we keep it
 
 - **Your account and everything synced**: until you delete the account.
   Deleting it (Settings → Account & sync → Delete account, which asks for
   your password, or for you to sign in with Google or GitHub again) removes your email address, your encrypted entries, your devices and
-  your recovery data from our database at once.
+  your recovery data from our database at once — including what any other
+  Keyrook app synced to the same account.
 - **Backups**: encrypted daily copies of the database are kept for 14 days on
   the server, and the off-site copies are deleted within 60 days. Deleted
   accounts disappear from backups as they expire.

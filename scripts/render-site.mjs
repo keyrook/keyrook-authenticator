@@ -32,9 +32,8 @@ const INTRO = resolve(ROOT, 'site/keyrook.com/authenticator/index.html');
 const sha256 = (text) => createHash('sha256').update(text, 'utf8').digest('base64');
 
 /**
- * Every page allows no connection and no script but its own. Cloudflare, in
- * front of keyrook.com, injects its analytics beacon into every page; this
- * is what keeps it from running on these.
+ * Every page allows no connection and no script but its own, so a script
+ * injected into a page on its way to the browser does not run.
  */
 const policy = (scriptHash, { video = false } = {}) =>
   [

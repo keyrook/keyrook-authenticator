@@ -8,8 +8,8 @@
 
      The policy below is the page's promise, enforced by the browser: nothing
      loaded from anywhere, no connection of any kind, and no script but the one
-     at the bottom, by its hash. Cloudflare sits in front of keyrook.com and
-     can inject scripts; here they do not run. -->
+     at the bottom, by its hash. Nothing injected into the page on its way
+     here can run. -->
 <meta http-equiv="Content-Security-Policy" content="{{CSP}}">
 <meta name="referrer" content="no-referrer">
 <title>Get a 2FA code from a setup key — Keyrook Authenticator</title>
@@ -205,8 +205,8 @@
   </defs>
 </svg>
 
-<!-- data-cfasync: Cloudflare's Rocket Loader would otherwise rewrite this tag
-     to load through its own script, which the policy blocks. -->
+<!-- data-cfasync keeps this tag as written, so the policy's hash still
+     matches. -->
 <script data-cfasync="false">{{SCRIPT}}</script>
 </body>
 </html>
