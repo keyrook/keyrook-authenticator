@@ -13,7 +13,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@authx/core': resolve(import.meta.dirname, '../../packages/core/src/index.ts'),
-      '@keyrook/brand': resolve(import.meta.dirname, '../../packages/brand/src/index.ts'),
+      '@keyrook/account': resolve(import.meta.dirname, '../../vendor/keyrook-account/src/index.ts'),
+      '@authx/service': resolve(import.meta.dirname, '../../packages/service/src'),
+      '@authx/ui': resolve(import.meta.dirname, '../../packages/ui/src'),
+      '@keyrook/brand': resolve(import.meta.dirname, '../../vendor/keyrook-brand/src/index.ts'),
       '~': resolve(import.meta.dirname, 'src'),
     },
   },
@@ -36,7 +39,9 @@ export default defineConfig({
         // package should be able to tell library code from ours at a glance.
         manualChunks(id) {
           if (id.includes('node_modules')) return 'vendor';
-          if (id.includes('packages/core')) return 'authx-core';
+          // The Keyrook account's code beside the app's own core: both are
+          // ours, and the chunk keeps the name it had before the two split.
+          if (id.includes('packages/core') || id.includes('vendor/keyrook-account/')) return 'authx-core';
           return undefined;
         },
       },

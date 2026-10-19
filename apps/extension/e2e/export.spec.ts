@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import type { Locator, Page } from '@playwright/test';
 import jsQR from 'jsqr';
-import { parseMigrationUri } from '@authx/core';
+import { generateHotp, parseMigrationUri, readSharedCodes } from '@authx/core';
 import { createDeviceVault, expect, openOptions, openPopup, test } from './fixtures.js';
 
 /**
@@ -76,7 +76,8 @@ test('one account moves to another app from the popup or Settings, by a code tha
 
   await popup.reload();
   await popup.getByText('GitHub').first().hover();
-  await popup.getByRole('button', { name: 'Move to another app' }).click();
+  await popup.getByRole('button', { name: 'Share or move' }).click();
+  await popup.getByRole('radio', { name: 'Move to another app' }).click();
 
   // Nothing secret is drawn until asked for, and the warning comes first.
   await expect(popup.getByRole('img', { name: /Setup QR code/ })).toHaveCount(0);
@@ -94,10 +95,95 @@ test('one account moves to another app from the popup or Settings, by a code tha
 
   // The same from the account list in Settings.
   await options.getByRole('button', { name: 'Accounts', exact: true }).click();
-  await options.getByRole('button', { name: 'Move GitHub to another app' }).click();
+  await options.getByRole('button', { name: 'Share or move GitHub' }).click();
+  await options.getByRole('radio', { name: 'Move to another app' }).click();
   await options.getByRole('button', { name: 'Show QR code' }).click();
   const again = new URL(await readQr(options.getByRole('img', { name: 'Setup QR code for GitHub' })));
   expect(again.searchParams.get('secret')).toBe(SECRET);
+});
+
+test('an account with no setup key says so where it would be shared or moved, and no page goes blank', async ({
+  context,
+  extensionId,
+}) => {
+  const popup = await openPopup(context, extensionId);
+  await createDeviceVault(popup);
+  const options = await openOptions(context, extensionId);
+  await importLinks(options, [link('GitHub')]);
+
+  // What a build before 0.4 made of the deletion of an account a browser
+  // never had, once someone pressed Restore: no key, no name. Its setup QR
+  // code threw as it drew, and the page went blank.
+  const empty = {
+    id: 'empty-entry', type: 'totp', issuer: '', label: '', secret: '', algorithm: 'SHA1', digits: 6, period: 30,
+    counter: 0, note: '', icon: null, groupId: null, favorite: false, domains: [], createdAt: Date.now(),
+    updatedAt: Date.now(), deletedAt: null, rev: 1, syncedRev: 0,
+  };
+  await options.evaluate(
+    (item) => chrome.runtime.sendMessage({ type: 'vault/mutate', mutation: { op: 'items/add', items: [item] } }),
+    empty,
+  );
+
+  await popup.reload();
+  const row = popup.locator('li', { hasText: 'Untitled' });
+  await row.hover();
+  await row.getByRole('button', { name: 'Share or move' }).click();
+  await expect(popup.getByText(/This account has no setup key/)).toBeVisible();
+  await expect(popup.getByRole('radio', { name: 'Move to another app' })).toHaveCount(0);
+  await popup.getByRole('button', { name: 'Back' }).click();
+  await expect(popup.getByText('GitHub').first()).toBeVisible();
+
+  await options.getByRole('button', { name: 'Accounts', exact: true }).click();
+  await options.getByRole('button', { name: 'Share or move Untitled' }).click();
+  await expect(options.getByText(/This account has no setup key/)).toBeVisible();
+  await options.getByRole('button', { name: 'Close' }).click();
+
+  // Nothing to take to another app, so it is not offered; the rest still is.
+  await openMove(options);
+  await expect(options.getByText('All 1 account.')).toBeVisible();
+
+  // Deleted, it is not offered back either: there is nothing in it.
+  await options.evaluate(() =>
+    chrome.runtime.sendMessage({ type: 'vault/mutate', mutation: { op: 'items/delete', id: 'empty-entry' } }),
+  );
+  await options.getByRole('button', { name: 'Accounts', exact: true }).click();
+  await expect(options.getByText('GitHub').first()).toBeVisible();
+  await expect(options.getByText('Recently deleted')).toHaveCount(0);
+});
+
+test('a link of codes for a while carries the codes the account makes, and not its key', async ({
+  context,
+  extensionId,
+}) => {
+  const popup = await openPopup(context, extensionId);
+  await createDeviceVault(popup);
+  const options = await openOptions(context, extensionId);
+  await importLinks(options, [link('GitHub')]);
+
+  await popup.reload();
+  // What the button puts on the clipboard, kept where the test can read it.
+  await popup.evaluate(() => {
+    navigator.clipboard.writeText = async (text: string) => {
+      (window as unknown as { copied: string }).copied = text;
+    };
+  });
+  await popup.getByText('GitHub').first().hover();
+  await popup.getByRole('button', { name: 'Share or move' }).click();
+  // A time-based account opens on the codes, the way that ends.
+  await expect(popup.getByRole('radio', { name: 'Send codes' })).toHaveAttribute('aria-checked', 'true');
+  await popup.getByRole('radio', { name: '5 minutes', exact: true }).click();
+  await popup.getByRole('button', { name: 'Copy link' }).click();
+  await expect(popup.getByRole('status')).toContainText('Link copied. It works until');
+
+  const copied = await popup.evaluate(() => (window as unknown as { copied: string }).copied);
+  expect(copied.startsWith('https://keyrook.com/authenticator/share/#')).toBe(true);
+  expect(copied).not.toContain(SECRET);
+  const shared = readSharedCodes(new URL(copied).hash);
+  expect(shared.issuer).toBe('GitHub');
+  expect(shared.codes.length).toBeGreaterThanOrEqual(10);
+  for (const [index, code] of shared.codes.entries()) {
+    expect(code).toBe(await generateHotp(SECRET, shared.start + index));
+  }
 });
 
 test('readable exports ask for the master password, and are what they say', async ({

@@ -1,37 +1,24 @@
 /**
- * Generates the extension icons with no image dependencies.
+ * Writes the extension icons.
  *
- *   node scripts/gen-icons.mjs <out dir> [sizes…]     default 16 32 48 128
+ *   node scripts/gen-icons.mjs <out dir>
  *
- * The icon is Keyrook Authenticator's own mark, the crayon asterisk
- * (packages/brand/src/authenticator.ts) — never the Keyrook crow, which is the
- * brand's. Below 32 px the compact drawing, straighter and thicker, so a tick
- * stays a tick at that size. Drawn by scripts/raster.mjs.
- *
- * At 128 px the mark is drawn 96 px across with 16 px clear on each side, as
- * the Chrome Web Store asks of the icon it shows beside a listing.
+ * The icon is Keyrook Authenticator's own mark, the crayon asterisk — never
+ * the Keyrook crow, which is the brand's. It is drawn in the brand kit
+ * (keyrook-brand, copied into vendor/keyrook-brand by `npm run brand`), which
+ * renders each product's toolbar and store icons: the compact drawing below
+ * 32 px, and at 128 px the mark 96 px across with 16 px clear round it, as the
+ * Chrome Web Store asks. This only copies them where the extension wants them.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { authenticatorMarkFor as markFor } from '../packages/brand/src/authenticator.ts';
-import { renderPng } from './raster.mjs';
 
-const DEFAULT_SIZES = [16, 32, 48, 128];
-
+const KIT = resolve(import.meta.dirname, '../vendor/keyrook-brand/assets');
 const outDir = resolve(process.cwd(), process.argv[2] ?? 'icons');
-const sizes = process.argv.slice(3).map(Number).filter(Boolean);
 mkdirSync(outDir, { recursive: true });
 
-/** The same drawing with room round it: `art` of every `size` pixels is mark. */
-function padded(mark, art, size) {
-  const [x, y, width, height] = mark.view;
-  const grow = (width * size) / art - width;
-  return { ...mark, view: [x - grow / 2, y - grow / 2, width + grow, height + grow] };
-}
-
-for (const size of sizes.length ? sizes : DEFAULT_SIZES) {
+for (const size of [16, 32, 48, 128]) {
   const file = resolve(outDir, `icon-${size}.png`);
-  const mark = size === 128 ? padded(markFor(96), 96, 128) : markFor(size);
-  writeFileSync(file, renderPng(mark, { width: size }));
+  copyFileSync(resolve(KIT, `authenticator-icon-${size}.png`), file);
   console.log(`✓ ${file}`);
 }

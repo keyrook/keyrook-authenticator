@@ -10,7 +10,7 @@ import {
 } from '../src/vault/backup.js';
 import { itemFromUri } from '../src/vault/vault.js';
 import { parseOtpUri } from '../src/otp/uri.js';
-import { newKdfParams } from '../src/crypto/kdf.js';
+import { newKdfParams } from '@keyrook/account';
 
 const PASSWORD = 'a good backup password';
 const GITHUB = 'otpauth://totp/GitHub:octocat?secret=JBSWY3DPEHPK3PXP&issuer=GitHub';

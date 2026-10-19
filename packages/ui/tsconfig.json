@@ -1,0 +1,42 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "outDir": "./.tsbuild",
+    "jsx": "react-jsx",
+    // No `chrome` (nor any other platform's) types: the pages reach the
+    // platform through their Host, and a stray chrome.* must not compile.
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@authx/core": [
+        "../../packages/core/src/index.ts"
+      ],
+      "@keyrook/account": [
+        "../../vendor/keyrook-account/src/index.ts"
+      ],
+      "@keyrook/brand": [
+        "../../vendor/keyrook-brand/src/index.ts"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "rootDir": "../.."
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "test/**/*.ts",
+    "../../vendor/keyrook-brand/src/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../../vendor/keyrook-account"
+    },
+    {
+      "path": "../core"
+    }
+  ]
+}

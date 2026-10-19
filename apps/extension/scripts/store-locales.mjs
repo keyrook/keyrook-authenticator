@@ -2,8 +2,9 @@
  * What the browser and the store show before the extension is opened: its
  * name, its one-line summary, and the toolbar tooltip while it is locked —
  * written into `_locales/<code>/messages.json` and read through `__MSG_…__`
- * in the manifest. The pages themselves are translated in `src/i18n/`; the
- * long description each store shows is `store-assets/listings/<code>.txt`.
+ * in the manifest. The pages themselves are translated in
+ * `packages/ui/src/i18n/`; the long description each store shows is
+ * `store-assets/listings/<code>.txt`.
  *
  * Chrome and the stores pick the entry for the browser's language, so these
  * follow the browser, not the choice made in Settings.

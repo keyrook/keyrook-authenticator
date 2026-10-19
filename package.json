@@ -15,9 +15,12 @@
     "build": "npm run build -w @authx/extension",
     "zip": "npm run zip -w @authx/extension",
     "typecheck": "tsc -b --pretty",
-    "test": "vitest run"
+    "test": "vitest run",
+    "brand": "node scripts/sync-brand.mjs",
+    "brand:check": "node scripts/sync-brand.mjs --check"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.2.17",
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.2",
     "esbuild": "^0.25.12",

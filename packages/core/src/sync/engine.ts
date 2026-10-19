@@ -6,11 +6,17 @@
  * cases that are painful to reproduce by hand (two devices, one asleep, one
  * deleting) are ordinary unit tests.
  */
-import { DecryptionError, openJson, sealJson } from '../crypto/aead.js';
+import {
+  DecryptionError,
+  openJson,
+  openRecoveryState,
+  resolveConflict,
+  sealJson,
+  type AccountRecoveryState,
+  type RemoteRecord,
+  type SyncAdapter,
+} from '@keyrook/account';
 import { utf8 } from '../util/bytes.js';
-import type { RemoteRecord, SyncAdapter } from './adapter.js';
-import { resolveConflict } from './adapter.js';
-import { openRecoveryState, type AccountRecoveryState } from './recovery.js';
 import type { VaultData, VaultItem } from '../vault/model.js';
 
 /**
@@ -133,6 +139,7 @@ export async function mergeRecords(
   data: VaultData,
   records: RemoteRecord[],
   dataKey: CryptoKey,
+  previousKeys: CryptoKey[] = [],
 ): Promise<MergeReport> {
   const byId = new Map(data.items.map((item) => [item.id, item]));
   let applied = 0;
@@ -142,23 +149,23 @@ export async function mergeRecords(
 
   /** Applies a remote record, counting a deletion and refusing a forgery. */
   const take = async (record: RemoteRecord, local?: VaultItem): Promise<boolean> => {
-    let next: VaultItem;
-    try {
-      next = await recordToItem(record, dataKey, local);
-    } catch (error) {
+    let next = await openWith(record, [dataKey, ...previousKeys], local);
+    if (next === null) {
       // A record that will not open is either corrupt or forged. Skipping it
       // keeps the rest of the vault syncing; throwing would let one bad record
       // stop everything, which is a denial of service the server can trigger
       // at will.
-      if (error instanceof DecryptionError) {
-        rejected += 1;
-        return false;
-      }
-      throw error;
+      rejected += 1;
+      return false;
+    }
+    if (next.opener !== dataKey) {
+      // Sealed under a key this account has since replaced: taken, and sent
+      // back under the current one, a revision up so it replaces the old box.
+      next = { ...next, item: { ...next.item, rev: record.rev + 1, syncedRev: record.rev } };
     }
 
-    if (next.deletedAt !== null && local?.deletedAt == null) deleted += 1;
-    byId.set(record.id, next);
+    if (next.item.deletedAt !== null && local?.deletedAt == null) deleted += 1;
+    byId.set(record.id, next.item);
     applied += 1;
     return true;
   };
@@ -168,6 +175,12 @@ export async function mergeRecords(
     const local = byId.get(record.id);
 
     if (!local) {
+      // The deletion of an account this vault never had: nothing here to
+      // remove, to keep restorable, or to tell anyone about. Taken, it was an
+      // empty "Untitled" entry in Recently deleted, counted as removed on
+      // another device — and restoring it sent an account with no key to
+      // every device.
+      if (record.deleted) continue;
       await take(record);
       continue;
     }
@@ -197,6 +210,22 @@ export async function mergeRecords(
   }
 
   return { data: { ...data, items: [...byId.values()] }, applied, kept, rejected, deleted };
+}
+
+/** The record opened with the first key that opens it, and which key that was; null if none does. */
+async function openWith(
+  record: RemoteRecord,
+  keys: CryptoKey[],
+  local?: VaultItem,
+): Promise<{ item: VaultItem; opener: CryptoKey } | null> {
+  for (const key of keys) {
+    try {
+      return { item: await recordToItem(record, key, local), opener: key };
+    } catch (error) {
+      if (!(error instanceof DecryptionError)) throw error;
+    }
+  }
+  return null;
 }
 
 /** Items with local changes the server has not acknowledged. */
@@ -233,6 +262,12 @@ export interface SyncOutcome {
 export interface SyncOptions {
   adapter: SyncAdapter;
   dataKey: CryptoKey;
+  /**
+   * Keys the account's key replaced, while records sealed under them may
+   * still be on the server. What opens only with one of them is taken and
+   * sent back under `dataKey`.
+   */
+  previousKeys?: CryptoKey[];
   /** Guards against a server that always reports `hasMore`. */
   maxPages?: number;
 }
@@ -273,7 +308,7 @@ async function newerRecoveryState(
  * server holds an older copy of, or none.
  */
 export async function syncOnce(data: VaultData, options: SyncOptions): Promise<SyncOutcome> {
-  const { adapter, dataKey, maxPages = 100 } = options;
+  const { adapter, dataKey, previousKeys = [], maxPages = 100 } = options;
 
   let working = data;
   let serverRev = data.sync.serverRev;
@@ -313,7 +348,7 @@ export async function syncOnce(data: VaultData, options: SyncOptions): Promise<S
       recoveryFloor = incoming.issuedAt;
     }
     if (result.records.length > 0) {
-      const merged = await mergeRecords(working, result.records, dataKey);
+      const merged = await mergeRecords(working, result.records, dataKey, previousKeys);
       working = merged.data;
       pulled += merged.applied;
       conflicts += merged.kept;
@@ -364,7 +399,7 @@ export async function syncOnce(data: VaultData, options: SyncOptions): Promise<S
     // The server held a newer revision for these. Fold them in now rather than
     // waiting for the next cycle, so one call leaves both sides agreeing.
     if (result.conflicts.length > 0) {
-      const merged = await mergeRecords(working, result.conflicts, dataKey);
+      const merged = await mergeRecords(working, result.conflicts, dataKey, previousKeys);
       working = merged.data;
       pulled += merged.applied;
       conflicts += merged.kept;

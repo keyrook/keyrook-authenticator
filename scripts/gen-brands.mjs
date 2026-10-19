@@ -4,7 +4,7 @@
  *
  *   packages/core/src/brand/catalog.ts   names, domains and aliases (no artwork,
  *                                        so the core package stays dependency-free)
- *   apps/extension/src/ui/brand-icons.ts the marks themselves
+ *   packages/ui/src/components/brand-icons.ts  the marks themselves
  *
  * Everything is inlined at build time. Nothing is fetched at display time: a
  * logo requested from the network would tell whoever answers it every service
@@ -96,7 +96,7 @@ const FA_BRANDS = resolve(
 );
 
 const CATALOG_OUT = resolve(import.meta.dirname, '../packages/core/src/brand/catalog.ts');
-const ICONS_OUT = resolve(import.meta.dirname, '../apps/extension/src/ui/brand-icons.ts');
+const ICONS_OUT = resolve(import.meta.dirname, '../packages/ui/src/components/brand-icons.ts');
 
 const flat = (value) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
 const siExport = (slug) => `si${slug.charAt(0).toUpperCase()}${slug.slice(1).replace(/[^a-zA-Z0-9]/g, '')}`;

@@ -10,6 +10,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@authx/core': resolve(import.meta.dirname, '../../packages/core/src/index.ts'),
+      '@keyrook/account': resolve(import.meta.dirname, '../../vendor/keyrook-account/src/index.ts'),
+      '@authx/ui': resolve(import.meta.dirname, '../../packages/ui/src'),
       '~': resolve(import.meta.dirname, 'src'),
     },
   },

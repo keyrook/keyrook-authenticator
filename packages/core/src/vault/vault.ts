@@ -1,14 +1,16 @@
 import {
   DecryptionError,
+  deriveKek,
   exportDataKey,
   generateDataKey,
   importDataKey,
+  type KdfParams,
+  newKdfParams,
   openJson,
   sealJson,
   unwrapDataKey,
   wrapDataKey,
-} from '../crypto/aead.js';
-import { deriveKek, newKdfParams, type KdfParams } from '../crypto/kdf.js';
+} from '@keyrook/account';
 import { DEFAULT_OTP_PARAMS } from '../otp/types.js';
 import type { ParsedOtpUri } from '../otp/uri.js';
 import { utf8 } from '../util/bytes.js';
@@ -19,6 +21,7 @@ import {
   isStoredIcon,
   VAULT_FILE_VERSION,
   VAULT_SCHEMA_VERSION,
+  type AccountState,
   type Group,
   type ProtectionMode,
   type VaultData,
@@ -222,13 +225,40 @@ export function migrateVaultData(raw: VaultData): VaultData {
     groups: Array.isArray(raw.groups) ? raw.groups : [],
     settings: migrateSettings(raw.settings),
     // Only the fields that still mean something. Vaults written while a free
-    // tier was planned carry `grandfatheredItems`; there is no tier now.
-    account: {
-      email: raw.account?.email ?? DEFAULT_ACCOUNT.email,
-      plan: raw.account?.plan ?? DEFAULT_ACCOUNT.plan,
-    },
+    // tier was planned carry `grandfatheredItems`; there is no tier now. How
+    // the account signs in must survive: without it a Google account, opened
+    // again, was taken for one with a password.
+    account: migrateAccount(raw.account),
     sync: raw.sync ?? { deviceId: newId(), serverRev: 0, lastSyncAt: null },
   };
+}
+
+function migrateAccount(raw: Partial<AccountState> | undefined): AccountState {
+  const account: AccountState = {
+    email: raw?.email ?? DEFAULT_ACCOUNT.email,
+    plan: raw?.plan ?? DEFAULT_ACCOUNT.plan,
+  };
+  if (raw?.method === 'password' || raw?.method === 'provider') account.method = raw.method;
+  if (raw?.provider === 'google' || raw?.provider === 'github') account.provider = raw.provider;
+  const keys = raw?.keys;
+  if (
+    keys &&
+    typeof keys.accountId === 'string' &&
+    typeof keys.root === 'string' &&
+    Number.isInteger(keys.rootGeneration) &&
+    Number.isInteger(keys.keyGeneration) &&
+    (keys.sheetVerifiedAt === null || typeof keys.sheetVerifiedAt === 'number')
+  ) {
+    account.keys = {
+      accountId: keys.accountId,
+      root: keys.root,
+      rootGeneration: keys.rootGeneration,
+      keyGeneration: keys.keyGeneration,
+      sheetVerifiedAt: keys.sheetVerifiedAt,
+      ...(typeof keys.previousKey === 'string' ? { previousKey: keys.previousKey } : {}),
+    };
+  }
+  return account;
 }
 
 /** Sort modes were renamed; a stale value must not survive as an invalid one. */

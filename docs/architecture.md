@@ -2,14 +2,28 @@
 
 ## Why the core is a separate package
 
-`@authx/core` contains OTP generation, the crypto, the vault format and the sync
-protocol. It may not reference `chrome.*`, `window` or the DOM. Everything it
-needs from a platform arrives as an argument.
+`@authx/core` contains OTP generation, the vault format and the sync engine; the
+Keyrook account's half — the crypto, how a password becomes keys, the wire
+protocol and the recovery kit — is `@keyrook/account`
+(`vendor/keyrook-account`), which every Keyrook product shares and core
+re-exports. Neither may reference `chrome.*`, `window` or the DOM. Everything
+they need from a platform arrives as an argument.
 
 That constraint is what makes the rest of the roadmap cheap: a Tauri desktop app
 and a Capacitor mobile app consume the same package and supply their own key
-storage and their own UI, without a second implementation of the part that must
-not be wrong twice.
+storage, without a second implementation of the part that must not be wrong
+twice.
+
+## Why the pages are a package too
+
+`@authx/ui` holds every screen — the list of codes, setting up, unlocking,
+recovering, Settings — with the languages and the stylesheet. It may not
+reference `chrome.*` either: its tsconfig has no Chrome types, so a call does
+not compile. What a page needs from the platform goes through a `Host` the app
+installs before the first render (`packages/ui/src/host.ts`): the vault's
+answers, the few preferences kept outside the vault, opening Settings or a
+link. The extension's host is `apps/extension/src/lib/host.ts`; a desktop or
+mobile app brings its own and shows the same screens.
 
 ## The vault format
 
@@ -71,7 +85,8 @@ from content scripts. Auto-lock is a `chrome.alarms` timer that clears it.
 ### The recovery kit
 
 A third, independent wrapping of the same data key, under a 160-bit secret the
-user keeps on paper (`packages/core/src/vault/recovery.ts`). It is what makes a
+user keeps on paper (`vendor/keyrook-account/src/sync/kit.ts`, held in the vault
+file by `packages/core/src/vault/recovery.ts`). It is what makes a
 forgotten master password survivable without giving anyone else a way in.
 
 The key is encoded in Crockford base32 — no I, L, O or U — because it has to be
@@ -180,11 +195,17 @@ and fails loudly if it cannot.
 
 ## Process model
 
-The service worker is the only writer, and it writes one thing at a time.
+The vault service (`@authx/service`) is the only writer, and it writes one
+thing at a time. The extension runs it in its service worker, on Chrome's
+storage, alarms and sign-in window (`apps/extension/src/lib/platform.ts`); the
+service itself references no `chrome.*`, so another app runs the same rules on
+its own platform. What stays in the worker is what only an extension can do:
+the tab the popup was opened on, the fill shortcut, the toolbar.
 
 Every vault change is read-modify-write: load the data, apply the change,
-re-encrypt the whole payload, store it. `chrome.runtime.onMessage` delivers
-concurrently, so without a queue two of those interleave — both read the same
+re-encrypt the whole payload, store it. Requests arrive concurrently —
+`chrome.runtime.onMessage` delivers them so — and without a queue two of those
+interleave — both read the same
 snapshot and whichever finishes last discards the other's change. No attacker is
 needed: a popup and a settings tab open together will do it, and so will the
 five-minute sync alarm firing while somebody is editing. A sync is the worst
@@ -208,9 +229,9 @@ cache that is only an optimisation.
 
 The pages speak fifty languages: every language Chrome gives a store page in,
 less the regional variants of English, Spanish and Portuguese, which share a
-file. `LOCALES` in `apps/extension/src/i18n/locales.ts` lists them in the
+file. `LOCALES` in `packages/ui/src/i18n/locales.ts` lists them in the
 order the picker shows. Each is one file in
-`apps/extension/src/i18n/locales/`; English (`en.ts`) is the source, and the
+`packages/ui/src/i18n/locales/`; English (`en.ts`) is the source, and the
 compiler holds every other file to its keys. A message is plain text with
 `{values}`, `<tags>` the page decides how to draw, and plural forms picked by
 `Intl.PluralRules` — never HTML, so a translation cannot inject markup.
@@ -243,20 +264,21 @@ missing form falls back to `other`. Counts are written by `Intl.NumberFormat`,
 so Persian, Bengali and Marathi show their own digits, and the numbers written
 into those translations use the same ones.
 
-The choice of language lives in `chrome.storage.local`, outside the vault,
-because the screens that need it most come before the vault is open; it says
-nothing about anyone's accounts. Every open page follows a change at once.
+The choice of language lives in the host's preferences — `chrome.storage.local`
+in the extension — outside the vault, because the screens that need it most
+come before the vault is open; it says nothing about anyone's accounts. Every open page follows a change at once.
 
-The service worker has no language: two pages in two languages share it. It
+The vault service has no language: two pages in two languages share it. It
 throws an `AppError` naming a message key, and the page translates the key.
-English that cannot carry a key — from `@authx/core`, or from the sync server —
-is matched by its exact sentence in `i18n/errors.ts`. `test/i18n.test.ts` reads
+English that cannot carry a key — from `@authx/core`, `@keyrook/account` or the sync server —
+is matched by its exact sentence in `i18n/errors.ts`. `packages/ui/test/i18n.test.ts` reads
 the core and the server and fails on a sentence a person could see that has no
 translation, and reads the pages and fails on text written into them.
 
 The store listing's name and summary come from `_locales/`, written at build
-time from `scripts/store-locales.mjs`; Chrome picks those by the browser's
-language, not by the choice in Settings. `test/store-listing.test.ts` refuses a
+time from `apps/extension/scripts/store-locales.mjs`; Chrome picks those by the
+browser's language, not by the choice in Settings.
+`apps/extension/test/store-listing.test.ts` refuses a
 store page in a language the extension does not speak, and a description whose
 count of languages is out of date. Why each language's listing reads the way
 it does is in `docs/store-listing.md`.
@@ -312,7 +334,7 @@ tombstone, and `VaultData` carries a `deviceId` and a `serverRev`. Retrofitting
 tombstones and revisions onto a live user base is the painful kind of migration,
 so they are there from the first release.
 
-`SyncAdapter` in `packages/core/src/sync/adapter.ts` is the contract the backend
+`SyncAdapter` in `vendor/keyrook-account/src/sync/adapter.ts` is the contract the backend
 will implement: `pull(sinceServerRev)` and `push(records)`, where every record is
 an encrypted blob plus the minimum plaintext metadata a server needs to order and
 deduplicate changes. Conflict policy is last-write-wins on `updatedAt`, except

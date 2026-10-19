@@ -63,7 +63,7 @@ these, and the tests next to it cover the rest.
   codes; at 75 bits it cannot search for a pair of keys that collide. The data
   key then travels wrapped under a key only those two browsers can derive, and
   the new browser takes it only if it opens the account's sealed recovery-kit
-  state. `packages/core/test/pairing.test.ts` tries the swaps.
+  state. `vendor/keyrook-account/test/pairing.test.ts` tries the swaps.
 - The provider's answer comes back to the extension as a two-minute, one-use
   ticket that is worthless without a verifier the extension never sent, so a
   ticket read from a URL or a log buys nothing.

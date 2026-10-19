@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { newKdfParams, scorePassword } from '../src/crypto/kdf.js';
-import { DecryptionError } from '../src/crypto/aead.js';
+import { newKdfParams, scorePassword } from '@keyrook/account';
+import { DecryptionError } from '@keyrook/account';
 import {
   addItem,
   brandLabel,
@@ -20,6 +20,7 @@ import {
   sortItems,
   unlockVault,
   unlockVaultWithPassword,
+  updateAccount,
   updateItem,
   updateSettings,
   verifyPassword,
@@ -123,6 +124,28 @@ describe('vault lifecycle', () => {
     await expect(unlockVaultWithPassword(spliced, PASSWORD)).rejects.toBeInstanceOf(
       DecryptionError,
     );
+  });
+});
+
+describe('the account, opened again', () => {
+  it('keeps how it signs in and the keys this device pinned, and drops what is malformed', async () => {
+    const vault = await passwordVault();
+    const keys = { accountId: 'acc-1', root: 'root-public', rootGeneration: 2, keyGeneration: 3, sheetVerifiedAt: null };
+    const signedIn = updateAccount(vault.data, { email: 'a@example.com', plan: 'synced', method: 'provider', provider: 'google', keys });
+    const sealed = await sealVault(vault.file, vault.dataKey, signedIn);
+    // Before this was kept, a Google account opened again was taken for one
+    // with a password, and asked for a password it never had.
+    expect((await readPayload(sealed, vault.dataKey)).account).toEqual(signedIn.account);
+
+    const forged = updateAccount(vault.data, {
+      method: 'magic' as never,
+      provider: 'myspace' as never,
+      keys: { ...keys, keyGeneration: 'three' as never },
+    });
+    const opened = (await readPayload(await sealVault(vault.file, vault.dataKey, forged), vault.dataKey)).account;
+    expect(opened.method).toBeUndefined();
+    expect(opened.provider).toBeUndefined();
+    expect(opened.keys).toBeUndefined();
   });
 });
 

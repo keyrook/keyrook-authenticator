@@ -1,6 +1,6 @@
 # Privacy Policy — Keyrook Authenticator
 
-_Last updated: 17 October 2026_
+_Last updated: 18 October 2026_
 
 ## The short version
 
@@ -178,15 +178,23 @@ file, a plain-text `otpauth://` export — is **not** encrypted and contains you
 secrets in readable form: whoever sees or holds it can generate your codes.
 Delete files, and destroy paper copies, as soon as you have finished with them.
 
+A **link that shares an account's codes for a while** holds those codes and
+the account's name, never its secret, and ends when its time is up. The codes
+travel after the `#` in the address, a part browsers do not send to any server:
+opening the link fetches the page from keyrook.com and nothing else, and that
+page shows the codes without sending or keeping them. Until it ends, anyone who
+has the link can use its codes, and it cannot be taken back.
+
 ## Your choices and rights
 
 - **Use it without an account.** Every feature but sync works without one.
 - **See and take your data.** Your entries are in the extension, readable by
   you, and Backup & import exports them. For what we hold about your account,
   write to us.
-- **Delete it.** Delete the account in the extension at any time. Settings →
-  Security → Delete this vault removes the vault from a device; removing the
-  extension also removes its storage.
+- **Delete it.** Delete the account at any time on its page,
+  account.keyrook.com, which Settings → Sync opens. Settings → Security →
+  Delete this vault removes the vault from a device; removing the extension
+  also removes its storage.
 - **Correct it or ask about it.** Write to us; we answer within 30 days.
 
 By creating an account you agree to this processing for the purposes above; you

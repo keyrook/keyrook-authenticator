@@ -1,0 +1,273 @@
+/**
+ * Keyrook Authenticator's key on a Keyrook account, under keys per product
+ * (keyrook-account's design). The vault key is this product's key: opening it
+ * at sign-in, keeping 0.3 builds signing in, and replacing it when the
+ * account asks — the recovery key leaked.
+ *
+ * What a device keeps of it is `AccountKeyState`, inside the sealed vault: the
+ * root it pinned, which a server reporting another root, or none, cannot get
+ * past; and, while a replacement is going up, the key it replaced.
+ */
+import {
+  adoptDataKey,
+  DecryptionError,
+  openArchivedKey,
+  readArchivedRecords,
+  recordToItem,
+  exportDataKey,
+  importDataKey,
+  keepOlderAuthenticatorWorking,
+  openProductKey,
+  replaceProductKey,
+  unwrapDataKey,
+  updateAccount,
+  type AccountKeys,
+  type AccountKeyState,
+  type HttpSyncAdapter,
+  type Keyring,
+  type LoginResponse,
+  type ProductKey,
+  type UnlockedVault,
+  type VaultData,
+  type VaultFile,
+} from '@authx/core';
+import { platform } from './platform.js';
+import { adapter, PRODUCT } from './sync.js';
+import { fail } from '@authx/ui/i18n/errors.js';
+import type { KeptArchive } from '@authx/ui/lib/protocol.js';
+
+export interface OpenedAccountKey {
+  /** The account's key for this product: the vault's key from now on. */
+  dataKey: CryptoKey;
+  /** Absent while the account has no root, as every account made before 0.4. */
+  keys?: AccountKeyState;
+  /** The account asks for the key to be replaced (`replaceAccountKey`). */
+  mustReplace: boolean;
+}
+
+export function keyStateOf(productKey: ProductKey, previousKey?: string): AccountKeyState {
+  return {
+    accountId: productKey.accountId,
+    root: productKey.root,
+    rootGeneration: productKey.rootGeneration,
+    keyGeneration: productKey.keyGeneration,
+    sheetVerifiedAt: productKey.sheetVerifiedAt,
+    ...(previousKey ? { previousKey } : {}),
+  };
+}
+
+function productKeyOf(state: AccountKeyState, key: CryptoKey): ProductKey {
+  return {
+    accountId: state.accountId,
+    product: PRODUCT,
+    key,
+    keyGeneration: state.keyGeneration,
+    root: state.root,
+    rootGeneration: state.rootGeneration,
+    sheetVerifiedAt: state.sheetVerifiedAt,
+  };
+}
+
+/**
+ * Opens this product's key with the password, right after signing in and
+ * before the session is kept: a sign-in that cannot reach the key leaves the
+ * device as it was.
+ *
+ * `localKey` is this vault's own key, sealed as the product's first key on an
+ * account another product made — but only when the account holds no key of
+ * this product's at all. When the login brings one under the password (the
+ * key every build before 0.4 uses), that is the one: sealing the vault's own
+ * instead would leave every record already synced unreadable.
+ */
+export async function openAccountKey(
+  api: HttpSyncAdapter,
+  input: { session: LoginResponse; keys: AccountKeys; localKey: CryptoKey; pinned?: AccountKeyState },
+): Promise<OpenedAccountKey> {
+  const { session, keys } = input;
+  const legacy = session.protectedKey ? await unwrapDataKey(keys.stretchedKey, session.protectedKey) : null;
+  const pinned = input.pinned?.accountId === session.account.id ? input.pinned : undefined;
+  const opened = await openProductKey(api, {
+    accountId: session.account.id,
+    product: PRODUCT,
+    unlockWith: { keys },
+    existingKey: legacy ?? input.localKey,
+    ...(pinned ? { pinned: { root: pinned.root } } : {}),
+  });
+
+  switch (opened.status) {
+    case 'no-root':
+      // As before keys per product. A password account with no root always
+      // has its key under the password; one without is not an answer to trust.
+      if (!legacy) throw new Error('The server reported an account key other than the one that opened.');
+      return { dataKey: legacy, mustReplace: false };
+    case 'awaiting-confirmation':
+      // Another product replaced the root. Only a device that already holds
+      // this product's key can seal it to the new one, once the person there
+      // confirms it.
+      fail('error.keys.awaitingConfirmation');
+    case 'open':
+    case 'joined': {
+      // A login without the key under the password is an account whose 0.3
+      // builds lost it: wrapped again, they sign in again. 'retired' means
+      // the account has moved past them for good, which is the server's call.
+      if (!session.protectedKey) await keepOlderAuthenticatorWorking(api, { keys, productKey: opened.productKey });
+      return {
+        dataKey: opened.productKey.key,
+        keys: keyStateOf(opened.productKey),
+        mustReplace: opened.status === 'open' && opened.mustReplace,
+      };
+    }
+  }
+}
+
+const CHECKED_AT = 'authx.keysCheckedAt';
+const DUE = 'authx.keyReplaceDue';
+/** How often a signed-in device asks whether its key must be replaced. */
+const CHECK_EVERY_MS = 60 * 60 * 1000;
+
+/** Remembers, for this browser session, that the account asked for a new key. */
+export async function markReplacementDue(due: boolean): Promise<void> {
+  if (due) await platform().memory.set(DUE, true);
+  else await platform().memory.remove(DUE);
+}
+
+/**
+ * Whether the account asks this product for a new key. Asked at most hourly,
+ * and remembered once it says yes, until the replacement is done.
+ */
+export async function replacementDue(data: VaultData): Promise<boolean> {
+  const state = data.account.keys;
+  if (!state) return false;
+  if ((await platform().memory.get(DUE)) === true) return true;
+  const checkedAt = (await platform().memory.get(CHECKED_AT)) as number | undefined;
+  if (checkedAt !== undefined && Date.now() - checkedAt < CHECK_EVERY_MS) return false;
+  const held = await adapter().accountKeys();
+  await platform().memory.set(CHECKED_AT, Date.now());
+  // Another account, another root or no key of ours: not one this device
+  // pinned, so not one it acts on here. Signing in again sorts it out.
+  const due =
+    held.accountId === state.accountId && held.root?.publicKey === state.root && held.box?.mustReplace === true;
+  await markReplacementDue(due);
+  return due;
+}
+
+/**
+ * Replaces this product's key, after the account's recovery key leaked.
+ * Everything here was pulled by the cycle that came first, so this device
+ * holds every record; what follows keeps the order that loses none:
+ *
+ * 1. The server takes the new key, and only then is it known.
+ * 2. The vault is sealed under it at once, the replaced key kept inside, so a
+ *    browser closing now loses neither.
+ * 3. Every record is marked to go up again, a revision higher, under the new
+ *    key — the next cycle sends them, opening with the old key whatever
+ *    arrives sealed under it meanwhile.
+ * 4. Only when nothing is left to send is the old key dropped (`settleKeys`).
+ *
+ * Needs the keyring: the vault is sealed again, so a vault with a master
+ * password does this when it is unlocked with it.
+ */
+export async function replaceAccountKey(
+  unlocked: UnlockedVault,
+  keyring: Keyring,
+): Promise<{ file: VaultFile; dataKey: CryptoKey; data: VaultData }> {
+  const state = unlocked.data.account.keys;
+  if (!state) fail('error.server.noProductKey');
+  const { productKey, previousKey } = await replaceProductKey(adapter(), productKeyOf(state, unlocked.dataKey));
+  const data = updateAccount(
+    {
+      ...unlocked.data,
+      // A revision above anything the server holds, so each replaces the box
+      // sealed under the old key. Never sent tombstones stay unsent.
+      items: unlocked.data.items.map((item) =>
+        item.rev === 0 ? item : { ...item, rev: Math.max(item.rev, item.syncedRev) + 1 },
+      ),
+    },
+    { keys: keyStateOf(productKey, await exportDataKey(previousKey)) },
+  );
+  await markReplacementDue(false);
+  return {
+    file: await adoptDataKey(unlocked.file, keyring, productKey.key, data),
+    dataKey: productKey.key,
+    data,
+  };
+}
+
+/** The keys a cycle may still meet records sealed under. */
+export async function previousKeys(data: VaultData): Promise<CryptoKey[]> {
+  const previous = data.account.keys?.previousKey;
+  return previous ? [await importDataKey(previous)] : [];
+}
+
+/**
+ * After a cycle: once nothing is waiting to go up, every record on the server
+ * is under the current key, and the replaced one is dropped for good.
+ */
+export function settleKeys(data: VaultData): VaultData {
+  const state = data.account.keys;
+  if (!state?.previousKey || data.items.some((item) => item.rev > item.syncedRev)) return data;
+  const { previousKey: _dropped, ...kept } = state;
+  void _dropped;
+  return updateAccount(data, { keys: kept });
+}
+
+/** What the account kept of this app's from before it started over, if anything. */
+export async function keptArchives(): Promise<KeptArchive[]> {
+  return (await adapter().archives())
+    .filter((archive) => archive.records > 0)
+    .map((archive) => ({
+      id: archive.id,
+      archivedAt: archive.archivedAt,
+      expiresAt: archive.expiresAt,
+      records: archive.records,
+      byPassword: archive.kdf !== null && Boolean(archive.root?.underPassword || archive.legacy?.underPassword),
+      byRecoveryKey: Boolean(archive.root?.underRecoveryKey || archive.legacy?.underRecoveryKey),
+    }));
+}
+
+/**
+ * Brings back what the account kept when it started over: the records,
+ * opened with this app's key of then, which only the old password or the old
+ * recovery key opens. Each comes back as a change to send, since the account
+ * holds none of them now; one this vault already has stays as it is here.
+ * The archive itself is left to expire, or to the account page.
+ */
+export async function bringBack(
+  data: VaultData,
+  archiveId: string,
+  proof: { password: string } | { recoveryKey: string },
+): Promise<{ data: VaultData; brought: number }> {
+  const accountId = data.account.keys?.accountId;
+  if (!accountId) fail('error.server.noProductKey');
+  const api = adapter();
+  const archive = (await api.archives()).find((candidate) => candidate.id === archiveId);
+  if (!archive) fail('error.server.archiveGone');
+
+  let key: CryptoKey;
+  try {
+    key = await openArchivedKey(api, { archive, accountId, product: PRODUCT, with: proof });
+  } catch (error) {
+    // A password of then that is not the one says so the way the server does.
+    if (error instanceof DecryptionError) fail('error.server.archiveWrongKey');
+    throw error;
+  }
+
+  const held = new Set(data.items.map((item) => item.id));
+  const back = [];
+  for await (const page of readArchivedRecords(api, archiveId)) {
+    for (const record of page) {
+      if (record.kind !== 'item' || record.deleted || held.has(record.id)) continue;
+      try {
+        const item = await recordToItem(record, key);
+        // Not on the server any more: a change to send, like one made here.
+        back.push({ ...item, rev: Math.max(item.rev, 1), syncedRev: 0 });
+        held.add(record.id);
+      } catch (error) {
+        // Kept by the same server that keeps everything else: one that will
+        // not open is skipped, as in a sync.
+        if (!(error instanceof DecryptionError)) throw error;
+      }
+    }
+  }
+  return { data: { ...data, items: [...data.items, ...back] }, brought: back.length };
+}

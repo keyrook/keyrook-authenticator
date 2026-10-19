@@ -1,15 +1,17 @@
 /**
- * Builds the site's code page — https://keyrook.com/authenticator/code/ —
- * from its template and its script, and keeps the intro page's policy current:
+ * Builds the site's two script pages from their templates and scripts — the
+ * code page, https://keyrook.com/authenticator/code/, and the page a shared
+ * link opens, /share/ — and keeps the intro page's policy current:
  *
- *   site/src/code.html + site/src/code.ts  →  site/keyrook.com/authenticator/code/index.html
+ *   site/src/code.html + site/src/code.ts    →  site/keyrook.com/authenticator/code/index.html
+ *   site/src/share.html + site/src/share.ts  →  site/keyrook.com/authenticator/share/index.html
  *   site/keyrook.com/authenticator/index.html           its Content Security Policy, from its script
  *   both                                                 Keyrook's tokens and icons (scripts/site-brand.mjs)
  *
  *   node scripts/render-site.mjs            write it
  *   node scripts/render-site.mjs --check    fail if it is out of date (CI)
  *
- * The script is bundled from @authx/core's own OTP code, so the page and the
+ * Each script is bundled from @authx/core's own OTP code, so a page and the
  * extension cannot disagree about a code, and inlined: the page loads nothing.
  * Its hash goes into the page's Content Security Policy, which is what lets
  * the page say a pasted key cannot leave it — no connections are allowed, and
@@ -24,9 +26,11 @@ import { build } from 'esbuild';
 import { withBrand } from './site-brand.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const TEMPLATE = resolve(ROOT, 'site/src/code.html');
-const ENTRY = resolve(ROOT, 'site/src/code.ts');
-const OUT = resolve(ROOT, 'site/keyrook.com/authenticator/code/index.html');
+const PAGES = ['code', 'share'].map((name) => ({
+  template: resolve(ROOT, `site/src/${name}.html`),
+  entry: resolve(ROOT, `site/src/${name}.ts`),
+  out: resolve(ROOT, `site/keyrook.com/authenticator/${name}/index.html`),
+}));
 const INTRO = resolve(ROOT, 'site/keyrook.com/authenticator/index.html');
 
 const sha256 = (text) => createHash('sha256').update(text, 'utf8').digest('base64');
@@ -49,28 +53,30 @@ const policy = (scriptHash, { video = false } = {}) =>
     "form-action 'none'",
   ].join('; ');
 
-const bundled = await build({
-  entryPoints: [ENTRY],
-  bundle: true,
-  write: false,
-  format: 'iife',
-  target: 'es2020',
-  minify: true,
-  legalComments: 'none',
-  charset: 'utf8',
-});
-const script = bundled.outputFiles[0].text.trim();
-if (script.includes('</script')) throw new Error('The bundle contains "</script" and cannot be inlined.');
+async function render({ template: templatePath, entry }) {
+  const bundled = await build({
+    entryPoints: [entry],
+    bundle: true,
+    write: false,
+    format: 'iife',
+    target: 'es2020',
+    minify: true,
+    legalComments: 'none',
+    charset: 'utf8',
+  });
+  const script = bundled.outputFiles[0].text.trim();
+  if (script.includes('</script')) throw new Error(`${relative(ROOT, entry)} bundles "</script" and cannot be inlined.`);
 
-const csp = policy(sha256(script));
-
-const template = readFileSync(TEMPLATE, 'utf8');
-for (const slot of ['{{CSP}}', '{{SCRIPT}}']) {
-  if (template.split(slot).length !== 2) throw new Error(`${slot} must appear exactly once in the template.`);
+  const template = readFileSync(templatePath, 'utf8');
+  for (const slot of ['{{CSP}}', '{{SCRIPT}}']) {
+    if (template.split(slot).length !== 2) throw new Error(`${slot} must appear exactly once in ${relative(ROOT, templatePath)}.`);
+  }
+  // Replaced with functions: the minified script is full of `$&` and `$'`,
+  // which a replacement string would expand.
+  return withBrand(template, relative(ROOT, templatePath))
+    .replace('{{CSP}}', () => policy(sha256(script)))
+    .replace('{{SCRIPT}}', () => script);
 }
-// Replaced with functions: the minified script is full of `$&` and `$'`,
-// which a replacement string would expand.
-const page = withBrand(template, 'site/src/code.html').replace('{{CSP}}', () => csp).replace('{{SCRIPT}}', () => script);
 
 // The intro page is edited by hand; only its policy is written here, from
 // the one inline script it has.
@@ -87,10 +93,7 @@ if (introPage === intro && !intro.includes(policy(sha256(introScripts[0][1]), { 
   throw new Error('The intro page has no Content-Security-Policy <meta> to fill in.');
 }
 
-const outputs = [
-  [OUT, page],
-  [INTRO, introPage],
-];
+const outputs = [...(await Promise.all(PAGES.map(async (page) => [page.out, await render(page)]))), [INTRO, introPage]];
 if (process.argv.includes('--check')) {
   let stale = false;
   for (const [path, contents] of outputs) {

@@ -30,11 +30,22 @@ machine is here to read, build and check against what the stores ship.
 ## What is here, and what is not
 
 ```
-packages/core/     @authx/core — OTP, vault encryption, the sync protocol and
-                   client. No chrome.*, no DOM: it is written to be reused by
-                   future desktop and mobile apps.
-apps/extension/    The MV3 extension: service worker, popup, settings page and
-                   the on-demand autofill script.
+packages/core/     @authx/core — OTP, vault encryption and the sync engine. No
+                   chrome.*, no DOM: it is written to be reused by future
+                   desktop and mobile apps.
+vendor/keyrook-account/  @keyrook/account — the Keyrook account's keys, wire format
+                   and recovery kit, with its tests: how a password becomes
+                   keys, and what crosses the network. Shared by every Keyrook
+                   product, and built into this extension as it is.
+packages/ui/       @authx/ui — every screen, the languages and the stylesheet.
+                   No chrome.* either: the platform is behind a Host each app
+                   installs, so those apps can show the same screens.
+packages/service/  @authx/service — the vault's one writer: every request, one
+                   write at a time, locking, sign-in and sync. No chrome.*: the
+                   platform is behind a Platform each app installs.
+apps/extension/    The MV3 extension: the service worker that runs the vault
+                   service on Chrome, the popup's and settings page's entry
+                   points, and the on-demand autofill script.
 docs/              Architecture, the security model, the privacy policy.
 scripts/           Icon generation and the release check.
 ```

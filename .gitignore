@@ -10,7 +10,6 @@ release/
 test-results/
 playwright-report/
 .tmp/
-apps/server/dist/
 .tmp/
 
 # The open-source tree scripts/export-oss.mjs builds; published elsewhere.

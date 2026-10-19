@@ -1,0 +1,994 @@
+// 繁體中文（台灣用語）。沒有單複數之分，複數訊息只寫 other。
+import type { Dictionary } from './en.js';
+
+export const zhTW: Dictionary = {
+  // --- 錯誤 ---------------------------------------------------------------------
+  'error.vaultLocked': '保管庫已鎖定。',
+  'error.vaultExists': '這部裝置上已經有保管庫。',
+  'error.noVault': '這部裝置上還沒有保管庫。',
+  'error.vaultCorrupt': '儲存的保管庫已損壞，或是由其他應用程式寫入的。',
+  'error.wrongMasterPassword': '主密碼錯誤。',
+  'error.enterCurrentMasterPassword': '請輸入目前的主密碼。',
+  'error.currentPasswordWrong': '目前的密碼不正確。',
+  'error.masterPasswordShort': '主密碼至少要 8 個字元。',
+  'error.notPassphraseVault': '這個保管庫沒有用主密碼保護。',
+  'error.recoveryKeyMalformed': '這看起來不像復原金鑰。',
+  'error.recoveryKeyNoMatch': '這把復原金鑰不符。',
+  'error.recoverOnAccountPage': '復原金鑰是對的，但這個帳戶的密碼現在要在帳戶頁面上重設，所有 Keyrook 應用程式一併生效。',
+  'error.kitOnAccountPage': '這個帳戶的復原金鑰現在在帳戶頁面上建立，所有 Keyrook 應用程式一併生效。',
+  'error.restoreEmpty': '這個帳號已沒有可復原的內容：它在這部裝置取得之前，就已在另一部裝置上被刪除。',
+  'error.recoveryKeyWrong': '這把復原金鑰不屬於這個帳號。',
+  'error.noRecoveryKit': '這個保管庫沒有復原金鑰。',
+  'error.syncUnavailable': '這個版本無法使用同步。',
+  'error.notSignedIn': '尚未登入。',
+  'error.alreadySignedIn': '已經登入。',
+  'error.signedOutElsewhere':
+    '這部裝置已登出同步：密碼已變更，或是另一部裝置移除了這部裝置。請重新登入。',
+  'error.signOutUnsynced':
+    '這個瀏覽器上的部分變更尚未同步到你的帳號，現在登出會讓它們遺失。請連上網際網路後再試一次。',
+  'error.enterAccountPassword': '請輸入帳號密碼。',
+  'error.accountPasswordWrong': '這不是你的帳號密碼。',
+  'error.accountPasswordWeak':
+    '這個密碼太弱，不足以保護離開這部裝置的保管庫副本。請使用至少 12 個字元，混合大小寫字母、數字和符號，或是四到五個彼此無關的單字。',
+  'error.lockOnlyWithAccountPassword':
+    '這不是你的帳號密碼。登入期間，這個保管庫只能用這個密碼鎖定。',
+  'error.signupWrongMasterPassword':
+    '這不是這個保管庫的主密碼。它也會成為你的帳號密碼。',
+  'error.masterPasswordTooWeakForAccount':
+    '你的主密碼太弱，不足以保護離開這部裝置的保管庫副本。請先在「安全性」中變更：至少 12 個混合字元，或是四到五個彼此無關的單字。',
+  'error.passwordsDiverged':
+    '你的帳號密碼和這個保管庫的密碼不同。請先登出同步再重新登入，讓兩者一致後再試一次。',
+  'error.kitRace':
+    '你的另一部裝置剛剛變更了復原金鑰。這裡沒有任何變更，請再試一次。',
+  'error.providerHasNoPassword': '這個帳號使用 Google 或 GitHub 登入，沒有密碼。',
+  'error.noActiveTab': '沒有使用中的分頁。',
+  'error.autofillNotHere': '自動填入只能在一般網頁上使用。',
+  'error.autofillBlocked':
+    'Chrome 不允許擴充功能讀取這個網頁。請從要填入的網頁開啟彈出式視窗。',
+  'error.signinCancelled': '已取消登入。',
+  'error.signinStateMismatch': '這次登入回來的狀態和出發時不同。請再試一次。',
+  'error.signinUnfinished': '登入沒有完成。請再試一次。',
+  'error.signupPendingExpired': '這次登入已過期。請重新開始。',
+  'error.signInFirst': '請先登入。',
+  'error.joinNeedsMasterPassword': '請輸入這個保管庫的主密碼以完成加入。',
+  'error.notThisVaultsPassword': '這不是這個保管庫的主密碼。',
+  'error.nothingWaiting': '沒有等待核准的項目。',
+  'error.pairingExpired': '請求已結束：被拒絕了，或已經過了十分鐘。請重新請求。',
+  'error.pairingWrongKey':
+    '收到的金鑰不屬於這個帳號。沒有任何變更。請從另一個瀏覽器再試一次。',
+  'error.pairingForged': '這次核准不是來自你核對過代碼的那個瀏覽器。',
+  'error.pairingForgedAsk':
+    '這次核准不是來自核對過代碼的那個瀏覽器。沒有任何變更。請重新請求。',
+  'error.pairingEnded': '這個請求已結束。',
+  'error.approveAgain': '請重新開始核准這個請求。',
+  'error.backupPasswordShort': '備份密碼至少要 8 個字元。',
+  'error.backupNotOurs': '這個檔案不是 Keyrook Authenticator 的備份。',
+  'error.backupNewer': '這份備份是由較新版本的應用程式建立的。',
+  'error.backupUnknownCipher': '這份備份使用了這個版本不認得的加密方式。',
+  'error.backupTooCostly': '開啟這份備份需要不合理的運算量，已略過。',
+  'error.backupMalformed': '這份備份的格式不正確。',
+  'error.uriNotOtpauth': '不是 otpauth:// 連結。',
+  'error.uriMalformed': '這個 otpauth:// 連結的格式不正確。',
+  'error.uriNoSecret': '這個連結中沒有密鑰。',
+  'error.uriBadSecret': '這個連結中的密鑰不是有效的 Base32。',
+  'error.uriNoCounter': 'HOTP 連結必須包含計數器。',
+  'error.secretEmpty': '設定金鑰是空的。',
+  'error.migrationNotOurs': '不是 Google Authenticator 的匯出內容。',
+  'error.migrationMalformed': '這份 Google Authenticator 匯出內容已損壞或不完整。',
+  'error.offline': '無法連上同步伺服器。請檢查網路連線後再試一次。',
+  'error.provider.refusedBy': '{provider} 拒絕了這次登入。',
+  'error.provider.unreachable': '無法連上 {provider}。請稍後再試一次。',
+  'error.provider.refused': '登入遭到拒絕。請再試一次。',
+  'error.provider.githubRefused': 'GitHub 拒絕了這次登入。',
+  'error.provider.noReauth': 'Google 沒有要求你重新登入。',
+  'error.provider.unverifiedEmail': 'Google 尚未驗證這個電子郵件地址。',
+  'error.provider.githubNoEmail': '你的 GitHub 帳號沒有已驗證的主要電子郵件地址。',
+  'error.server.badRequest': '同步伺服器無法讀取這個請求。',
+  'error.server.session': '這個工作階段已失效。',
+  'error.server.accountGone': '這個帳號已不存在。',
+  'error.server.signupExpired': '這次註冊已過期。請重新登入。',
+  'error.server.signinExpired': '這次登入已過期。請再試一次。',
+  'error.server.tooManyCodes': '錯誤的驗證碼太多次。請重新索取。',
+  'error.server.tooManyPairings':
+    '等待加入這個帳號的瀏覽器太多。請過幾分鐘再試一次。',
+  'error.server.wrongKey': '這部裝置沒有帳號金鑰。',
+  'error.server.providerAccount': '這個帳號使用 Google 或 GitHub 登入，而不是密碼。',
+  'error.server.mailFailed': '無法寄出電子郵件。請一分鐘後再試一次。',
+  'error.server.pairingTaken': '這個請求已結束，或另一個瀏覽器正在核准。',
+  'error.server.passwordWrong': '密碼不正確。',
+  'error.server.badCredentials': '電子郵件或密碼不正確。',
+  'error.server.badCode':
+    '這個驗證碼不正確或已過期。請檢查電子郵件，或重新索取。',
+  'error.server.reauthMismatch':
+    '請用你在 Keyrook 使用的帳號重新登入以確認。',
+  'error.server.kitRace': '另一部裝置剛剛變更了復原金鑰。',
+  'error.server.unavailable': '同步伺服器目前無法處理。請稍後再試一次。',
+  'error.server.lockedOut': {
+    other: '失敗次數太多。請在 {count} 秒後再試一次。',
+  },
+  'error.server.rateLimited': {
+    other: '嘗試次數太多。請在 {count} 秒後再試一次。',
+  },
+  'error.server.emailTaken': '{email} 已經有 Keyrook 帳號。',
+  'error.server.recordTooLarge': '你有一個帳號太大，無法同步（{id}）。',
+  'error.server.codeTooSoon': '剛剛已傳送驗證碼。請稍候再要求新的驗證碼。',
+  'error.server.keyRace': '另一部裝置剛剛設定了金鑰。請再試一次。',
+  'error.server.archiveNeedsOldKeys': '只有舊密碼或舊的復原金鑰才能在到期前刪除保留的內容。',
+  'error.server.signupNeedsKeys': '無法建立這個帳戶。請更新 Keyrook Authenticator 後再試一次。',
+  'error.server.accountIdTaken': '這個帳戶 ID 已有人使用。請重新註冊。',
+  'error.server.archiveWrongKey': '這無法開啟保留的內容。',
+  'error.server.flowExpired': '已經過期。請要求新的驗證碼並重新開始。',
+  'error.server.archiveGone': '這項內容已不再保留。',
+  'error.server.notProductKey': '這個金鑰不屬於 Keyrook Authenticator。',
+  'error.server.foreignRecord': '這筆記錄屬於另一項 Keyrook 產品。',
+  'error.server.rootChanged': '帳戶的金鑰已在另一部裝置上變更。請再試一次。',
+  'error.server.rootExists': '這個帳戶已有根金鑰。',
+  'error.server.noRoot': '這個帳戶還沒有根金鑰。',
+  'error.server.startOverLimit': '這個帳戶最近重新開始的次數太多。請在 {date} 之後再試一次。',
+  'error.server.wrongRootKey': '這部裝置沒有帳戶的根金鑰。',
+  'error.server.sessionReplayed': '這部裝置已登出，因為它的工作階段在其他地方被使用。請重新登入。',
+  'error.server.noProductKey': 'Keyrook Authenticator 在這個帳戶上還沒有金鑰。',
+  'error.server.productKeyChanged': '這個帳戶上 Keyrook Authenticator 的金鑰已變更。請再試一次。',
+  'error.server.productKeyReplaced': 'Keyrook Authenticator 的金鑰已在另一部裝置上被取代。請重新登入。',
+  'error.server.updateRequired': '請更新 Keyrook Authenticator 以繼續使用這個帳戶。',
+  'error.server.olderBuildsRetired': '舊版 Keyrook Authenticator 已無法再使用這個帳戶。',
+  'error.server.emailTakenOtherProvider': '{email} 已有一個透過其他提供者登入的 Keyrook 帳戶。',
+  'error.server.emailTakenPassword': '{email} 已有一個設有密碼的 Keyrook 帳戶。請改用電子郵件和密碼登入。',
+  'error.server.signInWithPassword': '這個帳戶使用密碼登入。請在這裡用電子郵件和密碼登入。',
+  'error.server.pageCodeWrong': '這組代碼不是帳戶頁面顯示的那組。請檢查，或在那裡重新開始。',
+  'error.server.pageRequestEnded': '這項要求已過期或已結束。請在帳戶頁面重新開始。',
+  'error.server.noKeyrookAccount': '這個 Google 或 GitHub 帳戶沒有 Keyrook 帳戶。請在 Keyrook Authenticator 或 Passhold 中建立一個。',
+  'error.account.productKeyMismatch': '{product} 的金鑰無法用這個帳戶的根金鑰開啟。沒有做任何變更。',
+  'error.account.confirmWithPassword': '這個帳戶設有密碼。請用密碼確認。',
+  'error.account.chooseNewPassword': '請為這個帳戶選擇新密碼。',
+  'error.account.archiveNotOpened': '為 Keyrook Authenticator 保留的內容都無法用它開啟。',
+  'error.account.keyNotConfirmed': '帳戶金鑰不是你確認過的那一把。請再檢查一次。',
+  'error.account.serverMismatch': '同步伺服器的回應與這個帳戶不符。沒有用它開啟任何內容。',
+  'error.account.archiveNoPassword': '當時這個帳戶沒有密碼。',
+  'error.account.noPasswordForKeys': '這個帳戶沒有可用來開啟其金鑰的密碼。',
+  'error.account.noRecoveryKey': '這個帳戶還沒有復原金鑰。',
+
+  // --- 解鎖 ---------------------------------------------------------------------
+  'unlock.prompt': '請輸入主密碼以解鎖。',
+  'unlock.placeholder': '主密碼',
+  'unlock.submit': '解鎖',
+  'unlock.forgot': '忘記了嗎？<link>使用復原金鑰</link>',
+
+  // --- 無法再開啟的保管庫 -------------------------------------------------------
+  'unrecoverable.title': '這個保管庫已無法開啟',
+  'unrecoverable.why':
+    '它的加密金鑰原本存放在這個瀏覽器設定檔中，現在已經不見了，通常是因為瀏覽資料被清除、擴充功能重新安裝，或這是另一個設定檔。沒有那把金鑰，任何人都無法解密儲存的帳號，包括我們。',
+  'unrecoverable.hasKit':
+    '你曾為這個保管庫建立復原金鑰。它獨立於遺失的金鑰保護同一份資料，可以開啟所有內容。',
+  'unrecoverable.useKit': '使用我的復原金鑰',
+  'unrecoverable.noKit':
+    '請重新開始，若有備份檔案就從備份還原。否則你必須用各網站給你的備用代碼，逐一重新設定兩步驟驗證。',
+  'unrecoverable.confirmErase': '是，清除並重新開始',
+  'common.cancel': '取消',
+  'unrecoverable.startOver': '重新開始',
+
+  // --- 密碼強度 -----------------------------------------------------------------
+  'strength.0': '非常弱',
+  'strength.1': '弱',
+  'strength.2': '普通',
+  'strength.3': '強',
+  'strength.4': '非常強',
+  'strength.line': '強度：{label}',
+  'strength.lineWithWarning': '強度：{label} — {warning}',
+  'strength.tooShort': '請至少使用 10 個字元，長度最重要。',
+  'strength.digitsOnly': '只有數字很容易被猜到。',
+  'strength.repeated': '避免重複的字元。',
+
+  // --- 首次使用 -----------------------------------------------------------------
+  'setup.prompt': '選擇要如何保護你的 2FA 密鑰。',
+  'setup.device.title': '直接開始',
+  'setup.device.badge': '建議',
+  'setup.device.description':
+    '你的密鑰會以這個瀏覽器替你保管的金鑰加密。不用記，也不用輸入。',
+  'setup.device.footnote':
+    '能防範任何可執行指令碼或讀取擴充功能資料的東西，但無法防範以你的身分在這台電腦上執行的惡意軟體。',
+  'setup.password.title': '新增主密碼',
+  'setup.password.description':
+    '用一組密碼解鎖保管庫，停止使用後會再自動鎖定。',
+  'setup.password.footnote':
+    '最強的選項：鎖定後，沒有密碼的話，這台電腦上的任何東西都無法開啟保管庫。',
+  'setup.footer': '兩種方式都是 AES-256-GCM。隨時可以切換；同步是選用功能，在「設定」中。',
+  'setup.source': '開放原始碼 — 閱讀程式碼',
+  'common.back': '返回',
+  'setup.passwordStep.title': '設定主密碼',
+  'setup.passwordStep.warning':
+    '沒有人能重設這個密碼。忘記的話，只有復原金鑰能開啟保管庫。請在「設定 → 安全性」中建立一把，並把密碼寫在安全的地方。',
+  'setup.passwordStep.label': '主密碼',
+  'setup.passwordStep.placeholder': '至少 8 個字元',
+  'setup.passwordStep.confirm': '確認密碼',
+  'common.passwordsDiffer': '兩次輸入的密碼不一致。',
+  'setup.passwordStep.submit': '建立我的保管庫',
+  'setup.passwordStep.footer': 'AES-256-GCM · 以 PBKDF2 衍生金鑰（600,000 次）',
+
+  // --- 復原金鑰，開啟保管庫 -----------------------------------------------------
+  'recover.title': '使用復原金鑰',
+  'recover.intro':
+    '設定這個保管庫時你保存的那張紙上的 32 字元金鑰。使用它會取代保管庫的鎖定方式，所以也請在下方選擇。',
+  'recover.keyLabel': '復原金鑰',
+  'recover.hintEmpty': '只有英文字母和數字，空格不影響。',
+  'recover.hintRight': '格式正確。',
+  'recover.hintCount': '已輸入 {count}／32 個字元。',
+  'recover.lockQuestion': '從現在起，這個保管庫要如何鎖定？',
+  'recover.lockPassword': '設定新的主密碼',
+  'recover.lockDevice': '不用密碼 — 由這部裝置保管金鑰',
+  'recover.newPassword': '新的主密碼',
+  'recover.atLeast8': '至少 8 個字元。',
+  'recover.submit': '解鎖並重新鎖定這個保管庫',
+
+  // --- 密碼欄位 -----------------------------------------------------------------
+  'meter.0': '太弱',
+  'meter.1': '弱',
+  'meter.2': '普通',
+  'meter.3': '強',
+  'meter.4': '非常強',
+  'password.show': '顯示密碼',
+  'password.hide': '隱藏密碼',
+
+  // --- 彈出式視窗：清單 ---------------------------------------------------------
+  'vault.search': '搜尋帳號',
+  'vault.add': '新增帳號',
+  'vault.settings': '設定',
+  'vault.lock': '立即鎖定',
+  'vault.count': { other: '{count} 個帳號' },
+  'vault.syncedWith': '已與 {email} 同步',
+  'vault.syncedAs': '以 {email} 同步',
+  'vault.changeOrder': '變更排序',
+  'vault.byName': '依名稱',
+  'vault.orderAdded': '依新增順序',
+  'vault.joinRequests': {
+    other: '有 {count} 個瀏覽器要求加入你的帳號。',
+  },
+  'vault.joinRequestsHint': '只核准你本人此刻正在登入的瀏覽器。',
+  'vault.reviewInSettings': '在設定中查看',
+  'vault.noMatch': '沒有符合「{query}」的帳號。',
+  'vault.forHost': '適用於 {host}',
+  'vault.fieldDetected': '偵測到驗證碼欄位',
+  'common.encryptedHere': '已在這部裝置上加密',
+  'vault.fillWarning':
+    '<b>{account}</b> 是給 <b>{domain}</b> 用的，但這個網頁是 <b>{host}</b>。如果你沒有預料到這種情況，這個網頁可能在冒充該網站。',
+  'vault.dontFill': '不要填入',
+  'vault.fillAnyway': '仍要填入',
+  'vault.empty.title': '還沒有帳號',
+  'vault.empty.body':
+    '開啟任一網站的兩步驟驗證設定頁面，然後直接從分頁掃描它的 QR 碼。',
+  'vault.empty.add': '新增第一個帳號',
+
+  // --- 彈出式視窗：單一帳號 -----------------------------------------------------
+  'common.untitled': '未命名',
+  'row.copyHint': '按一下即可複製',
+  'row.share': '分享或轉移',
+  'row.shareHint': '在一段時間內傳送它的驗證碼，或轉移到其他 App',
+  'row.favouriteAdd': '加入我的最愛',
+  'row.favouriteRemove': '從我的最愛移除',
+  'row.fillHint': '將這組驗證碼填入網頁',
+  'row.fill': '填入',
+  'row.copied': '已複製',
+  'row.copy': '複製驗證碼',
+  'row.next': '產生下一組驗證碼',
+  'row.counter': '計數器：{counter}',
+
+  // --- 彈出式視窗：請求評分 -----------------------------------------------------
+  'rate.region': '為 Keyrook Authenticator 評分',
+  'rate.body': '<b>Keyrook Authenticator 對你有幫助嗎？</b>你在 {store} 的評分，能讓更多人找到它。',
+  'rate.store.chrome': 'Chrome 線上應用程式商店',
+  'rate.store.edge': 'Edge 附加元件',
+  'rate.notNow': '以後再說',
+  'rate.rate': '去評分',
+
+  // --- 共用 ---------------------------------------------------------------------
+  'common.openSource': '開放原始碼',
+
+  // --- 新增帳號 -----------------------------------------------------------------
+  'add.title.manual': '輸入設定金鑰',
+  'add.title.camera': '用相機掃描',
+  'add.title.quick': '取得驗證碼但不儲存',
+  'add.title.choose': '新增帳號',
+  'add.page.title': '掃描這個網頁上的 QR 碼',
+  'add.page.description': '擷取目前分頁可見範圍的畫面，並從中讀取 QR 碼。',
+  'add.camera.title': '用相機掃描',
+  'add.camera.description': '用於手機上顯示的 QR 碼，包括 Google Authenticator 的匯出內容。',
+  'add.camera.elsewhere':
+    '會開啟一次「設定」，讓 Chrome 詢問相機使用權限。之後就能直接在這裡使用。',
+  'add.upload.title': '上傳 QR 碼圖片',
+  'add.upload.description': '先前儲存的螢幕截圖或照片。',
+  'add.manual.title': '手動輸入設定金鑰',
+  'add.manual.description': '適用於顯示一串代碼而不是 QR 碼的網站。',
+  'add.quick.title': '只取得驗證碼',
+  'add.quick.description': '貼上金鑰，立刻看到驗證碼。不會儲存任何東西。',
+  'add.fromGoogle':
+    '要從 Google Authenticator 匯入嗎？請在那裡匯出帳號，然後用相機掃描它顯示的 QR 碼，或上傳螢幕截圖。如果顯示多個，請逐一處理。',
+  'common.done': '完成',
+  'add.noNativeReader':
+    '這台電腦上的 Chrome 沒有內建 QR 碼讀取器，所以像 Google Authenticator 匯出內容這類大型 QR 碼，常常無法用相機掃描。如果掃不到，請在手機上截圖，改用「上傳 QR 碼圖片」。',
+  'add.openScannerInSettings': '在設定中開啟掃描器',
+  'add.noneFound': '找不到帳號。',
+  'add.noQrOnPage':
+    '在網頁可見範圍內找不到 QR 碼。請捲動讓它出現在畫面上，再試一次。',
+  'add.noQrInImage': '這張圖片中找不到 QR 碼。',
+  'add.cannotReadUri': '無法讀取這個 URI。',
+  'add.enterKey': '請輸入網站提供的設定金鑰。',
+  'add.offeredOn': '在 {domain} 上會建議使用這組驗證碼。',
+  'add.startTyping': '開始輸入，已知的服務會自動填入資料。',
+  'add.account': '帳號',
+  'add.accountPlaceholder': 'you@example.com',
+  'add.setupKey': '設定金鑰',
+  'add.linkDetected': '偵測到 otpauth:// 連結，服務和帳號欄位會依連結內容填入。',
+  'add.spacesFine': '有空格或小寫字母也沒關係。',
+  'add.submit': '新增帳號',
+  'add.summary': { other: '已掃描全部 {count} 個 QR 碼。' },
+  'add.summaryAdded': { other: '已新增 {count} 個帳號。' },
+  'add.summarySkipped': {
+    other: '{count} 個已在你的保管庫中，維持原樣。',
+  },
+  'error.badKey':
+    '設定金鑰只會使用英文字母 A–Z 和數字 2–7。請確認已完整複製，沒有多餘的字元。',
+  'error.quickIsMigration':
+    '這是 Google Authenticator 的轉移連結，一次包含多個帳號。請改用匯入。',
+  'error.keyTooShort': '這太短了，不可能是設定金鑰。',
+  'error.fileTooLarge': '這個檔案太大，無法讀取。',
+  'error.notSetupQr': '這個 QR 碼不是 2FA 設定碼。',
+  'error.alreadyInVault': '這個帳號已經在你的保管庫中。',
+  'error.gaSkipPeriod': 'Google Authenticator 只保存 30 秒的驗證碼；這組使用 {period} 秒。',
+  'error.gaSkipDigits': 'Google Authenticator 只保存 6 或 8 位數的驗證碼；這組有 {digits} 位數。',
+
+  // --- 相機掃描 -----------------------------------------------------------------
+  'scan.progressBatch': '已掃描第 {seen}／{total} 個 QR 碼 — {accounts}。請顯示下一個 QR 碼。',
+  'scan.progress': '{accounts}。',
+  'scan.added': { other: '已新增 {count} 個帳號' },
+  'scan.found': { other: '找到 {count} 個帳號' },
+  'scan.skippedVault': { other: '{count} 個已在你的保管庫中。' },
+  'scan.skippedScanned': { other: '{count} 個已經掃描過。' },
+  'camera.noCamera': '這個瀏覽器不提供相機給擴充功能。',
+  'camera.preview': '相機預覽',
+  'camera.failedHint':
+    '你還是可以上傳 QR 碼的照片，或輸入設定金鑰來新增帳號。',
+  'camera.hint':
+    '將 QR 碼對準框內。要從 Google Authenticator 匯入嗎？在手機上開啟匯出畫面並將相機對準它；如果顯示多個 QR 碼，請依序一個一個顯示。',
+  'camera.privacy':
+    '畫面只在這部裝置上讀取，讀完即丟棄。不會錄製，也不會上傳任何東西。',
+  'camera.blocked':
+    'Chrome 封鎖了相機存取權。請允許這個網頁使用相機，或改用其他方式新增帳號。',
+  'camera.none': '這台電腦上找不到相機。',
+  'camera.busy': '相機正被其他程式使用。',
+
+  // --- 圖片與 QR 碼圖片 ---------------------------------------------------------
+  'image.unreadable': '無法將這個檔案讀取為圖片。',
+  'image.wrongType': '請使用 PNG、JPEG、WebP、GIF 或 BMP 圖片。',
+  'image.tooBig': '這張圖片非常大。請試試小於 8 MB 的圖片。',
+  'image.cannotPrepare': '無法處理這張圖片。',
+  'image.wontCompress':
+    '這張圖片無法壓縮到夠小。簡單的標誌會比照片更合適。',
+  'image.wrongScreenshotType': '請使用 PNG、JPEG、WebP、GIF 或 BMP 螢幕截圖。',
+  'brand.account': '帳號',
+  'brand.unknown': '未知的服務',
+
+  // --- 服務欄位 -----------------------------------------------------------------
+  'service.label': '服務',
+  'service.matches': '符合的服務',
+
+  // --- 將帳號移到其他應用程式 ---------------------------------------------------
+  'share.intro':
+    '用 Google Authenticator、Microsoft Authenticator、1Password、Authy 等任何驗證器應用程式掃描，就會產生和這裡相同的驗證碼。',
+  'share.warning':
+    '任何看到或拍下這個 QR 碼的人，只要帳號還存在，就能產生 {account} 的驗證碼。只給你要移過去的應用程式看。',
+  'share.show': '顯示 QR 碼',
+  'share.qrLabel': '{account} 的設定 QR 碼',
+  'share.hidesIn': '請用另一個應用程式掃描。{seconds} 秒後自動隱藏。',
+  'share.linkCopied': '已複製連結',
+  'share.copyLink': '複製設定連結',
+  'share.saveImage': '儲存為圖片',
+  'share.linkWarning':
+    '連結裡也含有密鑰。貼到另一個應用程式後，請再複製其他內容覆蓋掉它。',
+  'share.hideNow': '立即隱藏',
+  'shareCodes.modeLabel': '分享或轉移',
+  'shareCodes.modeCodes': '傳送驗證碼',
+  'shareCodes.modeMove': '轉移到其他 App',
+  'shareCodes.noSecret': '這個帳號沒有設定金鑰，因此無法產生驗證碼，也沒有可分享或移轉的內容。請刪除它，再用它的 QR 碼重新加入帳號。',
+  'shareCodes.intro': '建立一個連結，在到期前顯示這個帳戶的驗證碼——絕不包含產生驗證碼的金鑰。',
+  'shareCodes.lengthLabel': '有效時間',
+  'shareCodes.min5': '5 分鐘',
+  'shareCodes.min15': '15 分鐘',
+  'shareCodes.hour': '1 小時',
+  'shareCodes.cannotRecall': '連結無法收回。拿到連結的任何人在到期前都能使用這些驗證碼，所以只傳給需要的人。',
+  'shareCodes.copy': '複製連結',
+  'shareCodes.copied': '已複製連結。有效到 {time}。',
+  'shareCodes.counter': '計數器型驗證碼無法這樣傳送：每組驗證碼一產生就用掉了。請改為轉移帳戶。',
+
+  // --- 取得驗證碼但不儲存 -------------------------------------------------------
+  'quick.label': '設定金鑰或 otpauth:// 連結',
+  'quick.copyHint': '按一下即可複製',
+  'quick.current': '目前的驗證碼',
+  'quick.next': '下一組：<code>{code}</code>',
+  'quick.notSaved': '不會儲存在任何地方。關閉後，金鑰就消失了。',
+  'quick.save': '改為儲存成帳號',
+  'quick.settings': '{digits} 位數 · 每 {period} 秒 · {algorithm}',
+  'quick.change': '變更',
+  'quick.digits': '位數',
+  'quick.every': '間隔',
+  'quick.seconds': '{seconds} 秒',
+  'quick.hash': '雜湊',
+
+  // --- 設定：外框 ---------------------------------------------------------------
+  'nav.accounts': '帳號',
+  'nav.backup': '備份',
+  'nav.security': '安全性',
+  'nav.about': '關於',
+  'options.count': { other: '{count} 個帳號' },
+  'options.sourceOnGithub': '在 GitHub 上開放原始碼',
+  // --- 新的復原金鑰 -------------------------------------------------------------
+  'sheet.once':
+    '這把金鑰只會顯示這一次。它不會儲存在任何地方，遺失的話請重新建立一把。',
+  'sheet.download': '下載金鑰紙本',
+  'sheet.copy': '複製',
+  'sheet.saved': '我已經把它存放在就算這台電腦不見了也還在的地方。',
+
+  // --- 群組 ---------------------------------------------------------------------
+  'groups.title': '群組',
+  'groups.description':
+    '清單中的標題，讓龐大的保管庫一目了然。要把帳號放進群組，請在該帳號的「編輯」畫面中設定。',
+  'groups.new': '新群組',
+  'groups.newPlaceholder': '工作',
+  'groups.add': '新增',
+  'groups.none':
+    '還沒有群組。所有帳號都顯示在同一份清單中，直到多到需要分類之前，這樣最好。',
+  'groups.moveUp': '將 {name} 上移',
+  'groups.moveDown': '將 {name} 下移',
+  'common.save': '儲存',
+  'groups.count': { other: '{count} 個帳號' },
+  'groups.removeNote': '帳號會保留，但不屬於任何群組。',
+  'common.remove': '移除',
+  'groups.rename': '重新命名',
+  'groups.removeNamed': '移除 {name}',
+  'groups.ungrouped': {
+    other: '有 {count} 個帳號不屬於任何群組，會顯示在清單最後的「未分組」下方。',
+  },
+
+  // --- 關於 ---------------------------------------------------------------------
+  'about.fact.sync.title': '任何資料離開這部裝置之前，你的密鑰都會先加密',
+  'about.fact.sync.body':
+    '同步是選用功能。使用同步時，送到伺服器的只有密文，伺服器無法解密。驗證碼一律在本機計算。沒有遙測。',
+  'about.fact.local.title': '你的密鑰永遠不會離開這部裝置',
+  'about.fact.local.body':
+    '這個版本沒有伺服器、沒有帳號，也沒有遙測。驗證碼是用儲存在加密保管庫中的密鑰，在本機計算出來的。',
+  'about.fact.keys.title': '兩種保管金鑰的方式，都是 AES-256-GCM',
+  'about.fact.keys.body':
+    '你的帳號以資料金鑰加密，而資料金鑰本身也經過包裝。使用主密碼時，包裝金鑰來自 PBKDF2（600,000 次），只在解鎖期間存在於記憶體中。不使用主密碼時，它是這個瀏覽器保管、無法匯出的金鑰：沒有任何指令碼能讀取它的位元組，但它並非由硬體保護。',
+  'about.fact.access.title': '不會全面存取網站',
+  'about.fact.access.body':
+    '這個擴充功能不要求任何主機權限。從網頁讀取 QR 碼，或把驗證碼填入網頁，都透過 activeTab 進行，Chrome 只會為你啟動擴充功能的那個分頁授予這項權限。',
+  'about.fact.standards.title': '採用標準，不綁住你',
+  'about.fact.standards.body':
+    '支援 RFC 6238 TOTP 和 RFC 4226 HOTP，並可用 otpauth:// 匯入和匯出。你隨時可以帶著所有資料換到其他應用程式。',
+  'about.version': '版本 {version}',
+  'about.source': '原始碼',
+  'about.viewOnGithub': '在 GitHub 上查看',
+  'about.securityModel': '安全模型',
+  'about.securityModelDescription': '擴充功能提供的保證，包括面對同步伺服器時。',
+  'about.readIt': '閱讀',
+  'about.rate': '為 Keyrook Authenticator 評分',
+  'about.rateWhere': '在 {store}。只要幾秒鐘。',
+  'about.report': '回報問題或提出建議',
+  'about.reportDescription':
+    '在任何人都能閱讀的 GitHub 上。千萬不要在那裡貼上設定金鑰、驗證碼或備份。',
+  'about.openIssue': '建立 Issue',
+  'about.how': '運作方式',
+  'about.logos.title': '服務標誌',
+  'about.logos.description':
+    '標誌內建在擴充功能中，從不從網路下載。向網路索取標誌，會讓回應的一方知道你在哪些服務上使用兩步驟驗證。',
+  'about.logos.body':
+    '有 {count} 個服務擁有真正的標誌。圖像來自 <simple>Simple Icons</simple>（CC0 1.0）、LobeHub Icons、SVG Logos、CoreUI Brands、Arcticons 和 <fa>Font Awesome Free</fa>（圖示，CC BY 4.0）。所有產品名稱和標誌皆屬其所有者，只用來辨識帳號所屬的服務。在這些圖示集中都沒有標誌的服務，會顯示文字圖塊。',
+  'about.shortcut.change': '可在 chrome://extensions/shortcuts 變更。',
+  // --- 設定：帳號 ---------------------------------------------------------------
+  'accounts.title': '帳號',
+  'accounts.description':
+    '這個保管庫中儲存的所有內容。驗證碼在這部裝置上產生，絕不由伺服器產生。',
+  'accounts.empty': '還沒有帳號。新增一個開始使用吧。',
+  'accounts.digits': '{type} {digits} 位數',
+  'accounts.period': ' · {seconds} 秒',
+  'accounts.counter': ' · 計數器 {counter}',
+  'accounts.moveNamed': '分享或轉移 {name}',
+  'accounts.edit': '編輯',
+  'common.delete': '刪除',
+  'accounts.deleteNamed': '刪除 {name}',
+  'accounts.deleted.title': '最近刪除',
+  'accounts.deleted.description':
+    '保留下來，讓其他裝置在開啟同步後得知這些刪除。誤刪的項目可以還原。',
+  'accounts.deleted.on': '於 {date} 刪除',
+  'accounts.restore': '還原',
+  'common.close': '關閉',
+  'editor.title': '編輯帳號',
+  'editor.picture': '圖片',
+  'editor.pictureOwn': '你自己的圖片，取代服務標誌。',
+  'editor.pictureNone': '可為這裡沒有標誌的服務選一張，或用來區分兩個帳號。',
+  'editor.replace': '更換',
+  'editor.choose': '選擇圖片…',
+  'editor.websites': '網站',
+  'editor.websitesHint': '以逗號分隔。用來在符合的網站上建議這個帳號。',
+  'editor.note': '備註',
+  'editor.group': '群組',
+  'editor.ungrouped': '未分組',
+  'editor.noGroups': '請先在「帳號」中建立群組。',
+  'editor.setupKey': '設定金鑰',
+  'editor.setupKeyHint': '這個帳號背後的密鑰。任何看到它的人都能產生你的驗證碼。',
+  'editor.hide': '隱藏',
+  'editor.reveal': '顯示',
+  'editor.revealWarning':
+    '只在沒有其他人看得到的螢幕上顯示。把這個連結複製到其他驗證器應用程式，就能把帳號移到手機上。',
+  'editor.save': '儲存變更',
+
+  // --- 設定：匯入 ---------------------------------------------------------------
+  'import.incomplete': {
+    other: '這些螢幕截圖只含有這份 Google Authenticator 匯出內容 {total} 個 QR 碼中的 {seen} 個，所以其他 {count} 個裡的帳號不在這裡。請一次選取這份匯出內容的所有螢幕截圖，才能全部匯入。',
+  },
+  'import.oneOrScreenshots': '請選擇一個備份檔案，或一張以上的 QR 碼螢幕截圖。',
+  'import.noQrInThis': '這張圖片中找不到 QR 碼。',
+  'import.noAccountsInImages': '這些圖片中沒有任何帳號。',
+  'import.tooLarge': '這個檔案太大，不可能是備份。',
+  'import.noAccountsInFile': '這個檔案中沒有任何帳號。',
+  'import.description':
+    '從備份檔案、其他驗證器的匯出內容（用相機掃描或選取螢幕截圖），或貼上 otpauth:// 連結來匯入帳號。',
+  'import.stopAndReview': '停止並檢查 {count} 個',
+  'import.noNativeReader':
+    '這台電腦上的 Chrome 沒有內建 QR 碼讀取器，所以像 Google Authenticator 匯出內容這類大型 QR 碼，常常無法用相機掃描。如果掃不到，請在手機上為每個 QR 碼截圖，再用「選擇檔案」一次全部選取。',
+  'import.encrypted': '這份備份已加密。請輸入建立時使用的密碼。',
+  'import.backupPassword': '備份密碼',
+  'import.open': '開啟備份',
+  'import.found': { other: '找到 {count} 個新帳號' },
+  'import.skipping': '，略過 {count} 個已在保管庫中的帳號',
+  'import.unreadable': '，另有 {count} 個無法讀取',
+  'import.foundEnd': '。',
+  'import.showFailed': '顯示失敗的行',
+  'import.import': '匯入 {count} 個',
+  'import.scan': '用相機掃描',
+  'import.choose': '選擇檔案…',
+  'import.paste': '…或貼上 otpauth:// 連結，每行一個',
+  'import.read': '讀取連結',
+
+  // --- 全部移到其他應用程式 -----------------------------------------------------
+  'dest.google.steps':
+    '在 Google Authenticator 中：選單 → 轉移帳戶 → 匯入帳戶，然後依序掃描 QR 碼。',
+  'dest.microsoft.steps':
+    'Microsoft Authenticator 無法從其他應用程式匯入，所以帳號要一個一個移。在該應用程式中：+ → 其他帳戶，掃描後在這裡按「下一個」。',
+  'dest.apple.steps':
+    '「密碼」App 一次只能匯入一組驗證碼。在「密碼」App 中：驗證碼 → +，掃描後在這裡按「下一個」。',
+  'dest.authy.steps':
+    'Authy 無法從其他應用程式匯入，所以帳號要一個一個移。在 Authy 中：+ → 掃描 QR 碼，然後在這裡按「下一個」。',
+  'dest.1password.steps':
+    '1Password 以登入項目為單位新增驗證碼。開啟或建立登入項目 → 編輯 → 新增一次性密碼 → 掃描，然後在這裡按「下一個」。在電腦上，它可以直接讀取這個畫面上的 QR 碼。',
+  'dest.bitwarden.steps':
+    '密碼管理工具：匯入資料 → 檔案格式「Bitwarden (json)」→ 選擇檔案。Bitwarden Authenticator 應用程式：從 Google Authenticator 匯入，並掃描轉移碼。',
+  'dest.proton.steps':
+    '在 Proton Authenticator 中，從 Google Authenticator 匯入並掃描轉移碼，或從 Aegis 匯入並選擇檔案。',
+  'dest.ente.steps':
+    '在 Ente Auth 中，從 Google Authenticator 匯入驗證碼並掃描轉移碼，或選擇「純文字」並選取 .txt 檔案。',
+  'dest.aegis.steps': '在 Aegis 中：匯入與匯出 → 從檔案匯入 → Aegis，然後選擇檔案。',
+  'dest.2fas.steps':
+    '在 2FAS 中，從 Google Authenticator 匯入並掃描轉移碼，或從 Aegis 匯入並選擇檔案。',
+  'dest.other.steps':
+    '每個驗證器都能掃描設定碼，所以一個接一個一定行得通。許多應用程式也能匯入 Google Authenticator 的轉移碼，或 otpauth:// 連結檔案，找找看有沒有匯入選項。',
+  'dest.other.name': '其他應用程式',
+
+  // --- 設定：匯出 ---------------------------------------------------------------
+  'export.what': '要匯出的內容',
+  'export.all': { other: '全部 {count} 個帳號。' },
+  'export.someChosen': '已選 {chosen}／{total} 個。',
+  'export.choose': '選擇…',
+  'export.chipAll': '全部',
+  'export.chipNone': '無',
+  'export.encrypted.description':
+    '以你在這裡設定的密碼鎖住的檔案。請把副本存放在安全的地方：這部裝置壞掉時，就靠這個檔案找回你的帳號。',
+  'export.encrypted.hint': '至少 8 個字元。可以和主密碼不同。',
+  'export.encrypted.download': '下載加密備份（{count}）',
+  'export.move.title': '移到其他應用程式',
+  'export.move.description': '可讀取的匯出內容，用來換到其他驗證器或以紙本保存。和備份不同，這些都沒有加密。',
+  'export.move.danger':
+    '這些內容以明文保存你的 2FA 密鑰。任何看到 QR 碼或開啟檔案的人，只要帳號還存在，就能產生你的驗證碼。用完後請刪除檔案並銷毀紙本。',
+  'export.move.understood': '我了解這些內容沒有加密。',
+  'common.continue': '繼續',
+  'export.move.which': '你要換到哪個應用程式？',
+  'export.filesAndPaper': '檔案與紙本：',
+  'export.aegis': 'Aegis .json',
+  'export.bitwarden': 'Bitwarden .json',
+  'export.text': 'otpauth .txt',
+  'export.print': '列印紙本',
+  'export.closesIn': { other: '{accounts}。{count} 分鐘後會再次關閉。' },
+  'export.closesSoon': '{accounts}。很快會再次關閉。',
+  'export.accounts': { other: '{count} 個帳號' },
+  'export.closeNow': '立即關閉',
+  'export.method.transfer': '顯示轉移碼',
+  'export.method.oneByOne': '逐一掃描',
+  'export.method.aegis': '下載 Aegis 檔案',
+  'export.method.bitwarden': '下載 Bitwarden 檔案',
+  'export.method.text': '下載文字檔',
+  'export.allAtOnce': '一次全部',
+  'export.oneAtATime': '一次一個',
+  'export.transfer.label': '{app} 的轉移碼',
+  'export.transfer.title': 'Google Authenticator 轉移碼',
+  'export.moveTo': '移到 {app}',
+  'export.transfer.none': '選取的帳號都無法移到 Google Authenticator。',
+  'export.transfer.codeLabel': '第 {index}／{total} 個轉移碼',
+  'export.previous': '上一個',
+  'export.next': '下一個',
+  'export.transfer.code': '第 {index}／{total} 個',
+  'export.transfer.oneHolds': { other: '一個 QR 碼就包含全部 {count} 個帳號。' },
+  'export.transfer.notIncluded': '未包含，請改為逐一移動：',
+  'export.oneByOne.label': '{app} 的設定碼，一次一個',
+  'export.oneByOne.title': '一次一個帳號',
+  'export.oneByOne.progress': '已顯示的帳號',
+  'export.oneByOne.position': '第 {index}／{total} 個帳號',
+  'export.oneByOne.keys': '按 → 或空白鍵顯示下一個，Esc 停止',
+  'export.print.label': '可列印或掃描的 QR 碼',
+  'export.print.title': 'Keyrook Authenticator — 設定碼',
+  'export.print.body':
+    '{accounts}，{date}。每個 QR 碼都能在任何驗證器應用程式中設定該帳號。持有這份紙本的人就能產生你的驗證碼，請鎖起來保管。',
+  'export.print.print': '列印或儲存為 PDF',
+
+  // --- 設定：安全性（上方） -----------------------------------------------------
+  'security.locking': '鎖定',
+  'security.lockAfter': '閒置後鎖定',
+  'security.lockAfter.passphrase':
+    '解密金鑰會從記憶體中清除，需要再次輸入主密碼。',
+  'security.lockAfter.device':
+    '只在有主密碼時適用。使用裝置金鑰的保管庫沒有需要解鎖的東西。',
+  'security.autoLock': '自動鎖定時間',
+  'security.minutes': { other: '{count} 分鐘' },
+  'security.hour': '1 小時',
+  'security.never': '永不',
+  'security.needsPassword': '需要主密碼',
+  'security.blur': '將游標移上去之前模糊顯示驗證碼',
+  'security.blurDescription': '分享螢幕時，避免驗證碼出現在畫面上。',
+  'security.blurToggle': '模糊驗證碼',
+  'security.autofill': '自動填入',
+  'security.autofillRow': '在網頁上提供填入驗證碼',
+  'security.appearance': '外觀',
+  'security.theme': '主題',
+  'security.theme.system': '跟隨系統',
+  'security.theme.light': '淺色',
+  'security.theme.dark': '深色',
+  'security.sortBy': '帳號排序方式',
+  'security.sortOrder': '排序',
+  'security.sort.added': '依新增順序',
+  'security.sort.name': '名稱',
+  'security.language': '語言',
+  'security.languageBrowser': '瀏覽器語言（{language}）',
+  // --- 設定：保管庫的保護方式 ---------------------------------------------------
+  'protect.msg.removedSignedIn':
+    '這部裝置現在不需密碼即可開啟。你的帳號密碼沒有變更。',
+  'protect.msg.removed': '已移除主密碼。這個保管庫現在會在這部裝置上自動解鎖。',
+  'protect.msg.setSignedIn': '這部裝置現在會以你的帳號密碼鎖定。',
+  'protect.msg.set': '已設定主密碼。保管庫鎖定後會要求你輸入。',
+  'protect.msg.changedSignedIn':
+    '已變更這個保管庫和你帳號的密碼。你的其他裝置會要求你用新密碼重新登入。',
+  'protect.msg.changed': '已變更主密碼。',
+  'protect.state.accountPassword': '以你的帳號密碼鎖定',
+  'protect.state.master': '主密碼',
+  'protect.state.device': '裝置金鑰（不用密碼）',
+  'protect.lockWithAccount': '以你的帳號密碼鎖定',
+  'protect.addMaster': '新增主密碼',
+  'protect.changePassword': '變更密碼',
+  'protect.note.passphrase':
+    '這也是你同步帳號的密碼。在這裡變更，帳號那邊也會變更，你的其他裝置會要求你重新登入。',
+  'protect.note.device':
+    '你的同步帳號有自己的密碼，這部裝置不會要求輸入。在新裝置上、以及變更帳號或其復原金鑰時，都需要它。',
+  'protect.removeWarning':
+    '保管庫仍會加密，但只要這個瀏覽器設定檔開著，它就會自動解鎖。任何使用這台電腦的人都能看到你的驗證碼。',
+  'protect.removeWarningSignedIn':
+    ' 你的帳號會保留它的密碼，在新裝置上仍然需要。',
+  'protect.currentPassword': '目前的密碼',
+  'protect.currentMaster': '目前的主密碼',
+  'protect.accountPassword': '帳號密碼',
+  'protect.accountPasswordHint':
+    '你登入同步時使用的密碼。這部裝置鎖定後會要求輸入。',
+  'protect.newPassword': '新密碼',
+  'protect.hint12': '至少 12 個混合字元，或四到五個彼此無關的單字。',
+  'protect.confirmNew': '確認新密碼',
+  'protect.removePassword': '移除密碼',
+  'protect.lockWithIt': '以此鎖定',
+  'protect.setPassword': '設定密碼',
+  'danger.title': '刪除這個保管庫',
+  'danger.description':
+    '從這部裝置刪除所有帳號和加密的保管庫。無法復原，其他地方也沒有副本。',
+  'danger.open': '刪除這個保管庫…',
+  'danger.warning':
+    '請先確認你還有其他方式可以進入每個帳號，例如備份檔案、備用代碼，或手機上的相同帳號。',
+  'common.typeToConfirm': '輸入 {word} 以確認',
+  'danger.confirm': '全部刪除',
+
+  // --- 設定：復原金鑰 -----------------------------------------------------------
+  'kit.title': '復原金鑰',
+  'kit.provider':
+    '你的帳號沒有密碼。萬一所有已登入的瀏覽器都遺失了，復原金鑰就是回來的方法：不必經由其他瀏覽器核准，就能讓新的瀏覽器進入你的帳號。{provider} 無法替你做到這件事。',
+  'kit.signedIn':
+    '沒有人能重設你的密碼，我們不行，Google 也不行。忘記密碼時，復原金鑰是唯一的回來方法：它能開啟這個保管庫、你的其他裝置，以及新裝置上的帳號。',
+  'kit.passphrase':
+    '沒有人能重設你的主密碼，我們不行，Google 也不行。這正是別人打不開你保管庫的原因，也因此忘記時，復原金鑰是唯一的回來方法。',
+  'kit.device':
+    '這個保管庫由瀏覽器保管的金鑰解鎖。如果那把金鑰不見了（清除瀏覽資料、新的設定檔、重新安裝），就只有復原金鑰還能開啟它。',
+  'kit.none': '還沒有復原金鑰',
+  'kit.vaultOnly': '能開啟這個保管庫，但無法開啟你的帳號',
+  'kit.issued': '已建立復原金鑰',
+  'kit.issueNew': '重新建立一把',
+  'kit.create': '建立復原金鑰',
+  'kit.beforeSignIn':
+    '這把金鑰是在你登入前建立的，所以你的帳號沒有它。它仍能在這裡開啟這個保管庫，但無法在新裝置上使用。請重新建立一把同時適用兩者的金鑰。',
+  'kit.replaces':
+    '建立新金鑰後，先前的金鑰就會失效，所以換新後，舊的紙本就可以安全丟棄。',
+  'kit.replacesSignedIn':
+    '建立新金鑰後，先前的金鑰在這裡和你的其他裝置上都會失效，所以換新後，舊的紙本就可以安全丟棄。',
+  'kit.withoutProvider':
+    '沒有它的話，一旦所有登入你帳號的瀏覽器都遺失，這個保管庫中的所有帳號就永遠消失了。',
+  'kit.withoutPassword':
+    '沒有它的話，一旦忘記密碼，這個保管庫中的所有帳號就永遠消失了。',
+  'kit.withoutDevice':
+    '沒有它的話，一旦這個瀏覽器保管的金鑰遺失，這個保管庫中的所有帳號就永遠消失了。',
+  'kit.noSupport': '任何客服請求都無法挽回。',
+  'kit.removeProvider':
+    '移除後，只有已登入的瀏覽器能讓新的瀏覽器進入你的帳號。',
+  'kit.removePassword': '移除後，密碼就是唯一的進入方式。',
+  'kit.removePasswordSignedIn':
+    '移除後，不論在這部裝置、你的其他裝置或你的帳號上，密碼都是唯一的進入方式。',
+  'kit.reauth':
+    '復原金鑰能讓瀏覽器進入你的帳號，所以 {provider} 會先要求你再登入一次。',
+  'kit.passwordHint': '復原金鑰可以重設你的帳號，所以變更它需要你的密碼。',
+  'kit.removeConfirm': '移除復原金鑰',
+  'kit.createConfirm': '建立金鑰',
+
+  // --- 設定：帳號與同步 ---------------------------------------------------------
+  'account.title': '帳號',
+  'facts.stored': '可儲存的帳號',
+  'facts.noLimit': '無上限',
+  'facts.encryption': '加密',
+  'facts.autofill': '自動填入與 QR 碼掃描',
+  'facts.included': '包含',
+  'facts.backup': '加密備份檔案',
+  'facts.sync': '裝置間同步',
+  'facts.needsAccount': '需要帳號',
+  'facts.notYet': '尚未推出',
+  'facts.withoutAccount': '不登入帳號，在這部裝置上',
+  'facts.title': '免費的本機保管庫能做什麼',
+  'facts.description':
+    '不需要帳號、電子郵件或伺服器，與安全有關的部分也沒有任何限制。',
+  'account.localOnly': '僅限本機 — 未登入',
+  'account.noServer':
+    '這個版本建置時沒有同步伺服器，所以你在這裡新增的任何東西都不會離開你的電腦。',
+  'account.signedInWith': '已使用 {provider} 登入 · ',
+  'account.lastSynced': '上次同步：{time}',
+  'account.notSynced': '尚未同步',
+  'account.every5': ' · 每 5 分鐘同步一次',
+  'account.syncNow': '立即同步',
+  'account.signOut': '登出',
+  'account.noKitProvider':
+    '你的帳號沒有復原金鑰。萬一所有已登入的瀏覽器都遺失，就沒有任何方法能找回你的帳號，我們不行，{provider} 也不行。',
+  'account.noKit':
+    '你的帳號沒有復原金鑰。如果忘記密碼又遺失這部裝置，就沒有任何方法能找回你的帳號，我們不行，任何人都不行。',
+  'account.createUnderSecurity': '在「安全性」中建立',
+  'summary.sentReceived': '已傳送 {sent} 個，已接收 {received} 個',
+  'summary.conflicts': '，{count} 個保留這部裝置的版本',
+  'summary.overLimit': '，{count} 個放不下（一個帳號最多 10,000 個），留在這部裝置上',
+  'summary.end': '。',
+  'summary.deleted': {
+    other: '另一部裝置刪除了 {count} 個帳號，你可以在「帳號」中還原。',
+  },
+  'summary.rejected': {
+    other: '有 {count} 筆記錄無法解密，已略過。如果持續發生，表示儲存的副本有問題。',
+  },
+  'account.signOutNote':
+    '登出會從這個瀏覽器移除你的驗證碼。它們仍保存在你的 Keyrook 帳號中，重新登入即可找回。',
+  'accountPage.title': '你的 Keyrook 帳戶',
+  'accountPage.body': '密碼、復原金鑰、重新開始和刪除帳戶都在帳戶頁面上，所有 Keyrook 應用程式一併生效。',
+  'accountPage.bodyNoRoot': '密碼和刪除帳戶都在帳戶頁面上。在其他 Keyrook 應用程式使用這個帳戶之前，復原金鑰在這裡的「安全性」中建立。',
+  'accountPage.bodyProvider': '復原金鑰、重新開始和刪除帳戶都在帳戶頁面上，所有 Keyrook 應用程式一併生效。',
+  'accountPage.bodyNoRootProvider': '刪除帳戶在帳戶頁面上。在其他 Keyrook 應用程式使用這個帳戶之前，復原金鑰在這裡的「安全性」中建立。',
+  'accountPage.open': '開啟帳戶頁面',
+  'accountPage.recoveryKey': '已登入保險箱的復原金鑰屬於 Keyrook 帳戶，在帳戶頁面上建立和變更。',
+  'accountPage.sheetProtects': '帳戶的復原金鑰保護著 Keyrook Authenticator',
+  'accountPage.sheetUnknown': '尚不清楚它是否保護 Keyrook Authenticator',
+  'accountPage.noSheet': '目前還沒有跡象顯示這個帳戶的復原金鑰保護著 Keyrook Authenticator。如果在沒有它的情況下忘記密碼，你的驗證碼可能會遺失。請在帳戶頁面上建立一組，或檢查你現有的。',
+  'kept.title': '帳戶重新開始前保留的內容',
+  'kept.body': '這個帳戶重新開始時，Keyrook Authenticator 在其中的內容保留到 {date}。可用帳戶當時的密碼或當時的復原金鑰找回。',
+  'kept.password': '當時的密碼',
+  'kept.recoveryKey': '當時的復原金鑰',
+  'kept.usePassword': '改用當時的密碼',
+  'kept.useRecoveryKey': '改用當時的復原金鑰',
+  'kept.bring': '找回',
+  'kept.done': '已回到這個保險箱，正在同步到你的其他瀏覽器。',
+  'error.keys.awaitingConfirmation': '另一個 Keyrook 應用程式替換了這個帳戶的金鑰，而 Keyrook Authenticator 的金鑰尚未跟上。請開啟帳戶頁面檢查，然後重新登入。',
+  'password.changedBoth':
+    '已變更你帳號和這個保管庫的密碼。你的其他裝置會要求你用新密碼重新登入。',
+  'password.changedAccount':
+    '已變更帳號密碼。你的其他裝置會要求你用新密碼重新登入。',
+  'password.title': '密碼',
+  'password.row': '帳號密碼',
+  'password.rowDescription':
+    '在新裝置上登入時使用。沒有人能替你重設，請妥善保管復原金鑰。',
+  'password.change': '變更密碼…',
+  'password.formTitle': '變更帳號密碼',
+  'devices.title': '已登入的裝置',
+  'devices.description':
+    '登出你不再使用或已不在手邊的裝置。它會保留已同步的內容，仍以相同密碼保護，但不會再收到任何新內容。',
+  'devices.this': '這部裝置',
+  'devices.when': '{created} 登入 · 上次使用 {seen}',
+  'delete.row': '刪除你的帳號',
+  'delete.rowDescription':
+    '刪除伺服器保存的所有加密副本。這部裝置的保管庫會維持原樣；其他裝置會停止同步。',
+  'delete.open': '刪除帳號…',
+  'delete.warning':
+    '無法復原。如果刪除後你的帳號只剩這部裝置上有，請保留這部裝置，或先匯出備份。',
+  'delete.reauth': '刪除任何東西之前，{provider} 會要求你再登入一次。',
+  'delete.confirm': '刪除帳號',
+
+  // --- 登入：第一張卡片 ---------------------------------------------------------
+  'intro.benefit1': '在每個你登入的瀏覽器中都有相同的驗證碼。',
+  'intro.benefit2': '筆電遺失或損壞，保管庫也不會不見。',
+  'intro.benefit3': '免費且可自由選擇，不使用的話，這部裝置上的一切照常運作。',
+  'intro.title': '同步你的保管庫',
+  'intro.subtitle':
+    '離開這部裝置前就先加密。伺服器儲存的是它讀不懂的內容，我們也讀不懂。',
+  'intro.signedOutProvider':
+    '這部裝置已從 {email} 登出，因為另一部裝置移除了它。請使用 {provider} 繼續以重新登入。',
+  'intro.orEmail': '或使用電子郵件',
+  'intro.create': '建立帳號',
+  'intro.signIn': '登入',
+  'intro.source': '開放原始碼 — 看看你的驗證碼如何加密',
+
+  // --- 登入：電子郵件表單 -------------------------------------------------------
+  'form.email': '電子郵件',
+  'form.emailPlaceholder': 'you@example.com',
+  'create.checkEmail': '請查看你的電子郵件',
+  'create.codeSent': '我們已將 6 位數驗證碼寄到 <b>{email}</b>。只能使用一次，15 分鐘內有效。',
+  'create.code': '驗證碼',
+  'create.spam':
+    '收件匣裡沒有嗎？請在<b>垃圾郵件</b>中尋找 <b>Keyrook</b> 寄來的信，並標示為<b>不是垃圾郵件</b>。',
+  'create.submit': '建立帳號',
+  'create.existing':
+    '如果這個地址已經有帳號，信中會改為告知你，請直接登入那個帳號。',
+  'create.stillNothing': '還是沒收到？',
+  'create.resendIn': '{seconds} 秒後可重新寄送驗證碼',
+  'create.resend': '重新寄送驗證碼',
+  'create.wrongAddress': '。地址錯了嗎？',
+  'create.changeIt': '修改',
+  'create.title': '建立你的帳號',
+  'create.choosing': '在新裝置上需要這個密碼。這部裝置仍然不需密碼即可開啟。',
+  'create.sharing': '你的主密碼也會成為帳號密碼，仍然只有一組。',
+  'create.password': '密碼',
+  'create.master': '主密碼',
+  'create.next':
+    '接下來，我們會寄送驗證碼以確認地址，接著你要保存復原金鑰，那是你忘記密碼時唯一的回來方法。',
+  'create.agree': '建立帳號即表示你同意<link>隱私權政策</link>。',
+  'create.haveAccount': '已經有帳號了嗎？',
+  'signin.subtitle': '這部裝置上已有的驗證碼會加入你的帳號。',
+  'signin.signedOut':
+    '這部裝置已從 {email} 登出，因為密碼已變更，或另一部裝置移除了它。請重新登入以繼續同步。',
+  'signin.forgot': '忘記密碼？',
+  'signin.locksWithAccount': '從此以後，這部裝置會以你的帳號密碼鎖定。',
+  'signin.keepsOpening': '這部裝置仍然不需密碼即可開啟。',
+  'signin.newHere': '第一次使用？',
+  'recoverAccount.title': '復原你的帳號',
+  'recoverAccount.subtitle':
+    '使用你建立帳號時保存的復原金鑰，然後設定新密碼。',
+  'recoverAccount.keyHint': '紙本上的 32 個字元。空格和連字號不影響。',
+  'recoverAccount.submit': '復原並登入',
+  'recoverAccount.elsewhere': '如果另一個 Keyrook 應用程式也在使用這個帳戶，請在帳戶頁面上重設密碼。',
+  'recoverAccount.note':
+    '帳號下的每部裝置都會被登出，並要求輸入新密碼。你的復原金鑰仍然有效。',
+
+  // --- 登入：之後 ---------------------------------------------------------------
+  'ready.empty': '你的帳號已就緒。',
+  'ready.all': {
+    other: '你的帳號已就緒，這部裝置上的 {count} 個帳號都已備份到帳號中。',
+  },
+  'ready.some':
+    '你的帳號已就緒。目前已備份 {done}／{total} 個帳號，其餘的會在下次同步時跟上。',
+  'fresh.title': '保存你的復原金鑰',
+  'fresh.provider':
+    '萬一所有登入你帳號的瀏覽器都遺失，這把金鑰是唯一的回來方法：{provider} 無法還原你的保管庫，我們也不行。',
+  'fresh.password':
+    '如果忘記密碼，這把金鑰是唯一的回來方法：沒有人能替你重設，我們不行，Google 也不行。',
+  'welcome.fromAccount': '從帳號取得 {count} 個',
+  'welcome.fromDevice': '從這部裝置新增 {count} 個',
+  'welcome.inSync': '已經是同步狀態。',
+  'welcome.nothing': '這裡還沒有任何東西。',
+  'welcome.failed': '已登入，但第一次同步沒有完成',
+  'welcome.back': '你回來了',
+  'welcome.signedIn': '你已登入',
+  'welcome.nothingLost':
+    '沒有任何資料遺失：你的驗證碼會在下次同步時送達。現在再試一次，或等它在五分鐘內自動進行。',
+  'welcome.onDevice': { other: '這部裝置上的帳號' },
+  'welcome.uploading': {
+    other: ' · 還有 {count} 個正在上傳，會在下次同步時跟上',
+  },
+  'welcome.othersSignedOut': '其他所有裝置都已登出，並會要求輸入新密碼。',
+  'welcome.tryAgain': '再試一次',
+  'welcome.seeAccounts': '查看你的帳號',
+  'welcome.toolbar': '也可以從工具列上的 Keyrook Authenticator 圖示一鍵開啟。',
+
+  // --- 使用 Google 或 GitHub 登入 -----------------------------------------------
+  'provider.continue': '使用 {provider} 繼續',
+  'provider.finishInWindow': '請在開啟的 {provider} 視窗中完成。',
+  'provider.confirmed': '{provider} 已確認 <b>{email}</b>。目前還沒有帳號使用這個地址。',
+  'provider.point1':
+    '沒有密碼。在新的瀏覽器上，你會使用 {provider} 繼續，並在確認兩邊顯示相同代碼後，由已登入的瀏覽器讓它進入。',
+  'provider.point2':
+    '{provider} 負責證明是你本人。它永遠看不到你的驗證碼：驗證碼在這裡加密，金鑰留在你的瀏覽器中。',
+  'provider.point3':
+    '接著你要保存復原金鑰，萬一所有登入帳號的瀏覽器都遺失，就靠它回來。{provider} 無法還原你的保管庫。',
+  'provider.notRight': '不是這個帳號嗎？',
+  'provider.startAgain': '重新開始',
+  'pairing.codeLabel': '代碼 {code}',
+  'join.title': '讓這個瀏覽器加入',
+  'join.subtitle':
+    '<b>{email}</b> 已經有帳號。請從已登入該帳號的瀏覽器核准這個瀏覽器。',
+  'join.masterPassword': '這個保管庫的主密碼',
+  'join.masterHint': '它仍會在這裡鎖定這個保管庫；帳號本身沒有密碼。',
+  'join.ask': '要求加入',
+  'join.step1': '在已登入的瀏覽器上開啟 Keyrook Authenticator。請求會顯示在那裡的彈出式視窗，以及設定中的「同步」。',
+  'join.step2': '確認那裡顯示的代碼和這個頁面相同，然後核准。',
+  'join.askAgain': '重新要求',
+  'join.compare': '另一個瀏覽器也會顯示代碼。只有完全相同時，才在那裡核准。',
+  'join.waiting': '正在等待另一個瀏覽器…',
+  'join.noOther': '沒有其他瀏覽器了嗎？',
+  'join.useKey': '使用復原金鑰',
+  'join.wrongAccount': '在 {provider} 登入了錯誤的帳號嗎？',
+  'joinKey.subtitle':
+    '建立帳號時你保存的金鑰。不需要其他瀏覽器，就能讓這個瀏覽器加入。',
+  'joinKey.submit': '加入帳號',
+  'approve.approved': '已核准。另一個瀏覽器很快就會開啟你的保管庫。',
+  'approve.mismatch':
+    '已拒絕。如果剛才不是你本人在登入，表示有其他人能登入你的 {provider} 帳號，請變更該帳號的密碼並檢查安全性設定。',
+  'approve.declined': '已拒絕。沒有傳送任何東西。',
+  'approve.title': '要求加入的瀏覽器',
+  'approve.description':
+    '每個請求都來自剛用你的 {provider} 帳號登入的人。只核准你本人此刻正在登入的瀏覽器。',
+  'approve.askedAt': '於 {time} 要求',
+  'approve.review': '查看',
+  'approve.deny': '拒絕',
+  'approve.question':
+    '要求加入的瀏覽器顯示的代碼和這裡完全相同嗎？如果不同，表示有其他人想進入。',
+  'approve.matches': '相符 — 讓它加入',
+  'approve.doesNotMatch': '不相符',
+
+  // --- 錯誤（續） ---------------------------------------------------------------
+  'error.vaultNewer':
+    '這個保管庫是由較新版本的 Keyrook Authenticator 建立的。開啟前請先更新。',
+  'error.uriUnsupported': '這個連結使用了這個應用程式無法讀取的設定（{value}）。',
+  'editor.websitesPlaceholder': 'github.com, gist.github.com',
+  'error.noWorker': '擴充功能沒有回應。請關閉後重新開啟。',
+  'nav.sync': '同步',
+  'nav.general': '一般',
+  'nav.needsAttention': '需要處理',
+  'sync.description': '在每個登入的瀏覽器中使用相同的驗證碼，離開前已在此裝置加密。',
+  'backup.description': '保存加密備份、匯入帳號，或移到其他 App。',
+  'backup.choice.backup.title': '備份',
+  'backup.choice.backup.body': '以你選擇的密碼保護的加密檔案。',
+  'backup.choice.import.title': '匯入',
+  'backup.choice.import.body': '從備份、其他 App 的匯出內容或 otpauth:// 連結。',
+  'backup.choice.move.body': '轉移碼、可列印的頁面或可讀取的檔案。未加密。',
+  'security.description': '這個保險庫如何開啟，以及遺失這個瀏覽器時如何重新進入。',
+  'security.deviceKeyHint': '無需輸入。無法阻擋在這台電腦上以你身分執行的惡意程式。',
+  'security.passwordHint': '每當保險庫鎖定後都需要輸入。',
+  'general.description': '擴充功能的外觀與行為，以及它的來源。',
+  'general.inBrowser': '在瀏覽器中',
+  'general.autofillHint': '在登入頁面開啟彈出視窗時，會提供相符的驗證碼。只讀取該分頁。',
+  'vault.signInToSync': '登入以同步',
+  'vault.empty.signIn': '已在其他瀏覽器使用 Keyrook Authenticator？<link>登入</link>即可把驗證碼帶到這裡。',
+  'setup.haveAccount': '已經在用 Keyrook Authenticator？<link>登入</link>即可把驗證碼帶到這裡。',
+  'popup.signInOpensTab': '會在新分頁開啟，並在設定中完成。',
+  'error.backupWrongPassword': '這個密碼無法開啟此檔案。',
+  'error.foreign.steam': '目前還無法匯入 Steam Guard 驗證碼。',
+  'error.foreign.locked': '此匯出內容以 Keyrook Authenticator 無法開啟的方式加上了密碼。請不設密碼重新匯出。',
+  'import.lockedFrom': '{app} 以密碼保護了這份匯出內容。請輸入你在那裡設定的密碼。',
+  'import.fromApps':
+    '也支援從 Aegis、2FAS、Bitwarden、Proton、Ente Auth、andOTP、FreeOTP+、Authenticator 擴充功能和 Google Authenticator 匯出的內容，以及 Apple 密碼、1Password 等密碼管理器的 CSV。',
+  'shortcut.open': '開啟 Keyrook Authenticator',
+  'shortcut.fill': '填入此頁面的驗證碼',
+  'shortcut.fillHint': '只有在恰好一個帳號屬於該網站時才會填入；其他情況會開啟清單。',
+  'shortcut.notSet': '未設定',
+  'vault.shortcutHint': '按 {keys} 即可直接填入，不必開啟這裡。',
+  'import.csvWarning': '這個檔案以明文保存了你的密碼。只讀取了雙重驗證金鑰，其他內容一概不保留——完成後請刪除檔案。',
+  'import.noKeysInCsv': '這個檔案沒有雙重驗證金鑰，只有密碼。',
+};

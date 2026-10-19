@@ -1,0 +1,212 @@
+/*
+ * Classes come from the pages' own source — this package — and nothing else.
+ * The service worker and the content script set no classes. Left to
+ * detect sources itself, Tailwind scans the whole checkout — test tooling,
+ * store artwork scripts, the server — and a word like "filter" in any of them
+ * becomes a rule in the build. The private tree and the public one then build
+ * different CSS from the same extension, and a store reviewer rebuilding from
+ * the published source cannot match the package.
+ */
+@import 'tailwindcss' source(none);
+@source '../';
+
+/* Keyrook's tokens (--kr-*) and hand-drawn motions (.kr-boil, .kr-draw), the
+   same file every Keyrook product imports, copied in by `npm run brand`. */
+@import '../../../../vendor/keyrook-brand/brand.css';
+
+/*
+ * Theme is driven by an explicit attribute rather than the media query so the
+ * user's in-app preference (system / light / dark) is authoritative.
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  /* Only Keyrook's colours exist here. Tailwind's own palettes are switched
+     off, so a class naming one (zinc, amber, emerald…) builds nothing and
+     shows up in review as a missing colour, rather than shipping a grey or a
+     green the brand never chose. */
+  --color-*: initial;
+  --color-white: var(--kr-neutral-0);
+  /* Scrims and overlays dim under ink, not under pure black. */
+  --color-black: var(--kr-ink);
+
+  /* Warm neutrals, paper (50) to night (950). Muted text is 600 on light
+     pages and 400 on dark ones — 500 is under 4.5:1 on paper. */
+  --color-neutral-50: var(--kr-neutral-50);
+  --color-neutral-100: var(--kr-neutral-100);
+  --color-neutral-200: var(--kr-neutral-200);
+  --color-neutral-300: var(--kr-neutral-300);
+  --color-neutral-400: var(--kr-neutral-400);
+  --color-neutral-500: var(--kr-neutral-500);
+  --color-neutral-600: var(--kr-neutral-600);
+  --color-neutral-700: var(--kr-neutral-700);
+  --color-neutral-800: var(--kr-neutral-800);
+  --color-neutral-900: var(--kr-neutral-900);
+  --color-neutral-950: var(--kr-neutral-950);
+
+  /* Each crayon has one job: blue acts, red is danger, yellow warns, green
+     succeeds. Text in one uses its role's stop (ROLES in tokens.ts). */
+  --color-red-50: var(--kr-red-50);
+  --color-red-100: var(--kr-red-100);
+  --color-red-200: var(--kr-red-200);
+  --color-red-300: var(--kr-red-300);
+  --color-red-400: var(--kr-red-400);
+  --color-red-500: var(--kr-red-500);
+  --color-red-600: var(--kr-red-600);
+  --color-red-700: var(--kr-red-700);
+  --color-red-800: var(--kr-red-800);
+  --color-red-900: var(--kr-red-900);
+  --color-yellow-50: var(--kr-yellow-50);
+  --color-yellow-100: var(--kr-yellow-100);
+  --color-yellow-200: var(--kr-yellow-200);
+  --color-yellow-300: var(--kr-yellow-300);
+  --color-yellow-400: var(--kr-yellow-400);
+  --color-yellow-500: var(--kr-yellow-500);
+  --color-yellow-600: var(--kr-yellow-600);
+  --color-yellow-700: var(--kr-yellow-700);
+  --color-yellow-800: var(--kr-yellow-800);
+  --color-yellow-900: var(--kr-yellow-900);
+  --color-green-50: var(--kr-green-50);
+  --color-green-100: var(--kr-green-100);
+  --color-green-200: var(--kr-green-200);
+  --color-green-300: var(--kr-green-300);
+  --color-green-400: var(--kr-green-400);
+  --color-green-500: var(--kr-green-500);
+  --color-green-600: var(--kr-green-600);
+  --color-green-700: var(--kr-green-700);
+  --color-green-800: var(--kr-green-800);
+  --color-green-900: var(--kr-green-900);
+
+  --color-brand-50: var(--kr-blue-50);
+  --color-brand-100: var(--kr-blue-100);
+  --color-brand-200: var(--kr-blue-200);
+  --color-brand-300: var(--kr-blue-300);
+  --color-brand-400: var(--kr-blue-400);
+  --color-brand-500: var(--kr-blue-500);
+  --color-brand-600: var(--kr-blue-600);
+  --color-brand-700: var(--kr-blue-700);
+  --color-brand-800: var(--kr-blue-800);
+  --color-brand-900: var(--kr-blue-900);
+
+  --font-sans: var(--kr-font-sans);
+  --font-mono: var(--kr-font-mono);
+
+  /* Height is cut paper: a hard shadow down and to the right, never a blur —
+     a blurred one would be the only machine-made edge in a drawn interface.
+     Tailwind's soft shadows are switched off with the colours. */
+  --shadow-*: initial;
+  --shadow-raised: var(--kr-shadow-raised);
+  --shadow-floating: var(--kr-shadow-floating);
+  /* A knob or a chosen tab sitting on its track: one hard pixel under it. */
+  --shadow-sm: 0 1px 0 color-mix(in srgb, var(--kr-ink) 14%, transparent);
+
+  --animate-fade-in: fade-in var(--kr-motion-base) var(--kr-ease-out);
+  --animate-slide-up: slide-up var(--kr-motion-base) var(--kr-ease-out);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    margin: 0;
+    font-family: var(--kr-font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Ink on paper; paper on night. White is a surface laid on the page. */
+  body {
+    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50;
+  }
+
+  /* Focus rings only when keyboard-driven — clicking a code should stay quiet. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+
+  ::selection {
+    @apply bg-brand-500/25;
+  }
+}
+
+@layer components {
+  .scrollarea {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, currentColor 20%, transparent) transparent;
+  }
+
+  /* Codes are read digit by digit; tabular figures stop them jittering. */
+  .code-digits {
+    font-family: var(--kr-font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+
+  /* A code, a key or a pairing code reads left to right in every language.
+     On a right-to-left page "078 842" otherwise shows as "842 078" — each
+     group is a run of its own, and the runs are laid out right to left — and
+     whoever types it by hand, or compares it with another screen, gets it
+     wrong. Everything set in the monospace face is one of these. */
+  .code-digits,
+  .font-mono {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}
+
+/* The QR sheet prints alone. It is a fixed, scrolling layer on screen, which
+   on paper is one page cut off at the fold; the settings under it, and a dark
+   theme's white-on-black text, are not wanted on paper at all. */
+@media print {
+  body:has(> .export-sheet) > :not(.export-sheet) {
+    display: none !important;
+  }
+
+  html:has(.export-sheet),
+  html:has(.export-sheet) body {
+    color-scheme: light;
+    background: #fff !important;
+  }
+
+  .export-sheet {
+    position: static !important;
+    overflow: visible !important;
+    animation: none !important;
+  }
+
+  .export-sheet,
+  .export-sheet * {
+    color: var(--kr-ink) !important;
+    background-color: transparent !important;
+  }
+
+  .export-sheet li {
+    border-color: var(--kr-neutral-300) !important;
+  }
+}

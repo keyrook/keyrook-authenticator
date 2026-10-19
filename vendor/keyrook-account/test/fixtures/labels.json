@@ -1,0 +1,73 @@
+{
+  "inputs": {
+    "PASSWORD": "correct horse battery staple",
+    "ACCOUNT_KDF": {
+      "algorithm": "PBKDF2-SHA256",
+      "iterations": 600000,
+      "salt": "S2V5cm9vayBhY2NvdW50IQ=="
+    },
+    "DATA_KEY": "QUNDT1VOVC1EQVRBLUtFWS1GT1ItVEVTVFMtT05MWSE=",
+    "RECOVERY_KEY": "ABCD-EFGH-JKMN-PQRS-TVWX-YZ01-2345-6789",
+    "PAIRING_ID": "pairing-fixture-1"
+  },
+  "authHash": "qJbGFKse540/GBcFLh81JJHh6US811DLhPOq1PKE+CQ=",
+  "protectedKey": {
+    "iv": "aNC9uvvOa+S6wlJi",
+    "ct": "a3CU06wo7+NfZGTwfbmB5waLvMEOiCTmRYyAlLVCfEkpej4Sn2nXh1tGh5Wvmbr6"
+  },
+  "keyCheck": "FCgOeQB0WGJa3ftlYx0u9ByprApVUDDt7P/vUM40gVQ=",
+  "recoveryAuthHash": "RLQZP835hV6q0/HEZ9h8tZt23mfI8iNEP7ZV1KEi9wY=",
+  "recoveryWrap": {
+    "kdf": {
+      "algorithm": "PBKDF2-SHA256",
+      "iterations": 100000,
+      "salt": "cmVjb3Zlcnkta2l0LXNhbHQ="
+    },
+    "wrappedKey": {
+      "iv": "Uz4dX7k32XYA549o",
+      "ct": "k2KGM7t1t6mzq9ill2mT4MfatZfqgkmbloDrWP7agbH/ErBOLY2xGyzwJhhPpLSq"
+    },
+    "createdAt": 1760000000000
+  },
+  "recoveryState": {
+    "wrap": {
+      "kdf": {
+        "algorithm": "PBKDF2-SHA256",
+        "iterations": 100000,
+        "salt": "cmVjb3Zlcnkta2l0LXNhbHQ="
+      },
+      "wrappedKey": {
+        "iv": "Uz4dX7k32XYA549o",
+        "ct": "k2KGM7t1t6mzq9ill2mT4MfatZfqgkmbloDrWP7agbH/ErBOLY2xGyzwJhhPpLSq"
+      },
+      "createdAt": 1760000000000
+    },
+    "issuedAt": 1760000000000
+  },
+  "sealedRecoveryState": {
+    "iv": "tZ7pFyPD2c9awqGB",
+    "ct": "qnShBLtx7Ra9XURB8o3h3eoqN0l2toK60Mf1vASUc+XSP/y9bEY4hrTFBo71rZGpUDZpCTWxtzdYbsdGHLQbaBNlyfmUIAP13ozqePgdDGIK+OeGUzJY95nO7OtpP4rMbwFkPs0Txwq5G0IML0v7pAG9pVZDW2kOMy6YiiOr+AP1B0uXCZZdQWbY8UAv8P70ZeawLhc212vhSu7nmJUkMmHpM2/jzoCoUW8N+cYg4qkSRw6v15nvyrY8hscNml/YuWSqkwYL/75UoAYfvSr6Af0SRtZDcxX7YxaAZtcoUU1ZXBgYcD3I/TPT3mnF+oC17xw415umGRstQ7wp2bwob3Pg67cUFyjU/Ta4gTAVuLnDS45uCUY="
+  },
+  "pairing": {
+    "requester": {
+      "privateKey": {
+        "key_ops": [
+          "deriveBits"
+        ],
+        "ext": true,
+        "kty": "EC",
+        "x": "gqZ7ygUfzptSX9TViaAY6_X5yUsQlIsfmmc-QJR6jpo",
+        "y": "e1K-jTrXATepm4jVYqytx6lIz90Q4Urwtu676rlzWTk",
+        "crv": "P-256",
+        "d": "E8QvXB9TxR-P6XrQ9dHguVz0LHUwVswZ-QTpZ9KTJAY"
+      },
+      "publicKey": "BIKme8oFH86bUl/U1YmgGOv1+clLEJSLH5pnPkCUeo6ae1K+jTrXATepm4jVYqytx6lIz90Q4Urwtu676rlzWTk="
+    },
+    "approverPublicKey": "BNgsyzQV9cC/CYOtPbiByEfiSWwsMZc3TwyQsXkIoIxZQlCB7Ga+bi8qKvMsC4Kayz2oOUe0WeYyRnYTmxANRmA=",
+    "code": "939YP-GJ710-55VY1",
+    "wrap": {
+      "iv": "cHKEUkgmTxae7Lxx",
+      "ct": "DsDRB2zmLJrG9xfvPIUi7Tk2LdeyxWCjNjlIq635rPb9ThwNqZ9krm8UZe2O1Psk"
+    }
+  }
+}

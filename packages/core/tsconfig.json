@@ -6,7 +6,20 @@
     "emitDeclarationOnly": true,
     "declaration": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@keyrook/account": [
+        "../../vendor/keyrook-account/src/index.ts"
+      ]
+    }
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../../vendor/keyrook-account"
+    }
+  ]
 }

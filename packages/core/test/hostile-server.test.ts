@@ -181,6 +181,22 @@ describe('deletions arriving from the server', () => {
     expect(outcome.data.items.every((entry) => entry.deletedAt !== null)).toBe(true);
   });
 
+  it('leave nothing behind, and count nothing, for an account this vault never had', async () => {
+    const key = await generateDataKey();
+    const kept = settled(item('GitHub', 'JBSWY3DPEHPK3PXP'));
+    // Deleted on another device before this one ever synced it. Builds before
+    // 0.4 kept it as an empty entry with no key, offered under Recently
+    // deleted: restored, it was an account that made no codes, on every
+    // device.
+    const elsewhere = { ...(await itemToRecord(item('Bank', 'MZXW6YTBOI'), key, 'x')), deleted: true, box: null, rev: 2 };
+
+    const merged = await mergeRecords(vault(kept), [elsewhere], key);
+
+    expect(merged.deleted).toBe(0);
+    expect(merged.applied).toBe(0);
+    expect(merged.data.items.map((entry) => entry.id)).toEqual([kept.id]);
+  });
+
   it('does not double-count one that was already deleted locally', async () => {
     const key = await generateDataKey();
     const gone = settled(item('GitHub', 'JBSWY3DPEHPK3PXP', { deletedAt: Date.now() }));

@@ -1,12 +1,14 @@
 import {
+  deriveKek,
   generateDataKey,
+  type KdfParams,
+  newKdfParams,
   openJson,
+  type SealedBox,
   sealJson,
   unwrapDataKey,
   wrapDataKey,
-  type SealedBox,
-} from '../crypto/aead.js';
-import { deriveKek, newKdfParams, type KdfParams } from '../crypto/kdf.js';
+} from '@keyrook/account';
 import { isMigrationUri, parseMigrationUri } from '../otp/migration.js';
 import { DEFAULT_OTP_PARAMS } from '../otp/types.js';
 import { buildOtpUri, parseOtpUri } from '../otp/uri.js';
@@ -187,10 +189,18 @@ export function sanitiseImportedItems(incoming: readonly Partial<VaultItem>[]): 
  * callers must warn the user before writing this to disk.
  */
 export function exportPlainUris(items: VaultItem[]): string {
-  return items
-    .filter((item) => item.deletedAt === null)
+  return exportable(items)
     .map((item) => buildOtpUri(item))
     .join('\n');
+}
+
+/**
+ * The live accounts another app can take: every format carries the key, and
+ * an account without one — an empty entry an older build restored — has
+ * nothing to carry. Left in, it threw and took the whole export with it.
+ */
+function exportable(items: VaultItem[]): VaultItem[] {
+  return items.filter((item) => item.deletedAt === null && isValidBase32(item.secret));
 }
 
 /**
@@ -202,7 +212,7 @@ export function exportPlainUris(items: VaultItem[]): string {
  * file, since nothing on the other side refers back to ours.
  */
 export function exportAegisJson(items: VaultItem[], groups: Group[]): string {
-  const live = items.filter((item) => item.deletedAt === null);
+  const live = exportable(items);
   const groupUuid = new Map(
     groups
       .filter((group) => group.deletedAt === null && live.some((item) => item.groupId === group.id))
@@ -241,7 +251,7 @@ export function exportAegisJson(items: VaultItem[], groups: Group[]): string {
  * Unencrypted, like the other readable exports.
  */
 export function exportBitwardenJson(items: VaultItem[], groups: Group[]): string {
-  const live = items.filter((item) => item.deletedAt === null);
+  const live = exportable(items);
   const folderId = new Map(
     groups
       .filter((group) => group.deletedAt === null && live.some((item) => item.groupId === group.id))

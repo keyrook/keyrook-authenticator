@@ -10,7 +10,7 @@
  * entry goes through the same checks as a pasted otpauth:// link, and an entry
  * that cannot become a working account is listed as skipped, with the reason.
  */
-import { DecryptionError } from '../crypto/aead.js';
+import { DecryptionError } from '@keyrook/account';
 import { scrypt } from '../crypto/scrypt.js';
 import { base32Encode, isValidBase32 } from '../util/base32.js';
 import { concatBytes, fromBase64, fromHex, fromUtf8, utf8 } from '../util/bytes.js';

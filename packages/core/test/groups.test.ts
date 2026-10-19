@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { newKdfParams } from '../src/crypto/kdf.js';
+import { newKdfParams } from '@keyrook/account';
 import { parseOtpUri } from '../src/otp/uri.js';
 import {
   addGroup,

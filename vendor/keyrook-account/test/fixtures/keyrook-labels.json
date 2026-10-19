@@ -1,0 +1,66 @@
+{
+  "inputs": {
+    "PASSWORD": "correct horse battery staple",
+    "ACCOUNT_KDF": {
+      "algorithm": "PBKDF2-SHA256",
+      "iterations": 600000,
+      "salt": "S2V5cm9vayBhY2NvdW50IQ=="
+    },
+    "ACCOUNT_ID": "4b9e1c2d-7a3f-4e5b-9c8d-1a2b3c4d5e6f",
+    "PRODUCT": "passhold",
+    "PRODUCT_KEY": "UFJPRFVDVC1LRVktRk9SLVRFU1RTLU9OTFktUEFTU0g=",
+    "RECOVERY_KEY": "ABCD-EFGH-JKMN-PQRS-TVWX-YZ01-2345-6789",
+    "PAIRING_ID": "pairing-fixture-2",
+    "SHEET_VERIFIED_AT": 1760000000000,
+    "ROOT_PKCS8": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg2hrt8SvGkaa9187LRKbxiXvmHAo+DJR4Ij3LkJphzSOhRANCAATWGBMynBZk8L1yjMZ0480ovOLHB2u682Q8ZMfpFYwYSqM2PBtTva9ucgIvWRnXi5fTgz2h6X5WM9FWuDUeIVSb"
+  },
+  "rootPublicKey": "BNYYEzKcFmTwvXKMxnTjzSi84scHa7rzZDxkx+kVjBhKozY8G1O9r25yAi9ZGdeLl9ODPaHpflYz0Va4NR4hVJs=",
+  "rootPasswordWrap": {
+    "iv": "1yBJfgCmriOOWPsY",
+    "ct": "3/9hkQZp+e0PvZZ/lt6aKYZCj0W1FAniKUE++BuY2GGLUTTYI5wvDJJM57ogGCAtDkfbwYC4hC6IN1mmevlyOEVeidXM+hurmbTSmZI1t7gxmKujinD3VZUiAYUvWnisfZD8fvXVci5qv8JEP3elQjnBwuSwjtxu+REDwgPt0AIeBi80WGR4RqikvYLVmMzCTwack1P2ADOirg=="
+  },
+  "rootRecoveryWrap": {
+    "iv": "vHYZxMCC+LrPuhqp",
+    "ct": "jThU8xWStQ5qYjysYtiFMZHPEGV+y1VYNcUol4i9w1fZqIRSUWS/+spriL+zViZ8129OAni16j4cy1sOPYwfLhbf9nnWushdZR3b3ukrIrhuCT+LU52ExpC0vMawJ6yM9LLVLpxlvOIls/f4KTatXvHSZxRR234B0NH7hFVp3bKBzg/SsSfLT+GVxNmq+t440UEWDR7xbfZoQQ=="
+  },
+  "rootCheck": "RV6Oi+Ck1cLvgH9S/apDO5elNsOHUMtryu3KF/0JywY=",
+  "rootConfirmCode": {
+    "join": "NGGZG-S5HXM-W66AJ",
+    "rotate": "TH0SX-AH26Q-H79CQ"
+  },
+  "productBox": {
+    "epk": "BJtcWjsFYTE4FNTTQjfAQwtdVxkVEMf7xai25skZf6ppu0AF0XqMSwuuo3h3n60ynITRRX0AoG/+ZgY2osfqlWk=",
+    "iv": "BVQanT2AzEoZ9Er3",
+    "ct": "0ClMsIcJSahEDEX1so5aWWBVmL/Z1wO1O8mzrsnRMeXe/2jjmdilHma45keOJ7Lj"
+  },
+  "pin": {
+    "iv": "AVVfwjd2bOcqFDht",
+    "ct": "Erg56OkdkbQoKabmccxIM2Eoco3D1Pt9FtLXYp2wdnGBhEReqz7UlyG2/IzsoIy5+dMW1sQs3Eapgf/QNZJVTm1CclqBvQNCpHTfHVP6TBLI0xO1A03ZPU3uXGQRd7fU5hErqJ83GXb4ozWtrTChrZ6xwE7TzTD149Gfu4fugNeroSwtWDqZ2p9t/Hfi9C+NvUEg"
+  },
+  "productKeyCheck": {
+    "passhold": "ANuJEmJxCzBeGlTflKErtuQuDAiYQfDO3JTbezSs/H4=",
+    "authenticator": "RVhZiRiZTbtmFDz6Q9BJOY9/Ioym4Oh5PwyUtadMkCM="
+  },
+  "pairing": {
+    "requester": {
+      "privateKey": {
+        "key_ops": [
+          "deriveBits"
+        ],
+        "ext": true,
+        "kty": "EC",
+        "x": "kAKM3hiv8UOmUw_dqqZzZb9BrL7dbY-V6Z_eoO2tq7o",
+        "y": "9ANOZxa_vlhIleWAtFNasNNoZ-i8753wpwO2NRV0Tw4",
+        "crv": "P-256",
+        "d": "fYkNTrRvYPXpc7qazVUySvJ9KVVZ9M8cfIdJC2OFdnA"
+      },
+      "publicKey": "BJACjN4Yr/FDplMP3aqmc2W/Qay+3W2Plemf3qDtrau69ANOZxa/vlhIleWAtFNasNNoZ+i8753wpwO2NRV0Tw4="
+    },
+    "approverPublicKey": "BGJegZSeIdbvXxi6yfNOjDqOJkkqlObXlaOvuEhCT9G5ECIW4KEVlSyUU3pq0tEW/ozkQicAfbclT4ikyz7WIDs=",
+    "code": "6J8C7-JTVHY-3NM24",
+    "wrap": {
+      "iv": "spTj6h6wQvSRY2Vm",
+      "ct": "uMrMhpsvs2nvckjmNujKJK1D27Qm3zoTGswqTemr+x2rxIfC6kawyZzpvhZpo/v3"
+    }
+  }
+}

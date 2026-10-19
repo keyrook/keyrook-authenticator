@@ -1,5 +1,4 @@
-import type { SealedBox } from '../crypto/aead.js';
-import type { KdfParams } from '../crypto/kdf.js';
+import type { KdfParams, RecoveryWrap, SealedBox } from '@keyrook/account';
 import type { OtpAlgorithm, OtpType } from '../otp/types.js';
 
 /**
@@ -19,17 +18,6 @@ export interface VaultProtection {
   /** Present for `passphrase` only. */
   kdf: KdfParams | null;
   wrappedKey: SealedBox;
-}
-
-/**
- * A second, independent wrapping of the same data key under the user's
- * emergency recovery key. Independent of `protection`, so a forgotten password
- * — or a device key that vanished with the browser profile — is survivable.
- */
-export interface RecoveryWrap {
-  kdf: KdfParams;
-  wrappedKey: SealedBox;
-  createdAt: number;
 }
 
 /**
@@ -146,6 +134,32 @@ export interface AccountState {
   method?: 'password' | 'provider';
   /** For a provider account: which one. */
   provider?: 'google' | 'github';
+  /**
+   * Keyrook Authenticator's key on the account, as this device last opened it
+   * (keys per product). Absent while the account has no root — every account
+   * made before 0.4 — when the vault key is the account's data key as before.
+   */
+  keys?: AccountKeyState;
+}
+
+/**
+ * What this device knows of the account's keys. The root is the one it
+ * pinned: a server that later reports another, or none, is caught by it.
+ */
+export interface AccountKeyState {
+  accountId: string;
+  /** The root's public half this device trusts. */
+  root: string;
+  rootGeneration: number;
+  keyGeneration: number;
+  /** When the recovery key was last seen protecting this product, or null. */
+  sheetVerifiedAt: number | null;
+  /**
+   * The key this one replaced, raw, while records sealed under it may still
+   * be on the server: kept until every record has gone up under the new one.
+   * Inside the sealed payload, like every secret here.
+   */
+  previousKey?: string;
 }
 
 export const DEFAULT_ACCOUNT: AccountState = {

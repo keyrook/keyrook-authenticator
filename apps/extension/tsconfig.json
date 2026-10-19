@@ -16,27 +16,44 @@
       "@authx/core": [
         "../../packages/core/src/index.ts"
       ],
+      "@authx/service/*": [
+        "../../packages/service/src/*"
+      ],
+      "@authx/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@keyrook/account": [
+        "../../vendor/keyrook-account/src/index.ts"
+      ],
       "@keyrook/brand": [
-        "../../packages/brand/src/index.ts"
+        "../../vendor/keyrook-brand/src/index.ts"
       ],
       "~/*": [
         "./src/*"
       ]
     },
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "rootDir": "../.."
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "dev/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "../../vendor/keyrook-brand/src/**/*.ts"
   ],
   "references": [
+    {
+      "path": "../../vendor/keyrook-account"
+    },
     {
       "path": "../../packages/core"
     },
     {
-      "path": "../../packages/brand"
+      "path": "../../packages/ui"
+    },
+    {
+      "path": "../../packages/service"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@authx/extension",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "Keyrook Authenticator — Chrome MV3 extension.",
@@ -10,7 +10,7 @@
     "build:as-edge": "node scripts/build.mjs --as-edge",
     "build:watch": "node scripts/build.mjs && vite build --watch",
     "dev": "vite",
-    "icons": "node --experimental-strip-types ../../scripts/gen-icons.mjs public/icons",
+    "icons": "node ../../scripts/gen-icons.mjs public/icons",
     "icons:brands": "node --experimental-strip-types ../../scripts/gen-brands.mjs",
     "shots": "VITE_SYNC_API_URL=http://localhost:8799 npm run build && playwright test --project=shots && npm run build",
     "review": "VITE_SYNC_API_URL=http://localhost:8799 npm run build && playwright test --project=review",
@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@authx/core": "*",
-    "jsqr": "^1.4.0",
-    "qr": "0.7.2",
+    "@authx/service": "*",
+    "@authx/ui": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

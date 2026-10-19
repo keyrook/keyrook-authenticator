@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { LOCALES } from '../src/i18n/locales.js';
+import { LOCALES } from '@authx/ui/i18n/locales.js';
 
 /**
  * What each store will take, in every language the listing is written in.

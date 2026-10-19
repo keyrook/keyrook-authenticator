@@ -2,10 +2,16 @@
   "files": [],
   "references": [
     {
+      "path": "./vendor/keyrook-account"
+    },
+    {
       "path": "./packages/core"
     },
     {
-      "path": "./packages/brand"
+      "path": "./packages/ui"
+    },
+    {
+      "path": "./packages/service"
     },
     {
       "path": "./apps/extension"

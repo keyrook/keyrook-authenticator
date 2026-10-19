@@ -1,0 +1,16 @@
+{
+  "name": "@authx/service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The vault's one writer: answers every page's request, one write at a time. The platform is behind a Platform each app installs.",
+  "license": "GPL-3.0-or-later",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@authx/core": "*",
+    "@authx/ui": "*"
+  }
+}

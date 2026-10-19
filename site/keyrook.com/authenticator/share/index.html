@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Generated from site/src/share.html and site/src/share.ts by
+     scripts/render-site.mjs. Edit those, not this.
+
+     The codes are in the address, after the #, which a browser never sends
+     to the server. The script reads them from there and the time from the
+     clock, and does nothing else.
+
+     The policy below is the page's promise, enforced by the browser: nothing
+     loaded from anywhere, no connection of any kind, and no script but the one
+     at the bottom, by its hash. Nothing injected into the page on its way
+     here can run. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TUwIMP3QAvaeBRKaLH9dVA4qiPGDTaeUqHb6j/Jg4Uo='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>A two-factor code shared with you — Keyrook Authenticator</title>
+<meta name="description" content="Someone sent you two-factor codes for a while. They show here until the link ends.">
+<!-- Each link is someone's codes: no search engine should keep one. -->
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="A two-factor code shared with you">
+<meta property="og:description" content="Codes for a while, shown in your browser until the link ends.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' aria-hidden='true'%3E%3Cpath d='M50.35 33.1 C49.4 25.09 49.11 17.06 49.48 9' fill='none' stroke='%233A6FDB' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M61.01 38.39 C67.64 33.37 73.73 27.78 79.3 21.61' fill='none' stroke='%23F2B21B' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M66.8 49.77 C74.55 50.68 82.31 50.87 90.1 50.34' fill='none' stroke='%23E0493A' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M61.47 62.13 C67.9 67.17 73.93 72.65 79.54 78.57' fill='none' stroke='%232FA05A' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M50.28 66.2 C49.42 74.21 49.18 82.25 49.58 90.3' fill='none' stroke='%233A6FDB' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M37.75 61.79 C32.85 68.12 27.41 73.94 21.41 79.25' fill='none' stroke='%23F2B21B' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M33.7 49.74 C25.55 50.65 17.39 50.86 9.2 50.38' fill='none' stroke='%23E0493A' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M37.78 38.32 C33.04 32.21 27.81 26.55 22.1 21.33' fill='none' stroke='%232FA05A' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  /* @keyrook/brand — copied from vendor/keyrook-brand/brand.css by scripts/site-brand.mjs. Change it in keyrook-brand. */
+:root {
+  --kr-ink: #22201C;
+  --kr-paper: #FBF8F2;
+  --kr-neutral-0: #FFFFFF;
+  --kr-neutral-50: #FBF8F2;
+  --kr-neutral-100: #F3EEE4;
+  --kr-neutral-200: #E6DFD1;
+  --kr-neutral-300: #CFC7B7;
+  --kr-neutral-400: #A69F92;
+  --kr-neutral-500: #7E786D;
+  --kr-neutral-600: #5C574F;
+  --kr-neutral-700: #403C36;
+  --kr-neutral-800: #2C2925;
+  --kr-neutral-900: #22201C;
+  --kr-neutral-950: #1A1916;
+  --kr-blue-50: #EFF3FC;
+  --kr-blue-100: #DFE8F9;
+  --kr-blue-200: #BCCEF3;
+  --kr-blue-300: #95B1EC;
+  --kr-blue-400: #6992E4;
+  --kr-blue-500: #3A6FDB;
+  --kr-blue-600: #3561BB;
+  --kr-blue-700: #30539C;
+  --kr-blue-800: #2B467C;
+  --kr-blue-900: #263A61;
+  --kr-red-50: #FDF0EF;
+  --kr-red-100: #FAE2DF;
+  --kr-red-200: #F4C1BC;
+  --kr-red-300: #EE9D95;
+  --kr-red-400: #E77569;
+  --kr-red-500: #E0493A;
+  --kr-red-600: #C04134;
+  --kr-red-700: #A13A2E;
+  --kr-red-800: #813229;
+  --kr-red-900: #652B24;
+  --kr-yellow-50: #FEF9ED;
+  --kr-yellow-100: #FDF3DB;
+  --kr-yellow-200: #FBE5B1;
+  --kr-yellow-300: #F8D584;
+  --kr-yellow-400: #F5C452;
+  --kr-yellow-500: #F2B21B;
+  --kr-yellow-600: #CF9A1A;
+  --kr-yellow-700: #AD8119;
+  --kr-yellow-800: #8A6919;
+  --kr-yellow-900: #6C5318;
+  --kr-green-50: #EEF7F2;
+  --kr-green-100: #DEF0E5;
+  --kr-green-200: #B8DFC7;
+  --kr-green-300: #8FCCA6;
+  --kr-green-400: #61B782;
+  --kr-green-500: #2FA05A;
+  --kr-green-600: #2C8A4F;
+  --kr-green-700: #287544;
+  --kr-green-800: #255F39;
+  --kr-green-900: #224C30;
+  --kr-font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --kr-font-mono: 'SF Mono', ui-monospace, 'JetBrains Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+  --kr-line-hair: 1.5px;
+  --kr-line-pen: 2px;
+  --kr-line-marker: 3px;
+  --kr-radius-sketch: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --kr-radius-sketch-small: 14px 4px 12px 4px / 4px 12px 4px 14px;
+  --kr-radius-sketch-alt: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  --kr-radius-sketch-small-alt: 4px 14px 4px 12px / 12px 4px 14px 4px;
+  --kr-space-1: 4px;
+  --kr-space-2: 8px;
+  --kr-space-3: 12px;
+  --kr-space-4: 16px;
+  --kr-space-5: 20px;
+  --kr-space-6: 24px;
+  --kr-space-8: 32px;
+  --kr-space-10: 40px;
+  --kr-space-12: 48px;
+  --kr-space-16: 64px;
+  --kr-space-24: 96px;
+  --kr-motion-fast: 120ms;
+  --kr-motion-base: 200ms;
+  --kr-motion-slow: 400ms;
+  --kr-motion-draw: 700ms;
+  --kr-motion-stagger: 40ms;
+  --kr-motion-wait: 300ms;
+  --kr-motion-hold: 1500ms;
+  --kr-motion-toast: 4000ms;
+  --kr-boil-step: 150ms;
+  --kr-boil-rounds: 4;
+  --kr-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --kr-ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --kr-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --kr-ease-settle: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* What a page reads. Light by default; dark below. */
+  --kr-page: var(--kr-paper);
+  --kr-surface: var(--kr-neutral-0);
+  --kr-surface-sunken: var(--kr-neutral-100);
+  --kr-text: var(--kr-ink);
+  --kr-text-muted: var(--kr-neutral-600);
+  --kr-line: var(--kr-neutral-200);
+  --kr-line-strong: var(--kr-neutral-500);
+  --kr-crow-ink: var(--kr-ink);
+  --kr-focus: var(--kr-blue-500);
+  --kr-highlight: var(--kr-yellow-200);
+  --kr-shadow-raised: 3px 4px 0 rgba(34, 32, 28, 0.14);
+  --kr-shadow-floating: 5px 7px 0 rgba(34, 32, 28, 0.16);
+  --kr-action: var(--kr-blue-600);
+  --kr-danger: var(--kr-red-600);
+  --kr-warning: var(--kr-yellow-800);
+  --kr-success: var(--kr-green-700);
+}
+
+[data-theme='dark'] {
+  --kr-page: var(--kr-neutral-950);
+  --kr-surface: var(--kr-neutral-900);
+  --kr-surface-sunken: var(--kr-neutral-800);
+  --kr-text: var(--kr-paper);
+  --kr-text-muted: var(--kr-neutral-400);
+  --kr-line: var(--kr-neutral-700);
+  --kr-line-strong: var(--kr-neutral-400);
+  --kr-crow-ink: var(--kr-paper);
+  --kr-focus: var(--kr-blue-300);
+  --kr-highlight: var(--kr-yellow-900);
+  --kr-shadow-raised: 3px 4px 0 rgba(0, 0, 0, 0.4);
+  --kr-shadow-floating: 5px 7px 0 rgba(0, 0, 0, 0.45);
+  --kr-action: var(--kr-blue-300);
+  --kr-danger: var(--kr-red-300);
+  --kr-warning: var(--kr-yellow-300);
+  --kr-success: var(--kr-green-300);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --kr-page: var(--kr-neutral-950);
+    --kr-surface: var(--kr-neutral-900);
+    --kr-surface-sunken: var(--kr-neutral-800);
+    --kr-text: var(--kr-paper);
+    --kr-text-muted: var(--kr-neutral-400);
+    --kr-line: var(--kr-neutral-700);
+    --kr-line-strong: var(--kr-neutral-400);
+    --kr-crow-ink: var(--kr-paper);
+    --kr-focus: var(--kr-blue-300);
+    --kr-highlight: var(--kr-yellow-900);
+    --kr-shadow-raised: 3px 4px 0 rgba(0, 0, 0, 0.4);
+    --kr-shadow-floating: 5px 7px 0 rgba(0, 0, 0, 0.45);
+    --kr-action: var(--kr-blue-300);
+    --kr-danger: var(--kr-red-300);
+    --kr-warning: var(--kr-yellow-300);
+    --kr-success: var(--kr-green-300);
+  }
+}
+/* end of @keyrook/brand */
+
+  /* The page's names for the brand's roles: ink on paper, paper on night, blue acts. */
+  :root {
+    --bg: var(--kr-page); --surface: var(--kr-surface); --fg: var(--kr-text); --muted: var(--kr-text-muted);
+    --rule: var(--kr-line); --brand: var(--kr-action); --brand-ink: var(--kr-neutral-0); --brand-soft: var(--kr-blue-50);
+    --danger: var(--kr-danger); --amber: var(--kr-warning); --field: var(--kr-surface);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) { --brand-ink: var(--kr-neutral-950); --brand-soft: var(--kr-blue-900); --field: var(--kr-neutral-950); }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 17px/1.6 var(--kr-font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--brand); text-underline-offset: .18em; }
+  [hidden] { display: none !important; }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 640px) { .wrap { padding: 0 2rem; } }
+
+  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; padding: 1.25rem 0; }
+  .brand { display: flex; align-items: center; gap: .6rem; font-weight: 600; color: var(--fg); text-decoration: none; white-space: nowrap; }
+  .brand svg { width: 30px; height: 30px; flex: none; }
+  nav { margin-left: auto; display: flex; gap: 1.25rem; font-size: .95rem; }
+  nav a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  /* The name is two words: on a phone the links go under it rather than squeeze it. */
+  @media (max-width: 520px) { nav { margin-left: 0; } }
+  nav a:hover { color: var(--fg); }
+
+  h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; margin: 2.5rem 0 1rem; }
+  .lede { color: var(--muted); font-size: 1.08rem; margin: 0 0 2rem; }
+
+  /* A box drawn by hand, laid on the page as cut paper. */
+  .panel {
+    background: var(--surface); border: var(--kr-line-pen) solid var(--fg); border-radius: var(--kr-radius-sketch-small); padding: 1.25rem;
+    box-shadow: var(--kr-shadow-floating);
+  }
+  label { display: block; font-size: .9rem; font-weight: 600; margin-bottom: .45rem; }
+  textarea {
+    width: 100%; resize: vertical; min-height: 4.2rem; padding: .8rem .9rem; border-radius: 12px;
+    border: 1px solid var(--rule); background: var(--field); color: var(--fg);
+    font: 15px/1.5 var(--kr-font-mono);
+  }
+  textarea:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--kr-focus); outline-offset: 2px; }
+  .error { color: var(--danger); font-size: .88rem; margin: .5rem 0 0; }
+  .line { color: var(--muted); font-size: .88rem; margin: .7rem 0 0; }
+  .link { background: none; border: 0; padding: 0; font: inherit; color: var(--brand); font-weight: 600; cursor: pointer; }
+  .link:hover { text-decoration: underline; }
+  .settings { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; margin-top: .8rem; font-size: .88rem; color: var(--muted); }
+  .settings label { display: inline-flex; align-items: center; gap: .45rem; margin: 0; font-weight: 500; }
+  select {
+    padding: .35rem .5rem; border-radius: 8px; border: 1px solid var(--rule); background: var(--field); color: var(--fg);
+    font: inherit;
+  }
+
+  .result {
+    display: flex; align-items: center; gap: 1rem; margin-top: 1.1rem; padding: 1rem 1.1rem;
+    border-radius: 14px; background: var(--brand-soft);
+  }
+  .code {
+    flex: 1; min-width: 0; background: none; border: 0; padding: 0; text-align: left; color: var(--fg); cursor: pointer;
+    font: 600 clamp(2rem, 8vw, 2.6rem)/1.1 var(--kr-font-mono);
+    letter-spacing: .06em; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate;
+  }
+  .next { color: var(--muted); font-size: .85rem; margin: .2rem 0 0; }
+  .ring { width: 44px; height: 44px; flex: none; }
+  .ring .track { fill: none; stroke: var(--rule); stroke-width: 3; }
+  .ring .left { fill: none; stroke: var(--brand); stroke-width: 3; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 15px 15px; transition: stroke-dashoffset .25s linear; }
+  .ring.urgent .left { stroke: var(--amber); }
+  .ring text { font: 600 9px var(--kr-font-mono); fill: var(--muted); }
+  .account { margin: .7rem 0 0; font-size: .9rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .buttons { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+  .button, .quiet {
+    display: inline-flex; align-items: center; min-height: 44px; padding: .6rem 1.05rem; font: 600 .95rem/1.2 inherit;
+    border: var(--kr-line-pen) solid var(--fg); border-radius: var(--kr-radius-sketch-small);
+    cursor: pointer; text-decoration: none;
+    transition: transform var(--kr-motion-base) var(--kr-ease-settle);
+  }
+  .button { background: var(--brand); color: var(--brand-ink); }
+  .quiet { background: transparent; color: var(--fg); border-radius: var(--kr-radius-sketch-small-alt); }
+  .button:active, .quiet:active { transform: scale(.97); transition-duration: var(--kr-motion-fast); }
+  @media (prefers-reduced-motion: reduce) { .button, .quiet, .button:active, .quiet:active { transform: none; transition: none; } }
+
+  section { margin: 3rem 0; }
+  h2 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 .6rem; }
+  section p { color: var(--muted); margin: 0 0 .9rem; }
+  .apps { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+
+  footer { border-top: 1px solid var(--rule); padding: 1.5rem 0 2.5rem; font-size: .9rem; color: var(--muted); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; }
+  footer .links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  footer a { color: var(--muted); }
+
+  .status { margin: 0; font-size: 1rem; }
+  .ended { color: var(--muted); }
+  .until { color: var(--muted); font-size: .9rem; margin: .8rem 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#mark"/></svg>
+      Keyrook Authenticator
+    </a>
+    <nav>
+      <a href="../">Home</a>
+      <a href="../privacy/">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>A two-factor code shared with you</h1>
+    <p class="lede">Someone sent you the codes for one of their accounts, for a while. Use the
+    one showing now; it changes on its own. When the link ends, the codes stop.</p>
+
+    <div class="panel">
+      <p id="account" class="account" hidden></p>
+      <p id="status" class="status" role="status"></p>
+
+      <div id="result" class="result" hidden>
+        <div style="flex:1;min-width:0">
+          <button id="code" class="code" type="button" title="Click to copy" aria-label="Current code"></button>
+          <p id="next-line" class="next">Next: <span id="next"></span></p>
+        </div>
+        <svg id="ring" class="ring" viewBox="0 0 30 30" role="timer" aria-label="Seconds until the code changes">
+          <circle class="track" cx="15" cy="15" r="12"/>
+          <circle class="left" cx="15" cy="15" r="12" stroke-dasharray="75.4" stroke-dashoffset="0"/>
+          <text x="15" y="18" text-anchor="middle"></text>
+        </svg>
+      </div>
+      <p id="until" class="until" hidden></p>
+
+      <div id="buttons" class="buttons" hidden>
+        <button id="copy" type="button" class="button">Copy</button>
+      </div>
+    </div>
+
+    <section>
+      <h2>What is this?</h2>
+      <p>The link holds the codes for a set time, worked out ahead by Keyrook Authenticator
+      on the sender’s computer — never the key that makes them. When that time is over
+      there is nothing left in it to show, on this device or any other.</p>
+      <p>This page cannot send the codes anywhere. Its Content Security Policy forbids it to
+      load or send anything, and to run any script but its own; and the part of the link
+      that holds them, after the #, is never sent to a server. Anyone who has the link can
+      see the codes until it ends, so keep it to yourself.</p>
+      <div class="apps">
+        <a class="button" href="https://chromewebstore.google.com/detail/occcfljfhlijenkofoceocnimkfpdndl">Add Keyrook Authenticator to Chrome</a>
+        <a class="quiet" href="https://microsoftedge.microsoft.com/addons/detail/lnbabkbknabedpnmdihllnbhdmolianm">Add to Microsoft Edge</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 BRICK IT ALL LLC</span>
+    <span class="links">
+      <a href="../privacy/">Privacy policy</a>
+      <a href="https://github.com/keyrook/keyrook-authenticator">Source code</a>
+      <a href="/">Keyrook</a>
+    </span>
+  </div>
+</footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+<!-- @keyrook/brand icons: mark -->
+<symbol id="mark" viewBox="0 0 100 100"><path d="M50.32 34.6 C48.58 26.45 48.31 18.25 49.5 10" fill="none" stroke="#3A6FDB" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M59.98 39.48 C67.36 35.03 73.56 29.3 78.58 22.3" fill="none" stroke="#F2B21B" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M65.3 49.79 C73.2 51.57 81.13 51.75 89.1 50.33" fill="none" stroke="#E0493A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M60.44 61.04 C67.47 65.67 73.6 71.28 78.83 77.88" fill="none" stroke="#2FA05A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M50.26 64.7 C48.63 72.86 48.41 81.06 49.59 89.3" fill="none" stroke="#3A6FDB" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M38.83 60.75 C34.47 67.82 28.9 73.75 22.11 78.54" fill="none" stroke="#F2B21B" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M35.2 49.77 C26.91 51.5 18.57 51.71 10.2 50.38" fill="none" stroke="#E0493A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M38.87 39.36 C34.59 32.59 29.23 26.82 22.8 22.05" fill="none" stroke="#2FA05A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<!-- end of @keyrook/brand icons -->
+  </defs>
+</svg>
+
+<!-- data-cfasync keeps this tag as written, so the policy's hash still
+     matches. -->
+<script data-cfasync="false">(()=>{function p(t){return t.length===6?`${t.slice(0,3)} ${t.slice(3)}`:t.length===8?`${t.slice(0,4)} ${t.slice(4)}`:t.length===7?`${t.slice(0,4)} ${t.slice(4)}`:t}var M=1,O=128,$=60,D=[15,30,60,90,120];function _(t){return(t.start+t.codes.length)*t.period*1e3}function k(t){let e=t.replace(/^#/,"").trim();if(!e)throw new Error("This link has no codes in it.");if(e.length>4096||!/^[A-Za-z0-9_-]+$/.test(e))throw new Error("This link is damaged.");let n;try{let i=JSON.parse(new TextDecoder("utf-8",{fatal:!0}).decode(B(e)));if(typeof i!="object"||i===null||Array.isArray(i))throw new Error;n=i}catch{throw new Error("This link is damaged.")}if(typeof n.v=="number"&&n.v>M)throw new Error("This link was made by a newer version of Keyrook Authenticator.");let{v:c,i:a,l:E,d:o,p:u,s:g,c:d}=n,T=i=>typeof i=="string"&&i.length<=O;if(c!==M||!T(a)||!T(E)||typeof o!="number"||!Number.isInteger(o)||o<6||o>10||typeof u!="number"||!D.includes(u)||typeof g!="number"||!Number.isSafeInteger(g)||g<0||typeof d!="string"||!/^\d+$/.test(d)||d.length%o!==0)throw new Error("This link is damaged.");let f=d.length/o;if(f<1||f>Math.ceil($*60/u)+1)throw new Error("This link is damaged.");let v=Array.from({length:f},(i,C)=>d.slice(C*o,(C+1)*o));return{issuer:a,label:E,digits:o,period:u,start:g,codes:v}}function H(t,e=Date.now()){let n=e/1e3,c=Math.floor(n/t.period);if(c<t.start)return{state:"early",startsIn:t.start*t.period-n};let a=c-t.start;return a>=t.codes.length?{state:"ended"}:{state:"code",code:t.codes[a],next:t.codes[a+1]??null,remaining:(c+1)*t.period-n,endsAt:_(t)}}function B(t){let e=atob(t.replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(e,n=>n.charCodeAt(0))}var r=t=>document.getElementById(t),m=r("account"),h=r("status"),y=r("result"),P=r("code"),R=r("next"),N=r("next-line"),w=r("until"),b=r("buttons"),S=r("copy"),A=r("ring"),j=A.querySelector(".left"),G=A.querySelector("text"),V=2*Math.PI*12,s=null,l="",U=0;function x(t,e=!1){h.textContent=t,h.hidden=!1,h.classList.toggle("ended",e)}function K(t){return new Date(t).toLocaleTimeString(void 0,{hour:"2-digit",minute:"2-digit"})}function W(t){s=null,l="",y.hidden=!0,w.hidden=!0,b.hidden=!0,x(t,!0),clearInterval(U),history.replaceState(null,"",location.pathname)}function L(){if(!s)return;let t=H(s,Date.now());if(t.state==="ended"){W("This link has ended, and its codes are gone. Ask whoever sent it for a new one if you still need a code.");return}if(t.state==="early"){y.hidden=!0,b.hidden=!0,x(`This link starts in ${Math.ceil(t.startsIn)} seconds. If that seems wrong, check the time on this device.`);return}h.hidden=!0,y.hidden=!1,b.hidden=!1,t.code!==l&&(l=t.code,P.textContent=p(t.code),S.textContent="Copy"),N.hidden=t.next===null,R.textContent=t.next?p(t.next):"",j.setAttribute("stroke-dashoffset",String(V*(1-t.remaining/s.period))),G.textContent=String(Math.ceil(t.remaining)),A.classList.toggle("urgent",t.remaining<=8);let e=Math.round((t.endsAt-Date.now())/6e4),n=e<1?"in under a minute":`in ${e} minute${e===1?"":"s"}`;w.textContent=`This link ends at ${K(t.endsAt)}, ${n}.`,w.hidden=!1}async function I(){l&&(await navigator.clipboard.writeText(l),S.textContent="Copied")}addEventListener("hashchange",()=>{location.hash&&location.reload()});P.addEventListener("click",()=>void I());S.addEventListener("click",()=>void I());try{s=k(location.hash),m.textContent=[s.issuer,s.label].filter(Boolean).join(" · "),m.hidden=!m.textContent,L(),U=window.setInterval(L,250)}catch(t){x(t instanceof Error?t.message:"This link is damaged.",!0)}})();</script>
+</body>
+</html>

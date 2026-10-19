@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { DecryptionError } from '../src/crypto/aead.js';
+import { DecryptionError } from '@keyrook/account';
 import { importFromText, type ImportResult } from '../src/vault/backup.js';
 import { recogniseForeignBytes, recogniseForeignExport, type ForeignApp } from '../src/vault/foreign.js';
 import { parseOtpUri } from '../src/otp/uri.js';

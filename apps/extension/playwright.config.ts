@@ -2,11 +2,13 @@ import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from '@playwright/test';
 
-// The sync suite drives two browsers against the sync server. The server is
-// not part of the open-source tree, and the extension does not trust it
-// anyway — so where it is absent, only the suites that need nothing but the
-// extension run.
-const hasSyncServer = existsSync(resolve(import.meta.dirname, '../server/package.json'));
+// The sync suite drives two browsers against the sync server: keyrook-account's,
+// from the kit copied into vendor/ (npm run account). The kit is not part of
+// the open-source tree, and the extension does not trust the server anyway —
+// so where it is absent, only the suites that need nothing but the extension
+// run.
+const DEV_SERVER = resolve(import.meta.dirname, '../../vendor/keyrook-account-kit/dev-server.mjs');
+const hasSyncServer = existsSync(DEV_SERVER);
 
 export default defineConfig({
 
@@ -37,7 +39,9 @@ export default defineConfig({
   ...(hasSyncServer
     ? {
         webServer: {
-          command: 'npm run dev:memory --workspace=@authx/server',
+          // In memory, on :8799, its mailbox at /__dev/mailbox and stand-in
+          // Google and GitHub sign-ins: the extension's e2e build points there.
+          command: 'node vendor/keyrook-account-kit/dev-server.mjs',
           port: 8799,
           cwd: '../..',
           reuseExistingServer: true,

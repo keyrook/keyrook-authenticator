@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { isStoredIcon, MAX_ICON_BYTES } from '../src/vault/model.js';
-import { newKdfParams } from '../src/crypto/kdf.js';
+import { newKdfParams } from '@keyrook/account';
 import { parseOtpUri } from '../src/otp/uri.js';
 import {
   addItem,

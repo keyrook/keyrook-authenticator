@@ -1,14 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { crockfordDecode, crockfordEncode, group } from '../src/util/crockford.js';
 import {
   attachRecoveryKit,
-  generateRecoveryKey,
   hasRecoveryKit,
-  isWellFormedRecoveryKey,
-  normaliseRecoveryKey,
   recoveryKitDocument,
   removeRecoveryKit,
-  RECOVERY_KEY_BYTES,
   unlockWithRecoveryKey,
 } from '../src/vault/recovery.js';
 import {
@@ -22,8 +17,7 @@ import {
   sealVault,
   unlockVaultWithPassword,
 } from '../src/vault/vault.js';
-import { DecryptionError } from '../src/crypto/aead.js';
-import { newKdfParams } from '../src/crypto/kdf.js';
+import { DecryptionError, generateRecoveryKey, newKdfParams, normaliseRecoveryKey } from '@keyrook/account';
 import { parseOtpUri } from '../src/otp/uri.js';
 
 const PASSWORD = 'correct horse battery staple';
@@ -46,65 +40,6 @@ async function deviceVault() {
   const data = addItem(vault.data, itemFromUri(parseOtpUri(ITEM)));
   return { ...vault, file: await sealVault(vault.file, vault.dataKey, data), deviceKey: key };
 }
-
-describe('Crockford base32', () => {
-  it('round-trips arbitrary bytes', () => {
-    const bytes = crypto.getRandomValues(new Uint8Array(20));
-    expect(crockfordDecode(crockfordEncode(bytes))).toEqual(bytes);
-  });
-
-  it('never emits the confusable letters', () => {
-    for (let attempt = 0; attempt < 200; attempt++) {
-      const encoded = crockfordEncode(crypto.getRandomValues(new Uint8Array(20)));
-      expect(encoded).not.toMatch(/[ILOU]/);
-    }
-  });
-
-  it('forgives what people actually type', () => {
-    const canonical = crockfordEncode(new Uint8Array([0xde, 0xad, 0xbe, 0xef]));
-    // Lower case, their own spacing, and O/I written where 0/1 were meant.
-    const asTyped = group(canonical, 4, ' ')
-      .toLowerCase()
-      .replace(/0/g, 'O')
-      .replace(/1/g, 'l');
-    expect(crockfordDecode(asTyped)).toEqual(crockfordDecode(canonical));
-  });
-
-  it('rejects a character that is not in the alphabet', () => {
-    expect(() => crockfordDecode('ABC$')).toThrow(/not part of a recovery key/);
-    expect(() => crockfordDecode('   ')).toThrow(/empty/);
-  });
-
-  it('groups for legibility', () => {
-    expect(group('ABCDEFGH')).toBe('ABCD-EFGH');
-  });
-});
-
-describe('recovery keys', () => {
-  it('is 160 bits, shown in groups of four', () => {
-    const key = generateRecoveryKey();
-    expect(key).toMatch(/^[0-9A-HJKMNP-TV-Z]{4}(-[0-9A-HJKMNP-TV-Z]{4}){7}$/);
-    expect(crockfordDecode(key)).toHaveLength(RECOVERY_KEY_BYTES);
-  });
-
-  it('is different every time', () => {
-    const keys = new Set(Array.from({ length: 50 }, generateRecoveryKey));
-    expect(keys.size).toBe(50);
-  });
-
-  it('recognises a well-formed key and rejects a truncated one', () => {
-    expect(isWellFormedRecoveryKey(generateRecoveryKey())).toBe(true);
-    expect(isWellFormedRecoveryKey('ABCD-EFGH')).toBe(false);
-    expect(isWellFormedRecoveryKey('not a key at all!')).toBe(false);
-  });
-
-  it('normalises to one canonical form', () => {
-    const key = generateRecoveryKey();
-    expect(normaliseRecoveryKey(key.toLowerCase().replace(/-/g, ' '))).toBe(
-      normaliseRecoveryKey(key),
-    );
-  });
-});
 
 describe('the kit', () => {
   it('opens the vault without the master password', async () => {

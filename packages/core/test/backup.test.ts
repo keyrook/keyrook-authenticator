@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DecryptionError } from '../src/crypto/aead.js';
+import { DecryptionError } from '@keyrook/account';
 import {
   dedupeAgainst,
   exportEncryptedBackup,

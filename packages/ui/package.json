@@ -1,0 +1,21 @@
+{
+  "name": "@authx/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The screens every Keyrook Authenticator app shows, in React. The platform is behind a Host each app installs.",
+  "license": "GPL-3.0-or-later",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "dependencies": {
+    "@authx/core": "*",
+    "jsqr": "^1.4.0",
+    "qr": "0.7.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

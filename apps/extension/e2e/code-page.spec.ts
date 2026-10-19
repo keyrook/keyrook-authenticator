@@ -103,8 +103,7 @@ test('the key cannot leave the page, and no other script can run in it', async (
 
 /**
  * The other pages hold to the same rule: their own script, if any, and no
- * other. Cloudflare injects an analytics beacon into every page it serves for
- * keyrook.com; these are what keep it from running.
+ * other, so nothing injected into a page on its way to the browser runs.
  */
 async function serve(page: Page, file: string, url: string) {
   const html = readFileSync(resolve(import.meta.dirname, '../../../site/keyrook.com/authenticator', file), 'utf8');

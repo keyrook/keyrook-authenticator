@@ -34,7 +34,7 @@ Three of these require more than a mention:
 - **Streamline Logos** — CC BY 4.0, attribution required.
 - **Arcticons** — CC BY-SA 4.0. Attribution is required, and the ShareAlike term
   applies: the Arcticons-derived entries in
-  `apps/extension/src/ui/brand-icons.ts` remain under CC BY-SA 4.0, and anyone
+  `packages/ui/src/components/brand-icons.ts` remain under CC BY-SA 4.0, and anyone
   redistributing modified versions of *those icons* must do so under the same
   licence. It does not reach the rest of the extension, which is a separate
   work. Arcticons is tried last and is only reached for services no other set

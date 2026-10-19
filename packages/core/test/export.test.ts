@@ -3,6 +3,7 @@ import {
   encodeMigrationUris,
   exportAegisJson,
   exportBitwardenJson,
+  exportPlainUris,
   importFromText,
   parseMigrationUri,
   type Group,
@@ -216,5 +217,20 @@ describe('the key in a setup link', () => {
       const now = Date.UTC(2026, 9, 5, 12);
       expect(await generateTotp(parseOtpUri(uri).secret, {}, now)).toBe(await generateTotp(item.secret, {}, now));
     }
+  });
+});
+
+describe('an account with no setup key', () => {
+  // What a build before 0.4 restored from an empty entry: no key, no name.
+  // Every format carries the key, so it has nothing to give; left in, it
+  // threw and took the whole export with it.
+  const empty: VaultItem = { ...github, id: 'empty', issuer: '', label: '', secret: '' };
+
+  it('is left out of every export, and the others still go', () => {
+    expect(exportPlainUris([github, empty])).toBe(buildOtpUri(github));
+    const aegis = JSON.parse(exportAegisJson([github, empty], [])) as { db: { entries: unknown[] } };
+    expect(aegis.db.entries).toHaveLength(1);
+    const bitwarden = JSON.parse(exportBitwardenJson([github, empty], [])) as { items: unknown[] };
+    expect(bitwarden.items).toHaveLength(1);
   });
 });

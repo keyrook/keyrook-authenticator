@@ -179,6 +179,18 @@ const chromeStub = {
     setTitle: async () => undefined,
   },
 
+  // The service worker listens for the fill shortcut as it loads; without
+  // this it throws there and no page ever gets an answer.
+  commands: {
+    onCommand: { addListener: () => undefined },
+    async getAll() {
+      return [
+        { name: '_execute_action', shortcut: 'Alt+Shift+A' },
+        { name: 'fill-code', shortcut: 'Alt+Shift+F' },
+      ];
+    },
+  },
+
   tabs: {
     async query() {
       return [{ id: 1, windowId: 1, url: 'https://github.com/settings/security', title: 'GitHub' }];
