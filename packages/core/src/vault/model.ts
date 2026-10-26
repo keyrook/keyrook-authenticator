@@ -21,6 +21,22 @@ export interface VaultProtection {
 }
 
 /**
+ * A master-password vault's second way in: a passkey — the computer's own
+ * check of the person, or a security key — (vault/passkey-unlock.ts). All of
+ * it safe to read; the key inside is wrapped by one only the passkey's PRF
+ * answer makes.
+ */
+export interface VaultPasskeyUnlock {
+  /** The passkey asked for, by id: never one the authenticator picks. */
+  credentialId: string;
+  /** What the passkey's PRF is asked about, base64: random, one per vault. */
+  prfInput: string;
+  /** The data key, wrapped by the key the PRF answer makes. */
+  wrappedKey: SealedBox;
+  createdAt: number;
+}
+
+/**
  * Ceiling on a stored custom icon.
  *
  * The sync server refuses a record whose encrypted box exceeds 64 KB, and
@@ -209,6 +225,13 @@ export interface VaultFile {
   protection: VaultProtection;
   /** Null until the user issues a recovery kit. */
   recovery: RecoveryWrap | null;
+  /**
+   * Opening with Touch ID, Windows Hello and the like. Absent or null when
+   * not turned on; a file from before it says nothing.
+   */
+  platformUnlock?: VaultPasskeyUnlock | null;
+  /** Opening with a security key and its PIN, the same way, beside it. */
+  securityKeyUnlock?: VaultPasskeyUnlock | null;
   /** `VaultData`, encrypted under the data key. */
   payload: SealedBox;
   createdAt: number;

@@ -5,9 +5,10 @@
  * The root is an ECDH P-256 key pair. Its public half sits on the server, and
  * each product seals its own data key to it (`box.ts`). Its private half is
  * stored only wrapped: once under a key derived from the account password,
- * once under the recovery key. It is in a device's memory only while a person
- * has just typed one of those two, and is dropped as soon as the product has
- * opened its own box.
+ * once under the recovery key, and once under each passkey that answers
+ * WebAuthn's PRF. It is in a device's memory only while a person has just
+ * typed one of the first two or touched the passkey, and is dropped as soon
+ * as the product has opened its own box.
  *
  * A product never trusts the public half because the server sent it. It
  * accepts one it derived itself, from a private half it just opened with the
@@ -18,17 +19,30 @@ import { DecryptionError, open, seal, type SealedBox } from '../crypto/aead.js';
 import { CURVE, importPublicPoint, publicPointOf, transcript } from '../crypto/ecdh.js';
 import type { AccountKeys } from '../sync/account.js';
 import { isWellFormedRecoveryKey, normaliseRecoveryKey } from '../sync/kit.js';
-import { toBase64, utf8, wipe } from '../util/bytes.js';
+import { fromBase64, toBase64, utf8, wipe } from '../util/bytes.js';
 import { crockfordDecode, crockfordEncode, group } from '../util/crockford.js';
 import { assertAccountId } from './product.js';
 
 const RECOVERY_INFO = 'keyrook:v1:root-recovery';
+const PASSKEY_INFO = 'keyrook:v1:root-passkey';
 const CHECK_INFO = 'keyrook:v1:root-check';
 const CONFIRM_INFO = 'keyrook:v1:root-confirm';
-const wrapAad = (accountId: string, under: 'password' | 'recovery') => {
+const wrapAad = (accountId: string, under: 'password' | 'recovery' | `passkey:${string}`) => {
   assertAccountId(accountId);
   return utf8(`keyrook.root:v1:${accountId}:${under}`);
 };
+
+/**
+ * What every page and product asks a passkey's PRF to answer. Fixed here and
+ * never sent by the server, so a server cannot steer which secret a passkey
+ * gives up, nor ask it for one meant for something else.
+ */
+export const PASSKEY_PRF_INPUT: Uint8Array = utf8('keyrook:v1:passkey-prf');
+
+/** A WebAuthn credential id as browsers write it: base64url, 16 to 1023 bytes. */
+export function assertCredentialId(credentialId: string): void {
+  if (!/^[A-Za-z0-9_-]{22,1364}$/.test(credentialId)) throw new Error('Malformed passkey id.');
+}
 
 export interface AccountRoot {
   /** Extractable, so it can be wrapped again under a new password or recovery key. Never stored as it is. */
@@ -111,6 +125,40 @@ export async function wrapRootUnderRecoveryKey(root: AccountRoot, recoveryKey: s
 /** Opens the root with the printed recovery key, however it was typed. */
 export async function openRootWithRecoveryKey(box: SealedBox, recoveryKey: string, accountId: string): Promise<AccountRoot> {
   return openRoot(box, await recoveryWrapKey(recoveryKey), wrapAad(accountId, 'recovery'));
+}
+
+/**
+ * The key a passkey wraps the root under: its PRF answer to
+ * `PASSKEY_PRF_INPUT`, 32 bytes no one but the passkey's holder can ask for,
+ * through HKDF with the credential's own id as salt, so two passkeys never
+ * share a key even if one answered for the other.
+ */
+async function passkeyWrapKey(prfOutput: Uint8Array, credentialId: string): Promise<CryptoKey> {
+  assertCredentialId(credentialId);
+  if (prfOutput.length !== 32) throw new Error('That passkey did not answer as one that unlocks.');
+  const material = await crypto.subtle.importKey('raw', prfOutput as BufferSource, 'HKDF', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name: 'HKDF', hash: 'SHA-256', salt: fromBase64(credentialId) as BufferSource, info: utf8(PASSKEY_INFO) as BufferSource },
+    material,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt'],
+  );
+}
+
+/** The root, wrapped under a passkey's PRF answer, for the server to hold beside that passkey. */
+export async function wrapRootUnderPasskey(root: AccountRoot, prfOutput: Uint8Array, accountId: string, credentialId: string): Promise<SealedBox> {
+  return sealRoot(root, await passkeyWrapKey(prfOutput, credentialId), wrapAad(accountId, `passkey:${credentialId}`));
+}
+
+/**
+ * Opens the root with a passkey's PRF answer. A wrap made for another passkey
+ * or another account, or any answer but this passkey's, fails as a
+ * `DecryptionError`; the public half comes from what opened, never from the
+ * server.
+ */
+export async function openRootWithPasskey(box: SealedBox, prfOutput: Uint8Array, accountId: string, credentialId: string): Promise<AccountRoot> {
+  return openRoot(box, await passkeyWrapKey(prfOutput, credentialId), wrapAad(accountId, `passkey:${credentialId}`));
 }
 
 /**

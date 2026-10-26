@@ -24,6 +24,7 @@ export const en = {
   'error.recoverOnAccountPage': 'Your recovery key is right, but this account’s password is now reset on the account page, for every Keyrook app at once.',
   'error.kitOnAccountPage': 'This account’s recovery key is now made on the account page, for every Keyrook app at once.',
   'error.restoreEmpty': 'Nothing of this account is left to bring back: it was deleted on another device before this one ever had it.',
+  'error.noAccountSheet': 'This account has no recovery key yet. Make one on the account page.',
   'error.recoveryKeyWrong': 'That recovery key does not match this account.',
   'error.noRecoveryKit': 'This vault does not have a recovery key.',
   'error.syncUnavailable': 'Sync is not available in this build.',
@@ -31,6 +32,8 @@ export const en = {
   'error.alreadySignedIn': 'Already signed in.',
   'error.signedOutElsewhere':
     'This device was signed out of sync — the password was changed or the device was removed on another one. Sign in again.',
+  'error.removedFromAccount':
+    'Another device removed this one from your Keyrook account, so the account’s codes were taken off it. Sign in again to bring them back.',
   'error.signOutUnsynced':
     'Some changes on this browser haven’t reached your account yet, and signing out now would lose them. Connect to the internet and try again.',
   'error.enterAccountPassword': 'Enter your account password.',
@@ -60,10 +63,10 @@ export const en = {
   'error.nothingWaiting': 'Nothing is waiting to be approved.',
   'error.pairingExpired': 'The request ended — it was declined, or ten minutes passed. Ask again.',
   'error.pairingWrongKey':
-    'The key that arrived is not this account’s. Nothing was changed. Try again from the other browser.',
-  'error.pairingForged': 'That approval did not come from the browser whose code you checked.',
+    'The key that arrived is not this account’s. Nothing was changed. Try again from the other device.',
+  'error.pairingForged': 'That approval did not come from the device whose code you checked.',
   'error.pairingForgedAsk':
-    'That approval did not come from the browser whose code was checked. Nothing was changed. Ask again.',
+    'That approval did not come from the device whose code was checked. Nothing was changed. Ask again.',
   'error.pairingEnded': 'That request has ended.',
   'error.approveAgain': 'Start approving that request again.',
   'error.backupPasswordShort': 'Backup password must be at least 8 characters.',
@@ -81,6 +84,24 @@ export const en = {
   'error.migrationNotOurs': 'Not a Google Authenticator export.',
   'error.migrationMalformed': 'This Google Authenticator export is damaged or incomplete.',
   'error.offline': 'Could not reach the sync server. Check your connection and try again.',
+  'error.passkey.wrongOrigin': 'A passkey answers only for Keyrook’s own page and apps.',
+  'error.passkey.notOffered': 'Passkeys are not offered here.',
+  'error.passkey.unchecked': 'That passkey could not be checked. Try again.',
+  'error.passkey.unknown': 'That passkey is not one any Keyrook account knows. It may have been removed.',
+  'error.passkey.ended': 'That passkey request has ended. Try again.',
+  'error.passkey.noUnlock': 'That passkey does not open this account’s key. Sign in with the password instead.',
+  'error.passkey.noUnlockProvider':
+    'That passkey does not open this account’s key. Continue with Google or GitHub instead.',
+  'error.passkey.masterPassword':
+    'A vault that locks with a master password cannot sign in with a passkey. Sign in with the account password, or with Google or GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator needs Chrome’s permission to use the passkeys of account.keyrook.com. Choose the passkey again and allow it.',
+  'error.passkey.cancelled': 'No passkey was used. Try again, or sign in another way.',
+  'error.passkey.failed': 'Chrome could not ask for a passkey. Try again, or sign in another way.',
+  'error.secondStep.missing': 'Enter the code from your authenticator app too.',
+  'error.secondStep.wrongCode': 'That code is not right. Enter the one your authenticator app shows now.',
+  'error.secondStep.expired': 'That sign-in has expired. Sign in again.',
+  'error.secondStep.used': 'That code was just used to sign in. Wait for your app to show the next one.',
   'error.provider.refusedBy': '{provider} refused the sign-in.',
   'error.provider.unreachable': '{provider} could not be reached. Try again in a moment.',
   'error.provider.refused': 'The sign-in was refused. Try again.',
@@ -94,11 +115,11 @@ export const en = {
   'error.server.signupExpired': 'That sign-up has expired. Sign in again.',
   'error.server.signinExpired': 'That sign-in has expired. Try again.',
   'error.server.tooManyCodes': 'Too many wrong codes. Ask for a new one.',
-  'error.server.tooManyPairings': 'Too many browsers are waiting to join this account. Try again in a few minutes.',
+  'error.server.tooManyPairings': 'Too many devices are waiting to join this account. Try again in a few minutes.',
   'error.server.wrongKey': 'This device does not hold the account key.',
   'error.server.providerAccount': 'This account signs in with Google or GitHub, not a password.',
   'error.server.mailFailed': 'The email could not be sent. Try again in a minute.',
-  'error.server.pairingTaken': 'That request has ended, or another browser is approving it.',
+  'error.server.pairingTaken': 'That request has ended, or another device is approving it.',
   'error.server.passwordWrong': 'That password is not correct.',
   'error.server.badCredentials': 'Email or password is incorrect.',
   'error.server.badCode': 'That code is not right, or it has expired. Check the email, or ask for a new one.',
@@ -157,6 +178,27 @@ export const en = {
   'unlock.placeholder': 'Master password',
   'unlock.submit': 'Unlock',
   'unlock.forgot': 'Forgotten it? <link>Use your recovery key</link>',
+  'platformUnlock.unlock': 'Unlock with fingerprint, face or PIN',
+  'platformUnlock.title': 'Fingerprint, face or PIN',
+  'platformUnlock.body':
+    'Open the vault with this computer’s own check — Touch ID, Windows Hello or its PIN — instead of typing the master password. The password still opens it, and changes still ask for it.',
+  'platformUnlock.on': 'The vault also opens with this computer’s own check. Removing the master password turns it off.',
+  'passkeyUnlock.turnOn': 'Turn on',
+  'passkeyUnlock.turnOff': 'Turn off',
+  'platformUnlock.confirm': 'Then your computer asks for your fingerprint, face or PIN.',
+  'error.passkeyUnlock.cancelled': 'The check was cancelled or took too long. Try again, or use the master password.',
+  'error.platformUnlock.noPrf':
+    'Where this passkey was saved cannot hold a key, so it cannot open the vault. Turn this on again and choose another place when asked where to save it — or keep using the master password.',
+  'error.passkeyUnlock.failed': 'That did not open the vault. Use the master password, then turn this on again under Security.',
+  'securityKey.unlock': 'Unlock with security key',
+  'securityKey.title': 'Security key',
+  'securityKey.body':
+    'Open the vault with a USB security key and its PIN instead of typing the master password. Whoever holds the key and knows its PIN can then open the vault on this computer. If the key is lost, the master password still opens it.',
+  'securityKey.on':
+    'The vault also opens with your security key and its PIN on this computer. Whoever holds the key and knows its PIN can open it here, so if the key is lost, turn this off. Removing the master password turns it off.',
+  'securityKey.confirm': 'Then insert your security key, type its PIN and touch it. Some keys ask twice.',
+  'error.securityKey.noPrf':
+    'This security key cannot hold a key, so it cannot open the vault. Keys made only for two-step sign-in cannot. Try another key, or keep using the master password.',
 
   // --- Vault that cannot be opened -----------------------------------------------
   'unrecoverable.title': 'This vault can no longer be opened',
@@ -197,6 +239,7 @@ export const en = {
   'setup.password.footnote':
     'The strongest option: once it locks, nothing on this computer can open the vault without the password.',
   'setup.footer': 'Either way it is AES-256-GCM. Switch any time; sync is optional, in Settings.',
+  'setup.footer.noSync': 'Either way it is AES-256-GCM. Switch any time, in Settings.',
   'setup.source': 'Open source — read the code',
   'common.back': 'Back',
   'setup.passwordStep.title': 'Set a master password',
@@ -245,8 +288,8 @@ export const en = {
   'vault.byName': 'By name',
   'vault.orderAdded': 'Order added',
   'vault.joinRequests': {
-    one: 'A browser is asking to join your account.',
-    other: '{count} browsers are asking to join your account.',
+    one: 'A device is asking to join your account.',
+    other: '{count} devices are asking to join your account.',
   },
   'vault.joinRequestsHint': 'Approve only one you are signing in to yourself, right now.',
   'vault.reviewInSettings': 'Review in Settings',
@@ -340,6 +383,7 @@ export const en = {
   'error.alreadyInVault': 'That account is already in your vault.',
   'error.gaSkipPeriod': 'Google Authenticator only keeps 30-second codes; this one uses {period}.',
   'error.gaSkipDigits': 'Google Authenticator only keeps 6- or 8-digit codes; this one has {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator cannot make Steam Guard codes.',
 
   // --- Camera scanning -----------------------------------------------------------
   'scan.progressBatch': 'Code {seen} of {total} scanned — {accounts}. Show the next code.',
@@ -431,9 +475,18 @@ export const en = {
   // --- A new recovery key --------------------------------------------------------
   'sheet.once':
     'This is the only time this key is shown. It is not stored anywhere — if you lose it, issue a new one.',
+  'sheet.print': 'Print',
+  'sheet.apart': 'Keep it apart from your email, and never email it to yourself: with this key and your email address, someone can set a new password and open your codes.',
+  'sheet.apartProvider': 'Keep it apart from the Google or GitHub account you sign in with, and never keep it in that account’s mail or drive: with this key and that account, someone can open your codes.',
+  'sheet.kept': 'I have saved it',
+  'sheet.checkHeading': 'Check that you saved it',
+  'sheet.checkLead': 'Type two groups of the key from what you saved. Groups are the blocks of four between the dashes, counted from the left.',
+  'sheet.group': 'Group {position}',
+  'sheet.check': 'Check',
+  'sheet.mismatch': 'That is not what your key says. Look again at what you saved, or show the key again and save it now.',
+  'sheet.showAgain': 'Show the key again',
   'sheet.download': 'Download the sheet',
   'sheet.copy': 'Copy',
-  'sheet.saved': 'I have saved this somewhere I will still have if this computer does not.',
 
   // --- Groups --------------------------------------------------------------------
   'groups.title': 'Groups',
@@ -500,6 +553,7 @@ export const en = {
   'accounts.digits': '{type} {digits} digits',
   'accounts.period': ' · {seconds}s',
   'accounts.counter': ' · counter {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Share or move {name}',
   'accounts.edit': 'Edit',
   'common.delete': 'Delete',
@@ -639,6 +693,7 @@ export const en = {
   'export.oneByOne.progress': 'Accounts shown',
   'export.oneByOne.position': 'Account {index} of {total}',
   'export.oneByOne.keys': '→ or Space for the next one, Esc to stop',
+  'export.steamRefused': '{app} cannot make Steam Guard codes, so it will not take this account.',
   'export.print.label': 'QR codes to print or scan',
   'export.print.title': 'Keyrook Authenticator — setup codes',
   'export.print.body':
@@ -719,11 +774,11 @@ export const en = {
   // --- Settings: recovery key ----------------------------------------------------
   'kit.title': 'Recovery key',
   'kit.provider':
-    'Your account has no password. A recovery key is the way back if every browser signed in to it is lost: it lets a new browser into your account without another one to approve it. {provider} cannot do that for you.',
+    'Your account has no password. A recovery key is the way back if every device signed in to it is lost: it lets a new device into your account without another one to approve it. {provider} cannot do that for you.',
   'kit.signedIn':
-    'Nobody can reset your password — not us, not Google. A recovery key is the only way back if you forget it: it opens this vault, your other devices, and your account on a new one.',
+    'Nobody can reset your password for you — not even us. A recovery key is the only way back if you forget it: it opens this vault, your other devices, and your account on a new one.',
   'kit.passphrase':
-    'Nobody can reset your master password — not us, not Google. That is what stops anyone else opening your vault, and it is also why a recovery key is the only way back if you forget it.',
+    'Nobody can reset your master password — not even us. That is what stops anyone else opening your vault, and it is also why a recovery key is the only way back if you forget it.',
   'kit.device':
     'This vault unlocks with a key your browser holds. If that key goes — cleared browsing data, a new profile, a reinstall — a recovery key is the only thing that can still open it.',
   'kit.none': 'No recovery key yet',
@@ -738,19 +793,19 @@ export const en = {
   'kit.replacesSignedIn':
     'Issuing a new key makes the previous one stop working, here and on your other devices, so an old printed sheet is safe to throw away once you have replaced it.',
   'kit.withoutProvider':
-    'Without one, losing every browser signed in to your account means every account in this vault is gone for good.',
+    'Without one, losing every device signed in to your account means every account in this vault is gone for good.',
   'kit.withoutPassword':
     'Without one, forgetting your password means every account in this vault is gone for good.',
   'kit.withoutDevice':
     'Without one, losing the key this browser holds means every account in this vault is gone for good.',
   'kit.noSupport': 'There is no support request that can undo it.',
   'kit.removeProvider':
-    'Removing it leaves a browser already signed in as the only way to let a new one into your account.',
+    'Removing it leaves a device already signed in as the only way to let a new one into your account.',
   'kit.removePassword': 'Removing it leaves your password as the only way in.',
   'kit.removePasswordSignedIn':
     'Removing it leaves your password as the only way in — on this device, your other devices and your account.',
   'kit.reauth':
-    'A recovery key can let a browser into your account, so {provider} asks you to sign in once more first.',
+    'A recovery key can let a device into your account, so {provider} asks you to sign in once more first.',
   'kit.passwordHint': 'A recovery key can reset your account, so changing it takes your password.',
   'kit.removeConfirm': 'Remove the recovery key',
   'kit.createConfirm': 'Create the key',
@@ -780,7 +835,7 @@ export const en = {
   'account.syncNow': 'Sync now',
   'account.signOut': 'Sign out',
   'account.noKitProvider':
-    'Your account has no recovery key. If every browser signed in to it is lost, nothing can get your accounts back — not us, and not {provider}.',
+    'Your account has no recovery key. If every device signed in to it is lost, nothing can get your accounts back — not us, and not {provider}.',
   'account.noKit':
     'Your account has no recovery key. If you forget your password and lose this device, nothing can get your accounts back — not us, not anyone.',
   'account.createUnderSecurity': 'Create one under Security',
@@ -803,11 +858,36 @@ export const en = {
   'accountPage.bodyNoRoot': 'Its password and deleting it are on the account page. Its recovery key is made here, under Security, until another Keyrook app uses the account.',
   'accountPage.bodyProvider': 'Its recovery key, starting it over and deleting it are on the account page, for every Keyrook app at once.',
   'accountPage.bodyNoRootProvider': 'Deleting it is on the account page. Its recovery key is made here, under Security, until another Keyrook app uses the account.',
+  'sheetCheck.lead': 'Type the recovery key you saved, once, so this app knows it can bring your codes back. It is checked on this device and sent nowhere.',
+  'sheetCheck.submit': 'Check it',
+  'sheetCheck.lost': 'Lost it, or never had one? Make a new one on the account page.',
+  'accountPage.noSheetYet': 'Nothing yet shows that your recovery key protects Keyrook Authenticator. Without it, a forgotten password can cost you your codes. Type it once under Security, or make a new one on the account page.',
+  'account.checkUnderSecurity': 'Check it under Security',
   'accountPage.open': 'Open the account page',
   'accountPage.recoveryKey': 'A signed-in vault’s recovery key is the Keyrook account’s. It is made and changed on the account page.',
   'accountPage.sheetProtects': 'The account’s recovery key protects Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Not yet known to protect Keyrook Authenticator',
-  'accountPage.noSheet': 'Nothing yet shows that this account’s recovery key protects Keyrook Authenticator. If the password is forgotten without one, your codes can be lost. Make one, or check yours, on the account page.',
+  'secondStep.title': 'One more step',
+  'secondStep.lead': 'Your Keyrook account asks for a second step. Enter the 6-digit code your authenticator app shows for it.',
+  'secondStep.field': 'Code, or recovery key',
+  'secondStep.hint': 'Lost that app? Enter your account’s recovery key instead.',
+  'secondStep.passkey': 'Use a passkey instead',
+  'secondStep.where': 'Two-step sign-in is turned on and off on account.keyrook.com.',
+  'secondStep.ownerLead': 'Your account asks for a second step for this too: the code from your authenticator app, or your recovery key.',
+  'secondStep.nextCode': 'Each code works once. If you just signed in with one, wait for your app to show the next.',
+  'secondStepTip.title': 'Two-step sign-in',
+  'secondStepTip.suggest':
+    'Ask for a code too whenever this account signs in on another device. Turn it on at account.keyrook.com, and keep the code here: on that page, open Keyrook Authenticator and choose “{scan}”.',
+  'secondStepTip.kept': 'This account’s own sign-in code is kept here, on every device signed in to it.',
+  'secondStepTip.warning':
+    'If every device that keeps it is lost, sign in with your recovery key in place of the code. Keep the recovery key somewhere apart.',
+  'secondStepTip.open': 'Turn it on',
+  'signin.providerHasPassword': '{provider} confirmed it is you, and {email} has a password too. Enter it to open your codes here.',
+  'provider.addOnPage': 'To sign in with Google or GitHub as well, sign in on the account page with your password and add it there.',
+  'startOver.title': 'Your Keyrook account will start over on {date}',
+  'startOver.lead': 'Someone on “{device}” asked for it on {date}, with the code we emailed: a new password and new keys, and your apps would start empty.',
+  'startOver.ifYou': 'If it was you, there is nothing to do. If it was not, cancel it now, then change your email password: whoever asked can read your email.',
+  'startOver.cancel': 'It wasn’t me — cancel it',
   'kept.title': 'Kept from before the account started over',
   'kept.body': 'When this account started over, what Keyrook Authenticator had in it was kept, until {date}. Bring it back with the password the account had then, or its recovery key of then.',
   'kept.password': 'Password of then',
@@ -815,7 +895,7 @@ export const en = {
   'kept.usePassword': 'Use the password of then instead',
   'kept.useRecoveryKey': 'Use the recovery key of then instead',
   'kept.bring': 'Bring it back',
-  'kept.done': 'It is back in this vault, and on its way to your other browsers.',
+  'kept.done': 'It is back in this vault, and on its way to your other devices.',
   'error.keys.awaitingConfirmation': 'Another Keyrook app replaced this account’s keys, and Keyrook Authenticator’s has not followed yet. Open the account page to check them, then sign in again.',
   'password.changedBoth':
     'Password changed, for your account and this vault. Your other devices will ask you to sign in again with it.',
@@ -829,9 +909,12 @@ export const en = {
   'password.formTitle': 'Change your account password',
   'devices.title': 'Signed-in devices',
   'devices.description':
-    'Sign out a device you no longer use or no longer have. It keeps whatever it had already synced, locked behind the same password, but receives nothing new.',
+    'Sign out a device you no longer use or no longer have. If it runs an up-to-date Keyrook Authenticator, it takes this account’s codes off itself the next time it connects, keeping only what it never sent. Until then, or if it never connects again, it keeps what it had, locked behind the same password.',
+  'devices.descriptionProvider':
+    'Sign out a device you no longer use or no longer have. If it runs an up-to-date Keyrook Authenticator, it takes this account’s codes off itself the next time it connects, keeping only what it never sent. Until then, or if it never connects again, it keeps what it had, locked the way its vault is locked on that device.',
   'devices.this': 'This device',
   'devices.when': 'Signed in {created} · last active {seen}',
+  'removed.kept': 'Codes added or changed here that had not reached the account are still here.',
   'delete.row': 'Delete your account',
   'delete.rowDescription':
     'Removes every encrypted copy the server holds. This device keeps its vault exactly as it is; other devices stop syncing.',
@@ -842,7 +925,7 @@ export const en = {
   'delete.confirm': 'Delete the account',
 
   // --- Signing in: the first card ------------------------------------------------
-  'intro.benefit1': 'The same codes in every browser you sign in to.',
+  'intro.benefit1': 'The same codes on every device you sign in on.',
   'intro.benefit2': 'A lost or broken laptop is not a lost vault.',
   'intro.benefit3': 'Free, and optional — everything keeps working on this device without it.',
   'intro.title': 'Sync your vault',
@@ -906,9 +989,9 @@ export const en = {
     'Your account is ready. {done} of {total} accounts are backed up so far; the rest follow on the next sync.',
   'fresh.title': 'Save your recovery key',
   'fresh.provider':
-    'If every browser signed in to your account is lost, this key is the only way back in — {provider} cannot restore your vault, and neither can we.',
+    'If every device signed in to your account is lost, this key is the only way back in — {provider} cannot restore your vault, and neither can we.',
   'fresh.password':
-    'If you forget your password, this key is the only way back in — nobody can reset it for you, not us and not Google.',
+    'If you forget your password, this key is the only way back in — nobody can reset it for you, not even us.',
   'welcome.fromAccount': '{count} from your account',
   'welcome.fromDevice': '{count} added from this device',
   'welcome.inSync': 'Already in sync.',
@@ -933,44 +1016,52 @@ export const en = {
   'provider.finishInWindow': 'Finish in the {provider} window that opened.',
   'provider.confirmed': '{provider} confirmed <b>{email}</b>. No account uses it yet.',
   'provider.point1':
-    'No password. On a new browser you continue with {provider}, and a browser already signed in lets it in after you check both show the same code.',
+    'No password. On a new device you continue with {provider}, and a device already signed in lets it in after you check both show the same code.',
   'provider.point2':
-    '{provider} proves it is you. It never sees your codes: they are encrypted here, with a key that stays on your browsers.',
+    '{provider} proves it is you. It never sees your codes: they are encrypted here, with a key that stays on your devices.',
   'provider.point3':
-    'Next you save a recovery key — the way back if every browser signed in to the account is lost. {provider} cannot restore your vault.',
+    'Next you save a recovery key — the way back if every device signed in to the account is lost. {provider} cannot restore your vault.',
   'provider.notRight': 'Not the right account?',
   'provider.startAgain': 'Start again',
+  // The Keyrook account's own passkeys, added on its page: beside Google and GitHub.
+  'passkey.continue': 'Continue with a passkey',
+  'passkey.where':
+    'One you added on <link>the account page</link>, under Passkeys. The first time, Chrome asks to let Keyrook Authenticator use it.',
   'pairing.codeLabel': 'Code {code}',
   'join.title': 'Let this browser in',
   'join.subtitle':
-    '<b>{email}</b> already has an account. Approve this browser from one that is signed in to it.',
+    '<b>{email}</b> already has an account. Approve this browser from a device that is signed in to it.',
   'join.masterPassword': 'This vault’s master password',
   'join.masterHint': 'It keeps locking this vault here; the account itself has no password.',
   'join.ask': 'Ask to join',
   'join.step1':
-    'On a browser already signed in, open Keyrook Authenticator. The request shows there — in the popup, and in Settings under Sync.',
+    'On a device already signed in, open Keyrook Authenticator. The request shows there — above the codes, and in Settings under Sync.',
   'join.step2': 'Check it shows the same code as this page, then approve it.',
   'join.askAgain': 'Ask again',
-  'join.compare': 'The other browser shows a code too. Approve there only if it is exactly this one.',
-  'join.waiting': 'Waiting for another browser…',
-  'join.noOther': 'No other browser left?',
+  'join.compare': 'The other device shows a code too. Approve there only if it is exactly this one.',
+  'join.waiting': 'Waiting for another device…',
+  'join.noOther': 'No other device left?',
   'join.useKey': 'Use your recovery key',
   'join.wrongAccount': 'Signed in with {provider} as the wrong account?',
   'joinKey.subtitle':
-    'The key you saved when the account was made. It lets this browser in without another one.',
+    'The key you saved when the account was made. It lets this browser in without another device.',
   'joinKey.submit': 'Join the account',
-  'approve.approved': 'Approved. The other browser opens your vault in a moment.',
+  'approve.approved': 'Approved. The other device opens your vault in a moment.',
   'approve.mismatch':
     'Declined. If you were not signing in yourself just now, someone else can sign in to your {provider} account — change its password and check its security settings.',
   'approve.declined': 'Declined. Nothing was sent.',
-  'approve.title': 'Browsers asking to join',
+  'approve.title': 'Devices asking to join',
   'approve.description':
-    'Each request comes from someone who just signed in with your {provider} account. Approve only a browser you are signing in to yourself, right now.',
+    'Each request comes from someone who just signed in with your {provider} account. Approve only a device you are signing in on yourself, right now.',
+  'approve.descriptionAny':
+    'Each request comes from someone who just signed in with your Google or GitHub account. Approve only a device you are signing in on yourself, right now.',
+  'approve.mismatchAny':
+    'Declined. If you were not signing in yourself just now, someone else can sign in to your Google or GitHub account — change its password and check its security settings.',
   'approve.askedAt': 'Asked at {time}',
   'approve.review': 'Review',
   'approve.deny': 'Deny',
   'approve.question':
-    'Does the browser asking show exactly this code? If it does not, someone else is trying to get in.',
+    'Does the device asking show exactly this code? If it does not, someone else is trying to get in.',
   'approve.matches': 'It matches — let it in',
   'approve.doesNotMatch': 'It does not match',
 
@@ -989,7 +1080,7 @@ export const en = {
   'nav.sync': 'Sync',
   'nav.general': 'General',
   'nav.needsAttention': 'Needs attention',
-  'sync.description': 'The same codes in every browser you sign in to, encrypted here before they leave.',
+  'sync.description': 'The same codes on every device you sign in on, encrypted here before they leave.',
   'backup.description': 'Keep an encrypted copy, bring accounts in, or move them to another app.',
   'backup.choice.backup.title': 'Back up',
   'backup.choice.backup.body': 'An encrypted file, locked with a password you choose.',
@@ -1007,18 +1098,19 @@ export const en = {
   // --- Signing in, from the popup ------------------------------------------------
   'vault.signInToSync': 'Sign in to sync',
   'vault.empty.signIn':
-    'Using Keyrook Authenticator in another browser? <link>Sign in</link> to bring your codes here.',
+    'Using Keyrook Authenticator on another device? <link>Sign in</link> to bring your codes here.',
   'setup.haveAccount': 'Already use Keyrook Authenticator? <link>Sign in</link> to bring your codes here.',
   'popup.signInOpensTab': 'Opens in a new tab, and finishes in Settings.',
 
   // --- Moving in from another app ------------------------------------------------
   'error.backupWrongPassword': 'That password does not open this file.',
-  'error.foreign.steam': 'Steam Guard codes cannot be imported yet.',
+  'error.foreign.steamFolder':
+    'Choose every file in Steam Desktop Authenticator’s maFiles folder together: manifest.json and the .maFile files beside it.',
   'error.foreign.locked':
     'This export is locked with a password Keyrook Authenticator cannot open. Export it again without a password.',
   'import.lockedFrom': '{app} locked this export with a password. Enter the one you set there.',
   'import.fromApps':
-    'Exports from Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, the Authenticator extension and Google Authenticator work too — and a CSV from Apple Passwords, 1Password or another password manager.',
+    'Exports from Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, the Authenticator extension and Google Authenticator work too — and a CSV from Apple Passwords, 1Password or another password manager.',
   // --- Filling with one key ------------------------------------------------------
   'shortcut.open': 'Open Keyrook Authenticator',
   'shortcut.fill': 'Fill the code for this page',
@@ -1031,6 +1123,68 @@ export const en = {
   'import.csvWarning':
     'This file holds your passwords in the clear. Only the two-factor keys were read and nothing else is kept — delete the file when you are done.',
   'import.noKeysInCsv': 'That file has no two-factor keys in it — only passwords.',
+
+  // --- A screen that broke -------------------------------------------------------
+  'crash.title': 'Something went wrong',
+  'crash.body':
+    'This screen ran into a problem and stopped. Your saved accounts are not affected. Reloading usually brings it back.',
+  'crash.reload': 'Reload',
+
+  // --- The same, said of a phone (i18n/device.ts) ---------------------------------
+  'setup.device.description.phone':
+    'Your secrets are encrypted with a key this phone keeps for you. Nothing to remember, nothing to type.',
+  'setup.device.footnote.phone':
+    'Protects against a copy of the app’s files. Not against someone who can unlock this phone.',
+  'setup.password.footnote.phone':
+    'The strongest option: once it locks, nothing on this phone can open the vault without the password.',
+  'unrecoverable.why.phone':
+    'Its encryption key was kept by this phone and is gone — usually because the app’s data was cleared, the app was reinstalled, or the vault came from another phone’s backup. Without that key the stored accounts cannot be decrypted by anyone, including us.',
+  'vault.empty.body.phone':
+    'When a site shows a QR code to set up two-step verification, scan it with this phone’s camera.',
+  'add.camera.description.phone': 'For a code on another screen — including a Google Authenticator export.',
+  'add.fromGoogle.phone':
+    'Moving from Google Authenticator on another phone? Export your accounts there, then scan the code it shows with this phone’s camera. If it shows several, do each one.',
+  'camera.noCamera.phone': 'This phone will not give the app a camera.',
+  'camera.blocked.phone':
+    'The app is not allowed to use the camera. Allow it in the phone’s settings, or use one of the other ways to add an account.',
+  'camera.none.phone': 'No camera found on this phone.',
+  'security.languageBrowser.phone': 'Phone default ({language})',
+  'protect.removeWarning.phone':
+    'The vault stays encrypted, but it will unlock by itself whenever the app opens. Anyone who can unlock this phone can then see your codes.',
+  'kit.device.phone':
+    'This vault unlocks with a key your phone keeps. If that key goes — the app’s data cleared, the app reinstalled, a new phone — a recovery key is the only thing that can still open it.',
+  'kit.withoutDevice.phone':
+    'Without one, losing the key this phone keeps means every account in this vault is gone for good.',
+  'security.description.phone': 'How this vault opens, and your way back in if this phone is lost.',
+  'security.deviceKeyHint.phone': 'Nothing to type. Anyone who can unlock this phone can open it.',
+  'general.description.phone': 'How the app looks and behaves, and where it comes from.',
+  'about.securityModelDescription.phone': 'What the app guarantees, and what it does not.',
+  'about.logos.description.phone':
+    'Marks are compiled into the app, never fetched. Asking the network for a logo would tell whoever answered which services you have two-factor authentication on.',
+  'about.fact.access.title.phone': 'The camera, and only to scan',
+  'about.fact.access.body.phone':
+    'The app asks for no permission but the camera, and only when you choose to scan a code. What the camera sees never leaves the phone.',
+  'about.fact.keys.body.phone':
+    'Your accounts are encrypted with a data key that is itself wrapped. With a master password, the wrapping key comes from PBKDF2 at 600,000 rounds and exists only in memory while unlocked. Without one, it is a key sealed by the phone’s own key store, so a copy of the app’s files cannot open the vault.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'A large code — like a Google Authenticator export — often will not scan from the camera here. If yours will not, take a photo of it with the phone’s camera app and use Upload a QR image instead.',
+  'import.noNativeReader.phone':
+    'A large code — like a Google Authenticator export — often will not scan from the camera here. If yours will not, take a photo of each code with the phone’s camera app and pick them all with Choose files.',
+  'error.signOutUnsynced.phone':
+    'Some changes on this phone haven’t reached your account yet, and signing out now would lose them. Connect to the internet and try again.',
+  'account.signOutNote.phone':
+    'Signing out removes your codes from this phone. They stay in your Keyrook account — sign in again to bring them back.',
+  'secondStepTip.suggest.phone':
+    'Ask for a code too whenever this account signs in on another device. Turn it on at account.keyrook.com, and keep the code here: add an account in this app and scan the QR code that page shows.',
+  'intro.benefit2.phone': 'A lost or broken phone is not a lost vault.',
+  'provider.finishInWindow.phone': 'Finish in the {provider} page that opened in your browser.',
+  'join.title.phone': 'Let this phone in',
+  'join.subtitle.phone':
+    '<b>{email}</b> already has an account. Approve this phone from a device that is signed in to it.',
+  'joinKey.subtitle.phone':
+    'The key you saved when the account was made. It lets this phone in without another device.',
+  'facts.autofill.phone': 'QR scanning',
 
   // @@UI@@
 } satisfies Record<string, Message>;

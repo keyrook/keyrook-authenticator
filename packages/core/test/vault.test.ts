@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { newKdfParams, scorePassword } from '@keyrook/account';
 import { DecryptionError } from '@keyrook/account';
 import {
+  accountCodeItem,
   addItem,
   brandLabel,
   createVault,
@@ -253,6 +254,24 @@ describe('mutations', () => {
   });
 });
 
+describe('the account’s own code', () => {
+  it('is found by the setup link the account page shows, and only for this account', async () => {
+    const { data } = await passwordVault();
+    const signedIn = updateAccount(data, { email: 'Minh@Example.com', plan: 'synced' });
+    // The server's link: otpauth://totp/Keyrook%3Aminh%40example.com?...&issuer=Keyrook
+    const own = itemFromUri(
+      parseOtpUri('otpauth://totp/Keyrook%3Aminh%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=Keyrook&digits=6&period=30'),
+    );
+    const other = sampleItem('Keyrook', 'someone.else@example.com');
+    expect(accountCodeItem(addItem(signedIn, other))).toBeNull();
+    const withOwn = addItem(addItem(signedIn, other), own);
+    expect(accountCodeItem(withOwn)?.id).toBe(own.id);
+    // Deleted is not kept; signed out has no account to have a code for.
+    expect(accountCodeItem(deleteItem(withOwn, own.id))).toBeNull();
+    expect(accountCodeItem(updateAccount(withOwn, { email: null, plan: 'local' }))).toBeNull();
+  });
+});
+
 describe('sorting and host matching', () => {
   it('floats favourites above the chosen ordering', () => {
     const a = { ...sampleItem('Zoom', 'a'), favorite: true };
@@ -321,6 +340,36 @@ describe('scorePassword', () => {
 
   it('caps digit-only passwords', () => {
     expect(scorePassword('1234567890123456').score).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('an account that recorded a domain other people publish under', () => {
+  // What picking these services recorded before October 2026, kept by every
+  // account added then: the catalogue's fix does not reach saved accounts.
+  const webflow = sampleItem('Webflow', 'me', ['webflow.io']);
+  const squarespace = sampleItem('Squarespace', 'me', ['squarespace.com']);
+
+  it('is warned about on someone’s site there', () => {
+    expect(shouldWarnBeforeFilling(webflow, 'webflow-login.webflow.io')).toBe(true);
+    expect(shouldWarnBeforeFilling(squarespace, 'squarespace-login.squarespace.com')).toBe(true);
+  });
+
+  it('is still at home on the operator’s own sign-in', () => {
+    expect(shouldWarnBeforeFilling(squarespace, 'login.squarespace.com')).toBe(false);
+  });
+
+  it('does not rise to the top of the list there', () => {
+    expect(itemMatchesHost(webflow, 'webflow-login.webflow.io')).toBe(false);
+    expect(itemMatchesHost(squarespace, 'squarespace-login.squarespace.com')).toBe(false);
+    expect(itemMatchesHost(squarespace, 'login.squarespace.com')).toBe(true);
+  });
+
+  it('is not floated by the platform’s name standing in for the page’s author', () => {
+    // On someone's Webflow site the label is "webflow"; on github.vercel.app
+    // it would be "github" if the suffix were set aside. Neither is the author.
+    expect(itemMatchesHost(sampleItem('Webflow', 'me'), 'webflow-login.webflow.io')).toBe(false);
+    expect(itemMatchesHost(sampleItem('GitHub', 'me'), 'github.vercel.app')).toBe(false);
+    expect(itemMatchesHost(sampleItem('Vercel', 'me'), 'vercel-login.vercel.app')).toBe(false);
   });
 });
 

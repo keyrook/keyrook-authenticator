@@ -9,6 +9,7 @@
  * nothing about anyone's accounts.
  */
 import { host } from '../host.js';
+import { here } from './device.js';
 import { format, type Values } from './format.js';
 import { detectLocale, isLocale, LOADERS, RTL_LOCALES, type Locale } from './locales.js';
 import { en, type Dictionary, type MessageKey } from './locales/en.js';
@@ -28,9 +29,10 @@ let state: State = { preference: 'auto', locale: 'en', messages: en };
 const listeners = new Set<() => void>();
 
 export function translate(key: MessageKey, values?: Values): string {
+  const shown = here(key);
   // A key a translation lacks reads in English rather than as its name; the
   // tests keep that from happening in a release.
-  return format(state.messages[key] ?? en[key], state.locale, values);
+  return format(state.messages[shown] ?? en[shown], state.locale, values);
 }
 
 export function currentLocale(): Locale {

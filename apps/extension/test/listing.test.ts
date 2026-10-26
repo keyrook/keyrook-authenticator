@@ -11,7 +11,7 @@ describe('which listing to rate', () => {
   });
 
   it('an unpacked build goes by the browser', () => {
-    expect(storeListing('a'.repeat(32), EDGE_UA).store).toBe('Edge Add-ons');
-    expect(storeListing('a'.repeat(32), CHROME_UA).store).toBe('the Chrome Web Store');
+    expect(storeListing('a'.repeat(32), EDGE_UA).store).toBe('edge');
+    expect(storeListing('a'.repeat(32), CHROME_UA).store).toBe('chrome');
   });
 });

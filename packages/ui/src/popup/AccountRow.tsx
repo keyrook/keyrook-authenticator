@@ -84,14 +84,16 @@ export function AccountRow({
         <div className="flex min-w-0 items-center gap-0.5 [&>*:not([data-fill])]:shrink-0">
           {/* Over a page with a code field, Fill takes the place of the QR
               button, which only shows on hover: in a long language the row
-              has no room for both. Sharing is a click away everywhere else. */}
+              has no room for both. Sharing is a click away everywhere else.
+              A phone has no hover, so in an app's window both show: a button
+              that cannot be seen should not be there to be tapped. */}
           {!canFill && (
             <button
               type="button"
               onClick={onShare}
               aria-label={t('row.share')}
               title={t('row.shareHint')}
-              className="rounded-lg p-1.5 text-base text-neutral-300 opacity-0 transition group-hover:opacity-100 hover:text-neutral-600 focus-visible:opacity-100 dark:text-neutral-700 dark:hover:text-neutral-400"
+              className="rounded-lg p-1.5 text-base text-neutral-300 opacity-0 transition group-hover:opacity-100 hover:text-neutral-600 focus-visible:opacity-100 app:opacity-100 dark:text-neutral-700 dark:hover:text-neutral-400"
             >
               <QrIcon />
             </button>
@@ -105,7 +107,7 @@ export function AccountRow({
               'rounded-lg p-1.5 text-base transition',
               item.favorite
                 ? 'text-yellow-500'
-                : 'text-neutral-300 opacity-0 group-hover:opacity-100 hover:text-neutral-500 dark:text-neutral-700 dark:hover:text-neutral-500',
+                : 'text-neutral-300 opacity-0 group-hover:opacity-100 hover:text-neutral-500 app:opacity-100 dark:text-neutral-700 dark:hover:text-neutral-500',
             )}
           >
             <StarIcon filled={item.favorite} />

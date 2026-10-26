@@ -3,7 +3,7 @@ import { chmodSync, mkdirSync, readdirSync, readFileSync, rmSync, utimesSync, wr
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildManifest } from './manifest.mjs';
-import { EDGE_PUBLIC_KEY, PRODUCTION_SYNC_API_URL } from './release.mjs';
+import { accountRpFor, EDGE_PUBLIC_KEY, PRODUCTION_SYNC_API_URL } from './release.mjs';
 import { DEFAULT_LOCALE, localeFiles } from './store-locales.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -28,6 +28,11 @@ rmSync(dist, { recursive: true, force: true });
 const syncApiUrl = process.env.VITE_SYNC_API_URL ?? PRODUCTION_SYNC_API_URL;
 process.env.VITE_SYNC_API_URL = syncApiUrl;
 console.log(syncApiUrl ? `▸ Sync server: ${syncApiUrl}` : '▸ No sync server: account features off');
+// Whose passkeys the pages may ask, and the host permission that lets them:
+// one answer, for the bundle and the manifest alike.
+const accountRp = accountRpFor(syncApiUrl);
+process.env.VITE_ACCOUNT_RP = accountRp;
+if (accountRp) console.log(`▸ The account's passkeys: ${accountRp}`);
 
 console.log('\n▸ Building pages + service worker');
 run('npx', ['vite', 'build']);
@@ -49,6 +54,7 @@ const manifest = buildManifest({
   description: '__MSG_appDescription__',
   defaultLocale: DEFAULT_LOCALE,
   syncOrigin,
+  accountRp,
 });
 for (const { code, messages } of localeFiles()) {
   mkdirSync(resolve(dist, '_locales', code), { recursive: true });

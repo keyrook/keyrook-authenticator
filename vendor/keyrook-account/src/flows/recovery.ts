@@ -25,7 +25,7 @@ import {
 } from '../sync/account.js';
 import { generateRecoveryKey } from '../sync/kit.js';
 import { recoverRoot, recoverRootReset, type HttpSyncAdapter } from '../sync/http.js';
-import type { AccountKeysResponse, LoginResponse, ProviderTicket } from '../sync/protocol.js';
+import type { AccountKeysResponse, LoginResponse, ProviderTicket, SecondStepProof } from '../sync/protocol.js';
 import { deriveRecoveryAuthHash } from '../sync/recovery.js';
 import { openProductKey, type AccountServer, type OpenedProductKey, type ProductKey } from './product-key.js';
 
@@ -118,8 +118,11 @@ export async function changeAccountPassword(
     /** Keyrook Authenticator's key, on an account without a root. */
     productKey?: ProductKey;
     kdf?: AccountKdfParams;
+    /** On an account with a second step, beside the password (`secondStepProof`). */
+    secondStep?: SecondStepProof;
   },
 ): Promise<{ kdf: AccountKdfParams; keys: AccountKeys }> {
+  const step = input.secondStep ? { secondStep: input.secondStep } : {};
   const held = await api.accountKeys();
   if (held.accountId !== input.accountId) throw new Error('The server answered for another account.');
   const next = await newPasswordKeys(input.newPassword, input.kdf);
@@ -132,6 +135,7 @@ export async function changeAccountPassword(
       authHash: next.keys.authHash,
       kdf: next.kdf,
       rootPasswordWrap: await wrapRootUnderPassword(root, next.keys, input.accountId),
+      ...step,
     });
   } else {
     if (input.product !== AUTHENTICATOR || !input.productKey) throw new Error('This account has no root key yet.');
@@ -140,6 +144,7 @@ export async function changeAccountPassword(
       authHash: next.keys.authHash,
       kdf: next.kdf,
       protectedKey: await wrapDataKey(next.keys.stretchedKey, input.productKey.key),
+      ...step,
     });
   }
   return next;
@@ -150,15 +155,29 @@ export async function changeAccountPassword(
  * password, or the current recovery key and a fresh provider sign-in on an
  * account without one. `keepsRecoveryKey`: the recovery key given is Keyrook
  * Authenticator's kit's, typed again so it protects every product too.
+ * `newRecoveryKey`: one `generateRecoveryKey` made that the person has already
+ * saved and typed back. Without it a key is made here and set at once, before
+ * anyone has kept it.
  */
 export async function replaceRecoveryKey(
   api: HttpSyncAdapter,
   input: {
     productKey: ProductKey;
     with: { keys: AccountKeys } | { recoveryKey: string; reauth: ProviderTicket };
-    /** The recovery key of Keyrook Authenticator's kit, to wrap the root under instead of a new one. */
-    keepsRecoveryKey?: string;
-  },
+    /** On an account with a second step, beside the password or the sign-in (`secondStepProof`). */
+    secondStep?: SecondStepProof;
+  } & (
+    | {
+        /** The recovery key of Keyrook Authenticator's kit, to wrap the root under instead of a new one. */
+        keepsRecoveryKey?: string;
+        newRecoveryKey?: never;
+      }
+    | {
+        /** A new recovery key, shown and typed back before this is asked. */
+        newRecoveryKey?: string;
+        keepsRecoveryKey?: never;
+      }
+  ),
 ): Promise<{ recoveryKey: string | null; productKey: ProductKey }> {
   const { accountId, product, key } = input.productKey;
   const held = await heldFor(api, accountId);
@@ -172,13 +191,14 @@ export async function replaceRecoveryKey(
   }
   assertReported(root, held);
 
-  const sheet = input.keepsRecoveryKey ?? generateRecoveryKey();
+  const sheet = input.keepsRecoveryKey ?? input.newRecoveryKey ?? generateRecoveryKey();
   await api.setRootRecovery({
     recoveryWrap: await wrapRootUnderRecoveryKey(root, sheet, accountId),
     recoveryAuthHash: await deriveRecoveryAuthHash(sheet),
     rootCheck: await deriveRootCheck(root),
     ...(input.keepsRecoveryKey !== undefined ? { keepsRecoveryKey: true } : {}),
     ...('keys' in input.with ? { authHash: input.with.keys.authHash } : { reauth: input.with.reauth }),
+    ...(input.secondStep ? { secondStep: input.secondStep } : {}),
   });
 
   let productKey = input.productKey;
@@ -209,6 +229,10 @@ export async function replaceRecoveryKey(
  * too. The device keeps the old key until every record is sealed again under
  * the new one and pushed with a higher revision — in that order, or records
  * are lost (section 5).
+ *
+ * `newRecoveryKey`: one `generateRecoveryKey` made that the person has already
+ * saved and typed back; without it one is made here, and is the only key to
+ * the new root the moment this returns.
  */
 export async function replaceAccountRoot(
   api: HttpSyncAdapter,
@@ -220,11 +244,15 @@ export async function replaceAccountRoot(
       | { reauth: ProviderTicket }
       | { code: string; newPassword: string; kdf?: AccountKdfParams };
     newProductKey?: boolean;
+    /** A new recovery key, shown and typed back before this is asked. */
+    newRecoveryKey?: string;
+    /** On an account with a second step, beside the password or the sign-in (`secondStepProof`); a code sent to the address needs none. */
+    secondStep?: SecondStepProof;
   },
 ): Promise<{ productKey: ProductKey; recoveryKey: string; password?: { kdf: AccountKdfParams; keys: AccountKeys } }> {
   const { accountId, product } = input.productKey;
   const root = await newAccountRoot();
-  const recoveryKey = generateRecoveryKey();
+  const recoveryKey = input.newRecoveryKey ?? generateRecoveryKey();
   const password = 'newPassword' in input.proof ? await newPasswordKeys(input.proof.newPassword, input.proof.kdf) : undefined;
   const wrapKeys = password?.keys ?? ('keys' in input.proof ? input.proof.keys : null);
   if (input.method === 'password' && !wrapKeys) throw new Error('A password account’s root must be wrapped under the password.');
@@ -243,6 +271,7 @@ export async function replaceAccountRoot(
     ...(input.newProductKey ? { previousKeyCheck: await deriveProductKeyCheck(product, input.productKey.key) } : {}),
     ...('keys' in input.proof ? { authHash: input.proof.keys.authHash } : {}),
     ...('reauth' in input.proof ? { reauth: input.proof.reauth } : {}),
+    ...(input.secondStep && !('code' in input.proof) ? { secondStep: input.secondStep } : {}),
     ...(password && 'code' in input.proof
       ? { code: input.proof.code, newPassword: { authHash: password.keys.authHash, kdf: password.kdf } }
       : {}),

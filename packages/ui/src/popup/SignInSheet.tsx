@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import type { ProtectionMode } from '@authx/core';
 import { send, type ProviderOffer } from '../lib/protocol.js';
-import { CREATE_FRAGMENT, SIGN_IN_FRAGMENT, type SettingsFragment } from '../lib/deep-link.js';
+import { CREATE_FRAGMENT, PASSKEY_FRAGMENT, SIGN_IN_FRAGMENT, type SettingsFragment } from '../lib/deep-link.js';
 import { host } from '../host.js';
-import { ArrowLeftIcon, CheckIcon, CloudLockIcon } from '../components/icons.js';
+import { ArrowLeftIcon, CheckIcon, CloudLockIcon, KeyIcon } from '../components/icons.js';
 import { Button } from '../components/primitives.js';
-import { OrDivider, ProviderButtons } from '../options/ProviderSignIn.js';
+import { CONTINUE_BUTTON, OrDivider, ProviderButtons } from '../options/ProviderSignIn.js';
+import { offersPasskey } from '../options/PasskeySignIn.js';
 import { useT } from '../i18n/react.js';
+import { useBack } from '../lib/back.js';
 
 const BENEFITS = ['intro.benefit1', 'intro.benefit2'] as const;
 
@@ -14,17 +17,22 @@ const BENEFITS = ['intro.benefit1', 'intro.benefit2'] as const;
  * focus, so it cannot hold a sign-in itself: Google and GitHub open in a tab
  * that ends on Settings → Sync, and email opens Settings on the form chosen.
  * It is here so that someone on a new browser, looking for their codes, finds
- * the way to them where they first look.
+ * the way to them where they first look. A passkey goes the same way: Chrome
+ * asks for it in a sheet of its own, which would close the popup under it.
  */
-export function SignInSheet({ onClose }: { onClose: () => void }) {
+export function SignInSheet({ protection, onClose }: { protection: ProtectionMode; onClose: () => void }) {
   const t = useT();
   const [offer, setOffer] = useState<ProviderOffer | null>(null);
+  useBack(true, onClose);
 
   useEffect(() => {
     void send({ type: 'provider/offered' })
       .then(setOffer)
-      .catch(() => setOffer({ providers: [], inTab: false }));
+      .catch(() => setOffer({ providers: [], inTab: false, passkeys: false }));
   }, []);
+
+  // With the server's answer, which is there at once after the first time.
+  const passkey = offer !== null && offersPasskey(offer, protection);
 
   const openSettings = (fragment: SettingsFragment) => {
     void host().openSettings(fragment);
@@ -72,9 +80,19 @@ export function SignInSheet({ onClose }: { onClose: () => void }) {
         {/* Held at its height until the answer is known, so the buttons do not
             arrive under the pointer. */}
         <div className={offer ? 'flex flex-col gap-4' : 'invisible flex flex-col gap-4'} aria-hidden={offer ? undefined : true}>
-          {(offer === null || offer.providers.length > 0) && (
+          {(offer === null || offer.providers.length > 0 || passkey) && (
             <>
-              <ProviderButtons offer={offer ?? { providers: ['google', 'github'], inTab: true }} inNewTab />
+              <div className="flex flex-col gap-2">
+                {(offer === null || offer.providers.length > 0) && (
+                  <ProviderButtons offer={offer ?? { providers: ['google', 'github'], inTab: true, passkeys: true }} inNewTab />
+                )}
+                {passkey && (
+                  <button type="button" className={CONTINUE_BUTTON} onClick={() => openSettings(PASSKEY_FRAGMENT)}>
+                    <KeyIcon className="text-[17px] text-neutral-600 dark:text-neutral-300" />
+                    {t('passkey.continue')}
+                  </button>
+                )}
+              </div>
               <OrDivider>{t('intro.orEmail')}</OrDivider>
             </>
           )}

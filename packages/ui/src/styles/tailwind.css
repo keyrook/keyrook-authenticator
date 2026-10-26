@@ -20,6 +20,14 @@
  */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
+/*
+ * A window of an app's own — `data-window="app"` on <html> — rather than the
+ * extension's 380px popup: the screens that have the popup's fixed height
+ * fill it instead (`app:h-(--app-height)`), between a phone's status bar and
+ * its gesture bar.
+ */
+@custom-variant app (&:where([data-window='app'], [data-window='app'] *));
+
 @theme {
   /* Only Keyrook's colours exist here. Tailwind's own palettes are switched
      off, so a class naming one (zinc, amber, emerald…) builds nothing and
@@ -140,9 +148,64 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  [data-window='app'] {
+    --app-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  /* The app draws under the phone's bars, so its pages start below them. */
+  [data-window='app'] body {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+  }
+
+  /*
+   * A finger, not a pointer. The pages' sizes were made for a mouse in a 380px
+   * popup — 28px icon buttons, 32px rows of choices — and a thumb misses those.
+   * In an app's window every control is at least 44px each way (Apple's 44pt,
+   * near Android's 48dp); the classes stay as they are, so the extension does
+   * not change. A switch keeps its drawn size and reaches further instead
+   * (below), and a box to tick is reached through its label.
+   */
+  [data-window='app']
+    :is(button:not([role='switch']), summary, select, input:not([type='checkbox'], [type='radio'], [type='file'])) {
+    min-height: 44px;
+  }
+
+  [data-window='app'] :is(button:not([role='switch']), summary) {
+    min-width: 44px;
+  }
+
+  /* 16px at least, or an iPhone zooms the page in on every field it focuses. */
+  [data-window='app'] :is(input, select, textarea) {
+    font-size: max(16px, 1em);
+  }
+
+  /* A link in a sentence keeps its line, and takes a taller touch. */
+  [data-window='app'] a[href] {
+    padding-block: 14px;
+    margin-block: -14px;
+  }
+
+  [data-window='app'] [role='switch']::after {
+    content: '';
+    position: absolute;
+    inset: -10px -2px;
+  }
+
   /* Ink on paper; paper on night. White is a surface laid on the page. */
   body {
     @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50;
+  }
+
+  /*
+   * No theme is chosen until the settings arrive, and until then the page
+   * follows the system's. Without this a phone in dark mode shows paper for a
+   * moment between its own dark splash and the dark page.
+   */
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) body {
+      @apply bg-neutral-950 text-neutral-50;
+    }
   }
 
   /* Focus rings only when keyboard-driven — clicking a code should stay quiet. */
@@ -180,6 +243,17 @@
   }
 }
 
+/*
+ * Android's monospace face, Droid Sans Mono, has one weight, and its WebView
+ * draws it heavier only from 700: a code set at 600 came out as thin as the
+ * address under it. There a bold code asks for 700, and gets the drawn bold.
+ * Outside every layer, to outrank the utility that set 600; the phone app
+ * names its platform on <html> (apps/mobile/src/main.tsx).
+ */
+[data-platform='android'] :is(.code-digits, .font-mono).font-semibold {
+  font-weight: 700;
+}
+
 /* The QR sheet prints alone. It is a fixed, scrolling layer on screen, which
    on paper is one page cut off at the fold; the settings under it, and a dark
    theme's white-on-black text, are not wanted on paper at all. */
@@ -208,5 +282,81 @@
 
   .export-sheet li {
     border-color: var(--kr-neutral-300) !important;
+  }
+
+  /* A recovery key prints alone: not the settings around it, not its
+     buttons, and dark on white whatever the theme. */
+  html:has(.recovery-print),
+  html:has(.recovery-print) body {
+    color-scheme: light;
+    background: #fff !important;
+  }
+
+  body:has(.recovery-print) * {
+    visibility: hidden;
+  }
+
+  .recovery-print,
+  .recovery-print * {
+    visibility: visible;
+    color: var(--kr-ink) !important;
+    background-color: transparent !important;
+  }
+
+  .recovery-print {
+    position: absolute;
+    inset: 0 0 auto 0;
+  }
+
+  .recovery-print button {
+    display: none !important;
+  }
+}
+
+/*
+ * Type a step up in an app's window: the popup's 11 to 13px are for a screen
+ * held at arm's length, not in the hand. Every size up to 15px gains 1.5px;
+ * headings and codes, larger already, stay as they are. In the utilities
+ * layer, and more specific, so it outranks the class it scales.
+ */
+@layer utilities {
+  [data-window='app'] .text-\[9px\] {
+    font-size: 10.5px;
+  }
+  [data-window='app'] .text-\[10px\] {
+    font-size: 11.5px;
+  }
+  [data-window='app'] .text-\[11px\] {
+    font-size: 12.5px;
+  }
+  [data-window='app'] .text-\[11\.5px\] {
+    font-size: 13px;
+  }
+  [data-window='app'] .text-\[12px\] {
+    font-size: 13.5px;
+  }
+  [data-window='app'] .text-\[12\.5px\] {
+    font-size: 14px;
+  }
+  [data-window='app'] .text-\[13px\] {
+    font-size: 14.5px;
+  }
+  [data-window='app'] .text-\[13\.5px\] {
+    font-size: 15px;
+  }
+  [data-window='app'] .text-\[14px\] {
+    font-size: 15.5px;
+  }
+  [data-window='app'] .text-\[14\.5px\] {
+    font-size: 16px;
+  }
+  [data-window='app'] .text-\[15px\] {
+    font-size: 16.5px;
+  }
+  [data-window='app'] .text-xs {
+    font-size: 13.5px;
+  }
+  [data-window='app'] .text-sm {
+    font-size: 15.5px;
   }
 }

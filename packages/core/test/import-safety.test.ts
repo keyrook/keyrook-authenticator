@@ -95,6 +95,14 @@ describe('what comes out of a decrypted backup', () => {
     expect(item).toMatchObject({ digits: 6, period: 30, counter: 0 });
   });
 
+  it('keeps a Steam Guard account to Steam’s settings, five digits and all', () => {
+    // Five is also what an older build refuses, showing dashes, not a wrong code.
+    const [item] = sanitiseImportedItems([
+      { type: 'steam', issuer: 'Steam', secret: 'JBSWY3DPEHPK3PXP', digits: 6, period: 60, algorithm: 'SHA512' },
+    ]);
+    expect(item).toMatchObject({ type: 'steam', digits: 5, period: 30, algorithm: 'SHA1' });
+  });
+
   it('gives two accounts sharing an id different ones', () => {
     // Two items with the same id break every lookup that keys on it.
     const clean = sanitiseImportedItems([

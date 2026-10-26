@@ -16,6 +16,7 @@ export const tr: Dictionary = {
   'error.recoverOnAccountPage': 'Kurtarma anahtarınız doğru, ancak bu hesabın parolası artık tüm Keyrook uygulamaları için tek seferde hesap sayfasında sıfırlanıyor.',
   'error.kitOnAccountPage': 'Bu hesabın kurtarma anahtarı artık tüm Keyrook uygulamaları için tek seferde hesap sayfasında oluşturuluyor.',
   'error.restoreEmpty': 'Bu hesaptan geri getirilecek bir şey kalmadı: bu cihaz hiç sahip olmadan önce başka bir cihazda silindi.',
+  'error.noAccountSheet': 'Bu hesabın henüz kurtarma anahtarı yok. Hesap sayfasında bir tane oluşturun.',
   'error.recoveryKeyWrong': 'Bu kurtarma anahtarı bu hesapla eşleşmiyor.',
   'error.noRecoveryKit': 'Bu kasanın kurtarma anahtarı yok.',
   'error.syncUnavailable': 'Bu sürümde eşitleme yok.',
@@ -23,6 +24,8 @@ export const tr: Dictionary = {
   'error.alreadySignedIn': 'Zaten oturum açıldı.',
   'error.signedOutElsewhere':
     'Bu cihazın eşitleme oturumu kapatıldı — parola değiştirildi ya da cihaz başka bir cihazdan kaldırıldı. Yeniden oturum açın.',
+  'error.removedFromAccount':
+    'Başka bir cihaz bu cihazı Keyrook hesabınızdan kaldırdı, bu yüzden hesabın kodları buradan kaldırıldı. Geri getirmek için yeniden oturum açın.',
   'error.signOutUnsynced':
     'Bu tarayıcıdaki bazı değişiklikler henüz hesabınıza ulaşmadı ve şimdi oturumu kapatmak bunları kaybettirir. İnternete bağlanın ve yeniden deneyin.',
   'error.enterAccountPassword': 'Hesap parolanızı girin.',
@@ -50,9 +53,9 @@ export const tr: Dictionary = {
   'error.notThisVaultsPassword': 'Bu, bu kasanın ana parolası değil.',
   'error.nothingWaiting': 'Onay bekleyen bir şey yok.',
   'error.pairingExpired': 'İstek sona erdi — reddedildi ya da on dakika geçti. Yeniden isteyin.',
-  'error.pairingWrongKey': 'Gelen anahtar bu hesaba ait değil. Hiçbir şey değişmedi. Diğer tarayıcıdan tekrar deneyin.',
-  'error.pairingForged': 'Bu onay, kodunu kontrol ettiğiniz tarayıcıdan gelmedi.',
-  'error.pairingForgedAsk': 'Bu onay, kodu kontrol edilen tarayıcıdan gelmedi. Hiçbir şey değişmedi. Yeniden isteyin.',
+  'error.pairingWrongKey': 'Gelen anahtar bu hesaba ait değil. Hiçbir şey değişmedi. Diğer cihazdan tekrar deneyin.',
+  'error.pairingForged': 'Bu onay, kodunu kontrol ettiğiniz cihazdan gelmedi.',
+  'error.pairingForgedAsk': 'Bu onay, kodu kontrol edilen cihazdan gelmedi. Hiçbir şey değişmedi. Yeniden isteyin.',
   'error.pairingEnded': 'Bu istek sona erdi.',
   'error.approveAgain': 'Bu isteği onaylamaya baştan başlayın.',
   'error.backupPasswordShort': 'Yedek parolası en az 8 karakter olmalı.',
@@ -70,6 +73,24 @@ export const tr: Dictionary = {
   'error.migrationNotOurs': 'Bu bir Google Authenticator dışa aktarımı değil.',
   'error.migrationMalformed': 'Bu Google Authenticator dışa aktarımı bozuk ya da eksik.',
   'error.offline': 'Eşitleme sunucusuna ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.',
+  'error.passkey.wrongOrigin': 'Geçiş anahtarı yalnızca Keyrook’un kendi sayfası ve uygulamaları için çalışır.',
+  'error.passkey.notOffered': 'Burada geçiş anahtarıyla oturum açma sunulmuyor.',
+  'error.passkey.unchecked': 'Bu geçiş anahtarı denetlenemedi. Tekrar deneyin.',
+  'error.passkey.unknown': 'Hiçbir Keyrook hesabı bu geçiş anahtarını tanımıyor. Kaldırılmış olabilir.',
+  'error.passkey.ended': 'Bu geçiş anahtarı isteğinin süresi doldu. Tekrar deneyin.',
+  'error.passkey.noUnlock': 'Bu geçiş anahtarı bu hesabın anahtarını açmıyor. Bunun yerine parolayla oturum açın.',
+  'error.passkey.noUnlockProvider':
+    'Bu geçiş anahtarı bu hesabın anahtarını açmıyor. Bunun yerine Google veya GitHub ile devam edin.',
+  'error.passkey.masterPassword':
+    'Ana parolayla kilitlenen bir kasa geçiş anahtarıyla oturum açamaz. Hesabın parolasıyla ya da Google veya GitHub ile oturum açın.',
+  'error.passkey.permission':
+    'Keyrook Authenticator’ın account.keyrook.com geçiş anahtarlarını kullanabilmesi için Chrome’un izni gerekiyor. Geçiş anahtarını yeniden seçin ve izin verin.',
+  'error.passkey.cancelled': 'Hiçbir geçiş anahtarı kullanılmadı. Yeniden deneyin ya da başka bir yolla oturum açın.',
+  'error.passkey.failed': 'Chrome bir geçiş anahtarı isteyemedi. Yeniden deneyin ya da başka bir yolla oturum açın.',
+  'error.secondStep.missing': 'Doğrulama uygulamanızdaki kodu da girin.',
+  'error.secondStep.wrongCode': 'Bu kod doğru değil. Doğrulama uygulamanızın şu an gösterdiğini girin.',
+  'error.secondStep.expired': 'Bu oturum açmanın süresi doldu. Yeniden oturum açın.',
+  'error.secondStep.used': 'Bu kod az önce oturum açmak için kullanıldı. Uygulamanızın bir sonrakini göstermesini bekleyin.',
   'error.provider.refusedBy': '{provider} oturum açmayı reddetti.',
   'error.provider.unreachable': '{provider} adresine ulaşılamadı. Birazdan tekrar deneyin.',
   'error.provider.refused': 'Oturum açma reddedildi. Tekrar deneyin.',
@@ -83,11 +104,11 @@ export const tr: Dictionary = {
   'error.server.signupExpired': 'Bu kaydın süresi doldu. Yeniden oturum açın.',
   'error.server.signinExpired': 'Bu oturum açmanın süresi doldu. Tekrar deneyin.',
   'error.server.tooManyCodes': 'Çok fazla yanlış kod. Yenisini isteyin.',
-  'error.server.tooManyPairings': 'Bu hesaba katılmayı bekleyen çok fazla tarayıcı var. Birkaç dakika sonra tekrar deneyin.',
+  'error.server.tooManyPairings': 'Bu hesaba katılmayı bekleyen çok fazla cihaz var. Birkaç dakika sonra tekrar deneyin.',
   'error.server.wrongKey': 'Bu cihazda hesap anahtarı yok.',
   'error.server.providerAccount': 'Bu hesaba parolayla değil, Google veya GitHub ile giriliyor.',
   'error.server.mailFailed': 'E-posta gönderilemedi. Bir dakika sonra tekrar deneyin.',
-  'error.server.pairingTaken': 'Bu istek sona erdi ya da başka bir tarayıcı onu onaylıyor.',
+  'error.server.pairingTaken': 'Bu istek sona erdi ya da başka bir cihaz onu onaylıyor.',
   'error.server.passwordWrong': 'Bu parola doğru değil.',
   'error.server.badCredentials': 'E-posta veya parola yanlış.',
   'error.server.badCode': 'Bu kod yanlış ya da süresi dolmuş. E-postayı kontrol edin ya da yenisini isteyin.',
@@ -145,6 +166,22 @@ export const tr: Dictionary = {
   'unlock.placeholder': 'Ana parola',
   'unlock.submit': 'Kilidi aç',
   'unlock.forgot': 'Unuttunuz mu? <link>Kurtarma anahtarınızı kullanın</link>',
+  'platformUnlock.unlock': 'Parmak izi, yüz veya PIN ile kilidi aç',
+  'platformUnlock.title': 'Parmak izi, yüz veya PIN',
+  'platformUnlock.body': 'Ana parolayı yazmak yerine kasayı bu bilgisayarın kendi doğrulamasıyla açın — Touch ID, Windows Hello ya da PIN’i. Parola yine açar, değişiklikler de yine onu ister.',
+  'platformUnlock.on': 'Kasa bu bilgisayarın kendi doğrulamasıyla da açılır. Ana parolayı kaldırmak bunu kapatır.',
+  'passkeyUnlock.turnOn': 'Aç',
+  'passkeyUnlock.turnOff': 'Kapat',
+  'platformUnlock.confirm': 'Ardından bilgisayar parmak izinizi, yüzünüzü veya PIN’inizi ister.',
+  'error.passkeyUnlock.cancelled': 'Doğrulama iptal edildi ya da çok uzun sürdü. Yeniden deneyin veya ana parolayı kullanın.',
+  'error.platformUnlock.noPrf': 'Bu geçiş anahtarının kaydedildiği yer bir anahtar tutamıyor, bu yüzden kasayı açamaz. Bunu yeniden açın ve nereye kaydedileceği sorulduğunda başka bir yer seçin — ya da ana parolayı kullanmaya devam edin.',
+  'error.passkeyUnlock.failed': 'Bu kasayı açmadı. Ana parolayı kullanın, ardından Güvenlik bölümünde bunu yeniden açın.',
+  'securityKey.unlock': 'Güvenlik anahtarıyla kilidi aç',
+  'securityKey.title': 'Güvenlik anahtarı',
+  'securityKey.body': 'Ana parolayı yazmak yerine kasayı bir USB güvenlik anahtarı ve onun PIN’iyle açın. Anahtarı elinde tutan ve PIN’ini bilen herkes kasayı bu bilgisayarda açabilir. Anahtar kaybolursa ana parola kasayı açmaya devam eder.',
+  'securityKey.on': 'Kasa bu bilgisayarda güvenlik anahtarınız ve onun PIN’iyle de açılır. Anahtarı elinde tutan ve PIN’ini bilen herkes onu burada açabilir; bu yüzden anahtar kaybolursa bunu kapatın. Ana parolayı kaldırmak bunu kapatır.',
+  'securityKey.confirm': 'Ardından güvenlik anahtarınızı takın, PIN’ini yazın ve anahtara dokunun. Bazı anahtarlar iki kez sorar.',
+  'error.securityKey.noPrf': 'Bu güvenlik anahtarı bir anahtar saklayamaz, bu yüzden kasayı açamaz. Yalnızca iki adımlı oturum açma için yapılmış anahtarlar bunu yapamaz. Başka bir anahtar deneyin veya ana parolayı kullanmaya devam edin.',
 
   'unrecoverable.title': 'Bu kasa artık açılamıyor',
   'unrecoverable.why':
@@ -180,6 +217,7 @@ export const tr: Dictionary = {
   'setup.password.description': 'Kasayı tek bir parola açar; kullanmayı bıraktığınızda kendini yeniden kilitler.',
   'setup.password.footnote': 'En güçlü seçenek: kilitlendiğinde bu bilgisayardaki hiçbir şey parola olmadan kasayı açamaz.',
   'setup.footer': 'Her iki durumda da AES-256-GCM. İstediğiniz zaman değiştirin; eşitleme isteğe bağlıdır, Ayarlar’da.',
+  'setup.footer.noSync': 'Her iki durumda da AES-256-GCM. İstediğiniz zaman Ayarlar’dan değiştirin.',
   'setup.source': 'Açık kaynak — kodu okuyun',
   'common.back': 'Geri',
   'setup.passwordStep.title': 'Ana parola belirleyin',
@@ -225,10 +263,10 @@ export const tr: Dictionary = {
   'vault.byName': 'Ada göre',
   'vault.orderAdded': 'Eklenme sırası',
   'vault.joinRequests': {
-    one: 'Bir tarayıcı hesabınıza katılmak istiyor.',
-    other: '{count} tarayıcı hesabınıza katılmak istiyor.',
+    one: 'Bir cihaz hesabınıza katılmak istiyor.',
+    other: '{count} cihaz hesabınıza katılmak istiyor.',
   },
-  'vault.joinRequestsHint': 'Yalnızca şu an kendinizin oturum açtığı tarayıcıyı onaylayın.',
+  'vault.joinRequestsHint': 'Yalnızca şu an kendinizin oturum açtığı cihazı onaylayın.',
   'vault.reviewInSettings': 'Ayarlar’da incele',
   'vault.noMatch': '“{query}” ile eşleşen hesap yok.',
   'vault.forHost': '{host} için',
@@ -313,6 +351,7 @@ export const tr: Dictionary = {
   'error.alreadyInVault': 'Bu hesap zaten kasanızda.',
   'error.gaSkipPeriod': 'Google Authenticator yalnızca 30 saniyelik kodları tutar; bu {period} kullanıyor.',
   'error.gaSkipDigits': 'Google Authenticator yalnızca 6 veya 8 haneli kodları tutar; bunda {digits} hane var.',
+  'error.gaSkipSteam': 'Google Authenticator, Steam Guard kodu üretemez.',
 
   'scan.progressBatch': '{total} koddan {seen}. tarandı — {accounts}. Sonraki kodu gösterin.',
   'scan.progress': '{accounts}.',
@@ -388,9 +427,18 @@ export const tr: Dictionary = {
   'options.count': { one: '{count} hesap', other: '{count} hesap' },
   'options.sourceOnGithub': 'GitHub’da açık kaynak',
   'sheet.once': 'Bu anahtar yalnızca bu kez gösterilir. Hiçbir yerde saklanmaz — kaybederseniz yenisini oluşturun.',
+  'sheet.print': 'Yazdır',
+  'sheet.apart': 'Onu e-postanızdan ayrı tutun ve kendinize asla e-postayla göndermeyin: bu anahtar ve e-posta adresinizle biri yeni bir parola belirleyip kodlarınızı açabilir.',
+  'sheet.apartProvider': 'Onu giriş yaptığınız Google veya GitHub hesabından ayrı tutun ve asla o hesabın e-postasında ya da depolama alanında saklamayın: bu anahtar ve o hesapla biri kodlarınızı açabilir.',
+  'sheet.kept': 'Kaydettim',
+  'sheet.checkHeading': 'Kaydettiğinizi kontrol edin',
+  'sheet.checkLead': 'Kaydettiğiniz kopyadan anahtarın iki grubunu yazın. Gruplar, tireler arasındaki dörder karakterlik bloklardır ve soldan sayılır.',
+  'sheet.group': '{position}. grup',
+  'sheet.check': 'Kontrol et',
+  'sheet.mismatch': 'Anahtarınızda bu yazmıyor. Kaydettiğinize yeniden bakın veya anahtarı yeniden gösterip şimdi kaydedin.',
+  'sheet.showAgain': 'Anahtarı yeniden göster',
   'sheet.download': 'Sayfayı indir',
   'sheet.copy': 'Kopyala',
-  'sheet.saved': 'Bunu, bu bilgisayar olmasa bile elimde kalacak bir yere kaydettim.',
 
   'groups.title': 'Gruplar',
   'groups.description':
@@ -451,6 +499,7 @@ export const tr: Dictionary = {
   'accounts.digits': '{type} {digits} hane',
   'accounts.period': ' · {seconds} sn',
   'accounts.counter': ' · sayaç {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': '{name} hesabını paylaş veya taşı',
   'accounts.edit': 'Düzenle',
   'common.delete': 'Sil',
@@ -586,6 +635,7 @@ export const tr: Dictionary = {
   'export.oneByOne.title': 'Her seferinde bir hesap',
   'export.oneByOne.progress': 'Gösterilen hesaplar',
   'export.oneByOne.keys': '→ veya Boşluk sonraki için, Esc durdurmak için',
+  'export.steamRefused': '{app}, Steam Guard kodu üretemediği için bu hesabı almaz.',
   'export.oneByOne.position': 'Hesap {index} / {total}',
   'export.print.label': 'Yazdırmak ya da taramak için QR kodları',
   'export.print.title': 'Keyrook Authenticator — kurulum kodları',
@@ -658,11 +708,11 @@ export const tr: Dictionary = {
 
   'kit.title': 'Kurtarma anahtarı',
   'kit.provider':
-    'Hesabınızın parolası yok. Oturum açılmış tüm tarayıcılar kaybolursa geri dönüş yolu kurtarma anahtarıdır: başka bir tarayıcının onayı olmadan yeni bir tarayıcıyı hesabınıza alır. {provider} bunu sizin için yapamaz.',
+    'Hesabınızın parolası yok. Oturum açılmış tüm cihazlar kaybolursa geri dönüş yolu kurtarma anahtarıdır: başka bir cihazın onayı olmadan yeni bir cihazı hesabınıza alır. {provider} bunu sizin için yapamaz.',
   'kit.signedIn':
-    'Parolanızı kimse sıfırlayamaz — ne biz ne de Google. Unutursanız tek geri dönüş yolu kurtarma anahtarıdır: bu kasayı, diğer cihazlarınızı ve yeni bir cihazdaki hesabınızı açar.',
+    'Parolanızı sizin yerinize kimse sıfırlayamaz — biz bile. Unutursanız tek geri dönüş yolu kurtarma anahtarıdır: bu kasayı, diğer cihazlarınızı ve yeni bir cihazdaki hesabınızı açar.',
   'kit.passphrase':
-    'Ana parolanızı kimse sıfırlayamaz — ne biz ne de Google. Kasanızı başkasının açmasını engelleyen de bu; unuttuğunuzda tek geri dönüş yolunun kurtarma anahtarı olmasının nedeni de.',
+    'Ana parolanızı kimse sıfırlayamaz — biz bile. Kasanızı başkasının açmasını engelleyen de bu; unuttuğunuzda tek geri dönüş yolunun kurtarma anahtarı olmasının nedeni de.',
   'kit.device':
     'Bu kasa, tarayıcınızın tuttuğu bir anahtarla açılır. O anahtar giderse — temizlenen tarama verileri, yeni bir profil, yeniden yükleme — onu hâlâ açabilecek tek şey kurtarma anahtarıdır.',
   'kit.none': 'Henüz kurtarma anahtarı yok',
@@ -675,14 +725,14 @@ export const tr: Dictionary = {
   'kit.replaces': 'Yeni anahtar oluşturmak öncekini geçersiz kılar; yenisini aldıktan sonra eski basılı sayfayı atabilirsiniz.',
   'kit.replacesSignedIn':
     'Yeni anahtar oluşturmak öncekini burada ve diğer cihazlarınızda geçersiz kılar; yenisini aldıktan sonra eski basılı sayfayı atabilirsiniz.',
-  'kit.withoutProvider': 'O olmadan, hesabınıza oturum açılmış tüm tarayıcıları kaybetmek bu kasadaki her hesabın sonsuza dek gitmesi demektir.',
+  'kit.withoutProvider': 'O olmadan, hesabınıza oturum açılmış tüm cihazları kaybetmek bu kasadaki her hesabın sonsuza dek gitmesi demektir.',
   'kit.withoutPassword': 'O olmadan, parolanızı unutmak bu kasadaki her hesabın sonsuza dek gitmesi demektir.',
   'kit.withoutDevice': 'O olmadan, bu tarayıcının tuttuğu anahtarı kaybetmek bu kasadaki her hesabın sonsuza dek gitmesi demektir.',
   'kit.noSupport': 'Bunu geri alabilecek bir destek talebi yok.',
-  'kit.removeProvider': 'Kaldırırsanız, hesabınıza yeni bir tarayıcı almanın tek yolu zaten oturum açmış bir tarayıcı olur.',
+  'kit.removeProvider': 'Kaldırırsanız, hesabınıza yeni bir cihaz almanın tek yolu zaten oturum açmış bir cihaz olur.',
   'kit.removePassword': 'Kaldırırsanız, tek giriş yolu parolanız olur.',
   'kit.removePasswordSignedIn': 'Kaldırırsanız, tek giriş yolu parolanız olur — bu cihazda, diğer cihazlarınızda ve hesabınızda.',
-  'kit.reauth': 'Kurtarma anahtarı hesabınıza bir tarayıcı alabilir, bu yüzden {provider} önce bir kez daha oturum açmanızı ister.',
+  'kit.reauth': 'Kurtarma anahtarı hesabınıza bir cihaz alabilir, bu yüzden {provider} önce bir kez daha oturum açmanızı ister.',
   'kit.passwordHint': 'Kurtarma anahtarı hesabınızı sıfırlayabilir, bu yüzden değiştirmek parolanızı gerektirir.',
   'kit.removeConfirm': 'Kurtarma anahtarını kaldır',
   'kit.createConfirm': 'Anahtarı oluştur',
@@ -709,7 +759,7 @@ export const tr: Dictionary = {
   'account.syncNow': 'Şimdi eşitle',
   'account.signOut': 'Oturumu kapat',
   'account.noKitProvider':
-    'Hesabınızın kurtarma anahtarı yok. Oturum açılmış tüm tarayıcılar kaybolursa hiçbir şey hesaplarınızı geri getiremez — ne biz ne de {provider}.',
+    'Hesabınızın kurtarma anahtarı yok. Oturum açılmış tüm cihazlar kaybolursa hiçbir şey hesaplarınızı geri getiremez — ne biz ne de {provider}.',
   'account.noKit':
     'Hesabınızın kurtarma anahtarı yok. Parolanızı unutur ve bu cihazı kaybederseniz hiçbir şey hesaplarınızı geri getiremez — ne biz ne de bir başkası.',
   'account.createUnderSecurity': 'Güvenlik altında bir tane oluşturun',
@@ -731,11 +781,34 @@ export const tr: Dictionary = {
   'accountPage.bodyNoRoot': 'Parola ve silme hesap sayfasındadır. Kurtarma anahtarı, hesabı başka bir Keyrook uygulaması kullanana kadar burada, Güvenlik altında oluşturulur.',
   'accountPage.bodyProvider': 'Kurtarma anahtarı, baştan başlatma ve silme, tüm Keyrook uygulamaları için tek seferde hesap sayfasındadır.',
   'accountPage.bodyNoRootProvider': 'Silme hesap sayfasındadır. Kurtarma anahtarı, hesabı başka bir Keyrook uygulaması kullanana kadar burada, Güvenlik altında oluşturulur.',
+  'sheetCheck.lead': 'Kaydettiğiniz kurtarma anahtarını bir kez yazın; böylece bu uygulama kodlarınızı geri getirebileceğini bilir. Anahtar bu cihazda kontrol edilir ve hiçbir yere gönderilmez.',
+  'sheetCheck.submit': 'Kontrol et',
+  'sheetCheck.lost': 'Kaybettiniz mi, yoksa hiç olmadı mı? Hesap sayfasında yenisini oluşturun.',
+  'accountPage.noSheetYet': 'Kurtarma anahtarınızın Keyrook Authenticator’ı koruduğunu gösteren bir şey henüz yok. O olmadan unutulan bir parola size kodlarınıza mal olabilir. Onu Güvenlik altında bir kez yazın veya hesap sayfasında yenisini oluşturun.',
+  'account.checkUnderSecurity': 'Güvenlik altında kontrol et',
   'accountPage.open': 'Hesap sayfasını aç',
   'accountPage.recoveryKey': 'Oturum açılmış bir kasanın kurtarma anahtarı Keyrook hesabınındır. Hesap sayfasında oluşturulur ve değiştirilir.',
   'accountPage.sheetProtects': 'Hesabın kurtarma anahtarı Keyrook Authenticator’ı koruyor',
   'accountPage.sheetUnknown': 'Keyrook Authenticator’ı koruyup korumadığı henüz bilinmiyor',
-  'accountPage.noSheet': 'Bu hesabın kurtarma anahtarının Keyrook Authenticator’ı koruduğunu gösteren bir şey henüz yok. Parola o olmadan unutulursa kodlarınızı kaybedebilirsiniz. Hesap sayfasında bir tane oluşturun veya sizinkini kontrol edin.',
+  'secondStep.title': 'Bir adım daha',
+  'secondStep.lead': 'Keyrook hesabınız ikinci bir adım istiyor. Doğrulama uygulamanızın bu hesap için gösterdiği 6 haneli kodu girin.',
+  'secondStep.field': 'Kod veya kurtarma anahtarı',
+  'secondStep.hint': 'O uygulamayı mı kaybettiniz? Bunun yerine hesabınızın kurtarma anahtarını girin.',
+  'secondStep.passkey': 'Bunun yerine geçiş anahtarı kullan',
+  'secondStep.where': 'İki adımlı oturum açma account.keyrook.com’da açılıp kapatılır.',
+  'secondStep.ownerLead': 'Hesabınız bunun için de ikinci bir adım istiyor: doğrulama uygulamanızdaki kod ya da kurtarma anahtarınız.',
+  'secondStep.nextCode': 'Her kod yalnızca bir kez çalışır. Az önce bir kodla oturum açtıysanız, uygulamanızın bir sonrakini göstermesini bekleyin.',
+  'secondStepTip.title': 'İki adımlı oturum açma',
+  'secondStepTip.suggest': 'Bu hesap başka bir cihazda oturum açtığında her seferinde bir kod da isteyin. account.keyrook.com’da açın ve kodu burada saklayın: o sayfada Keyrook Authenticator’ı açıp “{scan}” seçeneğini seçin.',
+  'secondStepTip.kept': 'Bu hesabın kendi oturum açma kodu burada, hesapta oturum açmış her cihazda saklanır.',
+  'secondStepTip.warning': 'Onu saklayan cihazların hepsini kaybederseniz kod yerine kurtarma anahtarınızla oturum açın. Kurtarma anahtarını ayrı bir yerde saklayın.',
+  'secondStepTip.open': 'Aç',
+  'signin.providerHasPassword': '{provider} bunun siz olduğunuzu doğruladı ve {email} hesabının bir parolası da var. Kodlarınızı burada açmak için parolayı girin.',
+  'provider.addOnPage': 'Google veya GitHub ile de oturum açmak için hesap sayfasında parolanızla oturum açıp orada ekleyin.',
+  'startOver.title': 'Keyrook hesabınız {date} tarihinde baştan başlayacak',
+  'startOver.lead': '“{device}” üzerindeki biri bunu {date} tarihinde, size e-postayla gönderdiğimiz kodla istedi: yeni bir parola ve yeni anahtarlar; uygulamalarınız da boş başlayacak.',
+  'startOver.ifYou': 'Bu sizseniz yapmanız gereken bir şey yok. Değilse şimdi iptal edin, ardından e-posta parolanızı değiştirin: bunu isteyen kişi e-postalarınızı okuyabilir.',
+  'startOver.cancel': 'Ben istemedim — iptal edin',
   'kept.title': 'Hesap baştan başlamadan önceden saklananlar',
   'kept.body': 'Bu hesap baştan başladığında, Keyrook Authenticator’ın içindekiler {date} tarihine kadar saklandı. Hesabın o zamanki parolası veya o zamanki kurtarma anahtarıyla geri getirin.',
   'kept.password': 'O zamanki parola',
@@ -743,7 +816,7 @@ export const tr: Dictionary = {
   'kept.usePassword': 'O zamanki parolayı kullan',
   'kept.useRecoveryKey': 'O zamanki kurtarma anahtarını kullan',
   'kept.bring': 'Geri getir',
-  'kept.done': 'Bu kasaya geri döndü ve diğer tarayıcılarınıza gidiyor.',
+  'kept.done': 'Bu kasaya geri döndü ve diğer cihazlarınıza gidiyor.',
   'error.keys.awaitingConfirmation': 'Başka bir Keyrook uygulaması bu hesabın anahtarlarını değiştirdi ve Keyrook Authenticator’ınki henüz uyum sağlamadı. Kontrol etmek için hesap sayfasını açın, sonra yeniden oturum açın.',
   'password.changedBoth':
     'Parola hesabınız ve bu kasa için değiştirildi. Diğer cihazlarınız onunla yeniden oturum açmanızı isteyecek.',
@@ -755,9 +828,12 @@ export const tr: Dictionary = {
   'password.formTitle': 'Hesap parolanızı değiştirin',
   'devices.title': 'Oturum açılmış cihazlar',
   'devices.description':
-    'Artık kullanmadığınız ya da elinizde olmayan bir cihazın oturumunu kapatın. Zaten eşitlenmiş olanı aynı parolayla kilitli tutar, ama yeni bir şey almaz.',
+    'Artık kullanmadığınız ya da elinizde olmayan bir cihazın oturumunu kapatın. Üzerinde güncel bir Keyrook Authenticator çalışıyorsa, bir sonraki bağlantısında bu hesabın kodlarını kendisi kaldırır ve yalnızca hiç göndermediklerini tutar. O zamana kadar, ya da bir daha hiç bağlanmazsa, elindekini aynı parolayla kilitli tutar.',
+  'devices.descriptionProvider':
+    'Artık kullanmadığınız ya da elinizde olmayan bir cihazın oturumunu kapatın. Üzerinde güncel bir Keyrook Authenticator çalışıyorsa, bir sonraki bağlantısında bu hesabın kodlarını kendisi kaldırır ve yalnızca hiç göndermediklerini tutar. O zamana kadar, ya da bir daha hiç bağlanmazsa, elindekini kasanın o cihazda kilitli olduğu şekilde kilitli tutar.',
   'devices.this': 'Bu cihaz',
   'devices.when': '{created} tarihinde oturum açıldı · son etkinlik {seen}',
+  'removed.kept': 'Burada eklenen ya da değiştirilen ve hesaba ulaşmamış kodlar hâlâ burada.',
   'delete.row': 'Hesabınızı silin',
   'delete.rowDescription':
     'Sunucudaki tüm şifreli kopyaları kaldırır. Bu cihaz kasasını olduğu gibi tutar; diğer cihazlar eşitlemeyi bırakır.',
@@ -767,7 +843,7 @@ export const tr: Dictionary = {
   'delete.reauth': 'Bir şey silinmeden önce {provider} bir kez daha oturum açmanızı ister.',
   'delete.confirm': 'Hesabı sil',
 
-  'intro.benefit1': 'Oturum açtığınız her tarayıcıda aynı kodlar.',
+  'intro.benefit1': 'Oturum açtığınız her cihazda aynı kodlar.',
   'intro.benefit2': 'Kaybolan ya da bozulan bir dizüstü, kaybolan bir kasa değildir.',
   'intro.benefit3': 'Ücretsiz ve isteğe bağlı — o olmadan da her şey bu cihazda çalışmaya devam eder.',
   'intro.title': 'Kasanızı eşitleyin',
@@ -824,8 +900,8 @@ export const tr: Dictionary = {
   'ready.some': 'Hesabınız hazır. Şu ana kadar {total} hesaptan {done} tanesi yedeklendi; geri kalanı sonraki eşitlemede gelir.',
   'fresh.title': 'Kurtarma anahtarınızı kaydedin',
   'fresh.provider':
-    'Hesabınıza oturum açılmış tüm tarayıcılar kaybolursa tek geri dönüş yolu bu anahtardır — {provider} kasanızı geri getiremez, biz de getiremeyiz.',
-  'fresh.password': 'Parolanızı unutursanız tek geri dönüş yolu bu anahtardır — kimse sizin yerinize sıfırlayamaz, ne biz ne de Google.',
+    'Hesabınıza oturum açılmış tüm cihazlar kaybolursa tek geri dönüş yolu bu anahtardır — {provider} kasanızı geri getiremez, biz de getiremeyiz.',
+  'fresh.password': 'Parolanızı unutursanız tek geri dönüş yolu bu anahtardır — kimse sizin yerinize sıfırlayamaz, biz bile.',
   'welcome.fromAccount': '{count} tanesi hesabınızdan',
   'welcome.fromDevice': '{count} tanesi bu cihazdan eklendi',
   'welcome.inSync': 'Zaten eşit.',
@@ -849,41 +925,48 @@ export const tr: Dictionary = {
   'provider.finishInWindow': 'Açılan {provider} penceresinde tamamlayın.',
   'provider.confirmed': '{provider}, <b>{email}</b> adresini onayladı. Henüz hiçbir hesap onu kullanmıyor.',
   'provider.point1':
-    'Parola yok. Yeni bir tarayıcıda {provider} ile devam edersiniz; ikisinin de aynı kodu gösterdiğini kontrol ettikten sonra zaten oturum açmış bir tarayıcı onu içeri alır.',
+    'Parola yok. Yeni bir cihazda {provider} ile devam edersiniz; ikisinin de aynı kodu gösterdiğini kontrol ettikten sonra zaten oturum açmış bir cihaz onu içeri alır.',
   'provider.point2':
-    '{provider} sizin olduğunuzu kanıtlar. Kodlarınızı asla görmez: burada, tarayıcılarınızda kalan bir anahtarla şifrelenirler.',
+    '{provider} sizin olduğunuzu kanıtlar. Kodlarınızı asla görmez: burada, cihazlarınızda kalan bir anahtarla şifrelenirler.',
   'provider.point3':
-    'Ardından bir kurtarma anahtarı kaydedersiniz — hesaba oturum açılmış tüm tarayıcılar kaybolursa geri dönüş yolu. {provider} kasanızı geri getiremez.',
+    'Ardından bir kurtarma anahtarı kaydedersiniz — hesaba oturum açılmış tüm cihazlar kaybolursa geri dönüş yolu. {provider} kasanızı geri getiremez.',
   'provider.notRight': 'Doğru hesap değil mi?',
   'provider.startAgain': 'Baştan başla',
+  'passkey.continue': 'Geçiş anahtarıyla devam et',
+  'passkey.where':
+    '<link>Hesap sayfasında</link>, Geçiş anahtarları bölümünde eklediğiniz bir anahtar. İlk seferinde Chrome, Keyrook Authenticator’ın onu kullanmasına izin verip vermeyeceğinizi sorar.',
   'pairing.codeLabel': 'Kod {code}',
   'join.title': 'Bu tarayıcıyı içeri alın',
-  'join.subtitle': '<b>{email}</b> adresinin zaten bir hesabı var. Bu tarayıcıyı, oturum açmış bir tarayıcıdan onaylayın.',
+  'join.subtitle': '<b>{email}</b> adresinin zaten bir hesabı var. Bu tarayıcıyı, oturum açmış bir cihazdan onaylayın.',
   'join.masterPassword': 'Bu kasanın ana parolası',
   'join.masterHint': 'Bu kasayı burada kilitlemeye devam eder; hesabın kendisinin parolası yok.',
   'join.ask': 'Katılmak iste',
   'join.step1':
-    'Zaten oturum açmış bir tarayıcıda Keyrook Authenticator’ı açın. İstek orada görünür — açılır pencerede ve Ayarlar’da Eşitleme altında.',
+    'Zaten oturum açmış bir cihazda Keyrook Authenticator’ı açın. İstek orada görünür — kodların üstünde ve Ayarlar’da Eşitleme altında.',
   'join.step2': 'Bu sayfayla aynı kodu gösterdiğini kontrol edin, sonra onaylayın.',
   'join.askAgain': 'Yeniden iste',
-  'join.compare': 'Diğer tarayıcı da bir kod gösterir. Yalnızca tam olarak bu kodsa orada onaylayın.',
-  'join.waiting': 'Başka bir tarayıcı bekleniyor…',
-  'join.noOther': 'Başka tarayıcı kalmadı mı?',
+  'join.compare': 'Diğer cihaz da bir kod gösterir. Yalnızca tam olarak bu kodsa orada onaylayın.',
+  'join.waiting': 'Başka bir cihaz bekleniyor…',
+  'join.noOther': 'Başka cihaz kalmadı mı?',
   'join.useKey': 'Kurtarma anahtarınızı kullanın',
   'join.wrongAccount': '{provider} ile yanlış hesapla mı oturum açtınız?',
-  'joinKey.subtitle': 'Hesap oluşturulurken kaydettiğiniz anahtar. Başka bir tarayıcı olmadan bu tarayıcıyı içeri alır.',
+  'joinKey.subtitle': 'Hesap oluşturulurken kaydettiğiniz anahtar. Başka bir cihaz olmadan bu tarayıcıyı içeri alır.',
   'joinKey.submit': 'Hesaba katıl',
-  'approve.approved': 'Onaylandı. Diğer tarayıcı birazdan kasanızı açacak.',
+  'approve.approved': 'Onaylandı. Diğer cihaz birazdan kasanızı açacak.',
   'approve.mismatch':
     'Reddedildi. Az önce oturum açan siz değilseniz, başka biri {provider} hesabınıza girebiliyor — parolasını değiştirin ve güvenlik ayarlarını kontrol edin.',
   'approve.declined': 'Reddedildi. Hiçbir şey gönderilmedi.',
-  'approve.title': 'Katılmak isteyen tarayıcılar',
+  'approve.title': 'Katılmak isteyen cihazlar',
   'approve.description':
-    'Her istek, {provider} hesabınızla az önce oturum açan birinden gelir. Yalnızca şu an kendinizin oturum açtığı tarayıcıyı onaylayın.',
+    'Her istek, {provider} hesabınızla az önce oturum açan birinden gelir. Yalnızca şu an kendinizin oturum açtığı cihazı onaylayın.',
+  'approve.descriptionAny':
+    'Her istek, Google veya GitHub hesabınızla az önce oturum açan birinden gelir. Yalnızca şu an kendinizin oturum açtığı cihazı onaylayın.',
+  'approve.mismatchAny':
+    'Reddedildi. Az önce oturum açan siz değilseniz, başka biri Google veya GitHub hesabınıza girebiliyor — parolasını değiştirin ve güvenlik ayarlarını kontrol edin.',
   'approve.askedAt': '{time} saatinde istendi',
   'approve.review': 'İncele',
   'approve.deny': 'Reddet',
-  'approve.question': 'İsteyen tarayıcı tam olarak bu kodu mu gösteriyor? Göstermiyorsa başka biri içeri girmeye çalışıyor.',
+  'approve.question': 'İsteyen cihaz tam olarak bu kodu mu gösteriyor? Göstermiyorsa başka biri içeri girmeye çalışıyor.',
   'approve.matches': 'Eşleşiyor — içeri al',
   'approve.doesNotMatch': 'Eşleşmiyor',
 
@@ -897,7 +980,7 @@ export const tr: Dictionary = {
   'nav.sync': 'Eşitleme',
   'nav.general': 'Genel',
   'nav.needsAttention': 'İlgilenmeniz gerekiyor',
-  'sync.description': 'Oturum açtığınız her tarayıcıda aynı kodlar, çıkmadan önce burada şifrelenir.',
+  'sync.description': 'Oturum açtığınız her cihazda aynı kodlar, çıkmadan önce burada şifrelenir.',
   'backup.description': 'Şifreli bir kopya tutun, hesapları içeri alın ya da başka bir uygulamaya taşıyın.',
   'backup.choice.backup.title': 'Yedekle',
   'backup.choice.backup.body': 'Seçtiğiniz bir parolayla kilitlenen şifreli bir dosya.',
@@ -912,16 +995,16 @@ export const tr: Dictionary = {
   'general.autofillHint': 'Açılır pencereyi bir oturum açma sayfasında açmak eşleşen kodu önerir. Yalnızca o sekme okunur.',
 
   'vault.signInToSync': 'Eşitlemek için oturum açın',
-  'vault.empty.signIn': 'Keyrook Authenticator’ı başka bir tarayıcıda mı kullanıyorsunuz? Kodlarınızı buraya getirmek için <link>oturum açın</link>.',
+  'vault.empty.signIn': 'Keyrook Authenticator’ı başka bir cihazda mı kullanıyorsunuz? Kodlarınızı buraya getirmek için <link>oturum açın</link>.',
   'setup.haveAccount': 'Zaten Keyrook Authenticator kullanıyor musunuz? Kodlarınızı buraya getirmek için <link>oturum açın</link>.',
   'popup.signInOpensTab': 'Yeni bir sekmede açılır ve Ayarlar’da tamamlanır.',
 
   'error.backupWrongPassword': 'Bu parola bu dosyayı açmıyor.',
-  'error.foreign.steam': 'Steam Guard kodları henüz içe aktarılamıyor.',
+  'error.foreign.steamFolder': 'Steam Desktop Authenticator’ın maFiles klasöründeki tüm dosyaları birlikte seçin: manifest.json ve yanındaki .maFile dosyaları.',
   'error.foreign.locked': 'Bu dışa aktarım, Keyrook Authenticator’ın açamadığı bir parolayla kilitli. Parolasız olarak yeniden dışa aktarın.',
   'import.lockedFrom': '{app} bu dışa aktarımı bir parolayla kilitledi. Orada belirlediğiniz parolayı girin.',
   'import.fromApps':
-    'Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Authenticator uzantısı ve Google Authenticator dışa aktarımları da çalışır — Apple Parolalar, 1Password ya da başka bir parola yöneticisinden alınan CSV de.',
+    'Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, Authenticator uzantısı ve Google Authenticator dışa aktarımları da çalışır — Apple Parolalar, 1Password ya da başka bir parola yöneticisinden alınan CSV de.',
   'shortcut.open': 'Keyrook Authenticator’ı aç',
   'shortcut.fill': 'Bu sayfanın kodunu doldur',
   'shortcut.fillHint': 'Yalnızca siteye tam olarak bir hesap aitse doldurur; başka her yerde listeyi açar.',
@@ -931,4 +1014,63 @@ export const tr: Dictionary = {
   'import.csvWarning':
     'Bu dosya parolalarınızı açık metin olarak içeriyor. Yalnızca iki faktörlü anahtarlar okundu ve başka hiçbir şey saklanmadı — işiniz bitince dosyayı silin.',
   'import.noKeysInCsv': 'Bu dosyada iki faktörlü anahtar yok — yalnızca parolalar.',
+  'crash.title': 'Bir şeyler ters gitti',
+  'crash.body':
+    'Bu ekranda bir sorun oluştu ve ekran durdu. Saklanan hesaplarınız bundan etkilenmez. Yeniden yüklemek genellikle düzeltir.',
+  'crash.reload': 'Yeniden yükle',
+  'setup.device.description.phone':
+    'Gizli anahtarlarınız, bu telefonun sizin için tuttuğu bir anahtarla şifrelenir. Hatırlanacak ya da yazılacak bir şey yok.',
+  'setup.device.footnote.phone':
+    'Uygulama dosyalarının bir kopyasına karşı korur. Bu telefonun kilidini açabilen birine karşı korumaz.',
+  'setup.password.footnote.phone':
+    'En güçlü seçenek: kilitlendiğinde bu telefondaki hiçbir şey parola olmadan kasayı açamaz.',
+  'unrecoverable.why.phone':
+    'Şifreleme anahtarını bu telefon tutuyordu ve artık yok — genellikle uygulama verileri temizlendiği, uygulama yeniden yüklendiği ya da kasa başka bir telefonun yedeğinden geldiği için. Bu anahtar olmadan kayıtlı hesapları biz dahil hiç kimse çözemez.',
+  'vault.empty.body.phone':
+    'Bir site iki faktörlü doğrulamayı kurmak için QR kodu gösterdiğinde, onu bu telefonun kamerasıyla tarayın.',
+  'add.camera.description.phone': 'Başka bir ekrandaki kod için — Google Authenticator dışa aktarımı dahil.',
+  'add.fromGoogle.phone':
+    'Başka bir telefondaki Google Authenticator’dan mı aktarıyorsunuz? Hesaplarınızı orada dışa aktarın, ardından gösterdiği kodu bu telefonun kamerasıyla tarayın. Birden fazla gösteriyorsa her birini yapın.',
+  'camera.noCamera.phone': 'Bu telefon uygulamaya kamera vermiyor.',
+  'camera.blocked.phone':
+    'Uygulamanın kamerayı kullanma izni yok. Telefonun ayarlarından izin verin ya da hesap eklemenin başka bir yolunu kullanın.',
+  'camera.none.phone': 'Bu telefonda kamera bulunamadı.',
+  'security.languageBrowser.phone': 'Telefon varsayılanı ({language})',
+  'protect.removeWarning.phone':
+    'Kasa şifreli kalır, ama uygulama her açıldığında kendiliğinden açılır. O zaman bu telefonun kilidini açabilen herkes kodlarınızı görebilir.',
+  'kit.device.phone':
+    'Bu kasa, telefonunuzun tuttuğu bir anahtarla açılır. O anahtar giderse — temizlenen uygulama verileri, yeniden yükleme, yeni bir telefon — onu hâlâ açabilecek tek şey kurtarma anahtarıdır.',
+  'kit.withoutDevice.phone':
+    'O olmadan, bu telefonun tuttuğu anahtarı kaybetmek bu kasadaki her hesabın sonsuza dek gitmesi demektir.',
+  'security.description.phone': 'Bu kasanın nasıl açıldığı ve bu telefon kaybolursa geri dönüş yolunuz.',
+  'security.deviceKeyHint.phone':
+    'Yazılacak bir şey yok. Bu telefonun kilidini açabilen herkes onu açabilir.',
+  'general.description.phone': 'Uygulamanın nasıl göründüğü ve davrandığı, nereden geldiği.',
+  'about.securityModelDescription.phone': 'Uygulamanın garanti ettikleri ve etmedikleri.',
+  'about.logos.description.phone':
+    'İşaretler uygulamanın içine derlenir, asla internetten alınmaz. Ağdan logo istemek, yanıt verene hangi hizmetlerde iki faktörlü doğrulama kullandığınızı söylerdi.',
+  'about.fact.access.title.phone': 'Yalnızca kamera, yalnızca taramak için',
+  'about.fact.access.body.phone':
+    'Uygulama kamera dışında hiçbir izin istemez, onu da yalnızca bir kod taramayı seçtiğinizde. Kameranın gördüğü hiçbir zaman telefondan çıkmaz.',
+  'about.fact.keys.body.phone':
+    'Hesaplarınız, kendisi de sarmalanmış bir veri anahtarıyla şifrelenir. Ana parolayla sarmalama anahtarı 600.000 turluk PBKDF2’den gelir ve yalnızca kilit açıkken bellekte bulunur. Parola olmadan, telefonun kendi anahtar deposunun mühürlediği bir anahtardır; bu yüzden uygulama dosyalarının bir kopyası kasayı açamaz.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Büyük bir kod — Google Authenticator dışa aktarımı gibi — burada çoğu zaman kamerayla taranamaz. Taranmazsa telefonun kamera uygulamasıyla fotoğrafını çekin ve QR görseli yükle seçeneğini kullanın.',
+  'import.noNativeReader.phone':
+    'Büyük bir kod — Google Authenticator dışa aktarımı gibi — burada çoğu zaman kamerayla taranamaz. Taranmazsa her kodun fotoğrafını telefonun kamera uygulamasıyla çekin ve hepsini Dosya seç ile seçin.',
+  'error.signOutUnsynced.phone':
+    'Bu telefondaki bazı değişiklikler henüz hesabınıza ulaşmadı ve şimdi oturumu kapatmak bunları kaybettirir. İnternete bağlanın ve yeniden deneyin.',
+  'account.signOutNote.phone':
+    'Oturumu kapatmak kodlarınızı bu telefondan kaldırır. Kodlar Keyrook hesabınızda kalır — geri getirmek için yeniden oturum açın.',
+  'secondStepTip.suggest.phone':
+    'Bu hesap başka bir cihazda oturum açtığında her seferinde bir kod da isteyin. account.keyrook.com’da açın ve kodu burada saklayın: bu uygulamada bir hesap ekleyip o sayfanın gösterdiği QR kodunu tarayın.',
+  'intro.benefit2.phone': 'Kaybolan ya da bozulan bir telefon, kaybolan bir kasa değildir.',
+  'provider.finishInWindow.phone': 'Tarayıcınızda açılan {provider} sayfasında tamamlayın.',
+  'join.title.phone': 'Bu telefonu içeri alın',
+  'join.subtitle.phone':
+    '<b>{email}</b> adresinin zaten bir hesabı var. Bu telefonu, oturum açmış bir cihazdan onaylayın.',
+  'joinKey.subtitle.phone':
+    'Hesap oluşturulurken kaydettiğiniz anahtar. Başka bir cihaz olmadan bu telefonu içeri alır.',
+  'facts.autofill.phone': 'QR tarama',
 };

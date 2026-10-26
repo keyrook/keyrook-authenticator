@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { itemFromUri, parseOtpUri, type VaultItem } from '@authx/core';
+import { itemFromUri, newPasskeyUnlockInput, parseOtpUri, toBase64, type PasskeyUnlockKind, type VaultItem } from '@authx/core';
 import { AppError } from '@authx/ui/i18n/errors.js';
 import type { VaultStatus } from '@authx/ui/lib/protocol.js';
 import { installPlatform, type KeyValueStore, type Platform } from '../src/platform.js';
@@ -126,6 +126,89 @@ describe('the vault service, off the browser', () => {
     expect(platform.locked).toBe(false);
   });
 
+  // What a passkey's PRF answers, here made up: 32 bytes only it could give.
+  const prfAnswer = () => toBase64(crypto.getRandomValues(new Uint8Array(32)));
+  const turnOn = (kind: PasskeyUnlockKind, password: string, prf: string, credentialId = `${kind}-1`) =>
+    ({ type: 'vault/enablePasskeyUnlock', kind, password, credentialId, prfInput: newPasskeyUnlockInput(), prf }) as const;
+
+  for (const kind of ['platform', 'securityKey'] as const) {
+    it(`opens with a passkey (${kind}) only once the password let it in, and never keeps its answer`, async () => {
+      await ask({ type: 'vault/create', protection: { mode: 'passphrase', password: PASSWORD } });
+      await ask({ type: 'vault/mutate', mutation: { op: 'items/add', items: [account('Example')] } });
+      const answer = prfAnswer();
+
+      // Someone at the open vault without the password adds no way in of their own.
+      expect(await refusal(turnOn(kind, 'not the password', answer))).toBe('error.wrongMasterPassword');
+      expect(await ask(turnOn(kind, PASSWORD, answer))).toBeNull();
+      const on = await status();
+      expect(on.state === 'unlocked' && on.passkeys).toEqual({ platform: kind === 'platform', securityKey: kind === 'securityKey' });
+
+      await ask({ type: 'vault/lock' });
+      const locked = await status();
+      expect(locked).toMatchObject({ state: 'locked', passkeys: { [kind]: { credentialId: `${kind}-1` } } });
+      expect(locked.state === 'locked' && Object.keys(locked.passkeys ?? {})).toEqual([kind]);
+      expect(platform.disk.dump()).not.toContain(answer);
+      expect(platform.memory.dump()).toBe('{}');
+
+      expect(await refusal({ type: 'vault/unlockWithPasskey', kind, prf: prfAnswer() })).toBe('error.passkeyUnlock.failed');
+      // The right answer, asked as the other kind, opens nothing either.
+      const other = kind === 'platform' ? 'securityKey' : 'platform';
+      expect(await refusal({ type: 'vault/unlockWithPasskey', kind: other, prf: answer })).toBe('error.passkeyUnlock.failed');
+      const opened = (await ask({ type: 'vault/unlockWithPasskey', kind, prf: answer })) as VaultStatus;
+      expect(opened.state === 'unlocked' && opened.data.items).toHaveLength(1);
+      expect(platform.disk.dump()).not.toContain(answer);
+
+      // Off asks nothing, and hands back the passkey for the device to forget.
+      expect(await ask({ type: 'vault/disablePasskeyUnlock', kind })).toEqual({ credentialId: `${kind}-1` });
+      await ask({ type: 'vault/lock' });
+      expect(await status()).toEqual({ state: 'locked', hasRecovery: false });
+      expect(await refusal({ type: 'vault/unlockWithPasskey', kind, prf: answer })).toBe('error.passkeyUnlock.failed');
+    });
+  }
+
+  it('keeps a security key beside the computer’s own check, each turned off without the other', async () => {
+    await ask({ type: 'vault/create', protection: { mode: 'passphrase', password: PASSWORD } });
+    const computer = prfAnswer();
+    const key = prfAnswer();
+    await ask(turnOn('platform', PASSWORD, computer));
+    await ask(turnOn('securityKey', PASSWORD, key));
+    const both = await status();
+    expect(both.state === 'unlocked' && both.passkeys).toEqual({ platform: true, securityKey: true });
+
+    await ask({ type: 'vault/lock' });
+    expect(await status()).toMatchObject({
+      state: 'locked',
+      passkeys: { platform: { credentialId: 'platform-1' }, securityKey: { credentialId: 'securityKey-1' } },
+    });
+    await ask({ type: 'vault/unlockWithPasskey', kind: 'securityKey', prf: key });
+    await ask({ type: 'vault/lock' });
+    await ask({ type: 'vault/unlockWithPasskey', kind: 'platform', prf: computer });
+
+    // Turning the computer's off leaves the key, which still opens the vault.
+    expect(await ask({ type: 'vault/disablePasskeyUnlock', kind: 'platform' })).toEqual({ credentialId: 'platform-1' });
+    await ask({ type: 'vault/lock' });
+    expect(await refusal({ type: 'vault/unlockWithPasskey', kind: 'platform', prf: computer })).toBe('error.passkeyUnlock.failed');
+    const opened = (await ask({ type: 'vault/unlockWithPasskey', kind: 'securityKey', prf: key })) as VaultStatus;
+    expect(opened.state === 'unlocked' && opened.passkeys).toEqual({ platform: false, securityKey: true });
+
+    // A key turned on again in another tab replaces the first, whose passkey goes back to be forgotten.
+    expect(await ask(turnOn('securityKey', PASSWORD, prfAnswer(), 'securityKey-2'))).toEqual({ credentialId: 'securityKey-1' });
+    await ask({ type: 'vault/lock' });
+    expect(await refusal({ type: 'vault/unlockWithPasskey', kind: 'securityKey', prf: key })).toBe('error.passkeyUnlock.failed');
+  });
+
+  it('drops every passkey’s way in with the password, when the vault moves to the device key', async () => {
+    await ask({ type: 'vault/create', protection: { mode: 'passphrase', password: PASSWORD } });
+    await ask(turnOn('platform', PASSWORD, prfAnswer()));
+    await ask(turnOn('securityKey', PASSWORD, prfAnswer()));
+    await ask({ type: 'vault/setProtection', next: { mode: 'device' }, currentPassword: PASSWORD });
+    const now = await status();
+    expect(now.state === 'unlocked' && now.passkeys).toEqual({ platform: false, securityKey: false });
+    for (const kind of ['platform', 'securityKey'] as const) {
+      expect(await refusal(turnOn(kind, PASSWORD, prfAnswer()))).toBe('error.notPassphraseVault');
+    }
+  });
+
   it('applies twenty writes sent at once, every one of them', async () => {
     await ask({ type: 'vault/create', protection: { mode: 'device' } });
     const issuers = Array.from({ length: 20 }, (_, index) => `Service ${index}`);
@@ -169,10 +252,11 @@ describe('the vault service, off the browser', () => {
 
   it('offers no account when the build has no sync server', async () => {
     await ask({ type: 'vault/create', protection: { mode: 'device' } });
-    expect(await ask({ type: 'provider/offered' })).toEqual({ providers: [], inTab: false });
+    expect(await ask({ type: 'provider/offered' })).toEqual({ providers: [], inTab: false, passkeys: false });
     expect(await refusal({ type: 'account/startSignUp', email: 'me@example.com', password: PASSWORD })).toBe(
       'error.syncUnavailable',
     );
+    expect(await refusal({ type: 'account/passkeyChallenge' })).toBe('error.syncUnavailable');
   });
 
   it('answers a refusal with the key the page translates', async () => {

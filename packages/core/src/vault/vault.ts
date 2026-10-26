@@ -15,6 +15,7 @@ import { DEFAULT_OTP_PARAMS } from '../otp/types.js';
 import type { ParsedOtpUri } from '../otp/uri.js';
 import { utf8 } from '../util/bytes.js';
 import { newId } from '../util/id.js';
+import { coversHost, writtenByOthers } from './hosts.js';
 import {
   DEFAULT_ACCOUNT,
   DEFAULT_SETTINGS,
@@ -169,7 +170,17 @@ export async function rewrapVault(
     kdf: keyring.kdf,
     wrappedKey: await wrapDataKey(keyring.kek, dataKey),
   };
-  return { ...file, protection, updatedAt: Date.now() };
+  // The data key is the same, so a passkey's way in still opens it — while
+  // there is a password for it to stand in for. A device-key vault asks for
+  // nothing, and keeps no second way in.
+  const keep = keyring.mode === 'passphrase';
+  return {
+    ...file,
+    protection,
+    platformUnlock: keep ? (file.platformUnlock ?? null) : null,
+    securityKeyUnlock: keep ? (file.securityKeyUnlock ?? null) : null,
+    updatedAt: Date.now(),
+  };
 }
 
 /**
@@ -195,6 +206,10 @@ export async function adoptDataKey(
     // The old recovery key wrapped the old data key, so it would no longer open
     // anything. Dropping it is honest; the UI must prompt for a new one.
     recovery: null,
+    // The same for a passkey's way in, of either kind: it wrapped the old key.
+    // Turned on again, it wraps the new one.
+    platformUnlock: null,
+    securityKeyUnlock: null,
     payload: await sealJson(dataKey, data, aad(file)),
     updatedAt: Date.now(),
   };
@@ -494,6 +509,21 @@ export function liveItems(data: VaultData): VaultItem[] {
   return data.items.filter((item) => item.deletedAt === null);
 }
 
+/**
+ * The code that signs in to this vault's own Keyrook account, when it is kept
+ * here. The account page's setup link names it as the issuer Keyrook and the
+ * account's address, so that is what is looked for.
+ */
+export function accountCodeItem(data: VaultData): VaultItem | null {
+  const email = data.account.email?.trim().toLowerCase();
+  if (!email) return null;
+  return (
+    liveItems(data).find(
+      (item) => item.issuer.trim().toLowerCase() === 'keyrook' && item.label.trim().toLowerCase() === email,
+    ) ?? null
+  );
+}
+
 export function sortItems(items: VaultItem[], mode: VaultSettings['sortBy']): VaultItem[] {
   const sorted = [...items];
 
@@ -558,16 +588,11 @@ export function shouldWarnBeforeFilling(item: VaultItem, hostname: string | null
 /**
  * Whether `hostname` is a site the account explicitly records.
  *
- * Exact, or a subdomain of one — no guessing. This is what a security decision
- * is allowed to rely on.
+ * Exact, or a subdomain of one that is not somebody else's site — no guessing.
+ * This is what a security decision is allowed to rely on.
  */
 export function hostUnderRecordedDomain(item: VaultItem, hostname: string): boolean {
-  const host = hostname.toLowerCase().replace(/^www\./, '');
-  if (!host) return false;
-  return item.domains.some((domain) => {
-    const known = domain.toLowerCase().replace(/^www\./, '');
-    return host === known || host.endsWith(`.${known}`);
-  });
+  return item.domains.some((domain) => coversHost(domain, hostname));
 }
 
 /**
@@ -583,6 +608,9 @@ export function itemMatchesHost(item: VaultItem, hostname: string): boolean {
   const host = hostname.toLowerCase().replace(/^www\./, '');
   if (!host) return false;
   if (hostUnderRecordedDomain(item, hostname)) return true;
+  // On someone's site at webflow.io the label is "webflow", which names the
+  // platform, not the page's author: a Webflow account must not rise there.
+  if (writtenByOthers(host)) return false;
 
   const issuer = item.issuer.toLowerCase().replace(/[^a-z0-9]/g, '');
   if (!issuer) return false;

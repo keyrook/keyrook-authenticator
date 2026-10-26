@@ -122,7 +122,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'algolia',
     name: 'Algolia',
     domains: [
-      'frontify.com'
+      'algolia.com'
     ],
     aliases: [],
     wide: false
@@ -160,8 +160,7 @@ export const CATALOG: readonly BrandEntry[] = [
       'alipay.com'
     ],
     aliases: [
-      'ant',
-      'group'
+      'ant group'
     ],
     wide: false,
     popular: true
@@ -225,8 +224,7 @@ export const CATALOG: readonly BrandEntry[] = [
     ],
     aliases: [
       'icloud',
-      'apple',
-      'id'
+      'apple id'
     ],
     wide: false,
     popular: true
@@ -247,8 +245,7 @@ export const CATALOG: readonly BrandEntry[] = [
       'archive.org'
     ],
     aliases: [
-      'internet',
-      'archive'
+      'internet archive'
     ],
     wide: false
   },
@@ -272,7 +269,9 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'atlassian',
     name: 'Atlassian',
-    domains: [],
+    domains: [
+      'atlassian.com'
+    ],
     aliases: [],
     wide: false,
     popular: true
@@ -323,10 +322,7 @@ export const CATALOG: readonly BrandEntry[] = [
       'signin.aws.amazon.com'
     ],
     aliases: [
-      'amazonwebservices',
-      'amazon',
-      'web',
-      'services'
+      'amazon web services'
     ],
     wide: false,
     popular: true
@@ -406,7 +402,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'bigcommerce',
     name: 'BigCommerce',
     domains: [
-      'bigcommerce.co.uk'
+      'bigcommerce.com'
     ],
     aliases: [],
     wide: false
@@ -599,7 +595,9 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'canva',
     name: 'Canva',
-    domains: [],
+    domains: [
+      'canva.com'
+    ],
     aliases: [],
     wide: true
   },
@@ -666,7 +664,8 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'claude',
     name: 'Claude',
     domains: [
-      'claude.ai'
+      'claude.ai',
+      'claude.com'
     ],
     aliases: [],
     wide: false,
@@ -675,9 +674,7 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'claudecode',
     name: 'Claude Code',
-    domains: [
-      'claude.com'
-    ],
+    domains: [],
     aliases: [],
     wide: false
   },
@@ -936,7 +933,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'deezer',
     name: 'Deezer',
     domains: [
-      'deezerbrand.com'
+      'deezer.com'
     ],
     aliases: [],
     wide: true
@@ -1029,9 +1026,7 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'dogecoin',
     name: 'Dogecoin',
-    domains: [
-      'cryptologos.cc'
-    ],
+    domains: [],
     aliases: [],
     wide: false
   },
@@ -1091,8 +1086,7 @@ export const CATALOG: readonly BrandEntry[] = [
       'ea.com'
     ],
     aliases: [
-      'electronic',
-      'arts',
+      'electronic arts',
       'origin'
     ],
     wide: false
@@ -1278,7 +1272,9 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'facebook',
     name: 'Facebook',
-    domains: [],
+    domains: [
+      'facebook.com'
+    ],
     aliases: [],
     wide: false,
     popular: true
@@ -1309,7 +1305,9 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'figma',
     name: 'Figma',
-    domains: [],
+    domains: [
+      'figma.com'
+    ],
     aliases: [],
     wide: false,
     popular: true
@@ -1444,9 +1442,7 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'githubcopilot',
     name: 'GitHub Copilot',
-    domains: [
-      'primer.style'
-    ],
+    domains: [],
     aliases: [
       'copilot'
     ],
@@ -1494,7 +1490,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'godaddy',
     name: 'GoDaddy',
     domains: [
-      'godaddy.net'
+      'godaddy.com'
     ],
     aliases: [],
     wide: false,
@@ -1547,8 +1543,7 @@ export const CATALOG: readonly BrandEntry[] = [
     ],
     aliases: [
       'gmail',
-      'google',
-      'account'
+      'google account'
     ],
     wide: false,
     popular: true
@@ -1634,8 +1629,7 @@ export const CATALOG: readonly BrandEntry[] = [
     domains: [],
     aliases: [
       'xai',
-      'grok',
-      'ai'
+      'grok ai'
     ],
     wide: false,
     popular: true
@@ -1881,7 +1875,9 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'instagram',
     name: 'Instagram',
-    domains: [],
+    domains: [
+      'instagram.com'
+    ],
     aliases: [],
     wide: false,
     popular: true
@@ -2009,7 +2005,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'kakao',
     name: 'Kakao',
     domains: [
-      'kakaocorp.com'
+      'kakao.com'
     ],
     aliases: [],
     wide: true,
@@ -2076,7 +2072,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'klarna',
     name: 'Klarna',
     domains: [
-      'klarna.design'
+      'klarna.com'
     ],
     aliases: [],
     wide: true
@@ -2213,12 +2209,11 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'linode',
     name: 'Linode',
     domains: [
-      'linode.com'
+      'login.linode.com',
+      'cloud.linode.com'
     ],
     aliases: [
-      'akamai',
-      'connected',
-      'cloud'
+      'akamai connected cloud'
     ],
     wide: false
   },
@@ -2379,7 +2374,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'medium',
     name: 'Medium',
     domains: [
-      'medium.design'
+      'medium.com'
     ],
     aliases: [],
     wide: false
@@ -2418,7 +2413,8 @@ export const CATALOG: readonly BrandEntry[] = [
       'microsoft.com',
       'live.com',
       'outlook.com',
-      'office.com'
+      'office.com',
+      'microsoftonline.com'
     ],
     aliases: [
       'outlook',
@@ -2678,9 +2674,12 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'nordvpn',
     name: 'NordVPN',
     domains: [
-      'nordvpn.com'
+      'nordvpn.com',
+      'nordaccount.com'
     ],
-    aliases: [],
+    aliases: [
+      'nord account'
+    ],
     wide: false,
     popular: true
   },
@@ -2697,6 +2696,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'notion',
     name: 'Notion',
     domains: [
+      'notion.com',
       'notion.so'
     ],
     aliases: [],
@@ -2795,13 +2795,12 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'openai',
     name: 'OpenAI',
-    domains: [],
+    domains: [
+      'openai.com',
+      'chatgpt.com'
+    ],
     aliases: [
       'chatgpt',
-      'chat',
-      'gpt',
-      'open',
-      'ai',
       'gpt'
     ],
     wide: false,
@@ -2984,7 +2983,8 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'platformdotsh',
     name: 'Platform.sh',
     domains: [
-      'platform.sh'
+      'auth.api.platform.sh',
+      'console.platform.sh'
     ],
     aliases: [
       'platformsh'
@@ -3074,7 +3074,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'porkbun',
     name: 'Porkbun',
     domains: [
-      'porkbun.design'
+      'porkbun.com'
     ],
     aliases: [],
     wide: false
@@ -3144,8 +3144,7 @@ export const CATALOG: readonly BrandEntry[] = [
     ],
     aliases: [
       'protonmail',
-      'proton',
-      'mail',
+      'proton mail',
       'protonvpn'
     ],
     wide: false,
@@ -3207,7 +3206,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'railway',
     name: 'Railway',
     domains: [
-      'railway.app'
+      'railway.com'
     ],
     aliases: [],
     wide: false
@@ -3248,7 +3247,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'reddit',
     name: 'Reddit',
     domains: [
-      'redditinc.com'
+      'reddit.com'
     ],
     aliases: [],
     wide: false,
@@ -3275,7 +3274,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'render',
     name: 'Render',
     domains: [
-      'render.com'
+      'dashboard.render.com'
     ],
     aliases: [],
     wide: false
@@ -3293,7 +3292,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'replit',
     name: 'Replit',
     domains: [
-      'repl.it'
+      'replit.com'
     ],
     aliases: [],
     wide: false
@@ -3482,7 +3481,17 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'shopee',
     name: 'Shopee',
     domains: [
-      'shopee.com'
+      'shopee.com',
+      'shopee.co.id',
+      'shopee.co.th',
+      'shopee.com.ar',
+      'shopee.com.br',
+      'shopee.com.mx',
+      'shopee.com.my',
+      'shopee.ph',
+      'shopee.sg',
+      'shopee.tw',
+      'shopee.vn'
     ],
     aliases: [],
     wide: false,
@@ -3708,7 +3717,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'squarespace',
     name: 'Squarespace',
     domains: [
-      'squarespace.com'
+      'login.squarespace.com'
     ],
     aliases: [],
     wide: false
@@ -3749,7 +3758,8 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'steam',
     name: 'Steam',
     domains: [
-      'steamgames.com'
+      'steampowered.com',
+      'steamcommunity.com'
     ],
     aliases: [
       'valve'
@@ -4039,7 +4049,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'trezor',
     name: 'Trezor',
     domains: [
-      'visualbook.pro'
+      'trezor.io'
     ],
     aliases: [],
     wide: false
@@ -4048,7 +4058,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'tripadvisor',
     name: 'Tripadvisor',
     domains: [
-      'mediaroom.com'
+      'tripadvisor.com'
     ],
     aliases: [],
     wide: false
@@ -4063,9 +4073,7 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'tumblr',
     name: 'Tumblr',
-    domains: [
-      'tumblr.com'
-    ],
+    domains: [],
     aliases: [],
     wide: false
   },
@@ -4099,7 +4107,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'typeform',
     name: 'Typeform',
     domains: [
-      'typeform.com'
+      'admin.typeform.com'
     ],
     aliases: [],
     wide: false
@@ -4123,8 +4131,7 @@ export const CATALOG: readonly BrandEntry[] = [
     name: 'Uber Eats',
     domains: [],
     aliases: [
-      'uber',
-      'eats'
+      'uber eats'
     ],
     wide: false
   },
@@ -4224,7 +4231,9 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'vercel',
     name: 'Vercel',
-    domains: [],
+    domains: [
+      'vercel.com'
+    ],
     aliases: [],
     wide: false,
     popular: true
@@ -4283,6 +4292,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'vk',
     name: 'VK',
     domains: [
+      'vk.ru',
       'vk.com'
     ],
     aliases: [],
@@ -4316,7 +4326,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'webflow',
     name: 'Webflow',
     domains: [
-      'webflow.io'
+      'webflow.com'
     ],
     aliases: [],
     wide: false
@@ -4324,9 +4334,7 @@ export const CATALOG: readonly BrandEntry[] = [
   {
     slug: 'webpack',
     name: 'Webpack',
-    domains: [
-      'js.org'
-    ],
+    domains: [],
     aliases: [],
     wide: false
   },
@@ -4341,7 +4349,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'wechat',
     name: 'WeChat',
     domains: [
-      'wechat.design'
+      'wechat.com'
     ],
     aliases: [],
     wide: false
@@ -4431,7 +4439,7 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'wise',
     name: 'Wise',
     domains: [
-      'wise.design'
+      'wise.com'
     ],
     aliases: [
       'transferwise'
@@ -4471,7 +4479,8 @@ export const CATALOG: readonly BrandEntry[] = [
     slug: 'wpengine',
     name: 'WP Engine',
     domains: [
-      'wpengine.com'
+      'identity.wpengine.com',
+      'my.wpengine.com'
     ],
     aliases: [],
     wide: false

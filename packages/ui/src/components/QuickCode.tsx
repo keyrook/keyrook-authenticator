@@ -3,6 +3,7 @@ import {
   QUICK_DEFAULTS,
   formatCode,
   generateCode,
+  isTimeBased,
   readQuickInput,
   totpWindow,
   type OtpAlgorithm,
@@ -33,7 +34,7 @@ export function QuickCode({ onSave }: { onSave?: (params: ParsedOtpUri) => Promi
 
   const read = useMemo(() => readQuickInput(input, settings), [input, settings]);
   const params = read.kind === 'ok' ? read.params : null;
-  const window_ = params?.type === 'totp' ? totpWindow(params.period, now) : null;
+  const window_ = params && isTimeBased(params.type) ? totpWindow(params.period, now) : null;
   // What the code depends on, as one value: a new object every render would
   // recompute the code four times a second.
   const recipe = params ? JSON.stringify([params, window_?.counter ?? 0]) : '';
@@ -47,7 +48,7 @@ export function QuickCode({ onSave }: { onSave?: (params: ParsedOtpUri) => Promi
     const at = Date.now();
     void Promise.all([
       generateCode(params, at),
-      params.type === 'totp' ? generateCode(params, at + params.period * 1000) : Promise.resolve(null),
+      isTimeBased(params.type) ? generateCode(params, at + params.period * 1000) : Promise.resolve(null),
     ])
       .then(([current, next]) => live && setCodes({ current, next }))
       .catch(() => live && setCodes(null));

@@ -1,14 +1,6 @@
 import { createHmac } from 'node:crypto';
 import type { BrowserContext, Page, Worker } from '@playwright/test';
-import {
-  base32Bytes,
-  createDeviceVault,
-  expect,
-  migrationUri,
-  openOptions,
-  openPopup,
-  test,
-} from './fixtures.js';
+import { base32Bytes, createDeviceVault, expect, migrationUri, openOptions, openPopup, saveRecoveryKey, test } from './fixtures.js';
 
 const SECRET = 'JBSWY3DPEHPK3PXP';
 const SETUP_URI = `otpauth://totp/GitHub:octocat@example.com?secret=${SECRET}&issuer=GitHub`;
@@ -51,7 +43,13 @@ test('the extension loads and its service worker starts', async ({ worker, exten
     'scripting',
     'storage',
   ]);
-  expect(manifest.host_permissions ?? []).toEqual([]);
+  // No host at install, but in a build against the kit's server on this
+  // machine: the site its passkeys belong to, which this suite cannot answer
+  // Chrome's question for. Optional, and only the account page's, in a
+  // release — scripts/check-release.mjs refuses anything else.
+  const local = /connect-src[^;]*localhost/.test(manifest.content_security_policy?.extension_pages ?? '');
+  expect(manifest.host_permissions ?? []).toEqual(local ? ['https://localhost/*'] : []);
+  expect(manifest.optional_host_permissions ?? []).toEqual([local ? 'https://localhost/*' : 'https://account.keyrook.com/*']);
   expect(manifest.content_scripts ?? []).toEqual([]);
 });
 
@@ -213,13 +211,7 @@ async function issueRecoveryKey(options: Page): Promise<string> {
   await options.getByRole('button', { name: 'Security', exact: true }).click();
   await options.getByRole('button', { name: /Create a recovery key|Issue a new one/ }).click();
 
-  const code = options.locator('code.code-digits');
-  await code.waitFor();
-  const recoveryKey = (await code.innerText()).trim();
-
-  await options.getByText(/I have saved this somewhere/).click();
-  await options.getByRole('button', { name: 'Done' }).click();
-  return recoveryKey;
+  return saveRecoveryKey(options);
 }
 
 test('a recovery key opens a vault whose password was forgotten', async ({

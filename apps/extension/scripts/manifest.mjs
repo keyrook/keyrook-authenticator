@@ -5,7 +5,9 @@
  * Autofill runs through `activeTab` + `scripting`, which Chrome grants only for
  * the tab the user explicitly invoked the extension on. That keeps the store
  * listing free of the "read and change all your data on all websites" warning
- * and keeps review turnaround short.
+ * and keeps review turnaround short. One optional host permission, the
+ * Keyrook account's page, is asked for only when someone chooses to sign in
+ * with one of its passkeys: nothing at install.
  */
 /**
  * Content Security Policy.
@@ -43,7 +45,7 @@ function contentSecurityPolicy(syncOrigin) {
   ].join('; ');
 }
 
-export function buildManifest({ version, name, description, defaultLocale, syncOrigin }) {
+export function buildManifest({ version, name, description, defaultLocale, syncOrigin, accountRp = '' }) {
   return {
     manifest_version: 3,
     name,
@@ -84,6 +86,17 @@ export function buildManifest({ version, name, description, defaultLocale, syncO
     // window, for Google and GitHub — and carries no install warning.
     // `identity.email`, which would ("Know your email address"), is not asked for.
     permissions: ['storage', 'alarms', 'activeTab', 'scripting', 'clipboardWrite', 'identity'],
+
+    // Signing in with one of the Keyrook account's passkeys: they belong to
+    // the account's page, and Chrome lets an extension ask a site's passkeys
+    // only with the host permission for that site (release.mjs,
+    // accountRpFor). Optional, so nothing at install; asked for on the click
+    // that chooses a passkey, and used for nothing else — no script runs
+    // there, and connect-src below still reaches the sync server alone. A
+    // build against the kit on this machine has it already: the end-to-end
+    // suite cannot answer Chrome's question. check-release refuses that.
+    ...(accountRp ? { optional_host_permissions: [`https://${accountRp}/*`] } : {}),
+    ...(accountRp === 'localhost' ? { host_permissions: ['https://localhost/*'] } : {}),
 
     content_security_policy: {
       extension_pages: contentSecurityPolicy(syncOrigin),

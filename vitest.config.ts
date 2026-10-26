@@ -18,6 +18,7 @@ export default defineConfig({
       // @keyrook/account's own tests, copied with it.
       'vendor/keyrook-account/test/**/*.test.ts',
       'apps/extension/test/**/*.test.ts',
+      'apps/mobile/test/**/*.test.ts',
       // This app against the account server, through keyrook-account's kit.
       'integration/**/*.test.ts',
     ],

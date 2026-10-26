@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   buildOtpUri,
+  domainsToRecord,
   isValidBase32,
   liveGroups,
   liveItems,
@@ -21,6 +22,7 @@ import { GroupsPanel } from './GroupsPanel.js';
 import { PageHeader, Section } from './Section.js';
 import { errorText } from '../i18n/error-text.js';
 import { useT } from '../i18n/react.js';
+import { useBack } from '../lib/back.js';
 import { titleOf } from '../i18n/titles.js';
 
 export function AccountsPanel({
@@ -128,10 +130,12 @@ export function AccountsPanel({
                         <span className="mx-1.5 text-neutral-300 dark:text-neutral-700">·</span>
                       </>
                     )}
-                    {t('accounts.digits', { type: item.type.toUpperCase(), digits: item.digits })}
-                    {item.type === 'totp'
-                      ? t('accounts.period', { seconds: item.period })
-                      : t('accounts.counter', { counter: String(item.counter) })}
+                    {item.type === 'steam'
+                      ? t('accounts.steam')
+                      : t('accounts.digits', { type: item.type.toUpperCase(), digits: item.digits })}
+                    {item.type === 'hotp'
+                      ? t('accounts.counter', { counter: String(item.counter) })
+                      : t('accounts.period', { seconds: item.period })}
                     {item.algorithm !== 'SHA1' && ` · ${item.algorithm}`}
                   </p>
                 </div>
@@ -295,6 +299,7 @@ function Modal({
   onClose: () => void;
   size?: keyof typeof MODAL_HEIGHT;
 }) {
+  useBack(true, onClose);
   return (
     // A dialog is cut paper laid on the page: an ink line round it and a hard
     // shadow down and to the right. In dark mode the shadow is black on night
@@ -306,7 +311,7 @@ function Modal({
     >
       <div
         className={cx(
-          'relative w-[420px] overflow-hidden rounded-2xl bg-white shadow-floating ring-1 ring-neutral-900 dark:bg-neutral-900 dark:ring-neutral-600',
+          'relative w-full max-w-[420px] overflow-hidden rounded-2xl bg-white shadow-floating ring-1 ring-neutral-900 dark:bg-neutral-900 dark:ring-neutral-600',
           MODAL_HEIGHT[size],
         )}
         onClick={(event) => event.stopPropagation()}
@@ -421,7 +426,8 @@ function ItemEditor({
           onChange={(next) => setIssuer(next)}
           onPick={(brand) => {
             // Only fill the websites field if the user has not curated it.
-            if (domains.trim().length === 0) setDomains(brand.domains.slice(0, 2).join(', '));
+            // The settings tab has no page of the service open to go by.
+            if (domains.trim().length === 0) setDomains(domainsToRecord(brand, null).join(', '));
           }}
         />
         <Field label={t('add.account')} value={label} onChange={(event) => setLabel(event.target.value)} />

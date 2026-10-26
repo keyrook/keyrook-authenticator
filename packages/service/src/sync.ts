@@ -44,10 +44,12 @@ import {
   updateAccount,
   verifyPassword,
   wrapDataKey,
-  login,
+  beginLogin,
+  needsSecondStep,
   type AccountKdfParams,
   type AccountRecoveryState,
   type DeviceSummary,
+  type SecondStepProof,
   type Fetcher,
   type TokenStore,
   type Tokens,
@@ -58,11 +60,15 @@ import {
   type UnlockedVault,
   type VaultData,
   type VaultFile,
+  checkDeviceRemovalProof,
+  keepOnlyUnsent,
+  makeDeviceRemovalProof,
 } from '@authx/core';
 import { markReplacementDue, openAccountKey, previousKeys, settleKeys } from './keys.js';
 import { platform, syncEnabled } from './platform.js';
-import { tokenStore } from './tokens.js';
-import type { SyncSummary } from '@authx/ui/lib/protocol.js';
+import { sessionStart, tokenStore } from './tokens.js';
+import type { RemovedNotice, SecondStepAnswer, SecondStepAsked, SyncSummary } from '@authx/ui/lib/protocol.js';
+import { finishSignInStep } from './second-step.js';
 import { fail } from '@authx/ui/i18n/errors.js';
 
 /** The product every request is made for, and whose records and key are this app's. */
@@ -70,11 +76,12 @@ export const PRODUCT = AUTHENTICATOR;
 
 /**
  * Every request to the server, naming this build (`authenticator/0.4.0`). The
- * global `fetch` is looked up on each call, not once: the platform, and a test,
- * may put another in its place.
+ * global `fetch` is looked up on each call, not once: a test may put another
+ * in its place.
  */
 export function serverFetch(): Fetcher {
-  return namedClient((input, init) => fetch(input, init), `${PRODUCT}/${platform().clientVersion}`);
+  const { fetch: own, clientName = PRODUCT, clientVersion } = platform();
+  return namedClient(own ?? ((input, init) => fetch(input, init)), `${clientName}/${clientVersion}`);
 }
 
 export function adapter(): HttpSyncAdapter {
@@ -125,13 +132,15 @@ export async function proveAccountPassword(data: VaultData, password: string): P
   if (!isSignedIn(data)) fail('error.notSignedIn');
   const { keys } = await accountKeysFor(data.account.email, password);
   try {
-    await storeSession(
-      await login(
-        platform().syncApiUrl,
-        { email: data.account.email, authHash: keys.authHash, deviceId: data.sync.deviceId, deviceName: deviceName() },
-        serverFetch(),
-      ),
+    const answer = await beginLogin(
+      platform().syncApiUrl,
+      { email: data.account.email, authHash: keys.authHash, deviceId: data.sync.deviceId, deviceName: deviceName() },
+      serverFetch(),
     );
+    // The server asks for the second step only once the password is right:
+    // proof enough, and the session this device has goes on.
+    if (needsSecondStep(answer)) return;
+    await storeSession(answer);
   } catch (error) {
     if (error instanceof SyncHttpError && error.code === 'invalid_credentials') {
       fail('error.lockOnlyWithAccountPassword');
@@ -184,7 +193,7 @@ export function markEverythingPending(data: VaultData, email: string): VaultData
 }
 
 /** A session's tokens, held here until the sign-in they belong to is done. */
-function memoryTokens(session: Pick<LoginResponse, 'accessToken' | 'refreshToken'>): TokenStore {
+export function memoryTokens(session: Pick<LoginResponse, 'accessToken' | 'refreshToken'>): TokenStore {
   let current: Tokens | null = { accessToken: session.accessToken, refreshToken: session.refreshToken };
   return {
     get: async () => current,
@@ -197,8 +206,15 @@ function memoryTokens(session: Pick<LoginResponse, 'accessToken' | 'refreshToken
   };
 }
 
-export async function storeSession(session: Pick<LoginResponse, 'accessToken' | 'refreshToken'>) {
+/**
+ * Keeps a new session. Every sign-in ends here, and no refresh does: the time
+ * written is when this session began, which a removal proof made before it
+ * cannot claim (`checkDeviceRemovalProof`).
+ */
+export async function storeSession(session: Pick<LoginResponse, 'accessToken' | 'refreshToken' | 'account'>) {
   await tokenStore.set({ accessToken: session.accessToken, refreshToken: session.refreshToken });
+  await sessionStart.set({ accountId: session.account.id, signedInAt: Date.now() });
+  await platform().disk.remove(REMOVED_KEY);
 }
 
 /**
@@ -295,13 +311,21 @@ export async function signIn(
   unlocked: UnlockedVault,
   email: string,
   password: string,
-): Promise<{ file: typeof unlocked.file; dataKey: CryptoKey; data: VaultData }> {
+  secondStep?: { ticket: string; answer: SecondStepAnswer },
+): Promise<{ file: typeof unlocked.file; dataKey: CryptoKey; data: VaultData } | SecondStepAsked> {
   const { kdf, keys } = await accountKeysFor(email, password);
-  const session = await login(
-    platform().syncApiUrl,
-    { email, authHash: keys.authHash, deviceId: unlocked.data.sync.deviceId, deviceName: deviceName() },
-    serverFetch(),
-  );
+  // On an account with a second step the first answer is a ticket, and the
+  // page comes back with the password and the answer: only the password opens
+  // the key, and a service worker may be stopped while the code is typed.
+  const answer = secondStep
+    ? await finishSignInStep(secondStep.ticket, secondStep.answer)
+    : await beginLogin(
+        platform().syncApiUrl,
+        { email, authHash: keys.authHash, deviceId: unlocked.data.sync.deviceId, deviceName: deviceName() },
+        serverFetch(),
+      );
+  if (needsSecondStep(answer)) return { secondStep: answer.secondStep };
+  const session = answer;
   // The session is kept only once the key has opened: a sign-in that cannot
   // reach the key must not leave this device looking signed in without one.
   const tokens = memoryTokens(session);
@@ -309,7 +333,7 @@ export async function signIn(
     new HttpSyncAdapter({ baseUrl: platform().syncApiUrl, tokens, fetcher: serverFetch() }),
     { session, keys, localKey: unlocked.dataKey, ...(unlocked.data.account.keys ? { pinned: unlocked.data.account.keys } : {}) },
   );
-  await storeSession((await tokens.get())!);
+  await storeSession({ ...(await tokens.get())!, account: session.account });
   await markReplacementDue(opened.mustReplace);
   const accountDataKey = opened.dataKey;
   const data = updateAccount(markEverythingPending(unlocked.data, email), { keys: opened.keys });
@@ -479,6 +503,10 @@ export async function assertKitIsAccounts(data: VaultData): Promise<void> {
   if (data.account.keys || (await adapter().accountKeys()).root) fail('error.kitOnAccountPage');
 }
 
+/** The server's refusals of an owner's second step, which the page answers apart from a wrong password. */
+const SECOND_STEP_MISSING = 'Enter the code from your authenticator app too.';
+const SECOND_STEP_WRONG = 'That code is not right. Enter the one your authenticator app shows now.';
+
 /**
  * Sets the account's recovery kit to match this device's, or removes it. Needs
  * the account password as well as the data key: anyone at an unlocked vault
@@ -490,11 +518,14 @@ export async function publishRecovery(
   wrap: RecoveryWrap | null,
   recoveryKey: string | null,
   issuedAt: number,
+  /** On an account with a second step, beside the password or the sign-in. */
+  secondStep?: SecondStepProof,
 ): Promise<AccountRecoveryState> {
   const state: AccountRecoveryState = { wrap, issuedAt };
   try {
     await adapter().setRecovery({
       ...proof,
+      ...(secondStep ? { secondStep } : {}),
       keyCheck: await deriveKeyCheck(dataKey),
       issuedAt,
       state: await sealRecoveryState(dataKey, state),
@@ -506,9 +537,11 @@ export async function publishRecovery(
       fail('error.kitRace');
     }
     if (error instanceof SyncHttpError && error.code === 'forbidden') {
-      // A provider account's refusal is the server's own sentence, which
-      // the page translates.
-      if ('authHash' in proof) fail('error.accountPasswordWrong');
+      // Asked for before the password is even checked: the page asks for it.
+      if (error.message === SECOND_STEP_MISSING) fail('error.secondStep.missing');
+      // A wrong code, and a provider account's refusal, are the server's own
+      // sentences, which the page translates.
+      if ('authHash' in proof && error.message !== SECOND_STEP_WRONG) fail('error.accountPasswordWrong');
       throw new Error(error.message);
     }
     throw error;
@@ -546,9 +579,7 @@ export function listDevices(): Promise<DeviceSummary[]> {
   return adapter().devices();
 }
 
-export function revokeDevice(id: string): Promise<void> {
-  return adapter().revokeDevice(id);
-}
+
 
 /**
  * Deletes the account and everything it stored. The local vault stays. Takes
@@ -607,8 +638,9 @@ function forgetAccount(data: VaultData): VaultData {
 
 /**
  * The server ended this device's session — the password changed elsewhere, or
- * the device was removed from the list. The email stays so the sign-in form can
- * say which account and offer it back.
+ * the device was removed from the list without a proof this device could
+ * check. The email stays so the sign-in form can say which account and offer
+ * it back.
  */
 export async function markSignedOutElsewhere(data: VaultData): Promise<VaultData> {
   await tokenStore.clear();
@@ -616,6 +648,72 @@ export async function markSignedOutElsewhere(data: VaultData): Promise<VaultData
     { ...data, sync: { ...data.sync, serverRev: 0, lastSyncAt: null, recoveryAt: 0, epoch: undefined } },
     { plan: 'local' },
   );
+}
+
+/**
+ * What the popup and the Sync page say after this browser was removed from
+ * the account, until the person closes it: when, and whether anything of this
+ * browser's own stayed. Plaintext on purpose — nothing in it is secret, and it
+ * is read with the vault locked.
+ */
+const REMOVED_KEY = 'authx.removed';
+
+/**
+ * The server says the account's owner removed this device. Believed only with
+ * a proof made by a holder of this app's key, for this account, this device
+ * and this session (`checkDeviceRemovalProof`): then the account's codes come
+ * off, as on Sign out, and what the account never received stays. Without one
+ * — none sent, a stale one, another key's — null, and the caller ends the
+ * session as for any other reason: a server that could order this on its own
+ * could empty every device at once.
+ */
+export async function endedByRemoval(unlocked: UnlockedVault, proof: unknown): Promise<VaultData | null> {
+  const start = await sessionStart.get();
+  // Signed in before this build and not asked since: nothing to check against.
+  if (!start) return null;
+  const removed = await checkDeviceRemovalProof(
+    unlocked.dataKey,
+    { accountId: start.accountId, product: PRODUCT, deviceId: unlocked.data.sync.deviceId, signedInAt: start.signedInAt },
+    proof,
+  ).catch(() => false);
+  if (!removed) return null;
+  await tokenStore.clear();
+  const data = forgetAccount(keepOnlyUnsent(unlocked.data));
+  const notice: RemovedNotice = { at: Date.now(), kept: data.items.length > 0 };
+  await platform().disk.set(REMOVED_KEY, notice);
+  return data;
+}
+
+export async function removedNotice(): Promise<RemovedNotice | null> {
+  return ((await platform().disk.get(REMOVED_KEY)) as RemovedNotice | undefined) ?? null;
+}
+
+export async function dismissRemovedNotice(): Promise<void> {
+  await platform().disk.remove(REMOVED_KEY);
+}
+
+/**
+ * Notes which account a session from before this build belongs to, and takes
+ * now as its start, the first time the account is asked about: from then on a
+ * removal can be checked. The id is the server's word, which costs nothing if
+ * false — a proof for the real account then fails, and the codes stay.
+ */
+export async function noteSessionAccount(accountId: string): Promise<void> {
+  if (!(await sessionStart.get())) await sessionStart.set({ accountId, signedInAt: Date.now() });
+}
+
+/**
+ * Removes a device from the account. One of this app's gets a proof made with
+ * this vault's key, so it takes the account's codes off itself when it hears;
+ * another product's is only signed out, since its key is not this app's.
+ */
+export async function revokeDevice(unlocked: UnlockedVault, id: string): Promise<void> {
+  const api = adapter();
+  const device = (await api.devices()).find((each) => each.id === id);
+  if (device?.product !== PRODUCT || !device.deviceId) return api.revokeDevice(id);
+  const accountId = (await sessionStart.get())?.accountId ?? (await api.accountKeys()).accountId;
+  const proof = await makeDeviceRemovalProof(unlocked.dataKey, { accountId, product: PRODUCT, deviceId: device.deviceId });
+  return api.revokeDevice(id, proof);
 }
 
 /** How this device is listed among the account's. */

@@ -16,6 +16,7 @@ export const id: Dictionary = {
   'error.recoverOnAccountPage': 'Kunci pemulihan Anda benar, tetapi kata sandi akun ini sekarang direset di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
   'error.kitOnAccountPage': 'Kunci pemulihan akun ini sekarang dibuat di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
   'error.restoreEmpty': 'Tidak ada yang tersisa dari akun ini untuk dikembalikan: akun ini dihapus di perangkat lain sebelum perangkat ini pernah memilikinya.',
+  'error.noAccountSheet': 'Akun ini belum punya kunci pemulihan. Buat satu di halaman akun.',
   'error.recoveryKeyWrong': 'Kunci pemulihan itu tidak cocok dengan akun ini.',
   'error.noRecoveryKit': 'Brankas ini tidak punya kunci pemulihan.',
   'error.syncUnavailable': 'Sinkronisasi tidak tersedia di versi ini.',
@@ -23,6 +24,8 @@ export const id: Dictionary = {
   'error.alreadySignedIn': 'Sudah masuk.',
   'error.signedOutElsewhere':
     'Perangkat ini dikeluarkan dari sinkronisasi — kata sandinya diubah atau perangkat ini dihapus dari perangkat lain. Masuk lagi.',
+  'error.removedFromAccount':
+    'Perangkat lain menghapus perangkat ini dari akun Keyrook Anda, jadi kode akun telah dihapus dari sini. Masuk lagi untuk mengembalikannya.',
   'error.signOutUnsynced':
     'Beberapa perubahan di browser ini belum sampai ke akun Anda, dan keluar sekarang akan menghilangkannya. Sambungkan ke internet lalu coba lagi.',
   'error.enterAccountPassword': 'Masukkan kata sandi akun Anda.',
@@ -50,9 +53,9 @@ export const id: Dictionary = {
   'error.notThisVaultsPassword': 'Itu bukan kata sandi utama brankas ini.',
   'error.nothingWaiting': 'Tidak ada yang menunggu persetujuan.',
   'error.pairingExpired': 'Permintaan berakhir — ditolak, atau sudah lewat sepuluh menit. Minta lagi.',
-  'error.pairingWrongKey': 'Kunci yang tiba bukan milik akun ini. Tidak ada yang diubah. Coba lagi dari browser yang lain.',
-  'error.pairingForged': 'Persetujuan itu tidak datang dari browser yang kodenya Anda periksa.',
-  'error.pairingForgedAsk': 'Persetujuan itu tidak datang dari browser yang kodenya diperiksa. Tidak ada yang diubah. Minta lagi.',
+  'error.pairingWrongKey': 'Kunci yang tiba bukan milik akun ini. Tidak ada yang diubah. Coba lagi dari perangkat yang lain.',
+  'error.pairingForged': 'Persetujuan itu tidak datang dari perangkat yang kodenya Anda periksa.',
+  'error.pairingForgedAsk': 'Persetujuan itu tidak datang dari perangkat yang kodenya diperiksa. Tidak ada yang diubah. Minta lagi.',
   'error.pairingEnded': 'Permintaan itu sudah berakhir.',
   'error.approveAgain': 'Mulai lagi menyetujui permintaan itu.',
   'error.backupPasswordShort': 'Kata sandi cadangan minimal 8 karakter.',
@@ -70,6 +73,24 @@ export const id: Dictionary = {
   'error.migrationNotOurs': 'Bukan ekspor Google Authenticator.',
   'error.migrationMalformed': 'Ekspor Google Authenticator ini rusak atau tidak lengkap.',
   'error.offline': 'Tidak dapat menghubungi server sinkronisasi. Periksa koneksi Anda lalu coba lagi.',
+  'error.passkey.wrongOrigin': 'Kunci sandi hanya berlaku untuk halaman dan aplikasi Keyrook sendiri.',
+  'error.passkey.notOffered': 'Masuk dengan kunci sandi tidak tersedia di sini.',
+  'error.passkey.unchecked': 'Kunci sandi itu tidak dapat diperiksa. Coba lagi.',
+  'error.passkey.unknown': 'Tidak ada akun Keyrook yang mengenali kunci sandi itu. Mungkin kunci sandi itu sudah dihapus.',
+  'error.passkey.ended': 'Permintaan kunci sandi itu sudah berakhir. Coba lagi.',
+  'error.passkey.noUnlock': 'Kunci sandi itu tidak membuka kunci akun ini. Masuklah dengan sandi saja.',
+  'error.passkey.noUnlockProvider':
+    'Kunci sandi itu tidak membuka kunci akun ini. Lanjutkan dengan Google atau GitHub saja.',
+  'error.passkey.masterPassword':
+    'Brankas yang terkunci dengan kata sandi utama tidak bisa masuk dengan kunci sandi. Masuklah dengan kata sandi akun, atau dengan Google atau GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator memerlukan izin Chrome untuk memakai kunci sandi account.keyrook.com. Pilih kunci sandi lagi dan izinkan.',
+  'error.passkey.cancelled': 'Tidak ada kunci sandi yang dipakai. Coba lagi, atau masuk dengan cara lain.',
+  'error.passkey.failed': 'Chrome tidak dapat meminta kunci sandi. Coba lagi, atau masuk dengan cara lain.',
+  'error.secondStep.missing': 'Masukkan juga kode dari aplikasi autentikator Anda.',
+  'error.secondStep.wrongCode': 'Kode itu tidak benar. Masukkan kode yang sekarang ditampilkan aplikasi autentikator Anda.',
+  'error.secondStep.expired': 'Proses masuk itu sudah kedaluwarsa. Masuk lagi.',
+  'error.secondStep.used': 'Kode itu baru saja dipakai untuk masuk. Tunggu sampai aplikasi Anda menampilkan kode berikutnya.',
   'error.provider.refusedBy': '{provider} menolak proses masuk.',
   'error.provider.unreachable': '{provider} tidak dapat dihubungi. Coba lagi sebentar lagi.',
   'error.provider.refused': 'Proses masuk ditolak. Coba lagi.',
@@ -83,11 +104,11 @@ export const id: Dictionary = {
   'error.server.signupExpired': 'Pendaftaran itu sudah kedaluwarsa. Masuk lagi.',
   'error.server.signinExpired': 'Proses masuk itu sudah kedaluwarsa. Coba lagi.',
   'error.server.tooManyCodes': 'Terlalu banyak kode yang salah. Minta kode baru.',
-  'error.server.tooManyPairings': 'Terlalu banyak browser yang menunggu bergabung ke akun ini. Coba lagi beberapa menit lagi.',
+  'error.server.tooManyPairings': 'Terlalu banyak perangkat yang menunggu bergabung ke akun ini. Coba lagi beberapa menit lagi.',
   'error.server.wrongKey': 'Perangkat ini tidak menyimpan kunci akun.',
   'error.server.providerAccount': 'Akun ini masuk dengan Google atau GitHub, bukan kata sandi.',
   'error.server.mailFailed': 'Email tidak dapat dikirim. Coba lagi dalam semenit.',
-  'error.server.pairingTaken': 'Permintaan itu sudah berakhir, atau browser lain sedang menyetujuinya.',
+  'error.server.pairingTaken': 'Permintaan itu sudah berakhir, atau perangkat lain sedang menyetujuinya.',
   'error.server.passwordWrong': 'Kata sandi itu tidak benar.',
   'error.server.badCredentials': 'Email atau kata sandi salah.',
   'error.server.badCode': 'Kode itu salah atau sudah kedaluwarsa. Periksa email, atau minta kode baru.',
@@ -139,6 +160,22 @@ export const id: Dictionary = {
   'unlock.placeholder': 'Kata sandi utama',
   'unlock.submit': 'Buka kunci',
   'unlock.forgot': 'Lupa? <link>Gunakan kunci pemulihan Anda</link>',
+  'platformUnlock.unlock': 'Buka dengan sidik jari, wajah, atau PIN',
+  'platformUnlock.title': 'Sidik jari, wajah, atau PIN',
+  'platformUnlock.body': 'Buka brankas dengan pemeriksaan bawaan komputer ini — Touch ID, Windows Hello, atau PIN-nya — alih-alih mengetik kata sandi utama. Kata sandi tetap bisa membukanya, dan perubahan tetap memintanya.',
+  'platformUnlock.on': 'Brankas juga terbuka dengan pemeriksaan bawaan komputer ini. Menghapus kata sandi utama akan menonaktifkannya.',
+  'passkeyUnlock.turnOn': 'Aktifkan',
+  'passkeyUnlock.turnOff': 'Nonaktifkan',
+  'platformUnlock.confirm': 'Lalu komputer akan meminta sidik jari, wajah, atau PIN Anda.',
+  'error.passkeyUnlock.cancelled': 'Pemeriksaan dibatalkan atau terlalu lama. Coba lagi, atau gunakan kata sandi utama.',
+  'error.platformUnlock.noPrf': 'Tempat kunci sandi ini disimpan tidak bisa menyimpan kunci, jadi tidak bisa membuka brankas. Aktifkan lagi dan pilih tempat lain saat ditanya di mana menyimpannya — atau tetap gunakan kata sandi utama.',
+  'error.passkeyUnlock.failed': 'Itu tidak membuka brankas. Gunakan kata sandi utama, lalu aktifkan lagi di Keamanan.',
+  'securityKey.unlock': 'Buka dengan kunci keamanan',
+  'securityKey.title': 'Kunci keamanan',
+  'securityKey.body': 'Buka brankas dengan kunci keamanan USB dan PIN-nya, alih-alih mengetik kata sandi utama. Siapa pun yang memegang kunci itu dan tahu PIN-nya dapat membuka brankas di komputer ini. Jika kuncinya hilang, kata sandi utama tetap membukanya.',
+  'securityKey.on': 'Brankas juga terbuka dengan kunci keamanan Anda dan PIN-nya di komputer ini. Siapa pun yang memegang kunci itu dan tahu PIN-nya dapat membukanya di sini, jadi jika kuncinya hilang, nonaktifkan ini. Menghapus kata sandi utama akan menonaktifkannya.',
+  'securityKey.confirm': 'Lalu colokkan kunci keamanan Anda, ketik PIN-nya, dan sentuh kuncinya. Beberapa kunci meminta dua kali.',
+  'error.securityKey.noPrf': 'Kunci keamanan ini tidak dapat menyimpan kunci, jadi tidak dapat membuka brankas. Kunci yang dibuat hanya untuk masuk dua langkah tidak bisa. Coba kunci lain, atau tetap gunakan kata sandi utama.',
 
   'unrecoverable.title': 'Brankas ini tidak bisa dibuka lagi',
   'unrecoverable.why':
@@ -174,6 +211,7 @@ export const id: Dictionary = {
   'setup.password.description': 'Satu kata sandi membuka brankas, lalu brankas terkunci lagi saat Anda berhenti memakainya.',
   'setup.password.footnote': 'Pilihan terkuat: setelah terkunci, tidak ada apa pun di komputer ini yang bisa membuka brankas tanpa kata sandi.',
   'setup.footer': 'Keduanya memakai AES-256-GCM. Bisa diganti kapan saja; sinkronisasi opsional, di Setelan.',
+  'setup.footer.noSync': 'Keduanya memakai AES-256-GCM. Bisa diganti kapan saja, di Setelan.',
   'setup.source': 'Sumber terbuka — baca kodenya',
   'common.back': 'Kembali',
   'setup.passwordStep.title': 'Tetapkan kata sandi utama',
@@ -218,8 +256,10 @@ export const id: Dictionary = {
   'vault.changeOrder': 'Ubah urutan',
   'vault.byName': 'Menurut nama',
   'vault.orderAdded': 'Urutan ditambahkan',
-  'vault.joinRequests': { other: '{count} browser meminta bergabung ke akun Anda.' },
-  'vault.joinRequestsHint': 'Setujui hanya browser yang sedang Anda masuki sendiri, saat ini.',
+  'vault.joinRequests': {
+    other: '{count} perangkat meminta bergabung ke akun Anda.',
+  },
+  'vault.joinRequestsHint': 'Setujui hanya perangkat yang sedang Anda masuki sendiri, saat ini.',
   'vault.reviewInSettings': 'Tinjau di Setelan',
   'vault.noMatch': 'Tidak ada akun yang cocok dengan “{query}”.',
   'vault.forHost': 'Untuk {host}',
@@ -300,6 +340,7 @@ export const id: Dictionary = {
   'error.alreadyInVault': 'Akun itu sudah ada di brankas Anda.',
   'error.gaSkipPeriod': 'Google Authenticator hanya menyimpan kode 30 detik; yang ini memakai {period}.',
   'error.gaSkipDigits': 'Google Authenticator hanya menyimpan kode 6 atau 8 digit; yang ini {digits} digit.',
+  'error.gaSkipSteam': 'Google Authenticator tidak bisa membuat kode Steam Guard.',
 
   'scan.progressBatch': 'Kode {seen} dari {total} sudah dipindai — {accounts}. Tampilkan kode berikutnya.',
   'scan.progress': '{accounts}.',
@@ -375,9 +416,18 @@ export const id: Dictionary = {
   'options.count': { other: '{count} akun' },
   'options.sourceOnGithub': 'Sumber terbuka di GitHub',
   'sheet.once': 'Ini satu-satunya saat kunci ini ditampilkan. Kunci ini tidak disimpan di mana pun — jika hilang, buat yang baru.',
+  'sheet.print': 'Cetak',
+  'sheet.apart': 'Simpan terpisah dari email Anda, dan jangan pernah mengirimkannya ke email sendiri: dengan kunci ini dan alamat email Anda, seseorang bisa menetapkan sandi baru dan membuka kode Anda.',
+  'sheet.apartProvider': 'Simpan terpisah dari akun Google atau GitHub yang Anda pakai untuk masuk, dan jangan pernah menaruhnya di email atau drive akun itu: dengan kunci ini dan akun itu, seseorang bisa membuka kode Anda.',
+  'sheet.kept': 'Sudah saya simpan',
+  'sheet.checkHeading': 'Periksa bahwa Anda sudah menyimpannya',
+  'sheet.checkLead': 'Ketik dua kelompok kunci dari yang Anda simpan. Kelompok adalah blok empat karakter di antara tanda hubung, dihitung dari kiri.',
+  'sheet.group': 'Kelompok {position}',
+  'sheet.check': 'Periksa',
+  'sheet.mismatch': 'Bukan itu yang tertulis di kunci Anda. Lihat lagi yang Anda simpan, atau tampilkan kunci lagi dan simpan sekarang.',
+  'sheet.showAgain': 'Tampilkan kunci lagi',
   'sheet.download': 'Unduh lembarnya',
   'sheet.copy': 'Salin',
-  'sheet.saved': 'Saya sudah menyimpannya di tempat yang tetap ada meski komputer ini tidak.',
 
   'groups.title': 'Grup',
   'groups.description':
@@ -435,6 +485,7 @@ export const id: Dictionary = {
   'accounts.digits': '{type} {digits} digit',
   'accounts.period': ' · {seconds} dtk',
   'accounts.counter': ' · penghitung {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Bagikan atau pindahkan {name}',
   'accounts.edit': 'Edit',
   'common.delete': 'Hapus',
@@ -561,6 +612,7 @@ export const id: Dictionary = {
   'export.oneByOne.progress': 'Akun yang ditampilkan',
   'export.oneByOne.position': 'Akun {index} dari {total}',
   'export.oneByOne.keys': '→ atau Spasi untuk berikutnya, Esc untuk berhenti',
+  'export.steamRefused': '{app} tidak bisa membuat kode Steam Guard, jadi akun ini tidak akan diterimanya.',
   'export.print.label': 'Kode QR untuk dicetak atau dipindai',
   'export.print.title': 'Keyrook Authenticator — kode penyiapan',
   'export.print.body':
@@ -632,11 +684,11 @@ export const id: Dictionary = {
 
   'kit.title': 'Kunci pemulihan',
   'kit.provider':
-    'Akun Anda tidak punya kata sandi. Kunci pemulihan adalah jalan kembali jika semua browser yang masuk ke akun itu hilang: kunci ini memasukkan browser baru ke akun Anda tanpa persetujuan browser lain. {provider} tidak bisa melakukannya untuk Anda.',
+    'Akun Anda tidak punya kata sandi. Kunci pemulihan adalah jalan kembali jika semua perangkat yang masuk ke akun itu hilang: kunci ini memasukkan perangkat baru ke akun Anda tanpa persetujuan perangkat lain. {provider} tidak bisa melakukannya untuk Anda.',
   'kit.signedIn':
-    'Tidak ada yang bisa mereset kata sandi Anda — tidak kami, tidak Google. Kunci pemulihan adalah satu-satunya jalan kembali jika Anda lupa: membuka brankas ini, perangkat Anda yang lain, dan akun Anda di perangkat baru.',
+    'Tidak ada yang bisa mereset kata sandi atas nama Anda — kami pun tidak. Kunci pemulihan adalah satu-satunya jalan kembali jika Anda lupa: membuka brankas ini, perangkat Anda yang lain, dan akun Anda di perangkat baru.',
   'kit.passphrase':
-    'Tidak ada yang bisa mereset kata sandi utama Anda — tidak kami, tidak Google. Itulah yang mencegah orang lain membuka brankas Anda, dan juga alasan kunci pemulihan menjadi satu-satunya jalan kembali jika Anda lupa.',
+    'Tidak ada yang bisa mereset kata sandi utama Anda — kami pun tidak. Itulah yang mencegah orang lain membuka brankas Anda, dan juga alasan kunci pemulihan menjadi satu-satunya jalan kembali jika Anda lupa.',
   'kit.device':
     'Brankas ini dibuka dengan kunci yang disimpan browser Anda. Jika kunci itu hilang — data penjelajahan dihapus, profil baru, pemasangan ulang — hanya kunci pemulihan yang masih bisa membukanya.',
   'kit.none': 'Belum ada kunci pemulihan',
@@ -649,15 +701,15 @@ export const id: Dictionary = {
   'kit.replaces': 'Membuat kunci baru membuat kunci sebelumnya tidak berlaku, jadi lembar cetak lama aman dibuang setelah Anda menggantinya.',
   'kit.replacesSignedIn':
     'Membuat kunci baru membuat kunci sebelumnya tidak berlaku, di sini dan di perangkat Anda yang lain, jadi lembar cetak lama aman dibuang setelah Anda menggantinya.',
-  'kit.withoutProvider': 'Tanpanya, kehilangan semua browser yang masuk ke akun Anda berarti setiap akun di brankas ini hilang selamanya.',
+  'kit.withoutProvider': 'Tanpanya, kehilangan semua perangkat yang masuk ke akun Anda berarti setiap akun di brankas ini hilang selamanya.',
   'kit.withoutPassword': 'Tanpanya, lupa kata sandi berarti setiap akun di brankas ini hilang selamanya.',
   'kit.withoutDevice': 'Tanpanya, kehilangan kunci yang disimpan browser ini berarti setiap akun di brankas ini hilang selamanya.',
   'kit.noSupport': 'Tidak ada permintaan dukungan yang bisa membatalkannya.',
-  'kit.removeProvider': 'Menghapusnya membuat browser yang sudah masuk menjadi satu-satunya cara memasukkan browser baru ke akun Anda.',
+  'kit.removeProvider': 'Menghapusnya membuat perangkat yang sudah masuk menjadi satu-satunya cara memasukkan perangkat baru ke akun Anda.',
   'kit.removePassword': 'Menghapusnya membuat kata sandi Anda satu-satunya jalan masuk.',
   'kit.removePasswordSignedIn':
     'Menghapusnya membuat kata sandi Anda satu-satunya jalan masuk — di perangkat ini, perangkat Anda yang lain, dan akun Anda.',
-  'kit.reauth': 'Kunci pemulihan bisa memasukkan browser ke akun Anda, jadi {provider} meminta Anda masuk sekali lagi terlebih dahulu.',
+  'kit.reauth': 'Kunci pemulihan bisa memasukkan perangkat ke akun Anda, jadi {provider} meminta Anda masuk sekali lagi terlebih dahulu.',
   'kit.passwordHint': 'Kunci pemulihan bisa mereset akun Anda, jadi mengubahnya memerlukan kata sandi.',
   'kit.removeConfirm': 'Hapus kunci pemulihan',
   'kit.createConfirm': 'Buat kuncinya',
@@ -684,7 +736,7 @@ export const id: Dictionary = {
   'account.syncNow': 'Sinkronkan sekarang',
   'account.signOut': 'Keluar',
   'account.noKitProvider':
-    'Akun Anda tidak punya kunci pemulihan. Jika semua browser yang masuk ke akun itu hilang, tidak ada yang bisa mengembalikan akun Anda — tidak kami, tidak {provider}.',
+    'Akun Anda tidak punya kunci pemulihan. Jika semua perangkat yang masuk ke akun itu hilang, tidak ada yang bisa mengembalikan akun Anda — tidak kami, tidak {provider}.',
   'account.noKit':
     'Akun Anda tidak punya kunci pemulihan. Jika Anda lupa kata sandi dan kehilangan perangkat ini, tidak ada yang bisa mengembalikan akun Anda — tidak kami, tidak siapa pun.',
   'account.createUnderSecurity': 'Buat di bagian Keamanan',
@@ -702,11 +754,34 @@ export const id: Dictionary = {
   'accountPage.bodyNoRoot': 'Kata sandi dan penghapusan akun ada di halaman akun. Kunci pemulihan dibuat di sini, di Keamanan, sampai aplikasi Keyrook lain memakai akun ini.',
   'accountPage.bodyProvider': 'Kunci pemulihan, memulai ulang, dan menghapus akun ada di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
   'accountPage.bodyNoRootProvider': 'Penghapusan akun ada di halaman akun. Kunci pemulihan dibuat di sini, di Keamanan, sampai aplikasi Keyrook lain memakai akun ini.',
+  'sheetCheck.lead': 'Ketik sekali kunci pemulihan yang Anda simpan, agar aplikasi ini tahu kunci itu bisa mengembalikan kode Anda. Kunci diperiksa di perangkat ini dan tidak dikirim ke mana pun.',
+  'sheetCheck.submit': 'Periksa',
+  'sheetCheck.lost': 'Hilang, atau belum pernah punya? Buat yang baru di halaman akun.',
+  'accountPage.noSheetYet': 'Belum ada yang menunjukkan bahwa kunci pemulihan Anda melindungi Keyrook Authenticator. Tanpanya, sandi yang terlupa bisa membuat Anda kehilangan kode. Ketik sekali di Keamanan, atau buat yang baru di halaman akun.',
+  'account.checkUnderSecurity': 'Periksa di Keamanan',
   'accountPage.open': 'Buka halaman akun',
   'accountPage.recoveryKey': 'Kunci pemulihan brankas yang sedang masuk adalah milik akun Keyrook. Kunci ini dibuat dan diubah di halaman akun.',
   'accountPage.sheetProtects': 'Kunci pemulihan akun melindungi Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Belum diketahui apakah melindungi Keyrook Authenticator',
-  'accountPage.noSheet': 'Belum ada yang menunjukkan bahwa kunci pemulihan akun ini melindungi Keyrook Authenticator. Jika sandi terlupa tanpanya, kode Anda bisa hilang. Buat satu, atau periksa milik Anda, di halaman akun.',
+  'secondStep.title': 'Satu langkah lagi',
+  'secondStep.lead': 'Akun Keyrook Anda meminta langkah kedua. Masukkan kode 6 digit yang ditampilkan aplikasi autentikator Anda untuk akun ini.',
+  'secondStep.field': 'Kode, atau kunci pemulihan',
+  'secondStep.hint': 'Aplikasi itu hilang? Masukkan kunci pemulihan akun Anda sebagai gantinya.',
+  'secondStep.passkey': 'Gunakan kunci sandi saja',
+  'secondStep.where': 'Masuk dua langkah diaktifkan dan dinonaktifkan di account.keyrook.com.',
+  'secondStep.ownerLead': 'Akun Anda juga meminta langkah kedua untuk ini: kode dari aplikasi autentikator Anda, atau kunci pemulihan Anda.',
+  'secondStep.nextCode': 'Setiap kode hanya berlaku sekali. Jika Anda baru saja masuk dengan satu kode, tunggu sampai aplikasi Anda menampilkan kode berikutnya.',
+  'secondStepTip.title': 'Masuk dua langkah',
+  'secondStepTip.suggest': 'Minta kode juga setiap kali akun ini masuk di perangkat lain. Aktifkan di account.keyrook.com, lalu simpan kodenya di sini: di halaman itu, buka Keyrook Authenticator dan pilih “{scan}”.',
+  'secondStepTip.kept': 'Kode masuk milik akun ini sendiri disimpan di sini, di setiap perangkat yang masuk ke akun ini.',
+  'secondStepTip.warning': 'Jika semua perangkat yang menyimpannya hilang, masuklah dengan kunci pemulihan sebagai ganti kode. Simpan kunci pemulihan di tempat terpisah.',
+  'secondStepTip.open': 'Aktifkan',
+  'signin.providerHasPassword': '{provider} sudah memastikan bahwa ini Anda, dan {email} juga punya sandi. Masukkan sandi itu untuk membuka kode Anda di sini.',
+  'provider.addOnPage': 'Agar bisa masuk dengan Google atau GitHub juga, masuklah di halaman akun dengan sandi Anda dan tambahkan di sana.',
+  'startOver.title': 'Akun Keyrook Anda akan dimulai ulang pada {date}',
+  'startOver.lead': 'Seseorang di “{device}” memintanya pada {date}, dengan kode yang kami kirim lewat email: sandi baru dan kunci baru, dan aplikasi Anda akan mulai dalam keadaan kosong.',
+  'startOver.ifYou': 'Jika itu Anda, tidak ada yang perlu dilakukan. Jika bukan, batalkan sekarang, lalu ganti sandi email Anda: orang yang memintanya bisa membaca email Anda.',
+  'startOver.cancel': 'Bukan saya — batalkan',
   'kept.title': 'Disimpan dari sebelum akun dimulai ulang',
   'kept.body': 'Saat akun ini dimulai ulang, isi Keyrook Authenticator di dalamnya disimpan hingga {date}. Kembalikan dengan sandi akun saat itu, atau kunci pemulihan saat itu.',
   'kept.password': 'Sandi saat itu',
@@ -714,7 +789,7 @@ export const id: Dictionary = {
   'kept.usePassword': 'Gunakan sandi saat itu',
   'kept.useRecoveryKey': 'Gunakan kunci pemulihan saat itu',
   'kept.bring': 'Kembalikan',
-  'kept.done': 'Sudah kembali di brankas ini dan sedang dikirim ke browser Anda yang lain.',
+  'kept.done': 'Sudah kembali di brankas ini dan sedang dikirim ke perangkat Anda yang lain.',
   'error.keys.awaitingConfirmation': 'Aplikasi Keyrook lain mengganti kunci akun ini, dan kunci Keyrook Authenticator belum mengikuti. Buka halaman akun untuk memeriksanya, lalu masuk lagi.',
   'password.changedBoth':
     'Kata sandi diubah, untuk akun Anda dan brankas ini. Perangkat Anda yang lain akan meminta Anda masuk lagi dengannya.',
@@ -726,9 +801,12 @@ export const id: Dictionary = {
   'password.formTitle': 'Ubah kata sandi akun Anda',
   'devices.title': 'Perangkat yang masuk',
   'devices.description':
-    'Keluarkan perangkat yang tidak lagi Anda pakai atau miliki. Perangkat itu menyimpan apa yang sudah disinkronkan, terkunci dengan kata sandi yang sama, tetapi tidak menerima apa pun yang baru.',
+    'Keluarkan perangkat yang tidak lagi Anda pakai atau miliki. Jika perangkat itu menjalankan Keyrook Authenticator versi terbaru, saat tersambung berikutnya ia akan menghapus sendiri kode akun ini, dan hanya menyimpan apa yang belum pernah dikirimnya. Sampai saat itu, atau jika tidak pernah tersambung lagi, perangkat itu menyimpan apa yang dimilikinya, terkunci dengan kata sandi yang sama.',
+  'devices.descriptionProvider':
+    'Keluarkan perangkat yang tidak lagi Anda pakai atau miliki. Jika perangkat itu menjalankan Keyrook Authenticator versi terbaru, saat tersambung berikutnya ia akan menghapus sendiri kode akun ini, dan hanya menyimpan apa yang belum pernah dikirimnya. Sampai saat itu, atau jika tidak pernah tersambung lagi, perangkat itu menyimpan apa yang dimilikinya, terkunci seperti brankasnya terkunci di perangkat itu.',
   'devices.this': 'Perangkat ini',
   'devices.when': 'Masuk {created} · terakhir aktif {seen}',
+  'removed.kept': 'Kode yang ditambahkan atau diubah di sini dan belum sampai ke akun masih ada di sini.',
   'delete.row': 'Hapus akun Anda',
   'delete.rowDescription':
     'Menghapus setiap salinan terenkripsi di server. Perangkat ini menyimpan brankasnya persis seperti adanya; perangkat lain berhenti sinkron.',
@@ -738,7 +816,7 @@ export const id: Dictionary = {
   'delete.reauth': '{provider} meminta Anda masuk sekali lagi sebelum apa pun dihapus.',
   'delete.confirm': 'Hapus akunnya',
 
-  'intro.benefit1': 'Kode yang sama di setiap browser yang Anda masuki.',
+  'intro.benefit1': 'Kode yang sama di setiap perangkat yang Anda masuki.',
   'intro.benefit2': 'Laptop yang hilang atau rusak bukan brankas yang hilang.',
   'intro.benefit3': 'Gratis, dan opsional — tanpanya semuanya tetap berjalan di perangkat ini.',
   'intro.title': 'Sinkronkan brankas Anda',
@@ -791,8 +869,8 @@ export const id: Dictionary = {
   'ready.some': 'Akun Anda siap. {done} dari {total} akun sudah dicadangkan sejauh ini; sisanya menyusul pada sinkronisasi berikutnya.',
   'fresh.title': 'Simpan kunci pemulihan Anda',
   'fresh.provider':
-    'Jika semua browser yang masuk ke akun Anda hilang, kunci ini satu-satunya jalan masuk kembali — {provider} tidak bisa memulihkan brankas Anda, dan kami juga tidak.',
-  'fresh.password': 'Jika Anda lupa kata sandi, kunci ini satu-satunya jalan masuk kembali — tidak ada yang bisa mereset untuk Anda, tidak kami dan tidak Google.',
+    'Jika semua perangkat yang masuk ke akun Anda hilang, kunci ini satu-satunya jalan masuk kembali — {provider} tidak bisa memulihkan brankas Anda, dan kami juga tidak.',
+  'fresh.password': 'Jika Anda lupa kata sandi, kunci ini satu-satunya jalan masuk kembali — tidak ada yang bisa mereset untuk Anda, kami pun tidak.',
   'welcome.fromAccount': '{count} dari akun Anda',
   'welcome.fromDevice': '{count} ditambahkan dari perangkat ini',
   'welcome.inSync': 'Sudah sinkron.',
@@ -813,40 +891,47 @@ export const id: Dictionary = {
   'provider.finishInWindow': 'Selesaikan di jendela {provider} yang terbuka.',
   'provider.confirmed': '{provider} mengonfirmasi <b>{email}</b>. Belum ada akun yang memakainya.',
   'provider.point1':
-    'Tanpa kata sandi. Di browser baru Anda melanjutkan dengan {provider}, dan browser yang sudah masuk mengizinkannya setelah Anda memeriksa keduanya menampilkan kode yang sama.',
+    'Tanpa kata sandi. Di perangkat baru Anda melanjutkan dengan {provider}, dan perangkat yang sudah masuk mengizinkannya setelah Anda memeriksa keduanya menampilkan kode yang sama.',
   'provider.point2':
-    '{provider} membuktikan bahwa itu Anda. {provider} tidak pernah melihat kode Anda: kode dienkripsi di sini, dengan kunci yang tetap di browser Anda.',
+    '{provider} membuktikan bahwa itu Anda. {provider} tidak pernah melihat kode Anda: kode dienkripsi di sini, dengan kunci yang tetap di perangkat Anda.',
   'provider.point3':
-    'Berikutnya Anda menyimpan kunci pemulihan — jalan kembali jika semua browser yang masuk ke akun hilang. {provider} tidak bisa memulihkan brankas Anda.',
+    'Berikutnya Anda menyimpan kunci pemulihan — jalan kembali jika semua perangkat yang masuk ke akun hilang. {provider} tidak bisa memulihkan brankas Anda.',
   'provider.notRight': 'Bukan akun yang benar?',
   'provider.startAgain': 'Mulai lagi',
+  'passkey.continue': 'Lanjutkan dengan kunci sandi',
+  'passkey.where':
+    'Yang Anda tambahkan di <link>halaman akun</link>, pada bagian Kunci sandi. Pertama kali, Chrome menanyakan apakah Keyrook Authenticator boleh memakainya.',
   'pairing.codeLabel': 'Kode {code}',
   'join.title': 'Izinkan browser ini masuk',
-  'join.subtitle': '<b>{email}</b> sudah punya akun. Setujui browser ini dari browser yang sudah masuk.',
+  'join.subtitle': '<b>{email}</b> sudah punya akun. Setujui browser ini dari perangkat yang sudah masuk.',
   'join.masterPassword': 'Kata sandi utama brankas ini',
   'join.masterHint': 'Tetap mengunci brankas di sini; akunnya sendiri tidak punya kata sandi.',
   'join.ask': 'Minta bergabung',
-  'join.step1': 'Di browser yang sudah masuk, buka Keyrook Authenticator. Permintaannya muncul di sana — di popup, dan di Setelan bagian Sinkronisasi.',
+  'join.step1': 'Di perangkat yang sudah masuk, buka Keyrook Authenticator. Permintaannya muncul di sana — di atas daftar kode, dan di Setelan bagian Sinkronisasi.',
   'join.step2': 'Pastikan kode yang tampil sama dengan halaman ini, lalu setujui.',
   'join.askAgain': 'Minta lagi',
-  'join.compare': 'Browser lain juga menampilkan kode. Setujui di sana hanya jika kodenya persis sama.',
-  'join.waiting': 'Menunggu browser lain…',
-  'join.noOther': 'Tidak ada browser lain lagi?',
+  'join.compare': 'Perangkat lain juga menampilkan kode. Setujui di sana hanya jika kodenya persis sama.',
+  'join.waiting': 'Menunggu perangkat lain…',
+  'join.noOther': 'Tidak ada perangkat lain lagi?',
   'join.useKey': 'Gunakan kunci pemulihan Anda',
   'join.wrongAccount': 'Masuk dengan {provider} memakai akun yang salah?',
-  'joinKey.subtitle': 'Kunci yang Anda simpan saat akun dibuat. Kunci ini memasukkan browser ini tanpa browser lain.',
+  'joinKey.subtitle': 'Kunci yang Anda simpan saat akun dibuat. Kunci ini memasukkan browser ini tanpa perangkat lain.',
   'joinKey.submit': 'Gabung ke akun',
-  'approve.approved': 'Disetujui. Browser lain akan membuka brankas Anda sebentar lagi.',
+  'approve.approved': 'Disetujui. Perangkat lain akan membuka brankas Anda sebentar lagi.',
   'approve.mismatch':
     'Ditolak. Jika bukan Anda yang baru saja masuk, orang lain bisa masuk ke akun {provider} Anda — ubah kata sandinya dan periksa setelan keamanannya.',
   'approve.declined': 'Ditolak. Tidak ada yang dikirim.',
-  'approve.title': 'Browser yang meminta bergabung',
+  'approve.title': 'Perangkat yang meminta bergabung',
   'approve.description':
-    'Setiap permintaan datang dari seseorang yang baru saja masuk dengan akun {provider} Anda. Setujui hanya browser yang sedang Anda masuki sendiri, saat ini.',
+    'Setiap permintaan datang dari seseorang yang baru saja masuk dengan akun {provider} Anda. Setujui hanya perangkat yang sedang Anda masuki sendiri, saat ini.',
+  'approve.descriptionAny':
+    'Setiap permintaan datang dari seseorang yang baru saja masuk dengan akun Google atau GitHub Anda. Setujui hanya perangkat yang sedang Anda masuki sendiri, saat ini.',
+  'approve.mismatchAny':
+    'Ditolak. Jika bukan Anda yang baru saja masuk, orang lain bisa masuk ke akun Google atau GitHub Anda — ubah kata sandinya dan periksa setelan keamanannya.',
   'approve.askedAt': 'Diminta pukul {time}',
   'approve.review': 'Tinjau',
   'approve.deny': 'Tolak',
-  'approve.question': 'Apakah browser yang meminta menampilkan kode yang persis ini? Jika tidak, seseorang sedang mencoba masuk.',
+  'approve.question': 'Apakah perangkat yang meminta menampilkan kode yang persis ini? Jika tidak, seseorang sedang mencoba masuk.',
   'approve.matches': 'Cocok — izinkan masuk',
   'approve.doesNotMatch': 'Tidak cocok',
 
@@ -860,7 +945,7 @@ export const id: Dictionary = {
   'nav.sync': 'Sinkronisasi',
   'nav.general': 'Umum',
   'nav.needsAttention': 'Perlu perhatian',
-  'sync.description': 'Kode yang sama di setiap browser yang Anda masuki, dienkripsi di sini sebelum keluar.',
+  'sync.description': 'Kode yang sama di setiap perangkat yang Anda masuki, dienkripsi di sini sebelum keluar.',
   'backup.description': 'Simpan salinan terenkripsi, bawa akun masuk, atau pindahkan ke aplikasi lain.',
   'backup.choice.backup.title': 'Cadangkan',
   'backup.choice.backup.body': 'File terenkripsi, dikunci dengan kata sandi pilihan Anda.',
@@ -875,16 +960,16 @@ export const id: Dictionary = {
   'general.autofillHint': 'Membuka popup di halaman masuk menawarkan kode yang cocok. Hanya tab itu yang dibaca.',
 
   'vault.signInToSync': 'Masuk untuk sinkronisasi',
-  'vault.empty.signIn': 'Memakai Keyrook Authenticator di browser lain? <link>Masuk</link> untuk membawa kode Anda ke sini.',
+  'vault.empty.signIn': 'Memakai Keyrook Authenticator di perangkat lain? <link>Masuk</link> untuk membawa kode Anda ke sini.',
   'setup.haveAccount': 'Sudah memakai Keyrook Authenticator? <link>Masuk</link> untuk membawa kode Anda ke sini.',
   'popup.signInOpensTab': 'Terbuka di tab baru, dan selesai di Setelan.',
 
   'error.backupWrongPassword': 'Kata sandi itu tidak membuka file ini.',
-  'error.foreign.steam': 'Kode Steam Guard belum bisa diimpor.',
+  'error.foreign.steamFolder': 'Pilih sekaligus semua file di folder maFiles milik Steam Desktop Authenticator: manifest.json dan file .maFile di sebelahnya.',
   'error.foreign.locked': 'Ekspor ini dikunci dengan kata sandi yang tidak bisa dibuka Keyrook Authenticator. Ekspor lagi tanpa kata sandi.',
   'import.lockedFrom': '{app} mengunci ekspor ini dengan kata sandi. Masukkan kata sandi yang Anda tetapkan di sana.',
   'import.fromApps':
-    'Ekspor dari Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, ekstensi Authenticator, dan Google Authenticator juga bisa — begitu pula CSV dari Apple Passwords, 1Password, atau pengelola kata sandi lain.',
+    'Ekspor dari Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, ekstensi Authenticator, dan Google Authenticator juga bisa — begitu pula CSV dari Apple Passwords, 1Password, atau pengelola kata sandi lain.',
   'shortcut.open': 'Buka Keyrook Authenticator',
   'shortcut.fill': 'Isi kode untuk halaman ini',
   'shortcut.fillHint': 'Hanya mengisi jika tepat satu akun milik situs itu; di tempat lain membuka daftar.',
@@ -894,4 +979,63 @@ export const id: Dictionary = {
   'import.csvWarning':
     'File ini berisi kata sandi Anda tanpa enkripsi. Hanya kunci dua faktor yang dibaca dan tidak ada lagi yang disimpan — hapus file itu setelah selesai.',
   'import.noKeysInCsv': 'File itu tidak berisi kunci dua faktor — hanya kata sandi.',
+  'crash.title': 'Terjadi kesalahan',
+  'crash.body':
+    'Layar ini mengalami masalah dan berhenti. Akun Anda yang tersimpan tidak terpengaruh. Memuat ulang biasanya memulihkannya.',
+  'crash.reload': 'Muat ulang',
+  'setup.device.description.phone':
+    'Rahasia Anda dienkripsi dengan kunci yang disimpan ponsel ini untuk Anda. Tidak ada yang perlu diingat atau diketik.',
+  'setup.device.footnote.phone':
+    'Melindungi dari salinan file aplikasi. Tidak melindungi dari siapa pun yang bisa membuka kunci ponsel ini.',
+  'setup.password.footnote.phone':
+    'Pilihan terkuat: setelah terkunci, tidak ada apa pun di ponsel ini yang bisa membuka brankas tanpa kata sandi.',
+  'unrecoverable.why.phone':
+    'Kunci enkripsinya disimpan oleh ponsel ini dan sudah hilang — biasanya karena data aplikasi dihapus, aplikasi dipasang ulang, atau brankas berasal dari cadangan ponsel lain. Tanpa kunci itu, akun yang tersimpan tidak bisa didekripsi oleh siapa pun, termasuk kami.',
+  'vault.empty.body.phone':
+    'Saat situs menampilkan kode QR untuk menyiapkan autentikasi dua faktor, pindai dengan kamera ponsel ini.',
+  'add.camera.description.phone': 'Untuk kode di layar lain — termasuk ekspor Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Memindahkan dari Google Authenticator di ponsel lain? Ekspor akun Anda di sana, lalu pindai kode yang ditampilkan dengan kamera ponsel ini. Jika muncul beberapa, lakukan satu per satu.',
+  'camera.noCamera.phone': 'Ponsel ini tidak memberi aplikasi akses kamera.',
+  'camera.blocked.phone':
+    'Aplikasi tidak diizinkan memakai kamera. Izinkan di setelan ponsel, atau gunakan cara lain untuk menambah akun.',
+  'camera.none.phone': 'Tidak ada kamera di ponsel ini.',
+  'security.languageBrowser.phone': 'Bawaan ponsel ({language})',
+  'protect.removeWarning.phone':
+    'Brankas tetap terenkripsi, tetapi akan terbuka sendiri setiap kali aplikasi dibuka. Siapa pun yang bisa membuka kunci ponsel ini bisa melihat kode Anda.',
+  'kit.device.phone':
+    'Brankas ini dibuka dengan kunci yang disimpan ponsel Anda. Jika kunci itu hilang — data aplikasi dihapus, pemasangan ulang, ponsel baru — hanya kunci pemulihan yang masih bisa membukanya.',
+  'kit.withoutDevice.phone':
+    'Tanpanya, kehilangan kunci yang disimpan ponsel ini berarti setiap akun di brankas ini hilang selamanya.',
+  'security.description.phone': 'Cara brankas ini dibuka, dan jalan kembali Anda jika ponsel ini hilang.',
+  'security.deviceKeyHint.phone':
+    'Tidak ada yang perlu diketik. Siapa pun yang bisa membuka kunci ponsel ini bisa membukanya.',
+  'general.description.phone': 'Tampilan dan perilaku aplikasi, dan dari mana asalnya.',
+  'about.securityModelDescription.phone': 'Apa yang dijamin aplikasi, dan apa yang tidak.',
+  'about.logos.description.phone':
+    'Tanda dikompilasi ke dalam aplikasi, tidak pernah diambil dari internet. Meminta logo lewat jaringan akan memberi tahu pihak yang menjawab layanan mana saja yang memakai autentikasi dua faktor Anda.',
+  'about.fact.access.title.phone': 'Hanya kamera, dan hanya untuk memindai',
+  'about.fact.access.body.phone':
+    'Aplikasi tidak meminta izin apa pun selain kamera, dan hanya saat Anda memilih memindai kode. Apa yang dilihat kamera tidak pernah keluar dari ponsel.',
+  'about.fact.keys.body.phone':
+    'Akun Anda dienkripsi dengan kunci data yang dibungkus lagi oleh kunci lain. Dengan kata sandi utama, kunci pembungkus berasal dari PBKDF2 dengan 600.000 putaran dan hanya ada di memori selama terbuka. Tanpa kata sandi, kuncinya disegel oleh penyimpanan kunci milik ponsel sendiri, sehingga salinan file aplikasi tidak bisa membuka brankas.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera di sini. Jika tidak bisa, foto kode itu dengan aplikasi kamera ponsel dan gunakan Unggah gambar QR.',
+  'import.noNativeReader.phone':
+    'Kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera di sini. Jika tidak bisa, foto setiap kode dengan aplikasi kamera ponsel dan pilih semuanya lewat Pilih file.',
+  'error.signOutUnsynced.phone':
+    'Beberapa perubahan di ponsel ini belum sampai ke akun Anda, dan keluar sekarang akan menghilangkannya. Sambungkan ke internet lalu coba lagi.',
+  'account.signOutNote.phone':
+    'Keluar menghapus kode Anda dari ponsel ini. Kode tetap ada di akun Keyrook Anda — masuk lagi untuk mengembalikannya.',
+  'secondStepTip.suggest.phone':
+    'Minta kode juga setiap kali akun ini masuk di perangkat lain. Aktifkan di account.keyrook.com, lalu simpan kodenya di sini: tambahkan akun di aplikasi ini dan pindai kode QR yang ditampilkan halaman itu.',
+  'intro.benefit2.phone': 'Ponsel yang hilang atau rusak bukan brankas yang hilang.',
+  'provider.finishInWindow.phone': 'Selesaikan di halaman {provider} yang terbuka di browser Anda.',
+  'join.title.phone': 'Izinkan ponsel ini masuk',
+  'join.subtitle.phone':
+    '<b>{email}</b> sudah punya akun. Setujui ponsel ini dari perangkat yang sudah masuk.',
+  'joinKey.subtitle.phone':
+    'Kunci yang Anda simpan saat akun dibuat. Kunci ini memasukkan ponsel ini tanpa perangkat lain.',
+  'facts.autofill.phone': 'Pemindaian QR',
 };

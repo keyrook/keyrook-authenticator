@@ -17,6 +17,7 @@ export const ko: Dictionary = {
   'error.recoverOnAccountPage': '복구 키는 맞지만, 이 계정의 비밀번호는 이제 계정 페이지에서 재설정하며 모든 Keyrook 앱에 한 번에 적용됩니다.',
   'error.kitOnAccountPage': '이 계정의 복구 키는 이제 계정 페이지에서 만들며 모든 Keyrook 앱에 한 번에 적용됩니다.',
   'error.restoreEmpty': '이 계정에는 되돌릴 것이 남아 있지 않습니다. 이 기기에 오기 전에 다른 기기에서 삭제되었습니다.',
+  'error.noAccountSheet': '이 계정에는 아직 복구 키가 없습니다. 계정 페이지에서 만드세요.',
   'error.recoveryKeyWrong': '이 복구 키는 이 계정의 것이 아닙니다.',
   'error.noRecoveryKit': '이 보관함에는 복구 키가 없습니다.',
   'error.syncUnavailable': '이 빌드에서는 동기화를 사용할 수 없습니다.',
@@ -24,6 +25,7 @@ export const ko: Dictionary = {
   'error.alreadySignedIn': '이미 로그인되어 있습니다.',
   'error.signedOutElsewhere':
     '이 기기는 동기화에서 로그아웃되었습니다. 비밀번호가 바뀌었거나 다른 기기에서 이 기기를 제거했습니다. 다시 로그인하세요.',
+  'error.removedFromAccount': '다른 기기가 이 기기를 Keyrook 계정에서 제거했기 때문에 계정의 코드가 여기서 삭제되었습니다. 다시 로그인하면 돌아옵니다.',
   'error.signOutUnsynced':
     '이 브라우저의 일부 변경 사항이 아직 계정에 반영되지 않아 지금 로그아웃하면 사라집니다. 인터넷에 연결한 뒤 다시 시도하세요.',
   'error.enterAccountPassword': '계정 비밀번호를 입력하세요.',
@@ -55,10 +57,10 @@ export const ko: Dictionary = {
   'error.nothingWaiting': '승인을 기다리는 항목이 없습니다.',
   'error.pairingExpired': '요청이 끝났습니다. 거절되었거나 10분이 지났습니다. 다시 요청하세요.',
   'error.pairingWrongKey':
-    '도착한 키가 이 계정의 것이 아닙니다. 아무것도 바뀌지 않았습니다. 다른 브라우저에서 다시 시도하세요.',
-  'error.pairingForged': '이 승인은 코드를 확인한 브라우저에서 온 것이 아닙니다.',
+    '도착한 키가 이 계정의 것이 아닙니다. 아무것도 바뀌지 않았습니다. 다른 기기에서 다시 시도하세요.',
+  'error.pairingForged': '이 승인은 코드를 확인한 기기에서 온 것이 아닙니다.',
   'error.pairingForgedAsk':
-    '이 승인은 코드를 확인한 브라우저에서 온 것이 아닙니다. 아무것도 바뀌지 않았습니다. 다시 요청하세요.',
+    '이 승인은 코드를 확인한 기기에서 온 것이 아닙니다. 아무것도 바뀌지 않았습니다. 다시 요청하세요.',
   'error.pairingEnded': '이 요청은 끝났습니다.',
   'error.approveAgain': '이 요청의 승인을 처음부터 다시 시작하세요.',
   'error.backupPasswordShort': '백업 비밀번호는 8자 이상이어야 합니다.',
@@ -76,6 +78,22 @@ export const ko: Dictionary = {
   'error.migrationNotOurs': 'Google Authenticator 내보내기가 아닙니다.',
   'error.migrationMalformed': '이 Google Authenticator 내보내기는 손상되었거나 불완전합니다.',
   'error.offline': '동기화 서버에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.',
+  'error.passkey.wrongOrigin': '패스키는 Keyrook의 자체 페이지와 앱에서만 사용할 수 있습니다.',
+  'error.passkey.notOffered': '여기서는 패스키로 로그인할 수 없습니다.',
+  'error.passkey.unchecked': '해당 패스키를 확인하지 못했습니다. 다시 시도하세요.',
+  'error.passkey.unknown': '해당 패스키를 아는 Keyrook 계정이 없습니다. 삭제되었을 수 있습니다.',
+  'error.passkey.ended': '해당 패스키 요청이 만료되었습니다. 다시 시도하세요.',
+  'error.passkey.noUnlock': '해당 패스키로는 이 계정의 키를 열 수 없습니다. 대신 비밀번호로 로그인하세요.',
+  'error.passkey.noUnlockProvider': '해당 패스키로는 이 계정의 키를 열 수 없습니다. 대신 Google 또는 GitHub로 계속하세요.',
+  'error.passkey.masterPassword': '마스터 비밀번호로 잠기는 보관함은 패스키로 로그인할 수 없습니다. 계정 비밀번호나 Google 또는 GitHub로 로그인하세요.',
+  'error.passkey.permission':
+    'Keyrook Authenticator가 account.keyrook.com의 패스키를 사용하려면 Chrome의 권한이 필요합니다. 패스키를 다시 선택하고 허용하세요.',
+  'error.passkey.cancelled': '사용된 패스키가 없습니다. 다시 시도하거나 다른 방법으로 로그인하세요.',
+  'error.passkey.failed': 'Chrome이 패스키를 요청하지 못했습니다. 다시 시도하거나 다른 방법으로 로그인하세요.',
+  'error.secondStep.missing': '인증 앱의 코드도 입력하세요.',
+  'error.secondStep.wrongCode': '코드가 올바르지 않습니다. 인증 앱에 지금 표시된 코드를 입력하세요.',
+  'error.secondStep.expired': '로그인이 만료되었습니다. 다시 로그인하세요.',
+  'error.secondStep.used': '그 코드는 방금 로그인에 사용되었습니다. 앱에 다음 코드가 표시될 때까지 기다리세요.',
   'error.provider.refusedBy': '{provider}에서 로그인을 거부했습니다.',
   'error.provider.unreachable': '{provider}에 연결할 수 없습니다. 잠시 후 다시 시도하세요.',
   'error.provider.refused': '로그인이 거부되었습니다. 다시 시도하세요.',
@@ -90,11 +108,11 @@ export const ko: Dictionary = {
   'error.server.signinExpired': '이 로그인은 만료되었습니다. 다시 시도하세요.',
   'error.server.tooManyCodes': '잘못된 코드가 너무 많습니다. 새 코드를 요청하세요.',
   'error.server.tooManyPairings':
-    '이 계정에 참여하려고 기다리는 브라우저가 너무 많습니다. 몇 분 후 다시 시도하세요.',
+    '이 계정에 참여하려고 기다리는 기기가 너무 많습니다. 몇 분 후 다시 시도하세요.',
   'error.server.wrongKey': '이 기기에는 계정 키가 없습니다.',
   'error.server.providerAccount': '이 계정은 비밀번호가 아니라 Google 또는 GitHub로 로그인합니다.',
   'error.server.mailFailed': '이메일을 보내지 못했습니다. 1분 후 다시 시도하세요.',
-  'error.server.pairingTaken': '이 요청은 끝났거나 다른 브라우저가 승인하는 중입니다.',
+  'error.server.pairingTaken': '이 요청은 끝났거나 다른 기기가 승인하는 중입니다.',
   'error.server.passwordWrong': '비밀번호가 올바르지 않습니다.',
   'error.server.badCredentials': '이메일 또는 비밀번호가 올바르지 않습니다.',
   'error.server.badCode':
@@ -153,6 +171,22 @@ export const ko: Dictionary = {
   'unlock.placeholder': '마스터 비밀번호',
   'unlock.submit': '잠금 해제',
   'unlock.forgot': '잊으셨나요? <link>복구 키 사용하기</link>',
+  'platformUnlock.unlock': '지문, 얼굴 또는 PIN으로 잠금 해제',
+  'platformUnlock.title': '지문, 얼굴 또는 PIN',
+  'platformUnlock.body': '마스터 비밀번호를 입력하는 대신 이 컴퓨터 자체의 확인(Touch ID, Windows Hello 또는 그 PIN)으로 보관함을 여세요. 비밀번호로도 계속 열 수 있고, 변경할 때는 여전히 비밀번호가 필요합니다.',
+  'platformUnlock.on': '이 보관함은 이 컴퓨터 자체의 확인으로도 열립니다. 마스터 비밀번호를 없애면 꺼집니다.',
+  'passkeyUnlock.turnOn': '켜기',
+  'passkeyUnlock.turnOff': '끄기',
+  'platformUnlock.confirm': '그다음 컴퓨터가 지문, 얼굴 또는 PIN을 요청합니다.',
+  'error.passkeyUnlock.cancelled': '확인이 취소되었거나 너무 오래 걸렸습니다. 다시 시도하거나 마스터 비밀번호를 사용하세요.',
+  'error.platformUnlock.noPrf': '이 패스키가 저장된 곳은 키를 보관할 수 없어 보관함을 열 수 없습니다. 다시 켜고 저장할 곳을 물으면 다른 곳을 선택하세요. 아니면 계속 마스터 비밀번호를 사용하세요.',
+  'error.passkeyUnlock.failed': '보관함이 열리지 않았습니다. 마스터 비밀번호를 사용한 뒤 보안에서 다시 켜세요.',
+  'securityKey.unlock': '보안 키로 잠금 해제',
+  'securityKey.title': '보안 키',
+  'securityKey.body': '마스터 비밀번호를 입력하는 대신 USB 보안 키와 그 PIN으로 보관함을 엽니다. 키를 가지고 있고 그 PIN을 아는 사람은 이 컴퓨터에서 보관함을 열 수 있게 됩니다. 키를 잃어버려도 마스터 비밀번호로 계속 열 수 있습니다.',
+  'securityKey.on': '이 보관함은 이 컴퓨터에서 보안 키와 그 PIN으로도 열립니다. 키를 가지고 있고 그 PIN을 아는 사람은 여기서 열 수 있으니, 키를 잃어버리면 이 기능을 끄세요. 마스터 비밀번호를 없애면 꺼집니다.',
+  'securityKey.confirm': '그다음 보안 키를 꽂고, PIN을 입력한 뒤 키를 터치하세요. 두 번 묻는 키도 있습니다.',
+  'error.securityKey.noPrf': '이 보안 키는 키를 보관할 수 없어서 보관함을 열 수 없습니다. 2단계 로그인 전용으로 만든 키는 할 수 없습니다. 다른 키를 사용해 보거나 마스터 비밀번호를 계속 사용하세요.',
 
   // --- 열 수 없는 보관함 --------------------------------------------------------
   'unrecoverable.title': '이 보관함은 더 이상 열 수 없습니다',
@@ -193,6 +227,7 @@ export const ko: Dictionary = {
   'setup.password.footnote':
     '가장 강력한 방법입니다. 잠긴 뒤에는 비밀번호 없이 이 컴퓨터의 어떤 것도 보관함을 열 수 없습니다.',
   'setup.footer': '어느 쪽이든 AES-256-GCM입니다. 언제든 바꿀 수 있고, 동기화는 선택 사항이며 설정에 있습니다.',
+  'setup.footer.noSync': '어느 쪽이든 AES-256-GCM입니다. 설정에서 언제든 바꿀 수 있습니다.',
   'setup.source': '오픈 소스 — 코드 읽어 보기',
   'common.back': '뒤로',
   'setup.passwordStep.title': '마스터 비밀번호 설정',
@@ -241,9 +276,9 @@ export const ko: Dictionary = {
   'vault.byName': '이름순',
   'vault.orderAdded': '추가순',
   'vault.joinRequests': {
-    other: '브라우저 {count}개가 계정 참여를 요청하고 있습니다.',
+    other: '기기 {count}대가 계정 참여를 요청하고 있습니다.',
   },
-  'vault.joinRequestsHint': '지금 직접 로그인하고 있는 브라우저만 승인하세요.',
+  'vault.joinRequestsHint': '지금 직접 로그인하고 있는 기기만 승인하세요.',
   'vault.reviewInSettings': '설정에서 확인',
   'vault.noMatch': '“{query}”와(과) 일치하는 계정이 없습니다.',
   'vault.forHost': '{host}용',
@@ -335,6 +370,7 @@ export const ko: Dictionary = {
   'error.alreadyInVault': '이 계정은 이미 보관함에 있습니다.',
   'error.gaSkipPeriod': 'Google Authenticator는 30초 코드만 보관합니다. 이 코드는 {period}초를 사용합니다.',
   'error.gaSkipDigits': 'Google Authenticator는 6자리 또는 8자리 코드만 보관합니다. 이 코드는 {digits}자리입니다.',
+  'error.gaSkipSteam': 'Google Authenticator는 Steam Guard 코드를 만들 수 없습니다.',
 
   // --- 카메라 스캔 --------------------------------------------------------------
   'scan.progressBatch': '코드 {total}개 중 {seen}번째를 스캔했습니다 — {accounts}. 다음 코드를 보여 주세요.',
@@ -423,9 +459,18 @@ export const ko: Dictionary = {
   // --- 새 복구 키 ---------------------------------------------------------------
   'sheet.once':
     '이 키는 지금 한 번만 표시됩니다. 어디에도 저장되지 않으므로 잃어버리면 새로 발급하세요.',
+  'sheet.print': '인쇄',
+  'sheet.apart': '이메일과 떨어진 곳에 보관하고, 절대 자신에게 이메일로 보내지 마세요. 이 키와 이메일 주소가 있으면 누군가 새 비밀번호를 설정하고 코드를 열 수 있습니다.',
+  'sheet.apartProvider': '로그인에 쓰는 Google 또는 GitHub 계정과 떨어진 곳에 보관하고, 그 계정의 메일이나 드라이브에 절대 두지 마세요. 이 키와 그 계정이 있으면 누군가 코드를 열 수 있습니다.',
+  'sheet.kept': '저장했습니다',
+  'sheet.checkHeading': '저장했는지 확인하기',
+  'sheet.checkLead': '저장한 내용을 보고 키의 두 그룹을 입력하세요. 그룹은 하이픈 사이의 네 글자 묶음이며 왼쪽부터 셉니다.',
+  'sheet.group': '{position}번째 그룹',
+  'sheet.check': '확인',
+  'sheet.mismatch': '키에 적힌 내용과 다릅니다. 저장한 내용을 다시 보거나, 키를 다시 표시해 지금 저장하세요.',
+  'sheet.showAgain': '키 다시 보기',
   'sheet.download': '시트 다운로드',
   'sheet.copy': '복사',
-  'sheet.saved': '이 컴퓨터가 없어져도 남아 있을 곳에 저장했습니다.',
 
   // --- 그룹 ---------------------------------------------------------------------
   'groups.title': '그룹',
@@ -491,6 +536,7 @@ export const ko: Dictionary = {
   'accounts.digits': '{type} {digits}자리',
   'accounts.period': ' · {seconds}초',
   'accounts.counter': ' · 카운터 {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': '{name} 공유 또는 이동',
   'accounts.edit': '편집',
   'common.delete': '삭제',
@@ -622,6 +668,7 @@ export const ko: Dictionary = {
   'export.oneByOne.progress': '보여 준 계정',
   'export.oneByOne.position': '계정 {index}/{total}',
   'export.oneByOne.keys': '→ 또는 스페이스로 다음, Esc로 중지',
+  'export.steamRefused': '{app}은(는) Steam Guard 코드를 만들 수 없어 이 계정을 받지 않습니다.',
   'export.print.label': '인쇄하거나 스캔할 QR 코드',
   'export.print.title': 'Keyrook Authenticator — 설정 코드',
   'export.print.body':
@@ -702,11 +749,11 @@ export const ko: Dictionary = {
   // --- 설정: 복구 키 ------------------------------------------------------------
   'kit.title': '복구 키',
   'kit.provider':
-    '계정에 비밀번호가 없습니다. 복구 키는 로그인된 모든 브라우저를 잃었을 때 돌아오는 방법으로, 다른 브라우저의 승인 없이 새 브라우저를 계정에 들일 수 있습니다. {provider}은(는) 이를 대신해 줄 수 없습니다.',
+    '계정에 비밀번호가 없습니다. 복구 키는 로그인된 모든 기기를 잃었을 때 돌아오는 방법으로, 다른 기기의 승인 없이 새 기기를 계정에 들일 수 있습니다. {provider}은(는) 이를 대신해 줄 수 없습니다.',
   'kit.signedIn':
-    '비밀번호는 저희도 Google도 재설정할 수 없습니다. 잊었을 때 돌아오는 유일한 방법이 복구 키입니다. 이 보관함, 다른 기기, 그리고 새 기기에서의 계정을 열 수 있습니다.',
+    '비밀번호는 누구도 대신 재설정해 드릴 수 없습니다. 저희도 마찬가지입니다. 잊었을 때 돌아오는 유일한 방법이 복구 키입니다. 이 보관함, 다른 기기, 그리고 새 기기에서의 계정을 열 수 있습니다.',
   'kit.passphrase':
-    '마스터 비밀번호는 저희도 Google도 재설정할 수 없습니다. 그래서 다른 사람이 보관함을 열 수 없고, 같은 이유로 잊었을 때 돌아오는 유일한 방법이 복구 키입니다.',
+    '마스터 비밀번호는 누구도 재설정할 수 없습니다. 저희도 마찬가지입니다. 그래서 다른 사람이 보관함을 열 수 없고, 같은 이유로 잊었을 때 돌아오는 유일한 방법이 복구 키입니다.',
   'kit.device':
     '이 보관함은 브라우저가 보관하는 키로 잠금 해제됩니다. 그 키가 사라지면(인터넷 사용 기록 삭제, 새 프로필, 재설치 등) 열 수 있는 것은 복구 키뿐입니다.',
   'kit.none': '아직 복구 키가 없습니다',
@@ -721,19 +768,19 @@ export const ko: Dictionary = {
   'kit.replacesSignedIn':
     '새 키를 발급하면 여기와 다른 기기에서 이전 키가 더 이상 작동하지 않으므로, 교체한 뒤에는 예전에 인쇄한 시트를 버려도 안전합니다.',
   'kit.withoutProvider':
-    '복구 키가 없으면, 계정에 로그인된 모든 브라우저를 잃는 순간 이 보관함의 모든 계정을 영영 잃습니다.',
+    '복구 키가 없으면, 계정에 로그인된 모든 기기를 잃는 순간 이 보관함의 모든 계정을 영영 잃습니다.',
   'kit.withoutPassword':
     '복구 키가 없으면, 비밀번호를 잊는 순간 이 보관함의 모든 계정을 영영 잃습니다.',
   'kit.withoutDevice':
     '복구 키가 없으면, 이 브라우저가 보관하는 키를 잃는 순간 이 보관함의 모든 계정을 영영 잃습니다.',
   'kit.noSupport': '어떤 지원 요청으로도 되돌릴 수 없습니다.',
   'kit.removeProvider':
-    '삭제하면, 새 브라우저를 계정에 들일 수 있는 것은 이미 로그인된 브라우저뿐입니다.',
+    '삭제하면, 새 기기를 계정에 들일 수 있는 것은 이미 로그인된 기기뿐입니다.',
   'kit.removePassword': '삭제하면 들어갈 수 있는 방법은 비밀번호뿐입니다.',
   'kit.removePasswordSignedIn':
     '삭제하면 이 기기, 다른 기기, 계정 모두에서 들어갈 수 있는 방법은 비밀번호뿐입니다.',
   'kit.reauth':
-    '복구 키는 브라우저를 계정에 들일 수 있으므로, {provider}에서 먼저 한 번 더 로그인하라고 요청합니다.',
+    '복구 키는 기기를 계정에 들일 수 있으므로, {provider}에서 먼저 한 번 더 로그인하라고 요청합니다.',
   'kit.passwordHint': '복구 키로 계정을 재설정할 수 있으므로, 변경하려면 비밀번호가 필요합니다.',
   'kit.removeConfirm': '복구 키 삭제',
   'kit.createConfirm': '키 만들기',
@@ -763,7 +810,7 @@ export const ko: Dictionary = {
   'account.syncNow': '지금 동기화',
   'account.signOut': '로그아웃',
   'account.noKitProvider':
-    '계정에 복구 키가 없습니다. 로그인된 모든 브라우저를 잃으면 계정을 되찾을 방법이 없습니다. 저희도 {provider}도 할 수 없습니다.',
+    '계정에 복구 키가 없습니다. 로그인된 모든 기기를 잃으면 계정을 되찾을 방법이 없습니다. 저희도 {provider}도 할 수 없습니다.',
   'account.noKit':
     '계정에 복구 키가 없습니다. 비밀번호를 잊고 이 기기까지 잃으면 계정을 되찾을 방법이 없습니다. 저희도, 그 누구도 할 수 없습니다.',
   'account.createUnderSecurity': '보안에서 만들기',
@@ -784,11 +831,34 @@ export const ko: Dictionary = {
   'accountPage.bodyNoRoot': '비밀번호와 삭제는 계정 페이지에 있습니다. 복구 키는 다른 Keyrook 앱이 이 계정을 쓰기 전까지 여기 보안에서 만듭니다.',
   'accountPage.bodyProvider': '복구 키, 처음부터 다시 시작, 삭제는 계정 페이지에 있으며 모든 Keyrook 앱에 한 번에 적용됩니다.',
   'accountPage.bodyNoRootProvider': '삭제는 계정 페이지에 있습니다. 복구 키는 다른 Keyrook 앱이 이 계정을 쓰기 전까지 여기 보안에서 만듭니다.',
+  'sheetCheck.lead': '저장해 둔 복구 키를 한 번 입력하면, 이 앱이 그 키로 코드를 되찾을 수 있음을 알게 됩니다. 이 기기에서 확인하며 어디에도 보내지 않습니다.',
+  'sheetCheck.submit': '확인하기',
+  'sheetCheck.lost': '잃어버렸거나 처음부터 없었나요? 계정 페이지에서 새로 만드세요.',
+  'accountPage.noSheetYet': '내 복구 키가 Keyrook Authenticator를 보호한다는 표시가 아직 없습니다. 복구 키 없이 비밀번호를 잊으면 코드를 잃을 수 있습니다. 보안에서 한 번 입력하거나 계정 페이지에서 새로 만드세요.',
+  'account.checkUnderSecurity': '보안에서 확인하기',
   'accountPage.open': '계정 페이지 열기',
   'accountPage.recoveryKey': '로그인한 보관함의 복구 키는 Keyrook 계정의 것입니다. 계정 페이지에서 만들고 바꿉니다.',
   'accountPage.sheetProtects': '계정의 복구 키가 Keyrook Authenticator를 보호합니다',
   'accountPage.sheetUnknown': 'Keyrook Authenticator를 보호하는지 아직 알 수 없습니다',
-  'accountPage.noSheet': '이 계정의 복구 키가 Keyrook Authenticator를 보호한다는 표시가 아직 없습니다. 복구 키 없이 비밀번호를 잊으면 코드를 잃을 수 있습니다. 계정 페이지에서 만들거나 가진 키를 확인하세요.',
+  'secondStep.title': '한 단계 더',
+  'secondStep.lead': 'Keyrook 계정에서 2단계 확인을 요청합니다. 인증 앱에 표시되는 6자리 코드를 입력하세요.',
+  'secondStep.field': '코드 또는 복구 키',
+  'secondStep.hint': '인증 앱을 잃어버렸다면 대신 계정의 복구 키를 입력하세요.',
+  'secondStep.passkey': '대신 패스키 사용',
+  'secondStep.where': '2단계 로그인은 account.keyrook.com에서 켜고 끕니다.',
+  'secondStep.ownerLead': '이 작업에도 계정의 2단계 확인이 필요합니다. 인증 앱의 코드나 복구 키를 입력하세요.',
+  'secondStep.nextCode': '각 코드는 한 번만 쓸 수 있습니다. 방금 코드로 로그인했다면 앱에 다음 코드가 표시될 때까지 기다리세요.',
+  'secondStepTip.title': '2단계 로그인',
+  'secondStepTip.suggest': '이 계정이 다른 기기에서 로그인할 때마다 코드도 요구하세요. account.keyrook.com에서 켜고, 코드는 여기에 보관하세요. 그 페이지에서 Keyrook Authenticator를 열고 ‘{scan}’을 선택하면 됩니다.',
+  'secondStepTip.kept': '이 계정 자체의 로그인 코드가 여기에, 로그인된 모든 기기에 보관되어 있습니다.',
+  'secondStepTip.warning': '보관 중인 기기를 모두 잃어버리면 코드 대신 복구 키로 로그인하세요. 복구 키는 따로 보관하세요.',
+  'secondStepTip.open': '켜기',
+  'signin.providerHasPassword': '{provider}에서 본인임을 확인했고, {email}에는 비밀번호도 있습니다. 여기서 코드를 열려면 비밀번호를 입력하세요.',
+  'provider.addOnPage': 'Google이나 GitHub로도 로그인하려면 계정 페이지에 비밀번호로 로그인한 뒤 그곳에서 추가하세요.',
+  'startOver.title': 'Keyrook 계정이 {date}에 처음부터 다시 시작됩니다',
+  'startOver.lead': '누군가 “{device}”에서 {date}에 이메일로 보내 드린 코드로 이를 요청했습니다. 새 비밀번호와 새 키가 만들어지고, 앱은 빈 상태로 시작됩니다.',
+  'startOver.ifYou': '직접 요청하셨다면 아무것도 하지 않으셔도 됩니다. 아니라면 지금 바로 취소하고, 이메일 비밀번호를 변경하세요. 요청한 사람이 이메일을 읽을 수 있습니다.',
+  'startOver.cancel': '제가 요청하지 않았습니다 — 취소',
   'kept.title': '계정을 다시 시작하기 전부터 보관된 데이터',
   'kept.body': '이 계정을 처음부터 다시 시작할 때 Keyrook Authenticator의 데이터가 {date}까지 보관되었습니다. 당시 계정 비밀번호나 당시 복구 키로 되돌리세요.',
   'kept.password': '당시 비밀번호',
@@ -796,7 +866,7 @@ export const ko: Dictionary = {
   'kept.usePassword': '당시 비밀번호 사용',
   'kept.useRecoveryKey': '당시 복구 키 사용',
   'kept.bring': '되돌리기',
-  'kept.done': '이 보관함으로 돌아왔고 다른 브라우저로 전송되고 있습니다.',
+  'kept.done': '이 보관함으로 돌아왔고 다른 기기로 전송되고 있습니다.',
   'error.keys.awaitingConfirmation': '다른 Keyrook 앱이 이 계정의 키를 바꿨지만 Keyrook Authenticator의 키는 아직 따라가지 못했습니다. 계정 페이지에서 확인한 뒤 다시 로그인하세요.',
   'password.changedBoth':
     '계정과 이 보관함의 비밀번호를 변경했습니다. 다른 기기에서는 새 비밀번호로 다시 로그인하라는 요청이 나옵니다.',
@@ -810,9 +880,12 @@ export const ko: Dictionary = {
   'password.formTitle': '계정 비밀번호 변경',
   'devices.title': '로그인된 기기',
   'devices.description':
-    '더 이상 쓰지 않거나 가지고 있지 않은 기기를 로그아웃하세요. 그 기기는 이미 동기화한 내용을 같은 비밀번호로 보관하지만, 새로운 것은 받지 않습니다.',
+    '더 이상 쓰지 않거나 가지고 있지 않은 기기를 로그아웃하세요. 최신 Keyrook Authenticator를 쓰고 있다면, 다음에 연결될 때 이 계정의 코드를 스스로 삭제하고 한 번도 보내지 않은 것만 남깁니다. 그때까지, 또는 다시 연결되지 않으면, 가지고 있던 내용을 같은 비밀번호로 보관합니다.',
+  'devices.descriptionProvider':
+    '더 이상 쓰지 않거나 가지고 있지 않은 기기를 로그아웃하세요. 최신 Keyrook Authenticator를 쓰고 있다면, 다음에 연결될 때 이 계정의 코드를 스스로 삭제하고 한 번도 보내지 않은 것만 남깁니다. 그때까지, 또는 다시 연결되지 않으면, 가지고 있던 내용을 그 기기에서 보관함이 잠긴 방식 그대로 보관합니다.',
   'devices.this': '이 기기',
   'devices.when': '{created} 로그인 · 마지막 활동 {seen}',
+  'removed.kept': '여기서 추가하거나 변경했지만 계정에 전달되지 않은 코드는 그대로 남아 있습니다.',
   'delete.row': '계정 삭제',
   'delete.rowDescription':
     '서버가 보관하는 모든 암호화 사본을 삭제합니다. 이 기기의 보관함은 그대로 남고, 다른 기기는 동기화를 멈춥니다.',
@@ -823,7 +896,7 @@ export const ko: Dictionary = {
   'delete.confirm': '계정 삭제',
 
   // --- 로그인: 첫 카드 ----------------------------------------------------------
-  'intro.benefit1': '로그인한 모든 브라우저에서 같은 코드.',
+  'intro.benefit1': '로그인한 모든 기기에서 같은 코드.',
   'intro.benefit2': '노트북을 잃어버리거나 고장 나도 보관함은 잃지 않습니다.',
   'intro.benefit3': '무료이며 선택 사항입니다. 쓰지 않아도 이 기기에서는 모두 그대로 작동합니다.',
   'intro.title': '보관함 동기화',
@@ -886,9 +959,9 @@ export const ko: Dictionary = {
     '계정이 준비되었습니다. 지금까지 {total}개 중 {done}개가 백업되었고, 나머지는 다음 동기화 때 이어집니다.',
   'fresh.title': '복구 키를 저장하세요',
   'fresh.provider':
-    '계정에 로그인된 모든 브라우저를 잃으면 이 키가 돌아오는 유일한 방법입니다. {provider}도 저희도 보관함을 복원할 수 없습니다.',
+    '계정에 로그인된 모든 기기를 잃으면 이 키가 돌아오는 유일한 방법입니다. {provider}도 저희도 보관함을 복원할 수 없습니다.',
   'fresh.password':
-    '비밀번호를 잊으면 이 키가 돌아오는 유일한 방법입니다. 저희도 Google도 비밀번호를 재설정해 드릴 수 없습니다.',
+    '비밀번호를 잊으면 이 키가 돌아오는 유일한 방법입니다. 누구도, 저희도 비밀번호를 대신 재설정해 드릴 수 없습니다.',
   'welcome.fromAccount': '계정에서 {count}개',
   'welcome.fromDevice': '이 기기에서 {count}개 추가',
   'welcome.inSync': '이미 동기화되어 있습니다.',
@@ -912,43 +985,49 @@ export const ko: Dictionary = {
   'provider.finishInWindow': '열린 {provider} 창에서 마무리하세요.',
   'provider.confirmed': '{provider}에서 <b>{email}</b>을(를) 확인했습니다. 아직 이 주소를 쓰는 계정이 없습니다.',
   'provider.point1':
-    '비밀번호가 없습니다. 새 브라우저에서는 {provider}(으)로 계속하고, 두 브라우저에 같은 코드가 표시되는지 확인한 뒤 이미 로그인된 브라우저가 들여보냅니다.',
+    '비밀번호가 없습니다. 새 기기에서는 {provider}(으)로 계속하고, 두 기기에 같은 코드가 표시되는지 확인한 뒤 이미 로그인된 기기가 들여보냅니다.',
   'provider.point2':
-    '{provider}이(가) 본인임을 증명합니다. {provider}은(는) 코드를 절대 보지 못합니다. 코드는 여기서, 브라우저에 남는 키로 암호화됩니다.',
+    '{provider}이(가) 본인임을 증명합니다. {provider}은(는) 코드를 절대 보지 못합니다. 코드는 여기서, 기기에 남는 키로 암호화됩니다.',
   'provider.point3':
-    '다음으로 복구 키를 저장합니다. 계정에 로그인된 모든 브라우저를 잃었을 때 돌아오는 방법입니다. {provider}은(는) 보관함을 복원할 수 없습니다.',
+    '다음으로 복구 키를 저장합니다. 계정에 로그인된 모든 기기를 잃었을 때 돌아오는 방법입니다. {provider}은(는) 보관함을 복원할 수 없습니다.',
   'provider.notRight': '다른 계정인가요?',
   'provider.startAgain': '처음부터 다시',
+  'passkey.continue': '패스키로 계속하기',
+  'passkey.where':
+    '<link>계정 페이지</link>의 패스키 항목에서 추가한 패스키입니다. 처음에는 Keyrook Authenticator가 패스키를 사용하도록 허용할지 Chrome이 묻습니다.',
   'pairing.codeLabel': '코드 {code}',
   'join.title': '이 브라우저 들여보내기',
   'join.subtitle':
-    '<b>{email}</b>에는 이미 계정이 있습니다. 그 계정에 로그인된 브라우저에서 이 브라우저를 승인하세요.',
+    '<b>{email}</b>에는 이미 계정이 있습니다. 그 계정에 로그인된 기기에서 이 브라우저를 승인하세요.',
   'join.masterPassword': '이 보관함의 마스터 비밀번호',
   'join.masterHint': '여기서는 계속 이 보관함을 잠급니다. 계정 자체에는 비밀번호가 없습니다.',
   'join.ask': '참여 요청',
-  'join.step1': '이미 로그인된 브라우저에서 Keyrook Authenticator를 여세요. 요청이 팝업과 설정의 ‘동기화’에 표시됩니다.',
+  'join.step1': '이미 로그인된 기기에서 Keyrook Authenticator를 여세요. 요청이 코드 위와 설정의 ‘동기화’에 표시됩니다.',
   'join.step2': '이 페이지와 같은 코드가 표시되는지 확인한 다음 승인하세요.',
   'join.askAgain': '다시 요청',
-  'join.compare': '다른 브라우저에도 코드가 표시됩니다. 정확히 이 코드일 때만 그쪽에서 승인하세요.',
-  'join.waiting': '다른 브라우저를 기다리는 중…',
-  'join.noOther': '남은 브라우저가 없나요?',
+  'join.compare': '다른 기기에도 코드가 표시됩니다. 정확히 이 코드일 때만 그쪽에서 승인하세요.',
+  'join.waiting': '다른 기기를 기다리는 중…',
+  'join.noOther': '남은 기기가 없나요?',
   'join.useKey': '복구 키 사용하기',
   'join.wrongAccount': '{provider}에 다른 계정으로 로그인했나요?',
   'joinKey.subtitle':
-    '계정을 만들 때 저장한 키입니다. 다른 브라우저 없이도 이 브라우저를 들여보냅니다.',
+    '계정을 만들 때 저장한 키입니다. 다른 기기 없이도 이 브라우저를 들여보냅니다.',
   'joinKey.submit': '계정에 참여',
-  'approve.approved': '승인했습니다. 잠시 후 다른 브라우저에서 보관함이 열립니다.',
+  'approve.approved': '승인했습니다. 잠시 후 다른 기기에서 보관함이 열립니다.',
   'approve.mismatch':
     '거절했습니다. 방금 직접 로그인한 것이 아니라면, 다른 사람이 내 {provider} 계정에 로그인할 수 있는 상태입니다. 그 계정의 비밀번호를 바꾸고 보안 설정을 확인하세요.',
   'approve.declined': '거절했습니다. 아무것도 보내지 않았습니다.',
-  'approve.title': '참여를 요청하는 브라우저',
+  'approve.title': '참여를 요청하는 기기',
   'approve.description':
-    '각 요청은 방금 내 {provider} 계정으로 로그인한 사람이 보낸 것입니다. 지금 직접 로그인하고 있는 브라우저만 승인하세요.',
+    '각 요청은 방금 내 {provider} 계정으로 로그인한 사람이 보낸 것입니다. 지금 직접 로그인하고 있는 기기만 승인하세요.',
+  'approve.descriptionAny': '각 요청은 방금 내 Google 또는 GitHub 계정으로 로그인한 사람이 보낸 것입니다. 지금 직접 로그인하고 있는 기기만 승인하세요.',
+  'approve.mismatchAny':
+    '거절했습니다. 방금 직접 로그인한 것이 아니라면, 다른 사람이 내 Google 또는 GitHub 계정에 로그인할 수 있는 상태입니다. 그 계정의 비밀번호를 바꾸고 보안 설정을 확인하세요.',
   'approve.askedAt': '{time}에 요청',
   'approve.review': '확인',
   'approve.deny': '거절',
   'approve.question':
-    '요청한 브라우저에 정확히 이 코드가 표시되나요? 아니라면 다른 사람이 들어오려고 하는 것입니다.',
+    '요청한 기기에 정확히 이 코드가 표시되나요? 아니라면 다른 사람이 들어오려고 하는 것입니다.',
   'approve.matches': '일치함 — 들여보내기',
   'approve.doesNotMatch': '일치하지 않음',
 
@@ -961,7 +1040,7 @@ export const ko: Dictionary = {
   'nav.sync': '동기화',
   'nav.general': '일반',
   'nav.needsAttention': '확인이 필요합니다',
-  'sync.description': '로그인한 모든 브라우저에서 같은 코드를 씁니다. 보내기 전에 이 기기에서 암호화됩니다.',
+  'sync.description': '로그인한 모든 기기에서 같은 코드를 씁니다. 보내기 전에 이 기기에서 암호화됩니다.',
   'backup.description': '암호화된 사본을 보관하거나, 계정을 가져오거나, 다른 앱으로 옮깁니다.',
   'backup.choice.backup.title': '백업하기',
   'backup.choice.backup.body': '직접 정한 비밀번호로 잠그는 암호화 파일입니다.',
@@ -975,15 +1054,15 @@ export const ko: Dictionary = {
   'general.inBrowser': '브라우저에서',
   'general.autofillHint': '로그인 페이지에서 팝업을 열면 맞는 코드를 제안합니다. 그 탭만 읽습니다.',
   'vault.signInToSync': '로그인하여 동기화',
-  'vault.empty.signIn': '다른 브라우저에서 Keyrook Authenticator를 쓰고 있나요? <link>로그인</link>하면 코드를 여기로 가져옵니다.',
+  'vault.empty.signIn': '다른 기기에서 Keyrook Authenticator를 쓰고 있나요? <link>로그인</link>하면 코드를 여기로 가져옵니다.',
   'setup.haveAccount': '이미 Keyrook Authenticator를 쓰고 있나요? <link>로그인</link>하면 코드를 여기로 가져옵니다.',
   'popup.signInOpensTab': '새 탭에서 열리고 설정에서 마무리됩니다.',
   'error.backupWrongPassword': '이 비밀번호로는 파일을 열 수 없습니다.',
-  'error.foreign.steam': 'Steam Guard 코드는 아직 가져올 수 없습니다.',
+  'error.foreign.steamFolder': 'Steam Desktop Authenticator의 maFiles 폴더에 있는 파일을 모두 함께 선택하세요. manifest.json과 그 옆의 .maFile 파일입니다.',
   'error.foreign.locked': '이 내보내기 파일은 Keyrook Authenticator가 열 수 없는 방식으로 비밀번호가 걸려 있습니다. 비밀번호 없이 다시 내보내세요.',
   'import.lockedFrom': '{app}에서 이 파일에 비밀번호를 걸었습니다. 그곳에서 정한 비밀번호를 입력하세요.',
   'import.fromApps':
-    'Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Authenticator 확장 프로그램, Google Authenticator에서 내보낸 파일과 Apple 암호, 1Password 등 비밀번호 관리자의 CSV도 됩니다.',
+    'Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, Authenticator 확장 프로그램, Google Authenticator에서 내보낸 파일과 Apple 암호, 1Password 등 비밀번호 관리자의 CSV도 됩니다.',
   'shortcut.open': 'Keyrook Authenticator 열기',
   'shortcut.fill': '이 페이지의 코드 입력',
   'shortcut.fillHint': '사이트에 속한 계정이 딱 하나일 때만 입력하고, 그 밖에는 목록을 엽니다.',
@@ -991,4 +1070,51 @@ export const ko: Dictionary = {
   'vault.shortcutHint': '{keys}로 이 창을 열지 않고 입력할 수 있습니다.',
   'import.csvWarning': '이 파일에는 비밀번호가 그대로 들어 있습니다. 2단계 인증 키만 읽었고 그 밖에는 아무것도 보관하지 않습니다. 끝나면 파일을 삭제하세요.',
   'import.noKeysInCsv': '이 파일에는 2단계 인증 키가 없고 비밀번호만 있습니다.',
+  'crash.title': '문제가 발생했습니다',
+  'crash.body':
+    '이 화면에 문제가 생겨 멈췄습니다. 저장된 계정에는 영향이 없습니다. 대개 새로고침하면 다시 돌아옵니다.',
+  'crash.reload': '새로고침',
+  'setup.device.description.phone': '시크릿은 이 휴대전화가 대신 보관하는 키로 암호화됩니다. 기억할 것도, 입력할 것도 없습니다.',
+  'setup.device.footnote.phone': '앱 파일이 복사되어도 보호합니다. 이 휴대전화의 잠금을 해제할 수 있는 사람은 막지 못합니다.',
+  'setup.password.footnote.phone': '가장 강력한 방법입니다. 잠긴 뒤에는 비밀번호 없이 이 휴대전화의 어떤 것도 보관함을 열 수 없습니다.',
+  'unrecoverable.why.phone':
+    '암호화 키를 이 휴대전화가 보관하고 있었는데 사라졌습니다. 보통 앱 데이터가 삭제되었거나, 앱을 다시 설치했거나, 보관함이 다른 휴대전화의 백업에서 왔기 때문입니다. 그 키가 없으면 저장된 계정은 저희를 포함해 누구도 복호화할 수 없습니다.',
+  'vault.empty.body.phone': '사이트에 2단계 인증 설정용 QR 코드가 표시되면 이 휴대전화의 카메라로 스캔하세요.',
+  'add.camera.description.phone': '다른 화면에 표시된 코드용입니다. Google Authenticator 내보내기도 됩니다.',
+  'add.fromGoogle.phone':
+    '다른 휴대전화의 Google Authenticator에서 옮겨 오시나요? 거기서 계정을 내보낸 다음, 표시된 코드를 이 휴대전화의 카메라로 스캔하세요. 코드가 여러 개라면 하나씩 하세요.',
+  'camera.noCamera.phone': '이 휴대전화는 앱에 카메라를 제공하지 않습니다.',
+  'camera.blocked.phone': '앱에 카메라 사용 권한이 없습니다. 휴대전화 설정에서 허용하거나 다른 방법으로 계정을 추가하세요.',
+  'camera.none.phone': '이 휴대전화에서 카메라를 찾지 못했습니다.',
+  'security.languageBrowser.phone': '휴대전화 언어({language})',
+  'protect.removeWarning.phone':
+    '보관함은 계속 암호화되어 있지만, 앱을 열 때마다 저절로 잠금 해제됩니다. 이 휴대전화의 잠금을 해제할 수 있는 사람은 누구나 코드를 볼 수 있게 됩니다.',
+  'kit.device.phone': '이 보관함은 휴대전화가 보관하는 키로 잠금 해제됩니다. 그 키가 사라지면(앱 데이터 삭제, 재설치, 새 휴대전화 등) 열 수 있는 것은 복구 키뿐입니다.',
+  'kit.withoutDevice.phone': '복구 키가 없으면, 이 휴대전화가 보관하는 키를 잃는 순간 이 보관함의 모든 계정을 영영 잃습니다.',
+  'security.description.phone': '이 보관함을 여는 방법과, 이 휴대전화를 잃었을 때 다시 들어오는 방법입니다.',
+  'security.deviceKeyHint.phone': '입력할 것이 없습니다. 이 휴대전화의 잠금을 해제할 수 있는 사람은 누구나 열 수 있습니다.',
+  'general.description.phone': '앱의 모양과 동작, 그리고 출처에 관한 설정입니다.',
+  'about.securityModelDescription.phone': '앱이 보장하는 것과 보장하지 않는 것.',
+  'about.logos.description.phone':
+    '로고는 앱에 포함되어 있으며 절대 내려받지 않습니다. 네트워크에 로고를 요청하면 응답하는 쪽이 사용자가 2단계 인증을 쓰는 서비스를 알게 됩니다.',
+  'about.fact.access.title.phone': '카메라만, 스캔할 때만',
+  'about.fact.access.body.phone':
+    '앱은 카메라 외에는 어떤 권한도 요청하지 않으며, 그것도 코드를 스캔하기로 했을 때만입니다. 카메라에 비친 것은 절대 휴대전화 밖으로 나가지 않습니다.',
+  'about.fact.keys.body.phone':
+    '계정은 데이터 키로 암호화되고, 그 데이터 키도 다시 래핑되어 있습니다. 마스터 비밀번호가 있으면 래핑 키는 PBKDF2(600,000회)로 만들어지며 잠금 해제된 동안 메모리에만 있습니다. 없으면 휴대전화 자체의 키 저장소가 봉인한 키이므로, 앱 파일을 복사해도 보관함을 열 수 없습니다.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Google Authenticator 내보내기처럼 큰 코드는 여기서 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화의 카메라 앱으로 사진을 찍어 ‘QR 이미지 업로드’를 사용하세요.',
+  'import.noNativeReader.phone':
+    'Google Authenticator 내보내기처럼 큰 코드는 여기서 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화의 카메라 앱으로 코드마다 사진을 찍고 ‘파일 선택’으로 모두 고르세요.',
+  'error.signOutUnsynced.phone': '이 휴대폰의 일부 변경 사항이 아직 계정에 반영되지 않아 지금 로그아웃하면 사라집니다. 인터넷에 연결한 뒤 다시 시도하세요.',
+  'account.signOutNote.phone': '로그아웃하면 이 휴대폰에서 코드가 삭제됩니다. 코드는 Keyrook 계정에 남아 있으니 다시 로그인하면 돌아옵니다.',
+  'secondStepTip.suggest.phone':
+    '이 계정이 다른 기기에서 로그인할 때마다 코드도 요구하세요. account.keyrook.com에서 켜고, 코드는 여기에 보관하세요. 이 앱에서 계정을 추가하고 그 페이지에 표시된 QR 코드를 스캔하면 됩니다.',
+  'intro.benefit2.phone': '휴대폰을 잃어버리거나 고장 나도 보관함은 잃지 않습니다.',
+  'provider.finishInWindow.phone': '브라우저에서 열린 {provider} 페이지에서 마무리하세요.',
+  'join.title.phone': '이 휴대폰 들여보내기',
+  'join.subtitle.phone': '<b>{email}</b>에는 이미 계정이 있습니다. 그 계정에 로그인된 기기에서 이 휴대폰을 승인하세요.',
+  'joinKey.subtitle.phone': '계정을 만들 때 저장한 키입니다. 다른 기기 없이도 이 휴대폰을 들여보냅니다.',
+  'facts.autofill.phone': 'QR 스캔',
 };

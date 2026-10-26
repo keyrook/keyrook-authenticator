@@ -58,7 +58,7 @@ export function RecoveryScreen({
   }
 
   return (
-    <form onSubmit={submit} className="flex min-h-[480px] flex-col gap-4 p-6">
+    <form onSubmit={submit} className="flex min-h-[480px] app:min-h-(--app-height) flex-col gap-4 p-6">
       <header className="flex items-center gap-2">
         <button
           type="button"

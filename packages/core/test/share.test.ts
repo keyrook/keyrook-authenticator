@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { generateTotp } from '../src/otp/totp.js';
+import { generateSteam, generateTotp } from '../src/otp/totp.js';
 import { readSharedCodes, shareCodes, sharedCodeAt, shareLink, sharedUntil, type SharedCodes } from '../src/otp/share.js';
 
 const SECRET = 'JBSWY3DPEHPK3PXP';
@@ -63,6 +63,24 @@ describe('a link that shares codes for a while', () => {
     expect(sharedCodeAt(shared, NOW - 60_000).state).toBe('early');
   });
 
+  it('carries Steam Guard’s five characters as a link of its own kind', async () => {
+    // A key whose codes Steam's own app made (otp.test.ts).
+    const steam = { ...ITEM, type: 'steam' as const, secret: '63BEDWCQZKTQWPESARIERL5DTTQFCJTK', digits: 5 };
+    const link = shareLink(await shareCodes(steam, 15, NOW));
+    const shared = readSharedCodes(fragmentOf(link));
+    expect(shared).toMatchObject({ kind: 'steam', digits: 5, period: 30 });
+    for (let at = NOW; at < NOW + 15 * 60_000; at += 7_000) {
+      const now = sharedCodeAt(shared, at);
+      expect(now.state).toBe('code');
+      if (now.state === 'code') expect(now.code).toBe(await generateSteam(steam.secret, at));
+    }
+    // Version 2: a page that knows only digits says a newer version made it.
+    const body = JSON.parse(atob(fragmentOf(link).slice(1).replace(/-/g, '+').replace(/_/g, '/'))) as Record<string, unknown>;
+    expect(body).toMatchObject({ v: 2, k: 'steam' });
+    // And a link of digits stays version 1, for a page not yet updated.
+    expect(JSON.parse(atob(fragmentOf(shareLink(await shareCodes(ITEM, 5, NOW))).slice(1))).v).toBe(1);
+  });
+
   it('is made only for time-based codes, and only for the lengths offered', async () => {
     await expect(shareCodes({ ...ITEM, type: 'hotp' }, 5, NOW)).rejects.toThrow();
     await expect(shareCodes(ITEM, 600 as 5, NOW)).rejects.toThrow();
@@ -101,8 +119,29 @@ describe('a link nobody can trust', () => {
     expect(() => readSharedCodes(`#${encode({ ...good, ...change })}`)).toThrow('This link is damaged.');
   });
 
+  const steam: Record<string, unknown> = { v: 2, k: 'steam', i: 'Steam', l: '', d: 5, p: 30, s: 59_000_000, c: 'FR8RV9P3VP' };
+
+  it('reads a Steam Guard link this app would make', () => {
+    expect(readSharedCodes(`#${encode(steam)}`)).toMatchObject({ kind: 'steam', codes: ['FR8RV', '9P3VP'] });
+  });
+
+  it.each<[string, Record<string, unknown>]>([
+    ['version 2 that is not Steam’s', { k: undefined }],
+    ['digits for codes', { c: '1234554321' }],
+    ['letters Steam does not use', { c: 'FR8RVAP3VP' }],
+    ['lower case', { c: 'fr8rv9p3vp' }],
+    ['six characters a code', { d: 6, c: 'FR8RV9P3VPXY' }],
+    ['another period', { p: 60 }],
+  ])('refuses a Steam link with %s', (_, change) => {
+    expect(() => readSharedCodes(`#${encode({ ...steam, ...change })}`)).toThrow('This link is damaged.');
+  });
+
+  it('refuses Steam’s letters in a link that says it is digits', () => {
+    expect(() => readSharedCodes(`#${encode({ ...steam, v: 1, d: 5 })}`)).toThrow('This link is damaged.');
+  });
+
   it('says a newer version made it, rather than misreading it', () => {
-    expect(() => readSharedCodes(`#${encode({ ...good, v: 2 })}`)).toThrow('newer version');
+    expect(() => readSharedCodes(`#${encode({ ...good, v: 3 })}`)).toThrow('newer version');
   });
 
   it('keeps a hostile name as text', () => {

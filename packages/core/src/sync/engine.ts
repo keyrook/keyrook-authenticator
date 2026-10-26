@@ -233,6 +233,22 @@ export function pendingItems(data: VaultData): VaultItem[] {
   return data.items.filter((item) => item.rev > item.syncedRev);
 }
 
+/**
+ * What a browser keeps once the account's owner has removed it from the
+ * account: the accounts with a change the account never received — added
+ * here, or edited here since the last sync — as this browser's own, since
+ * removing a device must not destroy the one copy of anything. The rest is in
+ * the account and goes, as on Sign out; a deletion not yet sent goes with
+ * what it deleted. Groups are this browser's alone and stay.
+ *
+ * Only for a removal the browser checked itself, never on the server's word:
+ * a server that could order this could empty every device at once
+ * (docs/device-removed-account-request.md).
+ */
+export function keepOnlyUnsent(data: VaultData): VaultData {
+  return { ...data, items: data.items.filter((item) => item.deletedAt === null && item.rev > item.syncedRev) };
+}
+
 export interface SyncOutcome {
   data: VaultData;
   pulled: number;

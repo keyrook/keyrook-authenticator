@@ -17,6 +17,7 @@ export const vi: Dictionary = {
   'error.recoverOnAccountPage': 'Khoá khôi phục đúng, nhưng mật khẩu của tài khoản này giờ được đặt lại ở trang tài khoản, dùng chung cho mọi app Keyrook.',
   'error.kitOnAccountPage': 'Khoá khôi phục của tài khoản này giờ được tạo ở trang tài khoản, dùng chung cho mọi app Keyrook.',
   'error.restoreEmpty': 'Tài khoản này không còn gì để khôi phục: nó đã bị xoá trên thiết bị khác trước khi thiết bị này có nó.',
+  'error.noAccountSheet': 'Tài khoản này chưa có khoá khôi phục. Hãy tạo ở trang tài khoản.',
   'error.recoveryKeyWrong': 'Khoá khôi phục đó không khớp với tài khoản này.',
   'error.noRecoveryKit': 'Kho này không có khoá khôi phục.',
   'error.syncUnavailable': 'Bản này không có tính năng đồng bộ.',
@@ -24,6 +25,8 @@ export const vi: Dictionary = {
   'error.alreadySignedIn': 'Đã đăng nhập rồi.',
   'error.signedOutElsewhere':
     'Thiết bị này đã bị đăng xuất khỏi đồng bộ — mật khẩu đã được đổi, hoặc thiết bị đã bị gỡ từ một máy khác. Hãy đăng nhập lại.',
+  'error.removedFromAccount':
+    'Một thiết bị khác đã gỡ thiết bị này khỏi tài khoản Keyrook của bạn, nên các mã của tài khoản đã được xoá khỏi đây. Đăng nhập lại là có lại.',
   'error.signOutUnsynced':
     'Một số thay đổi trên trình duyệt này chưa lên tới tài khoản của bạn, đăng xuất bây giờ sẽ làm mất chúng. Hãy kết nối mạng rồi thử lại.',
   'error.enterAccountPassword': 'Nhập mật khẩu tài khoản của bạn.',
@@ -53,10 +56,10 @@ export const vi: Dictionary = {
   'error.nothingWaiting': 'Không có gì đang chờ duyệt.',
   'error.pairingExpired': 'Yêu cầu đã kết thúc — nó bị từ chối, hoặc đã quá mười phút. Hãy gửi lại.',
   'error.pairingWrongKey':
-    'Khoá nhận được không phải của tài khoản này. Chưa có gì thay đổi. Hãy thử lại từ trình duyệt kia.',
-  'error.pairingForged': 'Lượt duyệt đó không đến từ trình duyệt mà bạn đã kiểm tra mã.',
+    'Khoá nhận được không phải của tài khoản này. Chưa có gì thay đổi. Hãy thử lại từ thiết bị kia.',
+  'error.pairingForged': 'Lượt duyệt đó không đến từ thiết bị mà bạn đã kiểm tra mã.',
   'error.pairingForgedAsk':
-    'Lượt duyệt đó không đến từ trình duyệt đã được kiểm tra mã. Chưa có gì thay đổi. Hãy gửi lại yêu cầu.',
+    'Lượt duyệt đó không đến từ thiết bị đã được kiểm tra mã. Chưa có gì thay đổi. Hãy gửi lại yêu cầu.',
   'error.pairingEnded': 'Yêu cầu đó đã kết thúc.',
   'error.approveAgain': 'Hãy bắt đầu duyệt lại yêu cầu đó.',
   'error.backupPasswordShort': 'Mật khẩu bản sao lưu phải có ít nhất 8 ký tự.',
@@ -74,6 +77,24 @@ export const vi: Dictionary = {
   'error.migrationNotOurs': 'Đây không phải dữ liệu xuất từ Google Authenticator.',
   'error.migrationMalformed': 'Dữ liệu xuất từ Google Authenticator này bị hỏng hoặc thiếu.',
   'error.offline': 'Không kết nối được máy chủ đồng bộ. Hãy kiểm tra mạng rồi thử lại.',
+  'error.passkey.wrongOrigin': 'Khoá truy cập chỉ dùng được cho trang và các app của chính Keyrook.',
+  'error.passkey.notOffered': 'Ở đây không có đăng nhập bằng khoá truy cập.',
+  'error.passkey.unchecked': 'Không kiểm tra được khoá truy cập đó. Hãy thử lại.',
+  'error.passkey.unknown': 'Không tài khoản Keyrook nào biết khoá truy cập đó. Có thể nó đã bị gỡ.',
+  'error.passkey.ended': 'Yêu cầu khoá truy cập đó đã hết hạn. Hãy thử lại.',
+  'error.passkey.noUnlock': 'Khoá truy cập đó không mở được khoá của tài khoản này. Hãy đăng nhập bằng mật khẩu.',
+  'error.passkey.noUnlockProvider':
+    'Khoá truy cập đó không mở được khoá của tài khoản này. Hãy tiếp tục bằng Google hoặc GitHub.',
+  'error.passkey.masterPassword':
+    'Kho khoá bằng mật khẩu chính không thể đăng nhập bằng khoá truy cập. Hãy đăng nhập bằng mật khẩu tài khoản, hoặc bằng Google hay GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator cần Chrome cho phép dùng khoá truy cập của account.keyrook.com. Hãy chọn lại khoá truy cập và cho phép.',
+  'error.passkey.cancelled': 'Chưa có khoá truy cập nào được dùng. Hãy thử lại, hoặc đăng nhập cách khác.',
+  'error.passkey.failed': 'Chrome không hỏi được khoá truy cập. Hãy thử lại, hoặc đăng nhập cách khác.',
+  'error.secondStep.missing': 'Hãy nhập cả mã từ app xác thực của bạn.',
+  'error.secondStep.wrongCode': 'Mã đó không đúng. Hãy nhập mã app xác thực đang hiện lúc này.',
+  'error.secondStep.expired': 'Lượt đăng nhập đó đã hết hạn. Hãy đăng nhập lại.',
+  'error.secondStep.used': 'Mã đó vừa được dùng để đăng nhập. Hãy chờ app hiện mã kế tiếp.',
   'error.provider.refusedBy': '{provider} đã từ chối lượt đăng nhập.',
   'error.provider.unreachable': 'Không kết nối được {provider}. Hãy thử lại sau giây lát.',
   'error.provider.refused': 'Lượt đăng nhập bị từ chối. Hãy thử lại.',
@@ -87,11 +108,11 @@ export const vi: Dictionary = {
   'error.server.signupExpired': 'Lượt đăng ký đó đã hết hạn. Hãy đăng nhập lại.',
   'error.server.signinExpired': 'Lượt đăng nhập đó đã hết hạn. Hãy thử lại.',
   'error.server.tooManyCodes': 'Nhập sai mã quá nhiều lần. Hãy xin mã mới.',
-  'error.server.tooManyPairings': 'Có quá nhiều trình duyệt đang chờ tham gia tài khoản này. Hãy thử lại sau vài phút.',
+  'error.server.tooManyPairings': 'Có quá nhiều thiết bị đang chờ tham gia tài khoản này. Hãy thử lại sau vài phút.',
   'error.server.wrongKey': 'Thiết bị này không giữ khoá của tài khoản.',
   'error.server.providerAccount': 'Tài khoản này đăng nhập bằng Google hoặc GitHub, không dùng mật khẩu.',
   'error.server.mailFailed': 'Không gửi được email. Hãy thử lại sau một phút.',
-  'error.server.pairingTaken': 'Yêu cầu đó đã kết thúc, hoặc một trình duyệt khác đang duyệt nó.',
+  'error.server.pairingTaken': 'Yêu cầu đó đã kết thúc, hoặc một thiết bị khác đang duyệt nó.',
   'error.server.passwordWrong': 'Mật khẩu đó không đúng.',
   'error.server.badCredentials': 'Email hoặc mật khẩu không đúng.',
   'error.server.badCode': 'Mã đó không đúng hoặc đã hết hạn. Hãy kiểm tra email, hoặc xin mã mới.',
@@ -144,6 +165,22 @@ export const vi: Dictionary = {
   'unlock.placeholder': 'Mật khẩu chính',
   'unlock.submit': 'Mở khoá',
   'unlock.forgot': 'Quên rồi? <link>Dùng khoá khôi phục</link>',
+  'platformUnlock.unlock': 'Mở khoá bằng vân tay, khuôn mặt hoặc PIN',
+  'platformUnlock.title': 'Vân tay, khuôn mặt hoặc PIN',
+  'platformUnlock.body': 'Mở kho bằng chính bước kiểm tra của máy này — Touch ID, Windows Hello hoặc mã PIN của máy — thay vì gõ mật khẩu chính. Mật khẩu vẫn mở được kho, và các thay đổi vẫn cần đến nó.',
+  'platformUnlock.on': 'Kho cũng mở được bằng bước kiểm tra của chính máy này. Gỡ mật khẩu chính thì tính năng này tắt theo.',
+  'passkeyUnlock.turnOn': 'Bật',
+  'passkeyUnlock.turnOff': 'Tắt',
+  'platformUnlock.confirm': 'Sau đó máy sẽ hỏi vân tay, khuôn mặt hoặc mã PIN của bạn.',
+  'error.passkeyUnlock.cancelled': 'Bước kiểm tra đã bị huỷ hoặc quá lâu. Hãy thử lại, hoặc dùng mật khẩu chính.',
+  'error.platformUnlock.noPrf': 'Nơi lưu khoá truy cập này không giữ được khoá, nên không mở được kho. Hãy bật lại và chọn nơi lưu khác khi được hỏi lưu ở đâu — hoặc tiếp tục dùng mật khẩu chính.',
+  'error.passkeyUnlock.failed': 'Không mở được kho. Hãy dùng mật khẩu chính, rồi bật lại mục này trong Bảo mật.',
+  'securityKey.unlock': 'Mở khoá bằng khoá bảo mật',
+  'securityKey.title': 'Khoá bảo mật',
+  'securityKey.body': 'Mở kho bằng khoá bảo mật USB và mã PIN của nó thay vì gõ mật khẩu chính. Ai cầm khoá và biết mã PIN của nó cũng mở được kho trên máy này. Lỡ mất khoá thì mật khẩu chính vẫn mở được kho.',
+  'securityKey.on': 'Kho cũng mở được bằng khoá bảo mật của bạn và mã PIN của nó, trên máy này. Ai cầm khoá và biết mã PIN của nó đều mở được kho ở đây, nên nếu mất khoá, hãy tắt mục này. Gỡ mật khẩu chính thì tính năng này tắt theo.',
+  'securityKey.confirm': 'Sau đó cắm khoá bảo mật, gõ mã PIN của khoá rồi chạm vào khoá. Một số khoá sẽ hỏi hai lần.',
+  'error.securityKey.noPrf': 'Khoá bảo mật này không giữ được khoá, nên không mở được kho. Các khoá chỉ làm cho đăng nhập hai bước thì không làm được. Hãy thử khoá khác, hoặc tiếp tục dùng mật khẩu chính.',
 
   // --- Kho không mở được nữa ----------------------------------------------------
   'unrecoverable.title': 'Kho này không thể mở được nữa',
@@ -184,6 +221,7 @@ export const vi: Dictionary = {
   'setup.password.footnote':
     'Lựa chọn mạnh nhất: một khi đã khoá, không gì trên máy này mở được kho nếu không có mật khẩu.',
   'setup.footer': 'Cách nào cũng là AES-256-GCM. Đổi lúc nào cũng được; đồng bộ là tuỳ chọn, trong Cài đặt.',
+  'setup.footer.noSync': 'Cách nào cũng là AES-256-GCM. Đổi lúc nào cũng được, trong Cài đặt.',
   'setup.source': 'Mã nguồn mở — đọc mã nguồn',
   'common.back': 'Quay lại',
   'setup.passwordStep.title': 'Đặt mật khẩu chính',
@@ -232,9 +270,9 @@ export const vi: Dictionary = {
   'vault.byName': 'Theo tên',
   'vault.orderAdded': 'Thứ tự thêm vào',
   'vault.joinRequests': {
-    other: '{count} trình duyệt đang xin tham gia tài khoản của bạn.',
+    other: '{count} thiết bị đang xin tham gia tài khoản của bạn.',
   },
-  'vault.joinRequestsHint': 'Chỉ duyệt trình duyệt mà chính bạn đang đăng nhập, ngay lúc này.',
+  'vault.joinRequestsHint': 'Chỉ duyệt thiết bị mà chính bạn đang đăng nhập, ngay lúc này.',
   'vault.reviewInSettings': 'Xem trong Cài đặt',
   'vault.noMatch': 'Không có tài khoản nào khớp với “{query}”.',
   'vault.forHost': 'Cho {host}',
@@ -323,6 +361,7 @@ export const vi: Dictionary = {
   'error.alreadyInVault': 'Tài khoản đó đã có trong kho.',
   'error.gaSkipPeriod': 'Google Authenticator chỉ giữ mã 30 giây; mã này dùng {period}.',
   'error.gaSkipDigits': 'Google Authenticator chỉ giữ mã 6 hoặc 8 chữ số; mã này có {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator không tạo được mã Steam Guard.',
 
   // --- Quét bằng camera ---------------------------------------------------------
   'scan.progressBatch': 'Đã quét mã {seen}/{total} — {accounts}. Hãy đưa mã tiếp theo.',
@@ -411,9 +450,18 @@ export const vi: Dictionary = {
   // --- Khoá khôi phục mới -------------------------------------------------------
   'sheet.once':
     'Đây là lần duy nhất khoá này được hiện ra. Nó không được lưu ở đâu cả — nếu làm mất, hãy tạo khoá mới.',
+  'sheet.print': 'In',
+  'sheet.apart': 'Hãy cất riêng, xa email của bạn, và đừng bao giờ tự gửi nó qua email: có khoá này và địa chỉ email của bạn, người khác có thể đặt mật khẩu mới và mở mã của bạn.',
+  'sheet.apartProvider': 'Hãy cất riêng, xa tài khoản Google hoặc GitHub bạn dùng để đăng nhập, và đừng bao giờ để nó trong thư hay ổ lưu trữ của tài khoản đó: có khoá này và tài khoản đó, người khác có thể mở mã của bạn.',
+  'sheet.kept': 'Tôi đã lưu',
+  'sheet.checkHeading': 'Kiểm tra xem bạn đã lưu chưa',
+  'sheet.checkLead': 'Gõ hai nhóm của khoá theo bản bạn đã lưu. Nhóm là các khối bốn ký tự nằm giữa dấu gạch, đếm từ trái sang.',
+  'sheet.group': 'Nhóm {position}',
+  'sheet.check': 'Kiểm tra',
+  'sheet.mismatch': 'Khoá của bạn không ghi như vậy. Hãy xem lại bản đã lưu, hoặc hiện lại khoá và lưu ngay bây giờ.',
+  'sheet.showAgain': 'Hiện lại khoá',
   'sheet.download': 'Tải tờ khoá về',
   'sheet.copy': 'Sao chép',
-  'sheet.saved': 'Tôi đã lưu khoá này ở nơi vẫn còn dù máy tính này hỏng.',
 
   // --- Nhóm ---------------------------------------------------------------------
   'groups.title': 'Nhóm',
@@ -479,6 +527,7 @@ export const vi: Dictionary = {
   'accounts.digits': '{type} {digits} chữ số',
   'accounts.period': ' · {seconds} giây',
   'accounts.counter': ' · bộ đếm {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Chia sẻ hoặc chuyển {name}',
   'accounts.edit': 'Sửa',
   'common.delete': 'Xoá',
@@ -611,6 +660,7 @@ export const vi: Dictionary = {
   'export.oneByOne.progress': 'Đã hiện',
   'export.oneByOne.position': 'Tài khoản {index}/{total}',
   'export.oneByOne.keys': '→ hoặc phím cách để sang cái tiếp, Esc để dừng',
+  'export.steamRefused': '{app} không tạo được mã Steam Guard, nên sẽ không nhận tài khoản này.',
   'export.print.label': 'Mã QR để in hoặc quét',
   'export.print.title': 'Keyrook Authenticator — mã thiết lập',
   'export.print.body':
@@ -691,11 +741,11 @@ export const vi: Dictionary = {
   // --- Cài đặt: khoá khôi phục --------------------------------------------------
   'kit.title': 'Khoá khôi phục',
   'kit.provider':
-    'Tài khoản của bạn không có mật khẩu. Khoá khôi phục là lối quay lại nếu mất hết mọi trình duyệt đã đăng nhập: nó cho trình duyệt mới vào tài khoản mà không cần trình duyệt khác duyệt. {provider} không làm được việc đó cho bạn.',
+    'Tài khoản của bạn không có mật khẩu. Khoá khôi phục là lối quay lại nếu mất hết mọi thiết bị đã đăng nhập: nó cho thiết bị mới vào tài khoản mà không cần thiết bị khác duyệt. {provider} không làm được việc đó cho bạn.',
   'kit.signedIn':
-    'Không ai đặt lại được mật khẩu của bạn — kể cả chúng tôi hay Google. Khoá khôi phục là lối duy nhất nếu bạn quên: nó mở kho này, các thiết bị khác, và tài khoản của bạn trên thiết bị mới.',
+    'Không ai đặt lại mật khẩu thay bạn được — kể cả chúng tôi. Khoá khôi phục là lối duy nhất nếu bạn quên: nó mở kho này, các thiết bị khác, và tài khoản của bạn trên thiết bị mới.',
   'kit.passphrase':
-    'Không ai đặt lại được mật khẩu chính của bạn — kể cả chúng tôi hay Google. Chính điều đó ngăn người khác mở kho, và cũng vì thế khoá khôi phục là lối duy nhất nếu bạn quên.',
+    'Không ai đặt lại được mật khẩu chính của bạn — kể cả chúng tôi. Chính điều đó ngăn người khác mở kho, và cũng vì thế khoá khôi phục là lối duy nhất nếu bạn quên.',
   'kit.device':
     'Kho này mở bằng một khoá do trình duyệt giữ. Nếu khoá đó mất — xoá dữ liệu duyệt web, hồ sơ mới, cài lại — thì chỉ khoá khôi phục mới còn mở được kho.',
   'kit.none': 'Chưa có khoá khôi phục',
@@ -710,19 +760,19 @@ export const vi: Dictionary = {
   'kit.replacesSignedIn':
     'Tạo khoá mới sẽ làm khoá cũ hết hiệu lực, ở đây và trên các thiết bị khác, nên tờ giấy in cũ có thể vứt đi sau khi đã thay.',
   'kit.withoutProvider':
-    'Không có nó, nếu mất hết mọi trình duyệt đã đăng nhập tài khoản thì mọi tài khoản trong kho này sẽ mất vĩnh viễn.',
+    'Không có nó, nếu mất hết mọi thiết bị đã đăng nhập tài khoản thì mọi tài khoản trong kho này sẽ mất vĩnh viễn.',
   'kit.withoutPassword':
     'Không có nó, nếu quên mật khẩu thì mọi tài khoản trong kho này sẽ mất vĩnh viễn.',
   'kit.withoutDevice':
     'Không có nó, nếu khoá trình duyệt đang giữ bị mất thì mọi tài khoản trong kho này sẽ mất vĩnh viễn.',
   'kit.noSupport': 'Không có yêu cầu hỗ trợ nào lấy lại được.',
   'kit.removeProvider':
-    'Gỡ nó đi thì chỉ còn một trình duyệt đã đăng nhập là cách duy nhất cho trình duyệt mới vào tài khoản.',
+    'Gỡ nó đi thì chỉ còn một thiết bị đã đăng nhập là cách duy nhất cho thiết bị mới vào tài khoản.',
   'kit.removePassword': 'Gỡ nó đi thì mật khẩu là lối vào duy nhất.',
   'kit.removePasswordSignedIn':
     'Gỡ nó đi thì mật khẩu là lối vào duy nhất — trên thiết bị này, các thiết bị khác và tài khoản của bạn.',
   'kit.reauth':
-    'Khoá khôi phục có thể cho một trình duyệt vào tài khoản, nên {provider} yêu cầu bạn đăng nhập lại một lần trước.',
+    'Khoá khôi phục có thể cho một thiết bị vào tài khoản, nên {provider} yêu cầu bạn đăng nhập lại một lần trước.',
   'kit.passwordHint': 'Khoá khôi phục có thể đặt lại tài khoản, nên muốn đổi nó cần mật khẩu của bạn.',
   'kit.removeConfirm': 'Gỡ khoá khôi phục',
   'kit.createConfirm': 'Tạo khoá',
@@ -752,7 +802,7 @@ export const vi: Dictionary = {
   'account.syncNow': 'Đồng bộ ngay',
   'account.signOut': 'Đăng xuất',
   'account.noKitProvider':
-    'Tài khoản của bạn chưa có khoá khôi phục. Nếu mất hết mọi trình duyệt đã đăng nhập, không gì lấy lại được tài khoản — kể cả chúng tôi hay {provider}.',
+    'Tài khoản của bạn chưa có khoá khôi phục. Nếu mất hết mọi thiết bị đã đăng nhập, không gì lấy lại được tài khoản — kể cả chúng tôi hay {provider}.',
   'account.noKit':
     'Tài khoản của bạn chưa có khoá khôi phục. Nếu bạn quên mật khẩu và mất thiết bị này, không gì lấy lại được tài khoản — kể cả chúng tôi, hay bất kỳ ai.',
   'account.createUnderSecurity': 'Tạo một khoá trong mục Bảo mật',
@@ -773,11 +823,34 @@ export const vi: Dictionary = {
   'accountPage.bodyNoRoot': 'Mật khẩu và xoá tài khoản nằm ở trang tài khoản. Khoá khôi phục được tạo ở đây, trong mục Bảo mật, cho đến khi một app Keyrook khác dùng tài khoản.',
   'accountPage.bodyProvider': 'Khoá khôi phục, bắt đầu lại và xoá tài khoản đều nằm ở trang tài khoản, dùng chung cho mọi app Keyrook.',
   'accountPage.bodyNoRootProvider': 'Xoá tài khoản nằm ở trang tài khoản. Khoá khôi phục được tạo ở đây, trong mục Bảo mật, cho đến khi một app Keyrook khác dùng tài khoản.',
+  'sheetCheck.lead': 'Gõ khoá khôi phục bạn đã lưu một lần, để app này biết khoá đó lấy lại được mã của bạn. Khoá được kiểm tra ngay trên máy này và không gửi đi đâu cả.',
+  'sheetCheck.submit': 'Kiểm tra',
+  'sheetCheck.lost': 'Bị mất, hay chưa từng có? Hãy tạo khoá mới ở trang tài khoản.',
+  'accountPage.noSheetYet': 'Chưa có gì cho thấy khoá khôi phục của bạn bảo vệ Keyrook Authenticator. Không có nó, quên mật khẩu là có thể mất mã. Hãy gõ khoá một lần trong mục Bảo mật, hoặc tạo khoá mới ở trang tài khoản.',
+  'account.checkUnderSecurity': 'Kiểm tra trong mục Bảo mật',
   'accountPage.open': 'Mở trang tài khoản',
   'accountPage.recoveryKey': 'Khoá khôi phục của kho đã đăng nhập là khoá của tài khoản Keyrook. Tạo và đổi khoá này ở trang tài khoản.',
   'accountPage.sheetProtects': 'Khoá khôi phục của tài khoản đang bảo vệ Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Chưa biết có bảo vệ Keyrook Authenticator hay không',
-  'accountPage.noSheet': 'Chưa có gì cho thấy khoá khôi phục của tài khoản này bảo vệ Keyrook Authenticator. Nếu quên mật khẩu mà không có nó, bạn có thể mất mã. Hãy tạo hoặc kiểm tra khoá ở trang tài khoản.',
+  'secondStep.title': 'Thêm một bước nữa',
+  'secondStep.lead': 'Tài khoản Keyrook của bạn yêu cầu bước thứ hai. Hãy nhập mã 6 số mà app xác thực hiện cho tài khoản này.',
+  'secondStep.field': 'Mã, hoặc khoá khôi phục',
+  'secondStep.hint': 'Mất app đó rồi? Hãy nhập khoá khôi phục của tài khoản thay vào.',
+  'secondStep.passkey': 'Dùng khoá truy cập thay vào',
+  'secondStep.where': 'Đăng nhập hai bước được bật và tắt trên account.keyrook.com.',
+  'secondStep.ownerLead': 'Việc này cũng cần bước thứ hai của tài khoản: mã từ app xác thực, hoặc khoá khôi phục của bạn.',
+  'secondStep.nextCode': 'Mỗi mã chỉ dùng được một lần. Nếu bạn vừa đăng nhập bằng một mã, hãy chờ app hiện mã kế tiếp.',
+  'secondStepTip.title': 'Đăng nhập hai bước',
+  'secondStepTip.suggest': 'Hỏi thêm mã mỗi khi tài khoản này đăng nhập trên thiết bị khác. Bật ở account.keyrook.com rồi giữ mã ngay tại đây: trên trang đó, mở Keyrook Authenticator và chọn “{scan}”.',
+  'secondStepTip.kept': 'Mã đăng nhập của chính tài khoản này được giữ ở đây, trên mọi thiết bị đang đăng nhập vào nó.',
+  'secondStepTip.warning': 'Nếu mất hết các thiết bị đang giữ mã, hãy đăng nhập bằng khoá khôi phục thay cho mã. Hãy cất khoá khôi phục ở một nơi riêng.',
+  'secondStepTip.open': 'Bật',
+  'signin.providerHasPassword': '{provider} đã xác nhận đó là bạn, và {email} còn có mật khẩu. Hãy nhập mật khẩu để mở các mã của bạn ở đây.',
+  'provider.addOnPage': 'Muốn đăng nhập cả bằng Google hay GitHub, hãy đăng nhập trang tài khoản bằng mật khẩu rồi thêm ở đó.',
+  'startOver.title': 'Tài khoản Keyrook của bạn sẽ bắt đầu lại vào {date}',
+  'startOver.lead': 'Ai đó trên “{device}” đã yêu cầu việc này vào {date}, bằng mã chúng tôi gửi qua email: mật khẩu mới và khoá mới, và các app của bạn sẽ bắt đầu trống trơn.',
+  'startOver.ifYou': 'Nếu đó là bạn, bạn không cần làm gì. Nếu không phải, hãy huỷ ngay, rồi đổi mật khẩu email của bạn: người yêu cầu đọc được email của bạn.',
+  'startOver.cancel': 'Không phải tôi — huỷ yêu cầu',
   'kept.title': 'Được giữ lại từ trước khi tài khoản bắt đầu lại',
   'kept.body': 'Khi tài khoản này bắt đầu lại, dữ liệu của Keyrook Authenticator trong đó được giữ đến {date}. Hãy đưa về bằng mật khẩu tài khoản lúc đó, hoặc khoá khôi phục lúc đó.',
   'kept.password': 'Mật khẩu lúc đó',
@@ -785,7 +858,7 @@ export const vi: Dictionary = {
   'kept.usePassword': 'Dùng mật khẩu lúc đó',
   'kept.useRecoveryKey': 'Dùng khoá khôi phục lúc đó',
   'kept.bring': 'Đưa về',
-  'kept.done': 'Đã về lại kho này, và đang được gửi tới các trình duyệt khác của bạn.',
+  'kept.done': 'Đã về lại kho này, và đang được gửi tới các thiết bị khác của bạn.',
   'error.keys.awaitingConfirmation': 'Một app Keyrook khác đã thay khoá của tài khoản này, và khoá của Keyrook Authenticator chưa theo kịp. Hãy mở trang tài khoản để kiểm tra, rồi đăng nhập lại.',
   'password.changedBoth':
     'Đã đổi mật khẩu, cho cả tài khoản và kho này. Các thiết bị khác sẽ yêu cầu bạn đăng nhập lại bằng mật khẩu mới.',
@@ -799,9 +872,12 @@ export const vi: Dictionary = {
   'password.formTitle': 'Đổi mật khẩu tài khoản',
   'devices.title': 'Thiết bị đã đăng nhập',
   'devices.description':
-    'Đăng xuất thiết bị bạn không dùng nữa hoặc không còn giữ. Nó giữ lại những gì đã đồng bộ, vẫn khoá bằng mật khẩu cũ, nhưng không nhận thêm gì mới.',
+    'Đăng xuất thiết bị bạn không dùng nữa hoặc không còn giữ. Nếu nó chạy Keyrook Authenticator bản mới, lần kết nối tới nó sẽ tự xoá các mã của tài khoản này, chỉ giữ lại những gì chưa từng gửi lên. Cho đến lúc đó, hoặc nếu nó không bao giờ kết nối lại, nó vẫn giữ những gì đã có, khoá bằng mật khẩu cũ.',
+  'devices.descriptionProvider':
+    'Đăng xuất thiết bị bạn không dùng nữa hoặc không còn giữ. Nếu nó chạy Keyrook Authenticator bản mới, lần kết nối tới nó sẽ tự xoá các mã của tài khoản này, chỉ giữ lại những gì chưa từng gửi lên. Cho đến lúc đó, hoặc nếu nó không bao giờ kết nối lại, nó vẫn giữ những gì đã có, khoá theo cách kho trên thiết bị đó đang khoá.',
   'devices.this': 'Thiết bị này',
   'devices.when': 'Đăng nhập {created} · hoạt động lần cuối {seen}',
+  'removed.kept': 'Những mã được thêm hoặc sửa ở đây mà chưa kịp lên tài khoản vẫn còn ở đây.',
   'delete.row': 'Xoá tài khoản của bạn',
   'delete.rowDescription':
     'Xoá mọi bản sao đã mã hoá trên máy chủ. Thiết bị này giữ nguyên kho; các thiết bị khác ngừng đồng bộ.',
@@ -812,7 +888,7 @@ export const vi: Dictionary = {
   'delete.confirm': 'Xoá tài khoản',
 
   // --- Đăng nhập: thẻ đầu tiên --------------------------------------------------
-  'intro.benefit1': 'Cùng các mã trên mọi trình duyệt bạn đăng nhập.',
+  'intro.benefit1': 'Cùng các mã trên mọi thiết bị bạn đăng nhập.',
   'intro.benefit2': 'Mất hay hỏng laptop không có nghĩa là mất kho.',
   'intro.benefit3': 'Miễn phí và tuỳ chọn — không bật thì mọi thứ trên thiết bị này vẫn chạy bình thường.',
   'intro.title': 'Đồng bộ kho của bạn',
@@ -875,9 +951,9 @@ export const vi: Dictionary = {
     'Tài khoản của bạn đã sẵn sàng. Đã sao lưu {done}/{total} tài khoản; phần còn lại sẽ theo ở lần đồng bộ tới.',
   'fresh.title': 'Lưu khoá khôi phục',
   'fresh.provider':
-    'Nếu mất hết mọi trình duyệt đã đăng nhập tài khoản, khoá này là lối duy nhất để vào lại — {provider} không khôi phục được kho của bạn, chúng tôi cũng không.',
+    'Nếu mất hết mọi thiết bị đã đăng nhập tài khoản, khoá này là lối duy nhất để vào lại — {provider} không khôi phục được kho của bạn, chúng tôi cũng không.',
   'fresh.password':
-    'Nếu bạn quên mật khẩu, khoá này là lối duy nhất để vào lại — không ai đặt lại được giùm bạn, kể cả chúng tôi hay Google.',
+    'Nếu bạn quên mật khẩu, khoá này là lối duy nhất để vào lại — không ai đặt lại được giùm bạn, kể cả chúng tôi.',
   'welcome.fromAccount': '{count} từ tài khoản của bạn',
   'welcome.fromDevice': '{count} thêm từ thiết bị này',
   'welcome.inSync': 'Đã đồng bộ sẵn.',
@@ -901,44 +977,51 @@ export const vi: Dictionary = {
   'provider.finishInWindow': 'Hoàn tất trong cửa sổ {provider} vừa mở.',
   'provider.confirmed': '{provider} đã xác nhận <b>{email}</b>. Chưa có tài khoản nào dùng email này.',
   'provider.point1':
-    'Không mật khẩu. Trên trình duyệt mới, bạn tiếp tục với {provider}, và một trình duyệt đã đăng nhập sẽ cho nó vào sau khi bạn kiểm tra hai bên hiện cùng một mã.',
+    'Không mật khẩu. Trên thiết bị mới, bạn tiếp tục với {provider}, và một thiết bị đã đăng nhập sẽ cho nó vào sau khi bạn kiểm tra hai bên hiện cùng một mã.',
   'provider.point2':
-    '{provider} xác nhận đó là bạn. Họ không bao giờ thấy mã của bạn: mã được mã hoá ở đây, bằng khoá chỉ nằm trên các trình duyệt của bạn.',
+    '{provider} xác nhận đó là bạn. Họ không bao giờ thấy mã của bạn: mã được mã hoá ở đây, bằng khoá chỉ nằm trên các thiết bị của bạn.',
   'provider.point3':
-    'Tiếp theo bạn lưu khoá khôi phục — lối quay lại nếu mất hết mọi trình duyệt đã đăng nhập. {provider} không khôi phục được kho của bạn.',
+    'Tiếp theo bạn lưu khoá khôi phục — lối quay lại nếu mất hết mọi thiết bị đã đăng nhập. {provider} không khôi phục được kho của bạn.',
   'provider.notRight': 'Không đúng tài khoản?',
   'provider.startAgain': 'Bắt đầu lại',
+  'passkey.continue': 'Tiếp tục bằng khoá truy cập',
+  'passkey.where':
+    'Khoá bạn đã thêm ở <link>trang tài khoản</link>, mục Khoá truy cập. Lần đầu, Chrome sẽ hỏi có cho Keyrook Authenticator dùng nó không.',
   'pairing.codeLabel': 'Mã {code}',
   'join.title': 'Cho trình duyệt này vào',
   'join.subtitle':
-    '<b>{email}</b> đã có tài khoản. Hãy duyệt trình duyệt này từ một trình duyệt đã đăng nhập.',
+    '<b>{email}</b> đã có tài khoản. Hãy duyệt trình duyệt này từ một thiết bị đã đăng nhập.',
   'join.masterPassword': 'Mật khẩu chính của kho này',
   'join.masterHint': 'Nó vẫn khoá kho ở đây; bản thân tài khoản không có mật khẩu.',
   'join.ask': 'Xin tham gia',
   'join.step1':
-    'Trên một trình duyệt đã đăng nhập, mở Keyrook Authenticator. Yêu cầu sẽ hiện ở đó — trong cửa sổ tiện ích, và trong Cài đặt ở mục Đồng bộ.',
+    'Trên một thiết bị đã đăng nhập, mở Keyrook Authenticator. Yêu cầu sẽ hiện ở đó — phía trên các mã, và trong Cài đặt ở mục Đồng bộ.',
   'join.step2': 'Kiểm tra nó hiện đúng mã như trang này, rồi duyệt.',
   'join.askAgain': 'Gửi lại',
-  'join.compare': 'Trình duyệt kia cũng hiện một mã. Chỉ duyệt ở đó nếu đúng y mã này.',
-  'join.waiting': 'Đang chờ trình duyệt khác…',
-  'join.noOther': 'Không còn trình duyệt nào khác?',
+  'join.compare': 'Thiết bị kia cũng hiện một mã. Chỉ duyệt ở đó nếu đúng y mã này.',
+  'join.waiting': 'Đang chờ thiết bị khác…',
+  'join.noOther': 'Không còn thiết bị nào khác?',
   'join.useKey': 'Dùng khoá khôi phục',
   'join.wrongAccount': 'Đăng nhập {provider} nhầm tài khoản?',
   'joinKey.subtitle':
-    'Khoá bạn đã lưu khi tạo tài khoản. Nó cho trình duyệt này vào mà không cần trình duyệt khác.',
+    'Khoá bạn đã lưu khi tạo tài khoản. Nó cho trình duyệt này vào mà không cần thiết bị khác.',
   'joinKey.submit': 'Tham gia tài khoản',
-  'approve.approved': 'Đã duyệt. Trình duyệt kia sẽ mở kho của bạn trong giây lát.',
+  'approve.approved': 'Đã duyệt. Thiết bị kia sẽ mở kho của bạn trong giây lát.',
   'approve.mismatch':
     'Đã từ chối. Nếu vừa rồi không phải chính bạn đăng nhập, người khác đang vào được tài khoản {provider} của bạn — hãy đổi mật khẩu và kiểm tra cài đặt bảo mật của nó.',
   'approve.declined': 'Đã từ chối. Không gửi gì đi cả.',
-  'approve.title': 'Trình duyệt xin tham gia',
+  'approve.title': 'Thiết bị xin tham gia',
   'approve.description':
-    'Mỗi yêu cầu đến từ ai đó vừa đăng nhập bằng tài khoản {provider} của bạn. Chỉ duyệt trình duyệt mà chính bạn đang đăng nhập, ngay lúc này.',
+    'Mỗi yêu cầu đến từ ai đó vừa đăng nhập bằng tài khoản {provider} của bạn. Chỉ duyệt thiết bị mà chính bạn đang đăng nhập, ngay lúc này.',
+  'approve.descriptionAny':
+    'Mỗi yêu cầu đến từ ai đó vừa đăng nhập bằng tài khoản Google hoặc GitHub của bạn. Chỉ duyệt thiết bị mà chính bạn đang đăng nhập, ngay lúc này.',
+  'approve.mismatchAny':
+    'Đã từ chối. Nếu vừa rồi không phải chính bạn đăng nhập, người khác đang vào được tài khoản Google hoặc GitHub của bạn — hãy đổi mật khẩu và kiểm tra cài đặt bảo mật của nó.',
   'approve.askedAt': 'Gửi lúc {time}',
   'approve.review': 'Xem xét',
   'approve.deny': 'Từ chối',
   'approve.question':
-    'Trình duyệt đang xin vào có hiện đúng y mã này không? Nếu không, ai đó đang cố vào.',
+    'Thiết bị đang xin vào có hiện đúng y mã này không? Nếu không, ai đó đang cố vào.',
   'approve.matches': 'Khớp — cho vào',
   'approve.doesNotMatch': 'Không khớp',
 
@@ -957,7 +1040,7 @@ export const vi: Dictionary = {
   'nav.sync': 'Đồng bộ',
   'nav.general': 'Chung',
   'nav.needsAttention': 'Cần xử lý',
-  'sync.description': 'Cùng các mã trên mọi trình duyệt bạn đăng nhập, được mã hoá ở đây trước khi gửi đi.',
+  'sync.description': 'Cùng các mã trên mọi thiết bị bạn đăng nhập, được mã hoá ở đây trước khi gửi đi.',
   'backup.description': 'Giữ một bản mã hoá, đưa tài khoản vào, hoặc chuyển chúng sang ứng dụng khác.',
   'backup.choice.backup.title': 'Sao lưu',
   'backup.choice.backup.body': 'Một tệp mã hoá, khoá bằng mật khẩu bạn chọn.',
@@ -973,16 +1056,16 @@ export const vi: Dictionary = {
     'Mở cửa sổ tiện ích trên trang đăng nhập sẽ gợi ý đúng mã. Chỉ đọc đúng tab đó.',
   'vault.signInToSync': 'Đăng nhập để đồng bộ',
   'vault.empty.signIn':
-    'Đang dùng Keyrook Authenticator trên trình duyệt khác? <link>Đăng nhập</link> để mang mã của bạn về đây.',
+    'Đang dùng Keyrook Authenticator trên thiết bị khác? <link>Đăng nhập</link> để mang mã của bạn về đây.',
   'setup.haveAccount': 'Đã dùng Keyrook Authenticator? <link>Đăng nhập</link> để mang mã của bạn về đây.',
   'popup.signInOpensTab': 'Mở trong tab mới và hoàn tất trong Cài đặt.',
   'error.backupWrongPassword': 'Mật khẩu đó không mở được tệp này.',
-  'error.foreign.steam': 'Chưa nhập được mã Steam Guard.',
+  'error.foreign.steamFolder': 'Hãy chọn cùng lúc mọi tệp trong thư mục maFiles của Steam Desktop Authenticator: manifest.json và các tệp .maFile bên cạnh.',
   'error.foreign.locked':
     'Tệp xuất này được khoá bằng kiểu mật khẩu mà Keyrook Authenticator không mở được. Hãy xuất lại mà không đặt mật khẩu.',
   'import.lockedFrom': '{app} đã khoá tệp xuất này bằng mật khẩu. Nhập mật khẩu bạn đã đặt trong {app}.',
   'import.fromApps':
-    'Tệp xuất từ Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, tiện ích Authenticator và Google Authenticator đều dùng được — kể cả tệp CSV từ Mật khẩu của Apple, 1Password hay trình quản lý mật khẩu khác.',
+    'Tệp xuất từ Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, tiện ích Authenticator và Google Authenticator đều dùng được — kể cả tệp CSV từ Mật khẩu của Apple, 1Password hay trình quản lý mật khẩu khác.',
   'shortcut.open': 'Mở Keyrook Authenticator',
   'shortcut.fill': 'Điền mã cho trang này',
   'shortcut.fillHint': 'Chỉ điền khi đúng một tài khoản thuộc về trang; còn lại sẽ mở danh sách.',
@@ -991,4 +1074,63 @@ export const vi: Dictionary = {
   'import.csvWarning':
     'Tệp này chứa mật khẩu của bạn ở dạng đọc được. Chỉ khoá 2FA được đọc, ngoài ra không giữ lại gì — hãy xoá tệp khi xong.',
   'import.noKeysInCsv': 'Tệp đó không có khoá 2FA nào — chỉ có mật khẩu.',
+  'crash.title': 'Đã xảy ra lỗi',
+  'crash.body':
+    'Màn hình này gặp sự cố và đã dừng lại. Các tài khoản đã lưu của bạn không bị ảnh hưởng. Tải lại thường sẽ khắc phục được.',
+  'crash.reload': 'Tải lại',
+  'setup.device.description.phone':
+    'Khoá bí mật của bạn được mã hoá bằng một khoá do điện thoại này giữ giùm. Không cần nhớ, không cần gõ gì.',
+  'setup.device.footnote.phone':
+    'Chống được việc sao chép tệp của ứng dụng. Không chống được người mở khoá được điện thoại này.',
+  'setup.password.footnote.phone':
+    'Lựa chọn mạnh nhất: một khi đã khoá, không gì trên điện thoại này mở được kho nếu không có mật khẩu.',
+  'unrecoverable.why.phone':
+    'Khoá mã hoá của nó do điện thoại này giữ và đã mất — thường do dữ liệu ứng dụng bị xoá, ứng dụng bị cài lại, hoặc kho đến từ bản sao lưu của một điện thoại khác. Không có khoá đó thì không ai giải mã được các tài khoản đã lưu, kể cả chúng tôi.',
+  'vault.empty.body.phone':
+    'Khi một trang web hiện mã QR để thiết lập xác thực hai lớp, hãy quét nó bằng camera của điện thoại này.',
+  'add.camera.description.phone':
+    'Cho mã đang hiện trên màn hình khác — kể cả dữ liệu xuất từ Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Chuyển từ Google Authenticator trên điện thoại khác sang? Hãy xuất tài khoản ở đó, rồi quét mã nó hiện ra bằng camera của điện thoại này. Nếu có nhiều mã, làm lần lượt từng mã.',
+  'camera.noCamera.phone': 'Điện thoại này không cho ứng dụng dùng camera.',
+  'camera.blocked.phone':
+    'Ứng dụng chưa được phép dùng camera. Hãy cho phép trong phần cài đặt của điện thoại, hoặc dùng cách thêm tài khoản khác.',
+  'camera.none.phone': 'Không tìm thấy camera trên điện thoại này.',
+  'security.languageBrowser.phone': 'Theo điện thoại ({language})',
+  'protect.removeWarning.phone':
+    'Kho vẫn được mã hoá, nhưng sẽ tự mở mỗi khi ứng dụng mở. Khi đó ai mở khoá được điện thoại này cũng xem được mã của bạn.',
+  'kit.device.phone':
+    'Kho này mở bằng một khoá do điện thoại của bạn giữ. Nếu khoá đó mất — xoá dữ liệu ứng dụng, cài lại, điện thoại mới — thì chỉ khoá khôi phục mới còn mở được kho.',
+  'kit.withoutDevice.phone':
+    'Không có nó, nếu khoá điện thoại đang giữ bị mất thì mọi tài khoản trong kho này sẽ mất vĩnh viễn.',
+  'security.description.phone': 'Cách kho này được mở, và lối quay lại nếu mất điện thoại này.',
+  'security.deviceKeyHint.phone': 'Không cần gõ gì. Ai mở khoá được điện thoại này cũng mở được kho.',
+  'general.description.phone': 'Giao diện và cách ứng dụng hoạt động, cùng nguồn gốc của nó.',
+  'about.securityModelDescription.phone': 'Những gì ứng dụng cam kết, và những gì không.',
+  'about.logos.description.phone':
+    'Logo được đóng gói sẵn trong ứng dụng, không bao giờ tải về. Nếu hỏi mạng để lấy logo, bên trả lời sẽ biết bạn bật xác thực hai lớp ở những dịch vụ nào.',
+  'about.fact.access.title.phone': 'Chỉ camera, và chỉ để quét',
+  'about.fact.access.body.phone':
+    'Ứng dụng không xin quyền nào ngoài camera, và chỉ khi bạn chọn quét mã. Những gì camera thấy không bao giờ rời khỏi điện thoại.',
+  'about.fact.keys.body.phone':
+    'Tài khoản của bạn được mã hoá bằng một khoá dữ liệu, và khoá này lại được bọc thêm một lớp. Với mật khẩu chính, khoá bọc được dẫn xuất bằng PBKDF2 600.000 vòng và chỉ nằm trong bộ nhớ khi đang mở. Không có mật khẩu, đó là khoá được niêm phong bởi kho khoá của chính điện thoại, nên một bản sao tệp của ứng dụng không mở được kho.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera ở đây. Nếu không quét được, hãy chụp ảnh nó bằng ứng dụng camera của điện thoại rồi dùng Tải lên ảnh QR.',
+  'import.noNativeReader.phone':
+    'Mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera ở đây. Nếu không quét được, hãy chụp ảnh từng mã bằng ứng dụng camera của điện thoại rồi chọn tất cả bằng Chọn tệp.',
+  'error.signOutUnsynced.phone':
+    'Một số thay đổi trên điện thoại này chưa lên tới tài khoản của bạn, đăng xuất bây giờ sẽ làm mất chúng. Hãy kết nối mạng rồi thử lại.',
+  'account.signOutNote.phone':
+    'Đăng xuất sẽ xoá các mã khỏi điện thoại này. Mã vẫn còn trong tài khoản Keyrook của bạn — đăng nhập lại là có lại.',
+  'secondStepTip.suggest.phone':
+    'Hỏi thêm mã mỗi khi tài khoản này đăng nhập trên thiết bị khác. Bật ở account.keyrook.com rồi giữ mã ngay tại đây: thêm tài khoản trong ứng dụng này và quét mã QR mà trang đó hiện.',
+  'intro.benefit2.phone': 'Mất hay hỏng điện thoại không có nghĩa là mất kho.',
+  'provider.finishInWindow.phone': 'Hoàn tất trên trang {provider} vừa mở trong trình duyệt.',
+  'join.title.phone': 'Cho điện thoại này vào',
+  'join.subtitle.phone':
+    '<b>{email}</b> đã có tài khoản. Hãy duyệt điện thoại này từ một thiết bị đã đăng nhập.',
+  'joinKey.subtitle.phone':
+    'Khoá bạn đã lưu khi tạo tài khoản. Nó cho điện thoại này vào mà không cần thiết bị khác.',
+  'facts.autofill.phone': 'Quét QR',
 };

@@ -24,3 +24,12 @@ export function errorText(cause: unknown): string {
   if (cause instanceof BackgroundError && cause.key) return translate(cause.key, cause.values);
   return localise(cause instanceof Error ? cause.message : String(cause));
 }
+
+/** The message key an error is shown as, when it has one: what a page answers differently. */
+export function errorKey(cause: unknown, message?: string): MessageKey | undefined {
+  if (cause instanceof AppError) return cause.key;
+  if (cause instanceof BackgroundError && cause.key) return cause.key;
+  const text = message ?? (cause instanceof Error ? cause.message : String(cause));
+  if (Object.hasOwn(en, text)) return text as MessageKey;
+  return knownMessage(text)?.key;
+}

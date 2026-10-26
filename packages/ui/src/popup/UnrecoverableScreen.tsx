@@ -23,7 +23,7 @@ export function UnrecoverableScreen({
   const [armed, setArmed] = useState(false);
 
   return (
-    <div className="flex min-h-[480px] flex-col justify-center gap-5 p-7 text-center">
+    <div className="flex min-h-[480px] app:min-h-(--app-height) flex-col justify-center gap-5 p-7 text-center">
       <div className="flex flex-col items-center gap-3">
         <Logo className="h-11 w-11 opacity-60" />
         <h1 className="text-[16px] font-semibold">{t('unrecoverable.title')}</h1>

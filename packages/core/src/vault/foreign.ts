@@ -15,7 +15,7 @@ import { scrypt } from '../crypto/scrypt.js';
 import { base32Encode, isValidBase32 } from '../util/base32.js';
 import { concatBytes, fromBase64, fromHex, fromUtf8, utf8 } from '../util/bytes.js';
 import { DEFAULT_OTP_PARAMS, type OtpAlgorithm } from '../otp/types.js';
-import { parseOtpUri, type ParsedOtpUri } from '../otp/uri.js';
+import { asSteamGuard, isSteamIssuer, parseOtpUri, parseSteamLink, type ParsedOtpUri } from '../otp/uri.js';
 import { MAX_BACKUP_KDF_ITERATIONS, type ImportResult } from './backup.js';
 import { itemFromUri } from './vault.js';
 
@@ -27,7 +27,8 @@ export type ForeignApp =
   | 'freeotp'
   | 'proton'
   | 'ente'
-  | 'authenticator';
+  | 'authenticator'
+  | 'steamdesktop';
 
 /** Each app as its own users know it. Product names, so never translated. */
 export const FOREIGN_APP_NAMES: Record<ForeignApp, string> = {
@@ -39,6 +40,7 @@ export const FOREIGN_APP_NAMES: Record<ForeignApp, string> = {
   proton: 'Proton Authenticator',
   ente: 'Ente Auth',
   authenticator: 'Authenticator (authenticator.cc)',
+  steamdesktop: 'Steam Desktop Authenticator',
 };
 
 /** A file from another app, recognised and ready to read. */
@@ -99,8 +101,7 @@ function wholeNumber(value: unknown, fallback: number, field: string, min: numbe
 /** One entry from another app's export as an otpauth:// link would give it, checked the same way. */
 export function parsedFrom(fields: EntryFields): ParsedOtpUri {
   const type = text(fields.type).toLowerCase();
-  if (type === 'steam') throw new Error('Steam Guard codes cannot be imported yet.');
-  if (type !== 'totp' && type !== 'hotp') throw new Error(`Unsupported OTP type: ${type || 'none'}`);
+  if (type !== 'totp' && type !== 'hotp' && type !== 'steam') throw new Error(`Unsupported OTP type: ${type || 'none'}`);
 
   const secret =
     fields.secret instanceof Uint8Array
@@ -108,6 +109,12 @@ export function parsedFrom(fields: EntryFields): ParsedOtpUri {
       : text(fields.secret).replace(/[\s-]/g, '').replace(/=+$/, '').toUpperCase();
   if (!secret) throw new Error('Secret is empty');
   if (!isValidBase32(secret)) throw new Error('The "secret" parameter is not valid base32');
+
+  // Before the checks on digits: Steam Guard's five would not pass them, and
+  // whatever the file says of its settings, they are Steam's.
+  if (type === 'steam' || (type === 'totp' && isSteamIssuer(text(fields.issuer)))) {
+    return asSteamGuard({ ...DEFAULT_OTP_PARAMS, secret, issuer: text(fields.issuer), label: text(fields.label) });
+  }
 
   return {
     type,
@@ -346,7 +353,9 @@ function readBitwarden(items: unknown[]): ImportResult {
       const totp = text(login.totp);
       const firstUri = Array.isArray(login.uris) ? text(record(login.uris[0]).uri) : '';
       const domains = siteOf(firstUri);
-      if (/^steam:\/\//i.test(totp)) throw new Error('Steam Guard codes cannot be imported yet.');
+      if (/^steam:\/\//i.test(totp)) {
+        return { ...parseSteamLink(totp), issuer: text(item.name), label: text(login.username), domains };
+      }
       if (/^otpauth:\/\//i.test(totp)) {
         const parsed = parseOtpUri(totp);
         return {
@@ -371,7 +380,9 @@ function readFreeOtp(tokens: unknown[]): ImportResult {
       if (!bytes) throw new Error('Secret is empty');
       const type = text(token.type).toLowerCase();
       return parsedFrom({
-        type: type === 'totp' && text(token.issuerExt) === 'Steam' ? 'steam' : type,
+        // FreeOTP+ keeps Steam Guard as a TOTP issued by "Steam", which
+        // parsedFrom reads as Steam's.
+        type,
         secret: bytes,
         issuer: token.issuerExt,
         label: token.label,
@@ -393,7 +404,9 @@ function readProton(entries: unknown[]): ImportResult {
     entries.map(record),
     (entry) => {
       const uri = text(record(entry.content).uri);
-      if (/^steam:\/\//i.test(uri)) throw new Error('Steam Guard codes cannot be imported yet.');
+      if (/^steam:\/\//i.test(uri)) {
+        return { ...parseSteamLink(uri), issuer: 'Steam', label: text(record(entry.content).name) };
+      }
       const parsed = parseOtpUri(uri);
       return { ...parsed, label: parsed.label || text(record(entry.content).name) };
     },
@@ -425,6 +438,152 @@ function readAuthenticatorExtension(data: Record<string, unknown>): ImportResult
     },
     (entry) => nameOf(entry.issuer, entry.account),
   );
+}
+
+// --- Steam Desktop Authenticator ----------------------------------------------------
+
+/**
+ * Its maFiles folder: one `.maFile` per Steam account, and `manifest.json`
+ * listing them. Both are needed when it encrypts the accounts with its
+ * passkey, since each file's salt and IV are in the manifest, not the file.
+ */
+const steamFolder = () =>
+  new Error(
+    'Choose every file in Steam Desktop Authenticator’s maFiles folder together: manifest.json and the .maFile files beside it.',
+  );
+
+/** Its own: PBKDF2-SHA1 (.NET's Rfc2898DeriveBytes), 50,000 rounds, into AES-256-CBC. Nothing in a file sets it. */
+const SDA_ITERATIONS = 50_000;
+
+/** A file the person chose, read as text. */
+export interface NamedText {
+  name: string;
+  text: string;
+}
+
+const isMaFileName = (name: string) => /\.mafile$/i.test(name);
+
+function isSteamManifest(value: unknown): value is { encrypted: boolean; entries: unknown[] } {
+  const manifest = record(value);
+  return typeof manifest.encrypted === 'boolean' && Array.isArray(manifest.entries) && 'first_run' in manifest;
+}
+
+/** A maFile as JSON, or null when it is not — encrypted, or not a maFile at all. */
+function maFileJson(text: string): Record<string, unknown> | null {
+  try {
+    const parsed: unknown = JSON.parse(text);
+    return typeof record(parsed).shared_secret === 'string' ? record(parsed) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * One Steam account: its Steam Guard key, and the name it signs in with.
+ * The file holds more — the key that confirms trades, the revocation code,
+ * a signed-in session — and none of it is read: only what makes the code.
+ */
+function readMaFile(account: Record<string, unknown>): ParsedOtpUri {
+  let key: Uint8Array;
+  try {
+    key = fromBase64(text(account.shared_secret));
+  } catch {
+    throw new Error('This backup is malformed.');
+  }
+  if (key.length === 0) throw new Error('Secret is empty');
+  return parsedFrom({ type: 'steam', secret: key, issuer: 'Steam', label: account.account_name });
+}
+
+const readMaFiles = (accounts: { name: string; account: Record<string, unknown> }[]) =>
+  collect(
+    accounts,
+    ({ account }) => readMaFile(account),
+    ({ name, account }) => text(account.account_name) || name,
+  );
+
+async function openMaFile(passkey: string, salt: string, iv: string, sealed: string): Promise<Record<string, unknown>> {
+  let key: CryptoKey;
+  let bytes: { iv: Uint8Array; sealed: Uint8Array };
+  try {
+    bytes = { iv: fromBase64(iv), sealed: fromBase64(sealed) };
+    key = await crypto.subtle.importKey(
+      'raw',
+      (await pbkdf2(passkey, fromBase64(salt), SDA_ITERATIONS, 'SHA-1')) as BufferSource,
+      'AES-CBC',
+      false,
+      ['decrypt'],
+    );
+  } catch {
+    throw new Error('This backup is malformed.');
+  }
+  let plain: Uint8Array;
+  try {
+    plain = new Uint8Array(
+      await crypto.subtle.decrypt({ name: 'AES-CBC', iv: bytes.iv as BufferSource }, key, bytes.sealed as BufferSource),
+    );
+  } catch {
+    throw new DecryptionError('That password does not open this file.');
+  }
+  // CBC has no tag: a wrong passkey now and then leaves padding that looks
+  // right, and then it is the text that is not a maFile.
+  const account = maFileJson(fromUtf8(plain));
+  if (!account) throw new DecryptionError('That password does not open this file.');
+  return account;
+}
+
+/**
+ * Steam Desktop Authenticator's files, if these are some: one or more
+ * `.maFile`s, with its `manifest.json` when it encrypted them. Null when none
+ * of the files is one of its. Throws for a set it cannot open as chosen —
+ * encrypted files without the manifest, or the manifest alone — naming what
+ * to choose instead.
+ */
+export function recogniseSteamDesktop(files: readonly NamedText[]): ForeignImport | null {
+  const maFiles = files.filter((file) => isMaFileName(file.name));
+  const manifestFile = files.find((file) => file.name.toLowerCase() === 'manifest.json');
+  let manifest: { encrypted: boolean; entries: unknown[] } | null = null;
+  try {
+    const parsed: unknown = manifestFile ? JSON.parse(manifestFile.text) : null;
+    if (isSteamManifest(parsed)) manifest = parsed;
+  } catch {
+    // Some other manifest.json: not Steam Desktop Authenticator's.
+  }
+
+  if (maFiles.length === 0) {
+    if (manifest) throw steamFolder();
+    return null;
+  }
+
+  // Each as JSON, or null while it is still encrypted.
+  const parsed = maFiles.map((file) => ({ name: file.name, account: maFileJson(file.text) }));
+  if (parsed.every((file) => file.account)) {
+    return plain('steamdesktop', () => readMaFiles(parsed as { name: string; account: Record<string, unknown> }[]));
+  }
+  if (!manifest?.encrypted) throw steamFolder();
+
+  const entries = manifest.entries.map(record);
+  return locked('steamdesktop', async (passkey) => {
+    const accounts: { name: string; account: Record<string, unknown> }[] = [];
+    const missing: ImportResult['errors'] = [];
+    for (const file of parsed) {
+      if (file.account) {
+        accounts.push({ name: file.name, account: file.account });
+        continue;
+      }
+      const entry = entries.find((candidate) => text(candidate.filename) === file.name);
+      if (!entry) {
+        missing.push({ line: file.name, reason: steamFolder().message });
+        continue;
+      }
+      const sealed = maFiles.find((candidate) => candidate.name === file.name)!.text.trim();
+      accounts.push({
+        name: file.name,
+        account: await openMaFile(passkey, text(entry.encryption_salt), text(entry.encryption_iv), sealed),
+      });
+    }
+    const result = readMaFiles(accounts);
+    return { items: result.items, errors: [...missing, ...result.errors] };
+  });
 }
 
 // --- Recognising a file ----------------------------------------------------------
@@ -489,6 +648,13 @@ export function recogniseForeignExport(parsed: unknown): ForeignImport | null {
   // Proton's and Ente's locked exports use Argon2.
   if (typeof file.content === 'string' && typeof file.salt === 'string' && 'version' in file) lockedBeyondUs();
   if ('kdfParams' in file && 'encryptedData' in file) lockedBeyondUs();
+
+  // Steam Desktop Authenticator's, one file at a time: a maFile as it is
+  // written unencrypted, or the manifest, which holds no account.
+  if (typeof file.shared_secret === 'string' && 'account_name' in file) {
+    return plain('steamdesktop', () => readMaFiles([{ name: '', account: file }]));
+  }
+  if (isSteamManifest(file)) throw steamFolder();
 
   const values = Object.values(file).map(record);
   if (values.some((value) => value.dataType === 'Key' || value.dataType === 'EncOTPStorage' || value.encrypted === true)) {

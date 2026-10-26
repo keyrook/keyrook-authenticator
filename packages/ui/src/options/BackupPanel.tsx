@@ -3,6 +3,7 @@ import {
   FOREIGN_APP_NAMES,
   recogniseForeignBytes,
   recogniseForeignExport,
+  recogniseSteamDesktop,
   readCsvExport,
   type ForeignImport,
   assertUsableBackup,
@@ -204,6 +205,9 @@ function ImportSection({
     setPending(null);
     if (files.length === 0) return;
 
+    if (files.some((file) => /\.mafile$/i.test(file.name) || file.name.toLowerCase() === 'manifest.json')) {
+      if (await handleSteamDesktop(files)) return;
+    }
     if (files.every((file) => QR_IMAGE.test(file.type))) {
       await handleScreenshots(files);
     } else if (files.length === 1) {
@@ -256,6 +260,37 @@ function ImportSection({
     } finally {
       setBusy(false);
     }
+  }
+
+  /**
+   * Steam Desktop Authenticator's maFiles folder: one file per Steam account,
+   * and, when it encrypted them, the manifest that holds what opens each — so
+   * several files that make one export. False when they are not its.
+   */
+  async function handleSteamDesktop(files: File[]): Promise<boolean> {
+    if (files.some((file) => file.size > MAX_BACKUP_BYTES)) {
+      setError(t('import.tooLarge'));
+      return true;
+    }
+    try {
+      const found = recogniseSteamDesktop(
+        await Promise.all(files.map(async (file) => ({ name: file.name, text: await file.text() }))),
+      );
+      if (!found) return false;
+      if (found.needsPassword) {
+        setLocked({ kind: 'foreign', file: found });
+        return true;
+      }
+      const result = await found.read();
+      if (result.items.length === 0 && result.errors.length === 0) {
+        setError(t('import.noAccountsInFile'));
+        return true;
+      }
+      stage(result.items, result.errors);
+    } catch (cause) {
+      setError(errorText(cause));
+    }
+    return true;
   }
 
   async function handleFile(file: File) {
@@ -528,7 +563,7 @@ function ImportSection({
                 ref={fileInput}
                 type="file"
                 multiple
-                accept=".authx,.json,.2fas,.aes,.csv,.txt,text/plain,text/csv,application/json,image/png,image/jpeg,image/webp,image/gif,image/bmp"
+                accept=".authx,.json,.2fas,.aes,.maFile,.csv,.txt,text/plain,text/csv,application/json,image/png,image/jpeg,image/webp,image/gif,image/bmp"
                 className="hidden"
                 onChange={(event) => {
                   const files = Array.from(event.target.files ?? []);

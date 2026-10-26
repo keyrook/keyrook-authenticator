@@ -17,6 +17,7 @@ export const es: Dictionary = {
   'error.recoverOnAccountPage': 'Tu clave de recuperación es correcta, pero la contraseña de esta cuenta ahora se restablece en la página de la cuenta, para todas las apps de Keyrook a la vez.',
   'error.kitOnAccountPage': 'La clave de recuperación de esta cuenta ahora se crea en la página de la cuenta, para todas las apps de Keyrook a la vez.',
   'error.restoreEmpty': 'No queda nada de esta cuenta que recuperar: se eliminó en otro dispositivo antes de que este la tuviera.',
+  'error.noAccountSheet': 'Esta cuenta aún no tiene clave de recuperación. Crea una en la página de la cuenta.',
   'error.recoveryKeyWrong': 'Esa clave de recuperación no corresponde a esta cuenta.',
   'error.noRecoveryKit': 'Esta bóveda no tiene clave de recuperación.',
   'error.syncUnavailable': 'La sincronización no está disponible en esta versión.',
@@ -24,6 +25,8 @@ export const es: Dictionary = {
   'error.alreadySignedIn': 'Ya has iniciado sesión.',
   'error.signedOutElsewhere':
     'Se cerró la sesión de sincronización de este dispositivo: se cambió la contraseña o se quitó el dispositivo desde otro. Vuelve a iniciar sesión.',
+  'error.removedFromAccount':
+    'Otro dispositivo quitó este de tu cuenta de Keyrook, así que se eliminaron de aquí los códigos de la cuenta. Vuelve a iniciar sesión para recuperarlos.',
   'error.signOutUnsynced':
     'Algunos cambios de este navegador aún no han llegado a tu cuenta, y cerrar sesión ahora los perdería. Conéctate a internet y vuelve a intentarlo.',
   'error.enterAccountPassword': 'Introduce la contraseña de tu cuenta.',
@@ -55,10 +58,10 @@ export const es: Dictionary = {
   'error.nothingWaiting': 'No hay nada esperando aprobación.',
   'error.pairingExpired': 'La solicitud terminó: se rechazó o pasaron diez minutos. Vuelve a pedirlo.',
   'error.pairingWrongKey':
-    'La clave que llegó no es la de esta cuenta. No se ha cambiado nada. Inténtalo de nuevo desde el otro navegador.',
-  'error.pairingForged': 'Esa aprobación no vino del navegador cuyo código comprobaste.',
+    'La clave que llegó no es la de esta cuenta. No se ha cambiado nada. Inténtalo de nuevo desde el otro dispositivo.',
+  'error.pairingForged': 'Esa aprobación no vino del dispositivo cuyo código comprobaste.',
   'error.pairingForgedAsk':
-    'Esa aprobación no vino del navegador cuyo código se comprobó. No se ha cambiado nada. Vuelve a pedirlo.',
+    'Esa aprobación no vino del dispositivo cuyo código se comprobó. No se ha cambiado nada. Vuelve a pedirlo.',
   'error.pairingEnded': 'Esa solicitud ha terminado.',
   'error.approveAgain': 'Vuelve a empezar la aprobación de esa solicitud.',
   'error.backupPasswordShort': 'La contraseña de la copia de seguridad debe tener al menos 8 caracteres.',
@@ -76,6 +79,24 @@ export const es: Dictionary = {
   'error.migrationNotOurs': 'No es una exportación de Google Authenticator.',
   'error.migrationMalformed': 'Esta exportación de Google Authenticator está dañada o incompleta.',
   'error.offline': 'No se pudo conectar con el servidor de sincronización. Comprueba tu conexión e inténtalo de nuevo.',
+  'error.passkey.wrongOrigin': 'Una llave de acceso solo responde a la página y las apps de Keyrook.',
+  'error.passkey.notOffered': 'Aquí no se ofrece iniciar sesión con llave de acceso.',
+  'error.passkey.unchecked': 'No se pudo comprobar esa llave de acceso. Inténtalo de nuevo.',
+  'error.passkey.unknown': 'Ninguna cuenta de Keyrook conoce esa llave de acceso. Puede que se haya eliminado.',
+  'error.passkey.ended': 'La solicitud de esa llave de acceso ha caducado. Inténtalo de nuevo.',
+  'error.passkey.noUnlock': 'Esa llave de acceso no abre la clave de esta cuenta. Inicia sesión con la contraseña.',
+  'error.passkey.noUnlockProvider':
+    'Esa llave de acceso no abre la clave de esta cuenta. Continúa con Google o GitHub.',
+  'error.passkey.masterPassword':
+    'Una bóveda que se bloquea con contraseña maestra no puede iniciar sesión con una llave de acceso. Inicia sesión con la contraseña de la cuenta, o con Google o GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator necesita el permiso de Chrome para usar las llaves de acceso de account.keyrook.com. Vuelve a elegir la llave de acceso y permítelo.',
+  'error.passkey.cancelled': 'No se usó ninguna llave de acceso. Inténtalo de nuevo o inicia sesión de otra forma.',
+  'error.passkey.failed': 'Chrome no pudo pedir una llave de acceso. Inténtalo de nuevo o inicia sesión de otra forma.',
+  'error.secondStep.missing': 'Introduce también el código de tu app de autenticación.',
+  'error.secondStep.wrongCode': 'Ese código no es correcto. Introduce el que muestra ahora tu app de autenticación.',
+  'error.secondStep.expired': 'Ese inicio de sesión ha caducado. Vuelve a iniciar sesión.',
+  'error.secondStep.used': 'Ese código se acaba de usar para iniciar sesión. Espera a que tu app muestre el siguiente.',
   'error.provider.refusedBy': '{provider} rechazó el inicio de sesión.',
   'error.provider.unreachable': 'No se pudo conectar con {provider}. Inténtalo de nuevo en un momento.',
   'error.provider.refused': 'Se rechazó el inicio de sesión. Inténtalo de nuevo.',
@@ -90,11 +111,11 @@ export const es: Dictionary = {
   'error.server.signinExpired': 'Ese inicio de sesión ha caducado. Inténtalo de nuevo.',
   'error.server.tooManyCodes': 'Demasiados códigos incorrectos. Pide uno nuevo.',
   'error.server.tooManyPairings':
-    'Hay demasiados navegadores esperando para unirse a esta cuenta. Inténtalo de nuevo en unos minutos.',
+    'Hay demasiados dispositivos esperando para unirse a esta cuenta. Inténtalo de nuevo en unos minutos.',
   'error.server.wrongKey': 'Este dispositivo no tiene la clave de la cuenta.',
   'error.server.providerAccount': 'Esta cuenta inicia sesión con Google o GitHub, no con contraseña.',
   'error.server.mailFailed': 'No se pudo enviar el correo. Inténtalo de nuevo en un minuto.',
-  'error.server.pairingTaken': 'Esa solicitud ha terminado o la está aprobando otro navegador.',
+  'error.server.pairingTaken': 'Esa solicitud ha terminado o la está aprobando otro dispositivo.',
   'error.server.passwordWrong': 'Esa contraseña no es correcta.',
   'error.server.badCredentials': 'Correo o contraseña incorrectos.',
   'error.server.badCode':
@@ -155,6 +176,22 @@ export const es: Dictionary = {
   'unlock.placeholder': 'Contraseña maestra',
   'unlock.submit': 'Desbloquear',
   'unlock.forgot': '¿La has olvidado? <link>Usa tu clave de recuperación</link>',
+  'platformUnlock.unlock': 'Desbloquear con huella, cara o PIN',
+  'platformUnlock.title': 'Huella, cara o PIN',
+  'platformUnlock.body': 'Abre la bóveda con la comprobación propia de este ordenador —Touch ID, Windows Hello o su PIN— en lugar de escribir la contraseña maestra. La contraseña la sigue abriendo, y los cambios la siguen pidiendo.',
+  'platformUnlock.on': 'La bóveda también se abre con la comprobación propia de este ordenador. Quitar la contraseña maestra lo desactiva.',
+  'passkeyUnlock.turnOn': 'Activar',
+  'passkeyUnlock.turnOff': 'Desactivar',
+  'platformUnlock.confirm': 'Después, el ordenador te pedirá tu huella, tu cara o tu PIN.',
+  'error.passkeyUnlock.cancelled': 'La comprobación se canceló o tardó demasiado. Inténtalo de nuevo, o usa la contraseña maestra.',
+  'error.platformUnlock.noPrf': 'El lugar donde se guardó esta llave de acceso no puede guardar una clave, así que no puede abrir la bóveda. Vuelve a activarlo y elige otro lugar cuando te pregunte dónde guardarla, o sigue usando la contraseña maestra.',
+  'error.passkeyUnlock.failed': 'Eso no abrió la bóveda. Usa la contraseña maestra y vuelve a activarlo en Seguridad.',
+  'securityKey.unlock': 'Desbloquear con llave de seguridad',
+  'securityKey.title': 'Llave de seguridad',
+  'securityKey.body': 'Abre la bóveda con una llave de seguridad USB y su PIN en lugar de escribir la contraseña maestra. Quien tenga la llave y sepa su PIN podrá abrir la bóveda en este ordenador. Si pierdes la llave, la contraseña maestra la sigue abriendo.',
+  'securityKey.on': 'La bóveda también se abre con tu llave de seguridad y su PIN en este ordenador. Quien tenga la llave y sepa su PIN puede abrirla aquí, así que si pierdes la llave, desactiva esto. Quitar la contraseña maestra lo desactiva.',
+  'securityKey.confirm': 'Después, conecta tu llave de seguridad, escribe su PIN y tócala. Algunas llaves lo piden dos veces.',
+  'error.securityKey.noPrf': 'Esta llave de seguridad no puede guardar una clave, así que no puede abrir la bóveda. Las llaves hechas solo para el inicio de sesión en dos pasos no pueden. Prueba con otra llave o sigue usando la contraseña maestra.',
 
   // --- Bóveda que no se puede abrir ---------------------------------------------
   'unrecoverable.title': 'Esta bóveda ya no se puede abrir',
@@ -195,6 +232,7 @@ export const es: Dictionary = {
   'setup.password.footnote':
     'La opción más segura: una vez bloqueada, nada en este equipo puede abrir la bóveda sin la contraseña.',
   'setup.footer': 'En ambos casos, AES-256-GCM. Puedes cambiarlo cuando quieras; la sincronización es opcional, en Ajustes.',
+  'setup.footer.noSync': 'En ambos casos, AES-256-GCM. Puedes cambiarlo cuando quieras, en Ajustes.',
   'setup.source': 'Código abierto: lee el código',
   'common.back': 'Atrás',
   'setup.passwordStep.title': 'Establecer una contraseña maestra',
@@ -243,8 +281,8 @@ export const es: Dictionary = {
   'vault.byName': 'Por nombre',
   'vault.orderAdded': 'Orden de llegada',
   'vault.joinRequests': {
-    one: 'Un navegador pide unirse a tu cuenta.',
-    other: '{count} navegadores piden unirse a tu cuenta.',
+    one: 'Un dispositivo pide unirse a tu cuenta.',
+    other: '{count} dispositivos piden unirse a tu cuenta.',
   },
   'vault.joinRequestsHint': 'Aprueba solo uno en el que estés iniciando sesión tú mismo, ahora mismo.',
   'vault.reviewInSettings': 'Revisar en Ajustes',
@@ -339,6 +377,7 @@ export const es: Dictionary = {
   'error.alreadyInVault': 'Esa cuenta ya está en tu bóveda.',
   'error.gaSkipPeriod': 'Google Authenticator solo guarda códigos de 30 segundos; este usa {period}.',
   'error.gaSkipDigits': 'Google Authenticator solo guarda códigos de 6 u 8 dígitos; este tiene {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator no puede generar códigos de Steam Guard.',
 
   // --- Escanear con la cámara ---------------------------------------------------
   'scan.progressBatch': 'Código {seen} de {total} escaneado: {accounts}. Muestra el siguiente código.',
@@ -430,9 +469,18 @@ export const es: Dictionary = {
   // --- Una nueva clave de recuperación ------------------------------------------
   'sheet.once':
     'Es la única vez que se muestra esta clave. No se guarda en ningún sitio: si la pierdes, crea una nueva.',
+  'sheet.print': 'Imprimir',
+  'sheet.apart': 'Guárdala lejos de tu correo y nunca te la envíes por correo: con esta clave y tu dirección de correo, alguien puede poner una contraseña nueva y abrir tus códigos.',
+  'sheet.apartProvider': 'Guárdala lejos de la cuenta de Google o GitHub con la que inicias sesión, y nunca la dejes en el correo ni en el almacenamiento de esa cuenta: con esta clave y esa cuenta, alguien puede abrir tus códigos.',
+  'sheet.kept': 'Ya la he guardado',
+  'sheet.checkHeading': 'Comprueba que la guardaste',
+  'sheet.checkLead': 'Escribe dos grupos de la clave a partir de lo que guardaste. Los grupos son los bloques de cuatro entre los guiones, contados desde la izquierda.',
+  'sheet.group': 'Grupo {position}',
+  'sheet.check': 'Comprobar',
+  'sheet.mismatch': 'Eso no es lo que dice tu clave. Vuelve a mirar lo que guardaste, o muestra la clave otra vez y guárdala ahora.',
+  'sheet.showAgain': 'Mostrar la clave otra vez',
   'sheet.download': 'Descargar la hoja',
   'sheet.copy': 'Copiar',
-  'sheet.saved': 'La he guardado en un lugar que seguiré teniendo aunque pierda este equipo.',
 
   // --- Grupos -------------------------------------------------------------------
   'groups.title': 'Grupos',
@@ -499,6 +547,7 @@ export const es: Dictionary = {
   'accounts.digits': '{type} {digits} dígitos',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · contador {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Compartir o mover {name}',
   'accounts.edit': 'Editar',
   'common.delete': 'Eliminar',
@@ -638,6 +687,7 @@ export const es: Dictionary = {
   'export.oneByOne.progress': 'Cuentas mostradas',
   'export.oneByOne.position': 'Cuenta {index} de {total}',
   'export.oneByOne.keys': '→ o Espacio para la siguiente, Esc para parar',
+  'export.steamRefused': '{app} no puede generar códigos de Steam Guard, así que no aceptará esta cuenta.',
   'export.print.label': 'Códigos QR para imprimir o escanear',
   'export.print.title': 'Keyrook Authenticator: códigos de configuración',
   'export.print.body':
@@ -718,11 +768,11 @@ export const es: Dictionary = {
   // --- Ajustes: clave de recuperación -------------------------------------------
   'kit.title': 'Clave de recuperación',
   'kit.provider':
-    'Tu cuenta no tiene contraseña. Una clave de recuperación es la forma de volver si se pierden todos los navegadores con la sesión iniciada: deja entrar a un navegador nuevo en tu cuenta sin que otro tenga que aprobarlo. {provider} no puede hacerlo por ti.',
+    'Tu cuenta no tiene contraseña. Una clave de recuperación es la forma de volver si se pierden todos los dispositivos con la sesión iniciada: deja entrar a un dispositivo nuevo en tu cuenta sin que otro tenga que aprobarlo. {provider} no puede hacerlo por ti.',
   'kit.signedIn':
-    'Nadie puede restablecer tu contraseña, ni nosotros ni Google. Una clave de recuperación es la única forma de volver si la olvidas: abre esta bóveda, tus otros dispositivos y tu cuenta en uno nuevo.',
+    'Nadie puede restablecer tu contraseña por ti, ni siquiera nosotros. Una clave de recuperación es la única forma de volver si la olvidas: abre esta bóveda, tus otros dispositivos y tu cuenta en uno nuevo.',
   'kit.passphrase':
-    'Nadie puede restablecer tu contraseña maestra, ni nosotros ni Google. Eso es lo que impide que otros abran tu bóveda, y también por qué una clave de recuperación es la única forma de volver si la olvidas.',
+    'Nadie puede restablecer tu contraseña maestra, ni siquiera nosotros. Eso es lo que impide que otros abran tu bóveda, y también por qué una clave de recuperación es la única forma de volver si la olvidas.',
   'kit.device':
     'Esta bóveda se desbloquea con una clave que guarda tu navegador. Si esa clave desaparece (datos de navegación borrados, un perfil nuevo, una reinstalación), solo una clave de recuperación podrá abrirla.',
   'kit.none': 'Todavía no hay clave de recuperación',
@@ -737,19 +787,19 @@ export const es: Dictionary = {
   'kit.replacesSignedIn':
     'Crear una clave nueva hace que la anterior deje de funcionar, aquí y en tus otros dispositivos, así que puedes tirar una hoja impresa antigua en cuanto la hayas sustituido.',
   'kit.withoutProvider':
-    'Sin ella, perder todos los navegadores con la sesión iniciada en tu cuenta significa perder para siempre todas las cuentas de esta bóveda.',
+    'Sin ella, perder todos los dispositivos con la sesión iniciada en tu cuenta significa perder para siempre todas las cuentas de esta bóveda.',
   'kit.withoutPassword':
     'Sin ella, olvidar tu contraseña significa perder para siempre todas las cuentas de esta bóveda.',
   'kit.withoutDevice':
     'Sin ella, perder la clave que guarda este navegador significa perder para siempre todas las cuentas de esta bóveda.',
   'kit.noSupport': 'Ninguna solicitud de soporte puede deshacerlo.',
   'kit.removeProvider':
-    'Si la quitas, solo un navegador que ya tenga la sesión iniciada podrá dejar entrar a uno nuevo en tu cuenta.',
+    'Si la quitas, solo un dispositivo que ya tenga la sesión iniciada podrá dejar entrar a uno nuevo en tu cuenta.',
   'kit.removePassword': 'Si la quitas, tu contraseña será la única forma de entrar.',
   'kit.removePasswordSignedIn':
     'Si la quitas, tu contraseña será la única forma de entrar: en este dispositivo, en tus otros dispositivos y en tu cuenta.',
   'kit.reauth':
-    'Una clave de recuperación puede dejar entrar a un navegador en tu cuenta, así que {provider} te pide que inicies sesión una vez más antes.',
+    'Una clave de recuperación puede dejar entrar a un dispositivo en tu cuenta, así que {provider} te pide que inicies sesión una vez más antes.',
   'kit.passwordHint': 'Una clave de recuperación puede restablecer tu cuenta, así que cambiarla requiere tu contraseña.',
   'kit.removeConfirm': 'Quitar la clave de recuperación',
   'kit.createConfirm': 'Crear la clave',
@@ -779,7 +829,7 @@ export const es: Dictionary = {
   'account.syncNow': 'Sincronizar ahora',
   'account.signOut': 'Cerrar sesión',
   'account.noKitProvider':
-    'Tu cuenta no tiene clave de recuperación. Si se pierden todos los navegadores con la sesión iniciada, nada podrá recuperar tus cuentas, ni nosotros ni {provider}.',
+    'Tu cuenta no tiene clave de recuperación. Si se pierden todos los dispositivos con la sesión iniciada, nada podrá recuperar tus cuentas, ni nosotros ni {provider}.',
   'account.noKit':
     'Tu cuenta no tiene clave de recuperación. Si olvidas tu contraseña y pierdes este dispositivo, nada podrá recuperar tus cuentas, ni nosotros ni nadie.',
   'account.createUnderSecurity': 'Créala en Seguridad',
@@ -802,11 +852,34 @@ export const es: Dictionary = {
   'accountPage.bodyNoRoot': 'Su contraseña y eliminarla están en la página de la cuenta. Su clave de recuperación se crea aquí, en Seguridad, hasta que otra app de Keyrook use la cuenta.',
   'accountPage.bodyProvider': 'Su clave de recuperación, empezar de cero y eliminarla están en la página de la cuenta, para todas las apps de Keyrook a la vez.',
   'accountPage.bodyNoRootProvider': 'Eliminarla está en la página de la cuenta. Su clave de recuperación se crea aquí, en Seguridad, hasta que otra app de Keyrook use la cuenta.',
+  'sheetCheck.lead': 'Escribe una vez la clave de recuperación que guardaste, para que esta app sepa que puede recuperar tus códigos. Se comprueba en este dispositivo y no se envía a ningún sitio.',
+  'sheetCheck.submit': 'Comprobarla',
+  'sheetCheck.lost': '¿La perdiste o nunca tuviste una? Crea una nueva en la página de la cuenta.',
+  'accountPage.noSheetYet': 'Nada indica todavía que tu clave de recuperación proteja Keyrook Authenticator. Sin ella, una contraseña olvidada puede costarte tus códigos. Escríbela una vez en Seguridad, o crea una nueva en la página de la cuenta.',
+  'account.checkUnderSecurity': 'Comprobarla en Seguridad',
   'accountPage.open': 'Abrir la página de la cuenta',
   'accountPage.recoveryKey': 'La clave de recuperación de una bóveda con sesión iniciada es la de la cuenta de Keyrook. Se crea y se cambia en la página de la cuenta.',
   'accountPage.sheetProtects': 'La clave de recuperación de la cuenta protege Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Aún no se sabe si protege Keyrook Authenticator',
-  'accountPage.noSheet': 'Nada indica todavía que la clave de recuperación de esta cuenta proteja Keyrook Authenticator. Si olvidas la contraseña sin ella, puedes perder tus códigos. Crea una, o comprueba la tuya, en la página de la cuenta.',
+  'secondStep.title': 'Un paso más',
+  'secondStep.lead': 'Tu cuenta de Keyrook pide un segundo paso. Introduce el código de 6 dígitos que muestra para ella tu app de autenticación.',
+  'secondStep.field': 'Código o clave de recuperación',
+  'secondStep.hint': '¿Perdiste esa app? Introduce en su lugar la clave de recuperación de tu cuenta.',
+  'secondStep.passkey': 'Usar una llave de acceso',
+  'secondStep.where': 'El inicio de sesión en dos pasos se activa y desactiva en account.keyrook.com.',
+  'secondStep.ownerLead': 'Tu cuenta también pide un segundo paso para esto: el código de tu app de autenticación o tu clave de recuperación.',
+  'secondStep.nextCode': 'Cada código sirve una sola vez. Si acabas de iniciar sesión con uno, espera a que tu app muestre el siguiente.',
+  'secondStepTip.title': 'Inicio de sesión en dos pasos',
+  'secondStepTip.suggest': 'Pide también un código cada vez que esta cuenta inicie sesión en otro dispositivo. Actívalo en account.keyrook.com y guarda el código aquí: en esa página, abre Keyrook Authenticator y elige «{scan}».',
+  'secondStepTip.kept': 'El código de inicio de sesión de esta misma cuenta se guarda aquí, en cada dispositivo con la sesión iniciada.',
+  'secondStepTip.warning': 'Si pierdes todos los dispositivos que lo guardan, inicia sesión con tu clave de recuperación en lugar del código. Guarda la clave de recuperación en otro lugar.',
+  'secondStepTip.open': 'Activarlo',
+  'signin.providerHasPassword': '{provider} confirmó que eres tú, y {email} también tiene contraseña. Introdúcela para abrir aquí tus códigos.',
+  'provider.addOnPage': 'Para iniciar sesión también con Google o GitHub, inicia sesión en la página de la cuenta con tu contraseña y añádelo allí.',
+  'startOver.title': 'Tu cuenta de Keyrook se reiniciará el {date}',
+  'startOver.lead': 'Alguien en «{device}» lo pidió el {date}, con el código que te enviamos por correo: una contraseña nueva y claves nuevas, y tus apps empezarían vacías.',
+  'startOver.ifYou': 'Si fuiste tú, no tienes que hacer nada. Si no, cancélalo ahora y después cambia la contraseña de tu correo: quien lo pidió puede leer tu correo.',
+  'startOver.cancel': 'No fui yo — cancelar',
   'kept.title': 'Guardado de antes de que la cuenta empezara de cero',
   'kept.body': 'Cuando esta cuenta empezó de cero, lo que Keyrook Authenticator tenía en ella se guardó hasta el {date}. Recupéralo con la contraseña que tenía entonces la cuenta, o con su clave de recuperación de entonces.',
   'kept.password': 'Contraseña de entonces',
@@ -814,7 +887,7 @@ export const es: Dictionary = {
   'kept.usePassword': 'Usar la contraseña de entonces',
   'kept.useRecoveryKey': 'Usar la clave de recuperación de entonces',
   'kept.bring': 'Recuperarlo',
-  'kept.done': 'Ya está de vuelta en esta bóveda y en camino a tus otros navegadores.',
+  'kept.done': 'Ya está de vuelta en esta bóveda y en camino a tus otros dispositivos.',
   'error.keys.awaitingConfirmation': 'Otra app de Keyrook reemplazó las claves de esta cuenta, y la de Keyrook Authenticator aún no se ha actualizado. Abre la página de la cuenta para comprobarlas y vuelve a iniciar sesión.',
   'password.changedBoth':
     'Contraseña cambiada, para tu cuenta y esta bóveda. Tus otros dispositivos te pedirán que vuelvas a iniciar sesión con ella.',
@@ -828,9 +901,12 @@ export const es: Dictionary = {
   'password.formTitle': 'Cambiar la contraseña de tu cuenta',
   'devices.title': 'Dispositivos con sesión iniciada',
   'devices.description':
-    'Cierra la sesión de un dispositivo que ya no usas o que ya no tienes. Conserva lo que ya había sincronizado, tras la misma contraseña, pero no recibe nada nuevo.',
+    'Cierra la sesión de un dispositivo que ya no usas o que ya no tienes. Si usa un Keyrook Authenticator actualizado, la próxima vez que se conecte quitará de sí mismo los códigos de esta cuenta y solo conservará lo que nunca envió. Hasta entonces, o si nunca vuelve a conectarse, conserva lo que tenía, tras la misma contraseña.',
+  'devices.descriptionProvider':
+    'Cierra la sesión de un dispositivo que ya no usas o que ya no tienes. Si usa un Keyrook Authenticator actualizado, la próxima vez que se conecte quitará de sí mismo los códigos de esta cuenta y solo conservará lo que nunca envió. Hasta entonces, o si nunca vuelve a conectarse, conserva lo que tenía, bloqueado como esté bloqueada su bóveda en ese dispositivo.',
   'devices.this': 'Este dispositivo',
   'devices.when': 'Sesión iniciada el {created} · última actividad {seen}',
+  'removed.kept': 'Los códigos añadidos o cambiados aquí que no habían llegado a la cuenta siguen aquí.',
   'delete.row': 'Eliminar tu cuenta',
   'delete.rowDescription':
     'Quita todas las copias cifradas que guarda el servidor. Este dispositivo conserva su bóveda tal cual; los demás dispositivos dejan de sincronizarse.',
@@ -841,7 +917,7 @@ export const es: Dictionary = {
   'delete.confirm': 'Eliminar la cuenta',
 
   // --- Iniciar sesión: la primera tarjeta ---------------------------------------
-  'intro.benefit1': 'Los mismos códigos en cada navegador en el que inicies sesión.',
+  'intro.benefit1': 'Los mismos códigos en cada dispositivo en el que inicies sesión.',
   'intro.benefit2': 'Un portátil perdido o roto no es una bóveda perdida.',
   'intro.benefit3': 'Gratis y opcional: todo sigue funcionando en este dispositivo sin ella.',
   'intro.title': 'Sincroniza tu bóveda',
@@ -905,9 +981,9 @@ export const es: Dictionary = {
     'Tu cuenta está lista. {done} de {total} cuentas tienen copia por ahora; el resto llegará en la próxima sincronización.',
   'fresh.title': 'Guarda tu clave de recuperación',
   'fresh.provider':
-    'Si se pierden todos los navegadores con la sesión iniciada en tu cuenta, esta clave es la única forma de volver: {provider} no puede restaurar tu bóveda, y nosotros tampoco.',
+    'Si se pierden todos los dispositivos con la sesión iniciada en tu cuenta, esta clave es la única forma de volver: {provider} no puede restaurar tu bóveda, y nosotros tampoco.',
   'fresh.password':
-    'Si olvidas tu contraseña, esta clave es la única forma de volver: nadie puede restablecerla por ti, ni nosotros ni Google.',
+    'Si olvidas tu contraseña, esta clave es la única forma de volver: nadie puede restablecerla por ti, ni siquiera nosotros.',
   'welcome.fromAccount': '{count} de tu cuenta',
   'welcome.fromDevice': '{count} añadidas desde este dispositivo',
   'welcome.inSync': 'Ya está sincronizado.',
@@ -932,44 +1008,51 @@ export const es: Dictionary = {
   'provider.finishInWindow': 'Termina en la ventana de {provider} que se ha abierto.',
   'provider.confirmed': '{provider} ha confirmado <b>{email}</b>. Ninguna cuenta la usa todavía.',
   'provider.point1':
-    'Sin contraseña. En un navegador nuevo continúas con {provider}, y un navegador con la sesión ya iniciada lo deja entrar después de que compruebes que ambos muestran el mismo código.',
+    'Sin contraseña. En un dispositivo nuevo continúas con {provider}, y un dispositivo con la sesión ya iniciada lo deja entrar después de que compruebes que ambos muestran el mismo código.',
   'provider.point2':
-    '{provider} demuestra que eres tú. Nunca ve tus códigos: se cifran aquí, con una clave que se queda en tus navegadores.',
+    '{provider} demuestra que eres tú. Nunca ve tus códigos: se cifran aquí, con una clave que se queda en tus dispositivos.',
   'provider.point3':
-    'Después guardas una clave de recuperación: la forma de volver si se pierden todos los navegadores con la sesión iniciada en la cuenta. {provider} no puede restaurar tu bóveda.',
+    'Después guardas una clave de recuperación: la forma de volver si se pierden todos los dispositivos con la sesión iniciada en la cuenta. {provider} no puede restaurar tu bóveda.',
   'provider.notRight': '¿No es la cuenta correcta?',
   'provider.startAgain': 'Empezar de nuevo',
+  'passkey.continue': 'Continuar con una llave de acceso',
+  'passkey.where':
+    'Una que añadiste en <link>la página de la cuenta</link>, en «Llaves de acceso». La primera vez, Chrome te pide que dejes que Keyrook Authenticator la use.',
   'pairing.codeLabel': 'Código {code}',
   'join.title': 'Deja entrar a este navegador',
   'join.subtitle':
-    '<b>{email}</b> ya tiene una cuenta. Aprueba este navegador desde uno que tenga la sesión iniciada en ella.',
+    '<b>{email}</b> ya tiene una cuenta. Aprueba este navegador desde un dispositivo que tenga la sesión iniciada en ella.',
   'join.masterPassword': 'Contraseña maestra de esta bóveda',
   'join.masterHint': 'Sigue bloqueando esta bóveda aquí; la cuenta en sí no tiene contraseña.',
   'join.ask': 'Pedir unirse',
   'join.step1':
-    'En un navegador con la sesión ya iniciada, abre Keyrook Authenticator. La solicitud aparece allí: en la ventana de la extensión y en Ajustes, en Sincronización.',
+    'En un dispositivo con la sesión ya iniciada, abre Keyrook Authenticator. La solicitud aparece allí: encima de los códigos y en Ajustes, en Sincronización.',
   'join.step2': 'Comprueba que muestra el mismo código que esta página y apruébala.',
   'join.askAgain': 'Volver a pedirlo',
-  'join.compare': 'El otro navegador también muestra un código. Aprueba allí solo si es exactamente este.',
-  'join.waiting': 'Esperando a otro navegador…',
-  'join.noOther': '¿No te queda otro navegador?',
+  'join.compare': 'El otro dispositivo también muestra un código. Aprueba allí solo si es exactamente este.',
+  'join.waiting': 'Esperando a otro dispositivo…',
+  'join.noOther': '¿No te queda otro dispositivo?',
   'join.useKey': 'Usa tu clave de recuperación',
   'join.wrongAccount': '¿Has iniciado sesión en {provider} con la cuenta equivocada?',
   'joinKey.subtitle':
-    'La clave que guardaste al crear la cuenta. Deja entrar a este navegador sin necesidad de otro.',
+    'La clave que guardaste al crear la cuenta. Deja entrar a este navegador sin necesidad de otro dispositivo.',
   'joinKey.submit': 'Unirse a la cuenta',
-  'approve.approved': 'Aprobado. El otro navegador abrirá tu bóveda en un momento.',
+  'approve.approved': 'Aprobado. El otro dispositivo abrirá tu bóveda en un momento.',
   'approve.mismatch':
     'Rechazado. Si no estabas iniciando sesión tú mismo justo ahora, otra persona puede entrar en tu cuenta de {provider}: cambia su contraseña y revisa su configuración de seguridad.',
   'approve.declined': 'Rechazado. No se ha enviado nada.',
-  'approve.title': 'Navegadores que piden unirse',
+  'approve.title': 'Dispositivos que piden unirse',
   'approve.description':
-    'Cada solicitud viene de alguien que acaba de iniciar sesión con tu cuenta de {provider}. Aprueba solo un navegador en el que estés iniciando sesión tú mismo, ahora mismo.',
+    'Cada solicitud viene de alguien que acaba de iniciar sesión con tu cuenta de {provider}. Aprueba solo un dispositivo en el que estés iniciando sesión tú mismo, ahora mismo.',
+  'approve.descriptionAny':
+    'Cada solicitud viene de alguien que acaba de iniciar sesión con tu cuenta de Google o GitHub. Aprueba solo un dispositivo en el que estés iniciando sesión tú mismo, ahora mismo.',
+  'approve.mismatchAny':
+    'Rechazado. Si no estabas iniciando sesión tú mismo justo ahora, otra persona puede entrar en tu cuenta de Google o GitHub: cambia su contraseña y revisa su configuración de seguridad.',
   'approve.askedAt': 'Pedido a las {time}',
   'approve.review': 'Revisar',
   'approve.deny': 'Rechazar',
   'approve.question':
-    '¿El navegador que lo pide muestra exactamente este código? Si no, otra persona está intentando entrar.',
+    '¿El dispositivo que lo pide muestra exactamente este código? Si no, otra persona está intentando entrar.',
   'approve.matches': 'Coincide: dejarlo entrar',
   'approve.doesNotMatch': 'No coincide',
 
@@ -983,7 +1066,7 @@ export const es: Dictionary = {
   'nav.general': 'General',
   'nav.needsAttention': 'Requiere atención',
   'sync.description':
-    'Los mismos códigos en cada navegador en el que inicies sesión, cifrados aquí antes de salir.',
+    'Los mismos códigos en cada dispositivo en el que inicies sesión, cifrados aquí antes de salir.',
   'backup.description': 'Guarda una copia cifrada, importa cuentas o llévalas a otra app.',
   'backup.choice.backup.title': 'Hacer copia',
   'backup.choice.backup.body': 'Un archivo cifrado, protegido con la contraseña que elijas.',
@@ -1001,16 +1084,16 @@ export const es: Dictionary = {
     'Al abrir la ventana en una página de inicio de sesión, ofrece el código correcto. Solo se lee esa pestaña.',
   'vault.signInToSync': 'Inicia sesión para sincronizar',
   'vault.empty.signIn':
-    '¿Usas Keyrook Authenticator en otro navegador? <link>Inicia sesión</link> para traer tus códigos aquí.',
+    '¿Usas Keyrook Authenticator en otro dispositivo? <link>Inicia sesión</link> para traer tus códigos aquí.',
   'setup.haveAccount': '¿Ya usas Keyrook Authenticator? <link>Inicia sesión</link> para traer tus códigos aquí.',
   'popup.signInOpensTab': 'Se abre en una pestaña nueva y termina en Ajustes.',
   'error.backupWrongPassword': 'Esa contraseña no abre este archivo.',
-  'error.foreign.steam': 'Todavía no se pueden importar códigos de Steam Guard.',
+  'error.foreign.steamFolder': 'Elige a la vez todos los archivos de la carpeta maFiles de Steam Desktop Authenticator: manifest.json y los archivos .maFile que hay a su lado.',
   'error.foreign.locked':
     'Esta exportación está bloqueada con una contraseña que Keyrook Authenticator no puede abrir. Vuelve a exportar sin contraseña.',
   'import.lockedFrom': '{app} bloqueó esta exportación con una contraseña. Escribe la que pusiste allí.',
   'import.fromApps':
-    'También sirven las exportaciones de Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, la extensión Authenticator y Google Authenticator, y un CSV de Contraseñas de Apple, 1Password u otro gestor.',
+    'También sirven las exportaciones de Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, la extensión Authenticator y Google Authenticator, y un CSV de Contraseñas de Apple, 1Password u otro gestor.',
   'shortcut.open': 'Abrir Keyrook Authenticator',
   'shortcut.fill': 'Rellenar el código de esta página',
   'shortcut.fillHint':
@@ -1020,4 +1103,64 @@ export const es: Dictionary = {
   'import.csvWarning':
     'Este archivo contiene tus contraseñas sin cifrar. Solo se leyeron las claves de doble factor y no se guarda nada más: borra el archivo cuando termines.',
   'import.noKeysInCsv': 'Ese archivo no tiene claves de doble factor, solo contraseñas.',
+  'crash.title': 'Algo salió mal',
+  'crash.body':
+    'Esta pantalla tuvo un problema y se detuvo. Tus cuentas guardadas no se ven afectadas. Volver a cargarla suele arreglarlo.',
+  'crash.reload': 'Volver a cargar',
+  'setup.device.description.phone':
+    'Tus secretos se cifran con una clave que este teléfono guarda por ti. Nada que recordar, nada que escribir.',
+  'setup.device.footnote.phone':
+    'Protege frente a una copia de los archivos de la app. No frente a alguien que pueda desbloquear este teléfono.',
+  'setup.password.footnote.phone':
+    'La opción más segura: una vez bloqueada, nada en este teléfono puede abrir la bóveda sin la contraseña.',
+  'unrecoverable.why.phone':
+    'Su clave de cifrado la guardaba este teléfono y ha desaparecido; normalmente porque se borraron los datos de la app, se reinstaló la app o la bóveda viene de la copia de seguridad de otro teléfono. Sin esa clave, nadie puede descifrar las cuentas guardadas, ni siquiera nosotros.',
+  'vault.empty.body.phone':
+    'Cuando un sitio muestre un código QR para configurar la verificación en dos pasos, escanéalo con la cámara de este teléfono.',
+  'add.camera.description.phone':
+    'Para un código en otra pantalla, incluida una exportación de Google Authenticator.',
+  'add.fromGoogle.phone':
+    '¿Vienes de Google Authenticator en otro teléfono? Exporta allí tus cuentas y luego escanea el código que muestra con la cámara de este teléfono. Si muestra varios, hazlos uno a uno.',
+  'camera.noCamera.phone': 'Este teléfono no da acceso a una cámara a la app.',
+  'camera.blocked.phone':
+    'La app no tiene permiso para usar la cámara. Permítelo en los ajustes del teléfono o usa otra forma de añadir una cuenta.',
+  'camera.none.phone': 'No se encontró ninguna cámara en este teléfono.',
+  'security.languageBrowser.phone': 'Idioma del teléfono ({language})',
+  'protect.removeWarning.phone':
+    'La bóveda sigue cifrada, pero se desbloqueará sola cada vez que se abra la app. Cualquiera que pueda desbloquear este teléfono podrá ver tus códigos.',
+  'kit.device.phone':
+    'Esta bóveda se desbloquea con una clave que guarda tu teléfono. Si esa clave desaparece (datos de la app borrados, una reinstalación, un teléfono nuevo), solo una clave de recuperación podrá abrirla.',
+  'kit.withoutDevice.phone':
+    'Sin ella, perder la clave que guarda este teléfono significa perder para siempre todas las cuentas de esta bóveda.',
+  'security.description.phone': 'Cómo se abre esta bóveda y cómo volver a entrar si pierdes este teléfono.',
+  'security.deviceKeyHint.phone':
+    'Nada que escribir. Cualquiera que pueda desbloquear este teléfono puede abrirla.',
+  'general.description.phone': 'Cómo se ve y se comporta la app, y de dónde viene.',
+  'about.securityModelDescription.phone': 'Lo que garantiza la app, y lo que no.',
+  'about.logos.description.phone':
+    'Los logotipos van incluidos en la app y nunca se descargan. Pedir un logotipo a la red le diría a quien responda en qué servicios usas la verificación en dos pasos.',
+  'about.fact.access.title.phone': 'Solo la cámara, y solo para escanear',
+  'about.fact.access.body.phone':
+    'La app no pide ningún permiso salvo la cámara, y solo cuando eliges escanear un código. Lo que ve la cámara nunca sale del teléfono.',
+  'about.fact.keys.body.phone':
+    'Tus cuentas se cifran con una clave de datos que a su vez está envuelta. Con contraseña maestra, la clave de envoltura sale de PBKDF2 con 600.000 iteraciones y solo existe en memoria mientras está desbloqueada. Sin ella, es una clave sellada por el almacén de claves del propio teléfono, así que una copia de los archivos de la app no puede abrir la bóveda.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Un código grande, como una exportación de Google Authenticator, a menudo no se escanea aquí con la cámara. Si el tuyo no lo hace, hazle una foto con la app de cámara del teléfono y usa «Subir una imagen QR».',
+  'import.noNativeReader.phone':
+    'Un código grande, como una exportación de Google Authenticator, a menudo no se escanea aquí con la cámara. Si el tuyo no lo hace, haz una foto de cada código con la app de cámara del teléfono y elígelas todas con «Elegir archivos».',
+  'error.signOutUnsynced.phone':
+    'Algunos cambios de este teléfono aún no han llegado a tu cuenta, y cerrar sesión ahora los perdería. Conéctate a internet y vuelve a intentarlo.',
+  'account.signOutNote.phone':
+    'Cerrar sesión quita tus códigos de este teléfono. Se quedan en tu cuenta de Keyrook: vuelve a iniciar sesión para recuperarlos.',
+  'secondStepTip.suggest.phone':
+    'Pide también un código cada vez que esta cuenta inicie sesión en otro dispositivo. Actívalo en account.keyrook.com y guarda el código aquí: añade una cuenta en esta app y escanea el código QR que muestra esa página.',
+  'intro.benefit2.phone': 'Un teléfono perdido o roto no es una bóveda perdida.',
+  'provider.finishInWindow.phone': 'Termina en la página de {provider} que se ha abierto en tu navegador.',
+  'join.title.phone': 'Deja entrar a este teléfono',
+  'join.subtitle.phone':
+    '<b>{email}</b> ya tiene una cuenta. Aprueba este teléfono desde un dispositivo que tenga la sesión iniciada en ella.',
+  'joinKey.subtitle.phone':
+    'La clave que guardaste al crear la cuenta. Deja entrar a este teléfono sin necesidad de otro dispositivo.',
+  'facts.autofill.phone': 'Escanear QR',
 };

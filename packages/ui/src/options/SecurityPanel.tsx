@@ -1,20 +1,28 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import {
+  fromBase64,
+  newPasskeyUnlockInput,
+  toBase64,
   accountPasswordProblem,
+  isWellFormedRecoveryKey,
   scorePassword,
+  type PasskeyUnlockKind,
   type ProtectionMode,
   type SignInProvider,
   type VaultData,
 } from '@authx/core';
+import { host } from '../host.js';
 import { BackgroundError, send, type Mutate } from '../lib/protocol.js';
 import { Button, Callout, Field, Spinner } from '../components/primitives.js';
 import { RecoveryKeySheet } from './RecoveryKeySheet.js';
 import { PageHeader, Row, Section, Select, StateDot, Toggle } from './Section.js';
 import { AccountPageLink, sheetProtects } from './AccountPanel.js';
 import { providerLabel } from './ProviderSignIn.js';
+import { answerOf } from './SecondStep.js';
 import { errorText } from '../i18n/error-text.js';
 import { useT } from '../i18n/react.js';
 import { localise } from '../i18n/error-text.js';
+import type { MessageKey } from '../i18n/locales/en.js';
 
 export function SecurityPanel({
   data,
@@ -24,6 +32,7 @@ export function SecurityPanel({
   hasRecovery,
   signedIn,
   accountRecovery,
+  passkeys,
 }: {
   data: VaultData;
   mutate: Mutate;
@@ -32,6 +41,8 @@ export function SecurityPanel({
   hasRecovery: boolean;
   signedIn: boolean;
   accountRecovery: boolean;
+  /** The vault also opens with the computer's own check, a security key, or both. */
+  passkeys: Record<PasskeyUnlockKind, boolean>;
 }) {
   const t = useT();
   const { settings } = data;
@@ -72,7 +83,11 @@ export function SecurityPanel({
       <Section title={t('security.locking')}>
         {/* A Google or GitHub account has no password, so this vault's master
             password is its own: chosen, changed and removed like a local one. */}
-        <ProtectionRow mode={protectionMode} signedIn={signedIn && !provider} />
+        <ProtectionRow mode={protectionMode} signedIn={signedIn && data.account.method !== 'provider'} />
+        {/* Shown before there is a password too, waiting for one: otherwise
+            nothing here says a fingerprint or a security key could open it. */}
+        <PasskeyUnlockRow kind="platform" on={passkeys.platform} needsPassword={!passwordProtected} />
+        <PasskeyUnlockRow kind="securityKey" on={passkeys.securityKey} needsPassword={!passwordProtected} />
         <Row
           label={t('security.lockAfter')}
           description={
@@ -115,6 +130,166 @@ export function SecurityPanel({
       {!recoveryFirst && recovery}
       <DangerZone onReset={refresh} />
     </>
+  );
+}
+
+/** What each kind's row says: the computer's own check, or a security key. */
+const PASSKEY_COPY: Record<PasskeyUnlockKind, { title: MessageKey; body: MessageKey; on: MessageKey; confirm: MessageKey }> = {
+  platform: {
+    title: 'platformUnlock.title',
+    body: 'platformUnlock.body',
+    on: 'platformUnlock.on',
+    confirm: 'platformUnlock.confirm',
+  },
+  securityKey: {
+    title: 'securityKey.title',
+    body: 'securityKey.body',
+    on: 'securityKey.on',
+    confirm: 'securityKey.confirm',
+  },
+};
+
+/**
+ * Touch ID, Windows Hello and the like, or a security key, as a second way in
+ * to a password vault (core's vault/passkey-unlock.ts). Each kind is a row of
+ * its own, turned on and off apart from the other. Turning one on asks the
+ * password — someone at an unlocked vault must not add a way in of their own —
+ * and turning it off asks nothing, since it only takes one away.
+ */
+function PasskeyUnlockRow({ kind, on, needsPassword }: { kind: PasskeyUnlockKind; on: boolean; needsPassword: boolean }) {
+  const t = useT();
+  const copy = PASSKEY_COPY[kind];
+  const device = host().passkeyUnlock;
+  const [available, setAvailable] = useState(false);
+  const [asking, setAsking] = useState(false);
+  const [password, setPassword] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    void device?.available(kind).then(setAvailable);
+  }, [device, kind]);
+  // Shown where it can be offered, and wherever it is on, so it can always be
+  // turned off. A security key always can be: whether one is at hand is
+  // known only by asking.
+  if (!device || (!available && !on)) return null;
+
+  // Nothing to turn on yet: the passkey's answer wraps the key the password
+  // protects, and a vault without one has nothing locked to open.
+  if (needsPassword) {
+    return (
+      <Row
+        label={t(copy.title)}
+        name={t(copy.title)}
+        description={t(copy.body)}
+        control={<span className="text-[12.5px] text-neutral-400 dark:text-neutral-500">{t('security.needsPassword')}</span>}
+      />
+    );
+  }
+
+  async function turnOn(event: FormEvent) {
+    event.preventDefault();
+    if (!password || busy || !device) return;
+    setBusy(true);
+    setError(null);
+    try {
+      // The password first: a wrong one leaves no passkey on the device.
+      await send({ type: 'vault/confirmPassword', password });
+      const prfInput = newPasskeyUnlockInput();
+      const made = await device.create(kind, fromBase64(prfInput));
+      let replaced: { credentialId: string } | null;
+      try {
+        replaced = await send({
+          type: 'vault/enablePasskeyUnlock',
+          kind,
+          password,
+          credentialId: made.credentialId,
+          prfInput,
+          prf: toBase64(made.prf),
+        });
+      } catch (cause) {
+        await device.forget(made.credentialId);
+        throw cause;
+      }
+      if (replaced) await device.forget(replaced.credentialId);
+      setAsking(false);
+      setPassword('');
+    } catch (cause) {
+      setError(errorText(cause));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function turnOff() {
+    setBusy(true);
+    setError(null);
+    try {
+      const removed = await send({ type: 'vault/disablePasskeyUnlock', kind });
+      if (removed) await device?.forget(removed.credentialId);
+    } catch (cause) {
+      setError(errorText(cause));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Row
+      label={
+        <span className="flex items-center">
+          <StateDot good={on} />
+          {t(copy.title)}
+        </span>
+      }
+      name={t(copy.title)}
+      description={on ? t(copy.on) : t(copy.body)}
+      control={
+        on ? (
+          <Button size="sm" disabled={busy} onClick={() => void turnOff()}>
+            {t('passkeyUnlock.turnOff')}
+          </Button>
+        ) : (
+          !asking && (
+            <Button size="sm" onClick={() => setAsking(true)}>
+              {t('passkeyUnlock.turnOn')}
+            </Button>
+          )
+        )
+      }
+    >
+      {(error || (asking && !on)) && (
+        <div className="flex flex-col gap-4">
+          {error && <Callout tone="danger">{error}</Callout>}
+          {asking && !on && (
+            <form onSubmit={turnOn} className="flex flex-col gap-4">
+              <Field
+                label={t('unlock.placeholder')}
+                type="password"
+                autoComplete="current-password"
+                autoFocus
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                hint={t(copy.confirm)}
+              />
+              <div className="flex gap-2">
+                <Button type="submit" variant="primary" disabled={!password || busy}>
+                  {busy ? <Spinner /> : null} {t('passkeyUnlock.turnOn')}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setAsking(false);
+                    setPassword('');
+                    setError(null);
+                  }}
+                >
+                  {t('common.cancel')}
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
+      )}
+    </Row>
   );
 }
 
@@ -385,6 +560,28 @@ function DangerZone({ onReset }: { onReset: () => Promise<void> }) {
 /** The recovery key of an account with a root, which lives on the account page. */
 function AccountRecoverySection({ protects }: { protects: boolean }) {
   const t = useT();
+  const [recoveryKey, setRecoveryKey] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Typed here once, the key records itself as protecting this app. The
+  // account page cannot record it — the mark is sealed under this app's key —
+  // so an account made there, or by another app, reads "not known" until it is.
+  async function check(event: React.FormEvent) {
+    event.preventDefault();
+    if (busy || !isWellFormedRecoveryKey(recoveryKey)) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await send({ type: 'account/confirmRecoveryKey', recoveryKey });
+      setRecoveryKey('');
+    } catch (cause) {
+      setError(errorText(cause));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <Section title={t('kit.title')} description={t('accountPage.recoveryKey')}>
       <Row
@@ -394,8 +591,30 @@ function AccountRecoverySection({ protects }: { protects: boolean }) {
             {protects ? t('accountPage.sheetProtects') : t('accountPage.sheetUnknown')}
           </span>
         }
-        control={<AccountPageLink>{t('accountPage.open')}</AccountPageLink>}
-      />
+        control={<AccountPageLink view="recovery">{t('accountPage.open')}</AccountPageLink>}
+      >
+        {!protects && (
+          <form onSubmit={check} className="flex flex-col gap-3">
+            <p className="text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">{t('sheetCheck.lead')}</p>
+            <Field
+              label={t('recover.keyLabel')}
+              autoComplete="off"
+              spellCheck={false}
+              placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"
+              value={recoveryKey}
+              onChange={(event) => setRecoveryKey(event.target.value)}
+              className="font-mono text-[13px] uppercase"
+              hint={recoveryKey && !isWellFormedRecoveryKey(recoveryKey) ? t('recoverAccount.keyHint') : t('sheetCheck.lost')}
+            />
+            {error && <Callout tone="danger">{error}</Callout>}
+            <div>
+              <Button type="submit" variant="primary" disabled={busy || !isWellFormedRecoveryKey(recoveryKey)}>
+                {busy ? <Spinner /> : null} {t('sheetCheck.submit')}
+              </Button>
+            </div>
+          </form>
+        )}
+      </Row>
     </Section>
   );
 }
@@ -434,10 +653,16 @@ function RecoverySection({
   // Another Keyrook app gave the account a root since this page opened: its
   // recovery key is the account page's now, and the refusal says where.
   const [onPage, setOnPage] = useState(false);
+  // The account has a second step, which a change to its kit asks for too:
+  // the code, or the recovery key in its place.
+  const [stepAsked, setStepAsked] = useState(false);
+  const [step, setStep] = useState('');
 
   function close() {
     setAsking(null);
     setPassword('');
+    setStepAsked(false);
+    setStep('');
   }
 
   async function run(action: () => Promise<void>) {
@@ -448,25 +673,29 @@ function RecoverySection({
       await action();
       close();
     } catch (cause) {
-      setError(errorText(cause));
-      setOnPage(cause instanceof BackgroundError && cause.key === 'error.kitOnAccountPage');
+      const key = cause instanceof BackgroundError ? cause.key : undefined;
+      if (key === 'error.secondStep.missing') setStepAsked(true);
+      else setError(errorText(cause));
+      setOnPage(key === 'error.kitOnAccountPage');
     } finally {
       setBusy(false);
     }
   }
 
+  const proof = () => ({
+    ...(signedIn && !reauth ? { password } : {}),
+    ...(stepAsked ? { secondStep: answerOf(step) } : {}),
+  });
+
   const issue = () =>
     run(async () => {
-      const { recoveryKey } = await send({
-        type: 'vault/createRecoveryKit',
-        ...(signedIn && !reauth ? { password } : {}),
-      });
+      const { recoveryKey } = await send({ type: 'vault/createRecoveryKit', ...proof() });
       setIssued(recoveryKey);
     });
 
   const remove = () =>
     run(async () => {
-      await send({ type: 'vault/removeRecoveryKit', ...(signedIn && !reauth ? { password } : {}) });
+      await send({ type: 'vault/removeRecoveryKit', ...proof() });
     });
 
   const ready = hasRecovery && (!signedIn || accountRecovery);
@@ -486,7 +715,11 @@ function RecoverySection({
     >
       {issued ? (
         <div className="p-4">
-          <RecoveryKeySheet recoveryKey={issued} onDone={() => setIssued(null)} />
+          <RecoveryKeySheet
+            recoveryKey={issued}
+            onDone={() => setIssued(null)}
+            apart={reauth ? 'provider' : signedIn ? 'password' : undefined}
+          />
         </div>
       ) : (
         <Row
@@ -525,7 +758,7 @@ function RecoverySection({
                   <p>{error}</p>
                   {onPage && (
                     <div className="mt-2">
-                      <AccountPageLink>{t('accountPage.open')}</AccountPageLink>
+                      <AccountPageLink view="recovery">{t('accountPage.open')}</AccountPageLink>
                     </div>
                   )}
                 </Callout>
@@ -583,11 +816,28 @@ function RecoverySection({
                       hint={t('kit.passwordHint')}
                     />
                   )}
+                  {stepAsked && (
+                    <Field
+                      label={t('secondStep.field')}
+                      hint={
+                        <>
+                          <span className="block">{t('secondStep.ownerLead')}</span>
+                          <span className="mt-1 block">{t('secondStep.nextCode')}</span>
+                        </>
+                      }
+                      autoComplete="one-time-code"
+                      autoFocus
+                      spellCheck={false}
+                      value={step}
+                      onChange={(event) => setStep(event.target.value)}
+                      className="font-mono text-[15px] tracking-wide"
+                    />
+                  )}
                   <div className="flex gap-2">
                     <Button
                       type="submit"
                       variant={asking === 'remove' ? 'danger' : 'primary'}
-                      disabled={busy || (signedIn && !reauth && password.length === 0)}
+                      disabled={busy || (signedIn && !reauth && password.length === 0) || (stepAsked && step.trim().length < 6)}
                     >
                       {busy ? <Spinner /> : null}
                       {asking === 'remove' ? t('kit.removeConfirm') : t('kit.createConfirm')}

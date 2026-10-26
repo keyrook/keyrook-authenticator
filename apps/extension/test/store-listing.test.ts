@@ -128,7 +128,7 @@ describe('the store listing', () => {
   // apps we import from and the sites we work with: a list of other
   // companies' names reads as search bait, however true each one is.
   it.skipIf(!existsSync(LISTINGS))('lists no other companies by name', () => {
-    const NAMES = /\b(Aegis|2FAS|andOTP|FreeOTP\+?|Ente Auth|Bitwarden|Proton|1Password|LastPass|Dashlane|KeePassXC|Authy|Microsoft|Amazon)\b/g;
+    const NAMES = /\b(Aegis|2FAS|andOTP|FreeOTP\+?|Ente Auth|Bitwarden|Proton|1Password|LastPass|Dashlane|KeePassXC|Steam Desktop Authenticator|Authy|Microsoft|Amazon)\b/g;
     const wrong = Object.keys(STORE_LOCALES).flatMap((code) => {
       const path = resolve(LISTINGS, `${code}.txt`);
       if (!existsSync(path)) return [];

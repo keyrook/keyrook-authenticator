@@ -8,7 +8,7 @@
  * and are never looked at, kept or passed on; a row with no key is someone's
  * password, not a two-factor account, and is left out without a word.
  */
-import { parseOtpUri } from '../otp/uri.js';
+import { parseOtpUri, parseSteamLink } from '../otp/uri.js';
 import type { ImportResult } from './backup.js';
 import { collect, nameOf, parsedFrom, siteOf, type ReadEntry } from './foreign.js';
 
@@ -107,7 +107,7 @@ export function readCsvExport(text: string): ImportResult | null {
         return { ...parsed, issuer: parsed.issuer || title, label: parsed.label || account, domains };
       }
       const value = cell(cells, code);
-      if (/^steam:\/\//i.test(value)) throw new Error('Steam Guard codes cannot be imported yet.');
+      if (/^steam:\/\//i.test(value)) return { ...parseSteamLink(value), issuer: title, label: account, domains };
       // A bare key: everything else at the defaults nearly every service uses.
       return { ...parsedFrom({ type: 'totp', secret: value, issuer: title, label: account }), domains };
     },

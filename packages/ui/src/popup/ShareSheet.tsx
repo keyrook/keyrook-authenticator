@@ -3,11 +3,13 @@ import { BrandMark } from '../components/BrandMark.js';
 import { ArrowLeftIcon } from '../components/icons.js';
 import { ShareOrMove } from '../components/ShareCodes.js';
 import { useT } from '../i18n/react.js';
+import { useBack } from '../lib/back.js';
 import { titleOf } from '../i18n/titles.js';
 
 /** The popup's view of sharing one account, over the list like Add. */
 export function ShareSheet({ item, onClose }: { item: VaultItem; onClose: () => void }) {
   const t = useT();
+  useBack(true, onClose);
   return (
     <div className="absolute inset-0 z-10 flex flex-col bg-white animate-slide-up dark:bg-neutral-950">
       <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 dark:border-neutral-900">

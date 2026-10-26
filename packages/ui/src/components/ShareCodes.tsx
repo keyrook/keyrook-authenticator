@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import { SHARE_MINUTES, isValidBase32, shareCodes, shareLink, sharedUntil, type ShareMinutes, type VaultItem } from '@authx/core';
+import {
+  SHARE_MINUTES,
+  isTimeBased,
+  isValidBase32,
+  shareCodes,
+  shareLink,
+  sharedUntil,
+  type ShareMinutes,
+  type VaultItem,
+} from '@authx/core';
 import { CheckIcon, CopyIcon } from './icons.js';
 import { Button, Callout } from './primitives.js';
 import { ShareAccount } from './ShareAccount.js';
 import { Select } from '../options/Section.js';
+import { host } from '../host.js';
 import { useT } from '../i18n/react.js';
 import type { MessageKey } from '../i18n/locales/en.js';
 
@@ -24,13 +34,11 @@ export function ShareCodes({ item }: { item: VaultItem }) {
   const [minutes, setMinutes] = useState<ShareMinutes>(15);
   const [until, setUntil] = useState<number | null>(null);
 
-  if (item.type !== 'totp') {
-    return <Callout tone="info">{t('shareCodes.counter')}</Callout>;
-  }
+  if (item.type === 'hotp') return <Callout tone="info">{t('shareCodes.counter')}</Callout>;
 
   async function copy() {
     const shared = await shareCodes(item, minutes);
-    await navigator.clipboard.writeText(shareLink(shared));
+    await host().copy(shareLink(shared));
     setUntil(sharedUntil(shared));
   }
 
@@ -72,7 +80,7 @@ export function ShareCodes({ item }: { item: VaultItem }) {
  */
 export function ShareOrMove({ item, compact = false }: { item: VaultItem; compact?: boolean }) {
   const t = useT();
-  const [mode, setMode] = useState<'codes' | 'move'>(item.type === 'totp' ? 'codes' : 'move');
+  const [mode, setMode] = useState<'codes' | 'move'>(isTimeBased(item.type) ? 'codes' : 'move');
   // An account with no key makes no codes and has nothing to move. Both ways
   // build from the key, and the setup QR code threw as it drew, blanking the
   // whole page.

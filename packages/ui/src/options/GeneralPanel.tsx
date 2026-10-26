@@ -2,7 +2,7 @@ import type { VaultData } from '@authx/core';
 import { host } from '../host.js';
 import { ISSUES_URL, LICENCE, SECURITY_MODEL_URL, SOURCE_URL } from '../lib/links.js';
 import type { Mutate } from '../lib/protocol.js';
-import { answered, updateRating } from '../lib/rating.js';
+import { answered, storeName, updateRating } from '../lib/rating.js';
 import { BRAND_ICONS } from '../components/brand-icons.js';
 import { ChevronIcon, Logo, StarIcon } from '../components/icons.js';
 import { APP_NAME } from '../lib/name.js';
@@ -92,36 +92,38 @@ export function GeneralPanel({ data, mutate }: { data: VaultData; mutate: Mutate
         />
       </Section>
 
-      <Section title={t('general.inBrowser')}>
-        <Row
-          label={t('security.autofillRow')}
-          description={t('general.autofillHint')}
-          control={
-            <Toggle
-              label={t('security.autofill')}
-              checked={settings.autofillEnabled}
-              onChange={(value) => void mutate({ op: 'settings/update', patch: { autofillEnabled: value } })}
-            />
-          }
-        />
-        {[
-          { name: OPEN_COMMAND, label: t('shortcut.open'), hint: null },
-          { name: FILL_COMMAND, label: t('shortcut.fill'), hint: t('shortcut.fillHint') },
-        ].map(({ name, label, hint }) => (
+      {host().overPage && (
+        <Section title={t('general.inBrowser')}>
           <Row
-            key={name}
-            label={label}
-            description={hint ? `${hint} ${t('about.shortcut.change')}` : t('about.shortcut.change')}
+            label={t('security.autofillRow')}
+            description={t('general.autofillHint')}
             control={
-              shortcuts === null ? null : shortcuts[name] ? (
-                <Keys shortcut={shortcuts[name]!} />
-              ) : (
-                <span className="text-[12.5px] text-neutral-400 dark:text-neutral-500">{t('shortcut.notSet')}</span>
-              )
+              <Toggle
+                label={t('security.autofill')}
+                checked={settings.autofillEnabled}
+                onChange={(value) => void mutate({ op: 'settings/update', patch: { autofillEnabled: value } })}
+              />
             }
           />
-        ))}
-      </Section>
+          {[
+            { name: OPEN_COMMAND, label: t('shortcut.open'), hint: null },
+            { name: FILL_COMMAND, label: t('shortcut.fill'), hint: t('shortcut.fillHint') },
+          ].map(({ name, label, hint }) => (
+            <Row
+              key={name}
+              label={label}
+              description={hint ? `${hint} ${t('about.shortcut.change')}` : t('about.shortcut.change')}
+              control={
+                shortcuts === null ? null : shortcuts[name] ? (
+                  <Keys shortcut={shortcuts[name]!} />
+                ) : (
+                  <span className="text-[12.5px] text-neutral-400 dark:text-neutral-500">{t('shortcut.notSet')}</span>
+                )
+              }
+            />
+          ))}
+        </Section>
+      )}
 
       <Section title={t('nav.about')}>
         <Row
@@ -150,7 +152,7 @@ export function GeneralPanel({ data, mutate }: { data: VaultData; mutate: Mutate
         <Row
           label={t('about.rate')}
           description={t('about.rateWhere', {
-            store: listing.store === 'Edge Add-ons' ? t('rate.store.edge') : t('rate.store.chrome'),
+            store: t(storeName(listing.store)),
           })}
           control={
             <a

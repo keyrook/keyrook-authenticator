@@ -99,6 +99,55 @@ because otherwise it reads like an oversight someone should "fix".
 Wrapping the data key rather than the password is what lets the kit survive a
 password change and a switch of protection mode untouched.
 
+### Fingerprint, face or PIN, or a security key
+
+A passphrase vault may also open with the device's own check of the person —
+Touch ID, Windows Hello and its PIN — or with a security key and its PIN,
+instead of the typed password (`packages/core/src/vault/passkey-unlock.ts`).
+Not a screen in front of a key kept nearby, which would make the password
+optional for anyone who can read the disk: a passkey of this extension's own (its RP ID is the extension id, which
+no site and no other extension can ask for, and which needs no permission)
+answers WebAuthn's PRF for a random input kept in the file, and HKDF turns that
+answer, bound to the vault's id, into the key that wraps the data key. The
+answer exists only inside the authenticator until it has checked the person;
+the file holds the input and the wrapped key, neither of which opens anything.
+An authenticator without PRF is refused at once rather than used as a gate.
+
+Turning it on needs the master password, checked in the same turn that writes
+the file: someone at an unlocked vault must not add a way in of their own.
+Turning it off needs nothing. It goes with the password — a switch to the device
+key drops it — and with the data key: joining an account, or a key the account
+replaced, wraps a new one and drops the old way in. The password still opens the
+vault, and everything that needs the owner still asks for it.
+
+A security key is the same lock with a slot of its own: `securityKeyUnlock`
+beside the computer's `platformUnlock`, each with its own passkey, PRF input
+and wrapped key, and its own HKDF salt, so a way in moved into the other slot
+opens nothing. A vault can have both, and that is the useful case: a key is a
+second way in beside the computer's, and losing either leaves the other and the
+password. Each is a row of its own under Security, turned on and off apart from
+the other by the rules above; the unlock screen offers a button for each one
+that is on and asks nothing until one is pressed, since only the person knows
+which is at hand. The key is asked as the one that roams
+(`authenticatorAttachment: 'cross-platform'`, `hints: ['security-key']`), not
+discoverable — the passkey lives inside its id and takes none of the key's few
+places — with its PIN required, and PRF, which Chrome asks of a key as
+hmac-secret. A key without it, one made only for two-step sign-in, is refused
+as a computer without PRF is. Whether a key is at hand cannot be known before
+one is asked for, so its row is offered wherever there are passkeys at all.
+
+What it means is said where it is turned on: whoever holds the key and knows
+its PIN can open the vault on a computer where it was set up, because that
+browser's file holds the key's way in; another browser's holds none. A real
+key checks its own PIN and stops answering after a few wrong ones. A
+development key is not that: the lab's RP2350 running pico-fido
+(keyrook-key's `docs/lab.md`) keeps its secret unprotected and gives it up to
+whoever holds the board, PIN or not, so it goes only on test vaults. The e2e
+suite plays the key with Chromium's virtual USB authenticator (CTAP 2.1, PRF).
+The lab key answered this same ask on `localhost`, and on 24 October 2026 it
+was turned on and opened a test vault in an unpacked build, under the
+extension's own RP ID.
+
 ### Filling a code into the wrong site
 
 `shouldWarnBeforeFilling` is a pure function, tested, rather than a condition
@@ -132,8 +181,9 @@ this device has never pushed, whatever the file claimed.
 
 ### Other apps' exports
 
-Aegis, 2FAS, andOTP, Bitwarden, FreeOTP+, Proton Authenticator, Ente Auth and
-the Authenticator extension each write their own format, and moving here should
+Aegis, 2FAS, andOTP, Bitwarden, FreeOTP+, Proton Authenticator, Ente Auth,
+Steam Desktop Authenticator and the Authenticator extension each write their
+own format, and moving here should
 take one of their files rather than every account typed again
 (`vault/foreign.ts`). The same rules hold as for our own backups, and harder:
 these files are another program's idea of well formed.
@@ -144,9 +194,21 @@ these files are another program's idea of well formed.
   Web Crypto has none and the core takes no dependencies), checked against
   RFC 7914 and Node's own.
 - Every entry goes through the checks a pasted otpauth:// link does. One that
-  cannot become a working account — a Steam Guard code, an unknown hash, a key
-  that is not base32 — is listed as skipped with the reason, and costs only
-  itself.
+  cannot become a working account — an unknown hash, a key that is not
+  base32 — is listed as skipped with the reason, and costs only itself.
+- Steam Guard is TOTP spelled in five characters of Steam's alphabet
+  (`generateSteam`, checked against codes Steam's own app made). Its settings
+  are fixed, whatever a file says; it is stored as five digits, which an older
+  build's generator refuses, so a Steam account synced to one shows dashes
+  rather than a numeric code Steam would turn away. A time-based account
+  issued by "Steam" is read as Steam Guard: Steam takes nothing else, and the
+  link it hands out is a plain TOTP one.
+- Steam Desktop Authenticator keeps one `.maFile` per Steam account, encrypted
+  with its passkey or not, and `manifest.json` holding each file's salt and IV
+  (PBKDF2-SHA1, 50,000 rounds, AES-256-CBC — fixed, not read from the file).
+  The folder is chosen whole. Only `shared_secret` and `account_name` are read:
+  the trade-confirming key, the revocation code and the signed-in session stay
+  in the file.
 - A file locked with Argon2 (Proton's and Ente's locked exports, the
   Authenticator extension's) is recognised and refused by name: none of this
   code implements Argon2, and misreading is worse than saying so.
@@ -326,6 +388,59 @@ navigates.
 
 The practical effect: the store listing carries no "read and change all your data
 on all websites" warning, and there is no standing script on any page.
+
+One optional host permission: `https://account.keyrook.com/*`, the Keyrook
+account's page. Its passkeys belong to that site, and Chrome 122 and later let
+an extension name another site as a passkey's RP ID only with the host
+permission for it. It is asked for on the click that chooses "Continue with a
+passkey", never at install, and used for nothing else: no script runs on the
+page, and `connect-src` still reaches the sync server alone. Chrome's prompt
+then reads "Read and change your data on account.keyrook.com". A build against
+the kit's server on this machine declares `https://localhost/*` instead, and
+holds it from install, because the end-to-end suite cannot answer that prompt;
+`scripts/check-release.mjs` refuses either in a release, and any optional
+host permission but the account page's.
+
+### Signing in with a passkey
+
+A passkey added on the account page signs a browser in to the account, and one
+that answers WebAuthn's PRF opens the account's root with that answer, in the
+browser; the root opens this app's key, as the password does
+(`packages/service/src/passkey.ts`; keyrook-account's docs/console.md, S17).
+The page asks the passkey (`Host.accountPasskeys`, `apps/extension/src/lib/accountPasskeys.ts`)
+with the PRF input fixed in `@keyrook/account`, and hands the vault service the
+answer with the PRF answer apart; the server gets only what it checks, and
+refuses an answer that carries more. Narrower than the password on purpose: only
+a vault that opens with the device key (one with a master password makes it the
+account's password, which a touch cannot), and only into this app's key already
+on the account (without one, only the password knows which key it must be). A
+passkey that signs in but cannot unlock — no PRF, or not let unlock again since
+the root was replaced — ends the session it began, and the page sends the person
+to the password, or to Google or GitHub. Passkeys are added, renamed and removed
+on the account page alone, and a start over removes every one. On an account
+without a password a change is confirmed by signing in again with Google or
+GitHub, and a passkey does not say which: the session does (`account.providers`,
+since keyrook-account f51607c), and the one this vault last signed in with stays
+first while it is still among them. A server from before names none.
+
+### Two-step sign-in
+
+An account may turn on a second step on its page (keyrook-account's
+docs/console.md, S21). This app answers it: after the password or Google or
+GitHub, with the code from an authenticator app, the recovery key in its place
+(sent only as its proof), or a passkey; and beside the password where a change
+to an Authenticator-only account's kit asks for it
+(`packages/service/src/second-step.ts`). The server takes a code once and
+counts one sent again toward the address's lockout, so a change right after a
+sign-in waits for the app's next code: the field says so, and a code a sign-in
+took in the last two minutes is refused before it is sent.
+
+Where the server offers it, Sync suggests keeping this account's own code here
+— scanned from the account page with "Scan the QR code on this page" — and says
+what that means: the code then lives on every browser signed in and nowhere
+else, so losing them all leaves the recovery key, which the second step takes
+in a code's place. Once that code is kept here (`accountCodeItem`: issued by
+Keyrook, for the account's address) the card says so instead.
 
 ## Sync, designed but not shipped
 

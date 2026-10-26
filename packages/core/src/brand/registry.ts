@@ -12,6 +12,7 @@
  * two-factor authentication switched on. That is a worse leak than the thing
  * this app exists to protect.
  */
+import { coversHost } from '../vault/hosts.js';
 import { CATALOG } from './catalog.js';
 import type { BrandEntry } from './types.js';
 
@@ -76,7 +77,7 @@ export function matchBrand(issuer: string, domains: readonly string[] = []): Bra
     if (exact) return exact;
 
     for (const [known, brand] of BY_DOMAIN) {
-      if (host === known || host.endsWith(`.${known}`)) return brand;
+      if (coversHost(known, host)) return brand;
     }
   }
 
@@ -93,6 +94,26 @@ export function matchBrand(issuer: string, domains: readonly string[] = []): Bra
     if (key.length >= 4 && normalised.startsWith(key)) return brand;
   }
   return null;
+}
+
+/**
+ * The websites to record for an account of `brand` added while `hostname` is
+ * open, so the popup offers its code there later.
+ *
+ * The page's own domain comes first when it is one of the service's: a Shopee
+ * account set up on shopee.vn belongs to shopee.vn, not to whichever market
+ * the catalogue lists first, and recording another would have the popup warn
+ * on the very site the account was made on. Only catalogued domains are ever
+ * returned, so a look-alike page gets nothing of its own recorded.
+ */
+export function domainsToRecord(brand: BrandEntry, hostname: string | null): string[] {
+  // The broadest that holds the page: google.com rather than accounts.google.com,
+  // so the account is offered across the service and not on one host of it.
+  const page = brand.domains
+    .filter((domain) => hostname !== null && coversHost(domain, hostname))
+    .sort((a, b) => a.length - b.length)[0];
+  const rest = brand.domains.filter((domain) => domain !== page);
+  return (page ? [page, ...rest] : rest).slice(0, 2);
 }
 
 export interface BrandSuggestion {

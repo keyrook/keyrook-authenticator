@@ -16,6 +16,7 @@ export const pl: Dictionary = {
   'error.recoverOnAccountPage': 'Klucz odzyskiwania jest poprawny, ale hasło tego konta resetuje się teraz na stronie konta, dla wszystkich aplikacji Keyrook naraz.',
   'error.kitOnAccountPage': 'Klucz odzyskiwania tego konta tworzy się teraz na stronie konta, dla wszystkich aplikacji Keyrook naraz.',
   'error.restoreEmpty': 'Z tego konta nie zostało nic do przywrócenia: zostało usunięte na innym urządzeniu, zanim to urządzenie w ogóle je miało.',
+  'error.noAccountSheet': 'To konto nie ma jeszcze klucza odzyskiwania. Utwórz go na stronie konta.',
   'error.recoveryKeyWrong': 'Ten klucz odzyskiwania nie pasuje do tego konta.',
   'error.noRecoveryKit': 'Ten sejf nie ma klucza odzyskiwania.',
   'error.syncUnavailable': 'Synchronizacja nie jest dostępna w tej wersji.',
@@ -23,6 +24,8 @@ export const pl: Dictionary = {
   'error.alreadySignedIn': 'Już zalogowano.',
   'error.signedOutElsewhere':
     'To urządzenie zostało wylogowane z synchronizacji — hasło zmieniono albo urządzenie usunięto na innym. Zaloguj się ponownie.',
+  'error.removedFromAccount':
+    'Inne urządzenie usunęło to urządzenie z Twojego konta Keyrook, więc kody konta zostały stąd usunięte. Zaloguj się ponownie, aby je przywrócić.',
   'error.signOutUnsynced':
     'Niektóre zmiany w tej przeglądarce nie dotarły jeszcze na Twoje konto, a wylogowanie teraz by je utraciło. Połącz się z internetem i spróbuj ponownie.',
   'error.enterAccountPassword': 'Wpisz hasło do konta.',
@@ -52,10 +55,10 @@ export const pl: Dictionary = {
   'error.nothingWaiting': 'Nic nie czeka na zatwierdzenie.',
   'error.pairingExpired': 'Prośba wygasła — została odrzucona albo minęło dziesięć minut. Poproś ponownie.',
   'error.pairingWrongKey':
-    'Otrzymany klucz nie należy do tego konta. Nic nie zmieniono. Spróbuj ponownie z drugiej przeglądarki.',
-  'error.pairingForged': 'To zatwierdzenie nie pochodzi z przeglądarki, której kod sprawdzono.',
+    'Otrzymany klucz nie należy do tego konta. Nic nie zmieniono. Spróbuj ponownie z drugiego urządzenia.',
+  'error.pairingForged': 'To zatwierdzenie nie pochodzi z urządzenia, którego kod sprawdzono.',
   'error.pairingForgedAsk':
-    'To zatwierdzenie nie pochodzi z przeglądarki, której kod sprawdzono. Nic nie zmieniono. Poproś ponownie.',
+    'To zatwierdzenie nie pochodzi z urządzenia, którego kod sprawdzono. Nic nie zmieniono. Poproś ponownie.',
   'error.pairingEnded': 'Ta prośba wygasła.',
   'error.approveAgain': 'Zacznij zatwierdzanie tej prośby od nowa.',
   'error.backupPasswordShort': 'Hasło kopii zapasowej musi mieć co najmniej 8 znaków.',
@@ -73,6 +76,24 @@ export const pl: Dictionary = {
   'error.migrationNotOurs': 'To nie jest eksport z Google Authenticator.',
   'error.migrationMalformed': 'Ten eksport z Google Authenticator jest uszkodzony lub niekompletny.',
   'error.offline': 'Nie udało się połączyć z serwerem synchronizacji. Sprawdź połączenie i spróbuj ponownie.',
+  'error.passkey.wrongOrigin': 'Klucz dostępu działa tylko na stronie i w aplikacjach Keyrook.',
+  'error.passkey.notOffered': 'Logowanie kluczem dostępu nie jest tu dostępne.',
+  'error.passkey.unchecked': 'Nie udało się sprawdzić tego klucza dostępu. Spróbuj ponownie.',
+  'error.passkey.unknown': 'Żadne konto Keyrook nie zna tego klucza dostępu. Mógł zostać usunięty.',
+  'error.passkey.ended': 'Prośba o ten klucz dostępu wygasła. Spróbuj ponownie.',
+  'error.passkey.noUnlock': 'Ten klucz dostępu nie otwiera klucza tego konta. Zaloguj się zamiast tego hasłem.',
+  'error.passkey.noUnlockProvider':
+    'Ten klucz dostępu nie otwiera klucza tego konta. Kontynuuj zamiast tego przez Google lub GitHub.',
+  'error.passkey.masterPassword':
+    'Sejf blokowany hasłem głównym nie może logować się kluczem dostępu. Zaloguj się hasłem konta albo przez Google lub GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator potrzebuje zgody Chrome na używanie kluczy dostępu account.keyrook.com. Wybierz klucz dostępu jeszcze raz i zezwól.',
+  'error.passkey.cancelled': 'Nie użyto żadnego klucza dostępu. Spróbuj ponownie albo zaloguj się w inny sposób.',
+  'error.passkey.failed': 'Chrome nie mógł poprosić o klucz dostępu. Spróbuj ponownie albo zaloguj się w inny sposób.',
+  'error.secondStep.missing': 'Wpisz też kod z aplikacji uwierzytelniającej.',
+  'error.secondStep.wrongCode': 'Ten kod jest nieprawidłowy. Wpisz ten, który aplikacja uwierzytelniająca pokazuje teraz.',
+  'error.secondStep.expired': 'To logowanie wygasło. Zaloguj się ponownie.',
+  'error.secondStep.used': 'Ten kod został właśnie użyty do zalogowania. Poczekaj, aż aplikacja pokaże następny.',
   'error.provider.refusedBy': '{provider} odmówił logowania.',
   'error.provider.unreachable': 'Nie udało się połączyć z {provider}. Spróbuj za chwilę.',
   'error.provider.refused': 'Logowanie zostało odrzucone. Spróbuj ponownie.',
@@ -86,11 +107,11 @@ export const pl: Dictionary = {
   'error.server.signupExpired': 'Ta rejestracja wygasła. Zaloguj się ponownie.',
   'error.server.signinExpired': 'To logowanie wygasło. Spróbuj ponownie.',
   'error.server.tooManyCodes': 'Za dużo błędnych kodów. Poproś o nowy.',
-  'error.server.tooManyPairings': 'Zbyt wiele przeglądarek czeka na dołączenie do tego konta. Spróbuj za kilka minut.',
+  'error.server.tooManyPairings': 'Zbyt wiele urządzeń czeka na dołączenie do tego konta. Spróbuj za kilka minut.',
   'error.server.wrongKey': 'To urządzenie nie ma klucza konta.',
   'error.server.providerAccount': 'Na to konto logujesz się przez Google lub GitHub, nie hasłem.',
   'error.server.mailFailed': 'Nie udało się wysłać e-maila. Spróbuj za minutę.',
-  'error.server.pairingTaken': 'Ta prośba wygasła albo zatwierdza ją inna przeglądarka.',
+  'error.server.pairingTaken': 'Ta prośba wygasła albo zatwierdza ją inne urządzenie.',
   'error.server.passwordWrong': 'To hasło jest nieprawidłowe.',
   'error.server.badCredentials': 'Nieprawidłowy e-mail lub hasło.',
   'error.server.badCode': 'Ten kod jest błędny albo wygasł. Sprawdź e-mail lub poproś o nowy.',
@@ -152,6 +173,22 @@ export const pl: Dictionary = {
   'unlock.placeholder': 'Hasło główne',
   'unlock.submit': 'Odblokuj',
   'unlock.forgot': 'Nie pamiętasz? <link>Użyj klucza odzyskiwania</link>',
+  'platformUnlock.unlock': 'Odblokuj odciskiem palca, twarzą lub PIN-em',
+  'platformUnlock.title': 'Odcisk palca, twarz lub PIN',
+  'platformUnlock.body': 'Otwieraj sejf własnym sprawdzeniem tego komputera — Touch ID, Windows Hello lub jego PIN-em — zamiast wpisywać hasło główne. Hasło nadal go otwiera, a zmiany nadal go wymagają.',
+  'platformUnlock.on': 'Sejf otwiera się też własnym sprawdzeniem tego komputera. Usunięcie hasła głównego to wyłącza.',
+  'passkeyUnlock.turnOn': 'Włącz',
+  'passkeyUnlock.turnOff': 'Wyłącz',
+  'platformUnlock.confirm': 'Potem komputer poprosi o odcisk palca, twarz lub PIN.',
+  'error.passkeyUnlock.cancelled': 'Sprawdzenie zostało anulowane lub trwało zbyt długo. Spróbuj ponownie albo użyj hasła głównego.',
+  'error.platformUnlock.noPrf': 'Miejsce, w którym zapisano ten klucz dostępu, nie potrafi przechować klucza, więc nie może otworzyć sejfu. Włącz to ponownie i wybierz inne miejsce, gdy pojawi się pytanie, gdzie go zapisać — albo używaj dalej hasła głównego.',
+  'error.passkeyUnlock.failed': 'To nie otworzyło sejfu. Użyj hasła głównego, a potem włącz to ponownie w Bezpieczeństwie.',
+  'securityKey.unlock': 'Odblokuj kluczem bezpieczeństwa',
+  'securityKey.title': 'Klucz bezpieczeństwa',
+  'securityKey.body': 'Otwieraj sejf kluczem bezpieczeństwa USB i jego PIN-em zamiast wpisywać hasło główne. Każdy, kto ma klucz i zna jego PIN, będzie mógł wtedy otworzyć sejf na tym komputerze. Jeśli zgubisz klucz, hasło główne nadal go otwiera.',
+  'securityKey.on': 'Sejf otwiera się na tym komputerze także twoim kluczem bezpieczeństwa i jego PIN-em. Każdy, kto ma klucz i zna jego PIN, może go tu otworzyć, więc jeśli zgubisz klucz, wyłącz to. Usunięcie hasła głównego to wyłącza.',
+  'securityKey.confirm': 'Potem włóż klucz bezpieczeństwa, wpisz jego PIN i dotknij go. Niektóre klucze pytają dwa razy.',
+  'error.securityKey.noPrf': 'Ten klucz bezpieczeństwa nie może przechować klucza, więc nie otworzy sejfu. Klucze zrobione tylko do logowania dwuetapowego tego nie potrafią. Spróbuj innego klucza albo dalej używaj hasła głównego.',
 
   'unrecoverable.title': 'Tego sejfu nie da się już otworzyć',
   'unrecoverable.why':
@@ -188,6 +225,8 @@ export const pl: Dictionary = {
   'setup.password.footnote':
     'Najsilniejsza opcja: po zablokowaniu nic na tym komputerze nie otworzy sejfu bez hasła.',
   'setup.footer': 'W obu przypadkach to AES-256-GCM. Możesz to zmienić w każdej chwili; synchronizacja jest opcjonalna, w Ustawieniach.',
+  'setup.footer.noSync':
+    'W obu przypadkach to AES-256-GCM. Możesz to zmienić w każdej chwili, w Ustawieniach.',
   'setup.source': 'Otwarte źródło — przeczytaj kod',
   'common.back': 'Wstecz',
   'setup.passwordStep.title': 'Ustaw hasło główne',
@@ -233,10 +272,10 @@ export const pl: Dictionary = {
   'vault.byName': 'Według nazwy',
   'vault.orderAdded': 'Kolejność dodania',
   'vault.joinRequests': {
-    one: 'Przeglądarka prosi o dołączenie do twojego konta.',
-    few: '{count} przeglądarki proszą o dołączenie do twojego konta.',
-    many: '{count} przeglądarek prosi o dołączenie do twojego konta.',
-    other: '{count} przeglądarki proszą o dołączenie do twojego konta.',
+    one: 'Urządzenie prosi o dołączenie do twojego konta.',
+    few: '{count} urządzenia proszą o dołączenie do twojego konta.',
+    many: '{count} urządzeń prosi o dołączenie do twojego konta.',
+    other: '{count} urządzenia proszą o dołączenie do twojego konta.',
   },
   'vault.joinRequestsHint': 'Zatwierdź tylko tę, w której teraz logujesz się osobiście.',
   'vault.reviewInSettings': 'Sprawdź w Ustawieniach',
@@ -335,6 +374,7 @@ export const pl: Dictionary = {
   'error.alreadyInVault': 'To konto jest już w twoim sejfie.',
   'error.gaSkipPeriod': 'Google Authenticator przechowuje tylko kody 30-sekundowe; ten używa {period}.',
   'error.gaSkipDigits': 'Google Authenticator przechowuje tylko kody 6- lub 8-cyfrowe; ten ma {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator nie potrafi tworzyć kodów Steam Guard.',
 
   'scan.progressBatch': 'Zeskanowano kod {seen} z {total} — {accounts}. Pokaż następny kod.',
   'scan.progress': '{accounts}.',
@@ -430,9 +470,18 @@ export const pl: Dictionary = {
   'options.count': { one: '{count} konto', few: '{count} konta', many: '{count} kont', other: '{count} konta' },
   'options.sourceOnGithub': 'Otwarte źródło na GitHubie',
   'sheet.once': 'To jedyny raz, gdy ten klucz jest pokazywany. Nigdzie go nie przechowujemy — jeśli go zgubisz, utwórz nowy.',
+  'sheet.print': 'Drukuj',
+  'sheet.apart': 'Trzymaj go z dala od poczty i nigdy nie wysyłaj go sobie e-mailem: z tym kluczem i twoim adresem e-mail ktoś może ustawić nowe hasło i otworzyć twoje kody.',
+  'sheet.apartProvider': 'Trzymaj go z dala od konta Google lub GitHub, którym się logujesz, i nigdy nie trzymaj go w poczcie ani na dysku tego konta: z tym kluczem i tym kontem ktoś może otworzyć twoje kody.',
+  'sheet.kept': 'Mam go zapisany',
+  'sheet.checkHeading': 'Sprawdź, że jest zapisany',
+  'sheet.checkLead': 'Wpisz dwie grupy klucza z zapisanej kopii. Grupy to bloki po cztery znaki między myślnikami, liczone od lewej.',
+  'sheet.group': 'Grupa {position}',
+  'sheet.check': 'Sprawdź',
+  'sheet.mismatch': 'Twój klucz mówi co innego. Spójrz jeszcze raz na zapisaną kopię albo pokaż klucz ponownie i zapisz go teraz.',
+  'sheet.showAgain': 'Pokaż klucz ponownie',
   'sheet.download': 'Pobierz arkusz',
   'sheet.copy': 'Kopiuj',
-  'sheet.saved': 'Klucz jest zapisany w miejscu, które przetrwa, nawet jeśli ten komputer nie.',
 
   'groups.title': 'Grupy',
   'groups.description':
@@ -496,6 +545,7 @@ export const pl: Dictionary = {
   'accounts.digits': '{type}, {digits} cyfr',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · licznik {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Udostępnij lub przenieś {name}',
   'accounts.edit': 'Edytuj',
   'common.delete': 'Usuń',
@@ -646,6 +696,7 @@ export const pl: Dictionary = {
   'export.oneByOne.progress': 'Pokazane konta',
   'export.oneByOne.position': 'Konto {index} z {total}',
   'export.oneByOne.keys': '→ lub spacja — następne, Esc — koniec',
+  'export.steamRefused': '{app} nie potrafi tworzyć kodów Steam Guard, więc nie przyjmie tego konta.',
   'export.print.label': 'Kody QR do wydruku lub zeskanowania',
   'export.print.title': 'Keyrook Authenticator — kody konfiguracji',
   'export.print.body':
@@ -718,11 +769,11 @@ export const pl: Dictionary = {
 
   'kit.title': 'Klucz odzyskiwania',
   'kit.provider':
-    'Twoje konto nie ma hasła. Klucz odzyskiwania to droga powrotu, jeśli stracisz wszystkie przeglądarki zalogowane na to konto: wpuszcza nową przeglądarkę bez zatwierdzenia przez inną. {provider} nie zrobi tego za ciebie.',
+    'Twoje konto nie ma hasła. Klucz odzyskiwania to droga powrotu, jeśli stracisz wszystkie urządzenia zalogowane na to konto: wpuszcza nowe urządzenie bez zatwierdzenia przez inne. {provider} nie zrobi tego za ciebie.',
   'kit.signedIn':
-    'Nikt nie może zresetować twojego hasła — ani my, ani Google. Jeśli je zapomnisz, klucz odzyskiwania to jedyna droga powrotu: otwiera ten sejf, twoje inne urządzenia i konto na nowym.',
+    'Nikt nie może zresetować hasła za ciebie — nawet my. Jeśli je zapomnisz, klucz odzyskiwania to jedyna droga powrotu: otwiera ten sejf, twoje inne urządzenia i konto na nowym.',
   'kit.passphrase':
-    'Nikt nie może zresetować twojego hasła głównego — ani my, ani Google. To właśnie powstrzymuje innych przed otwarciem sejfu i dlatego klucz odzyskiwania to jedyna droga powrotu, gdy je zapomnisz.',
+    'Nikt nie może zresetować twojego hasła głównego — nawet my. To właśnie powstrzymuje innych przed otwarciem sejfu i dlatego klucz odzyskiwania to jedyna droga powrotu, gdy je zapomnisz.',
   'kit.device':
     'Ten sejf otwiera się kluczem przechowywanym przez przeglądarkę. Jeśli ten klucz zniknie — wyczyszczone dane przeglądania, nowy profil, ponowna instalacja — otworzy go już tylko klucz odzyskiwania.',
   'kit.none': 'Brak klucza odzyskiwania',
@@ -737,16 +788,16 @@ export const pl: Dictionary = {
   'kit.replacesSignedIn':
     'Nowy klucz unieważnia poprzedni — tutaj i na twoich innych urządzeniach — więc stary wydrukowany arkusz można wyrzucić, gdy już go zastąpisz.',
   'kit.withoutProvider':
-    'Bez niego utrata wszystkich przeglądarek zalogowanych na konto oznacza bezpowrotną utratę każdego konta w tym sejfie.',
+    'Bez niego utrata wszystkich urządzeń zalogowanych na konto oznacza bezpowrotną utratę każdego konta w tym sejfie.',
   'kit.withoutPassword': 'Bez niego zapomnienie hasła oznacza bezpowrotną utratę każdego konta w tym sejfie.',
   'kit.withoutDevice':
     'Bez niego utrata klucza przechowywanego przez tę przeglądarkę oznacza bezpowrotną utratę każdego konta w tym sejfie.',
   'kit.noSupport': 'Żadne zgłoszenie do pomocy technicznej tego nie cofnie.',
-  'kit.removeProvider': 'Po usunięciu tylko już zalogowana przeglądarka może wpuścić nową na twoje konto.',
+  'kit.removeProvider': 'Po usunięciu tylko już zalogowane urządzenie może wpuścić nowe na twoje konto.',
   'kit.removePassword': 'Po usunięciu jedynym wejściem zostanie twoje hasło.',
   'kit.removePasswordSignedIn':
     'Po usunięciu jedynym wejściem zostanie twoje hasło — na tym urządzeniu, twoich innych urządzeniach i koncie.',
-  'kit.reauth': 'Klucz odzyskiwania może wpuścić przeglądarkę na twoje konto, więc {provider} najpierw poprosi o ponowne zalogowanie.',
+  'kit.reauth': 'Klucz odzyskiwania może wpuścić urządzenie na twoje konto, więc {provider} najpierw poprosi o ponowne zalogowanie.',
   'kit.passwordHint': 'Klucz odzyskiwania może zresetować twoje konto, więc jego zmiana wymaga hasła.',
   'kit.removeConfirm': 'Usuń klucz odzyskiwania',
   'kit.createConfirm': 'Utwórz klucz',
@@ -773,7 +824,7 @@ export const pl: Dictionary = {
   'account.syncNow': 'Synchronizuj teraz',
   'account.signOut': 'Wyloguj',
   'account.noKitProvider':
-    'Twoje konto nie ma klucza odzyskiwania. Jeśli stracisz wszystkie zalogowane przeglądarki, nic nie odzyska twoich kont — ani my, ani {provider}.',
+    'Twoje konto nie ma klucza odzyskiwania. Jeśli stracisz wszystkie zalogowane urządzenia, nic nie odzyska twoich kont — ani my, ani {provider}.',
   'account.noKit':
     'Twoje konto nie ma klucza odzyskiwania. Jeśli zapomnisz hasło i stracisz to urządzenie, nic nie odzyska twoich kont — ani my, ani nikt inny.',
   'account.createUnderSecurity': 'Utwórz go w sekcji Bezpieczeństwo',
@@ -800,11 +851,34 @@ export const pl: Dictionary = {
   'accountPage.bodyNoRoot': 'Hasło i usuwanie są na stronie konta. Klucz odzyskiwania tworzy się tutaj, w Bezpieczeństwie, dopóki z konta nie zacznie korzystać inna aplikacja Keyrook.',
   'accountPage.bodyProvider': 'Klucz odzyskiwania, zaczynanie od nowa i usuwanie są na stronie konta, dla wszystkich aplikacji Keyrook naraz.',
   'accountPage.bodyNoRootProvider': 'Usuwanie jest na stronie konta. Klucz odzyskiwania tworzy się tutaj, w Bezpieczeństwie, dopóki z konta nie zacznie korzystać inna aplikacja Keyrook.',
+  'sheetCheck.lead': 'Wpisz raz zapisany klucz odzyskiwania, żeby ta aplikacja wiedziała, że może odzyskać twoje kody. Jest sprawdzany na tym urządzeniu i nigdzie nie jest wysyłany.',
+  'sheetCheck.submit': 'Sprawdź go',
+  'sheetCheck.lost': 'Zgubiony albo nigdy go nie było? Utwórz nowy na stronie konta.',
+  'accountPage.noSheetYet': 'Nic jeszcze nie wskazuje, że twój klucz odzyskiwania chroni Keyrook Authenticator. Bez niego zapomniane hasło może cię kosztować kody. Wpisz go raz w Bezpieczeństwie albo utwórz nowy na stronie konta.',
+  'account.checkUnderSecurity': 'Sprawdź w Bezpieczeństwie',
   'accountPage.open': 'Otwórz stronę konta',
   'accountPage.recoveryKey': 'Klucz odzyskiwania zalogowanego sejfu należy do konta Keyrook. Tworzy się go i zmienia na stronie konta.',
   'accountPage.sheetProtects': 'Klucz odzyskiwania konta chroni Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Nie wiadomo jeszcze, czy chroni Keyrook Authenticator',
-  'accountPage.noSheet': 'Nic jeszcze nie wskazuje, że klucz odzyskiwania tego konta chroni Keyrook Authenticator. Jeśli zapomnisz hasło bez niego, możesz stracić kody. Utwórz go lub sprawdź swój na stronie konta.',
+  'secondStep.title': 'Jeszcze jeden krok',
+  'secondStep.lead': 'Twoje konto Keyrook wymaga drugiego kroku. Wpisz 6-cyfrowy kod, który pokazuje dla niego aplikacja uwierzytelniająca.',
+  'secondStep.field': 'Kod lub klucz odzyskiwania',
+  'secondStep.hint': 'Nie masz już tej aplikacji? Wpisz zamiast tego klucz odzyskiwania konta.',
+  'secondStep.passkey': 'Użyj klucza dostępu',
+  'secondStep.where': 'Logowanie dwuetapowe włącza się i wyłącza na account.keyrook.com.',
+  'secondStep.ownerLead': 'Twoje konto wymaga drugiego kroku także do tego: kodu z aplikacji uwierzytelniającej lub klucza odzyskiwania.',
+  'secondStep.nextCode': 'Każdy kod działa tylko raz. Jeśli kod posłużył przed chwilą do logowania, poczekaj, aż aplikacja pokaże następny.',
+  'secondStepTip.title': 'Logowanie dwuetapowe',
+  'secondStepTip.suggest': 'Wymagaj też kodu za każdym razem, gdy to konto loguje się na innym urządzeniu. Włącz je na account.keyrook.com i trzymaj kod tutaj: na tamtej stronie otwórz Keyrook Authenticator i wybierz „{scan}”.',
+  'secondStepTip.kept': 'Własny kod logowania tego konta jest przechowywany tutaj, na każdym urządzeniu zalogowanym na to konto.',
+  'secondStepTip.warning': 'Jeśli stracisz wszystkie urządzenia, które go przechowują, zaloguj się kluczem odzyskiwania zamiast kodu. Trzymaj klucz odzyskiwania osobno.',
+  'secondStepTip.open': 'Włącz',
+  'signin.providerHasPassword': '{provider} potwierdził, że to Ty, a {email} ma też hasło. Wpisz je, aby otworzyć tu swoje kody.',
+  'provider.addOnPage': 'Aby logować się także przez Google lub GitHub, zaloguj się na stronie konta hasłem i dodaj je tam.',
+  'startOver.title': 'Twoje konto Keyrook zacznie od nowa {date}',
+  'startOver.lead': 'Ktoś na urządzeniu „{device}” poprosił o to {date} kodem, który wysłaliśmy Ci e-mailem: nowe hasło i nowe klucze, a Twoje aplikacje zaczęłyby puste.',
+  'startOver.ifYou': 'Jeśli to Ty, nic nie musisz robić. Jeśli nie, anuluj to teraz, a potem zmień hasło do swojej poczty: osoba, która o to poprosiła, może czytać Twoje e-maile.',
+  'startOver.cancel': 'To nie moja prośba — anuluj',
   'kept.title': 'Zachowane sprzed rozpoczęcia konta od nowa',
   'kept.body': 'Gdy to konto zaczęło od nowa, to, co miał w nim Keyrook Authenticator, zostało zachowane do {date}. Przywróć to hasłem, które konto miało wtedy, albo ówczesnym kluczem odzyskiwania.',
   'kept.password': 'Ówczesne hasło',
@@ -812,7 +886,7 @@ export const pl: Dictionary = {
   'kept.usePassword': 'Użyj ówczesnego hasła',
   'kept.useRecoveryKey': 'Użyj ówczesnego klucza odzyskiwania',
   'kept.bring': 'Przywróć',
-  'kept.done': 'Jest z powrotem w tym sejfie i trafia do Twoich innych przeglądarek.',
+  'kept.done': 'Jest z powrotem w tym sejfie i trafia na Twoje inne urządzenia.',
   'error.keys.awaitingConfirmation': 'Inna aplikacja Keyrook zastąpiła klucze tego konta, a klucz Keyrook Authenticator jeszcze za tym nie poszedł. Otwórz stronę konta, aby je sprawdzić, a potem zaloguj się ponownie.',
   'password.changedBoth':
     'Hasło zmieniono dla twojego konta i tego sejfu. Inne twoje urządzenia poproszą o ponowne zalogowanie nowym hasłem.',
@@ -825,9 +899,12 @@ export const pl: Dictionary = {
   'password.formTitle': 'Zmień hasło do konta',
   'devices.title': 'Zalogowane urządzenia',
   'devices.description':
-    'Wyloguj urządzenie, którego już nie używasz lub którego już nie masz. Zachowa to, co już zsynchronizowało, pod tym samym hasłem, ale nie dostanie nic nowego.',
+    'Wyloguj urządzenie, którego już nie używasz lub którego już nie masz. Jeśli działa na nim aktualny Keyrook Authenticator, przy następnym połączeniu samo usunie kody tego konta i zachowa tylko to, czego nigdy nie wysłało. Do tego czasu, albo jeśli już nigdy się nie połączy, zachowa to, co miało, pod tym samym hasłem.',
+  'devices.descriptionProvider':
+    'Wyloguj urządzenie, którego już nie używasz lub którego już nie masz. Jeśli działa na nim aktualny Keyrook Authenticator, przy następnym połączeniu samo usunie kody tego konta i zachowa tylko to, czego nigdy nie wysłało. Do tego czasu, albo jeśli już nigdy się nie połączy, zachowa to, co miało, zablokowane tak, jak jest na nim zablokowany sejf.',
   'devices.this': 'To urządzenie',
   'devices.when': 'Zalogowano {created} · ostatnio aktywne {seen}',
+  'removed.kept': 'Kody dodane lub zmienione tutaj, które nie dotarły do konta, nadal tu są.',
   'delete.row': 'Usuń konto',
   'delete.rowDescription':
     'Usuwa każdą zaszyfrowaną kopię z serwera. To urządzenie zachowa swój sejf bez zmian; inne urządzenia przestaną się synchronizować.',
@@ -837,7 +914,7 @@ export const pl: Dictionary = {
   'delete.reauth': 'Zanim cokolwiek zostanie usunięte, {provider} poprosi o ponowne zalogowanie.',
   'delete.confirm': 'Usuń konto',
 
-  'intro.benefit1': 'Te same kody w każdej przeglądarce, w której się zalogujesz.',
+  'intro.benefit1': 'Te same kody na każdym urządzeniu, na którym się zalogujesz.',
   'intro.benefit2': 'Zgubiony lub zepsuty laptop to nie zgubiony sejf.',
   'intro.benefit3': 'Za darmo i opcjonalnie — bez tego wszystko nadal działa na tym urządzeniu.',
   'intro.title': 'Synchronizuj swój sejf',
@@ -898,9 +975,9 @@ export const pl: Dictionary = {
     'Twoje konto jest gotowe. Na razie skopiowano {done} z {total} kont; reszta dojdzie przy następnej synchronizacji.',
   'fresh.title': 'Zapisz klucz odzyskiwania',
   'fresh.provider':
-    'Jeśli stracisz wszystkie przeglądarki zalogowane na konto, ten klucz to jedyna droga powrotu — {provider} nie przywróci twojego sejfu, my też nie.',
+    'Jeśli stracisz wszystkie urządzenia zalogowane na konto, ten klucz to jedyna droga powrotu — {provider} nie przywróci twojego sejfu, my też nie.',
   'fresh.password':
-    'Jeśli zapomnisz hasło, ten klucz to jedyna droga powrotu — nikt nie zresetuje go za ciebie, ani my, ani Google.',
+    'Jeśli zapomnisz hasło, ten klucz to jedyna droga powrotu — nikt nie zresetuje go za ciebie, nawet my.',
   'welcome.fromAccount': '{count} z twojego konta',
   'welcome.fromDevice': '{count} dodano z tego urządzenia',
   'welcome.inSync': 'Już zsynchronizowane.',
@@ -931,41 +1008,48 @@ export const pl: Dictionary = {
   'provider.finishInWindow': 'Dokończ w otwartym oknie {provider}.',
   'provider.confirmed': '{provider} potwierdził <b>{email}</b>. Żadne konto jeszcze go nie używa.',
   'provider.point1':
-    'Bez hasła. W nowej przeglądarce kontynuujesz przez {provider}, a przeglądarka już zalogowana wpuszcza ją, gdy sprawdzisz, że obie pokazują ten sam kod.',
+    'Bez hasła. Na nowym urządzeniu kontynuujesz przez {provider}, a urządzenie już zalogowane wpuszcza je, gdy sprawdzisz, że oba pokazują ten sam kod.',
   'provider.point2':
-    '{provider} potwierdza, że to ty. Nigdy nie widzi twoich kodów: są szyfrowane tutaj kluczem, który zostaje w twoich przeglądarkach.',
+    '{provider} potwierdza, że to ty. Nigdy nie widzi twoich kodów: są szyfrowane tutaj kluczem, który zostaje na twoich urządzeniach.',
   'provider.point3':
-    'Następnie zapiszesz klucz odzyskiwania — drogę powrotu, jeśli stracisz wszystkie przeglądarki zalogowane na konto. {provider} nie przywróci twojego sejfu.',
+    'Następnie zapiszesz klucz odzyskiwania — drogę powrotu, jeśli stracisz wszystkie urządzenia zalogowane na konto. {provider} nie przywróci twojego sejfu.',
   'provider.notRight': 'To nie to konto?',
   'provider.startAgain': 'Zacznij od nowa',
+  'passkey.continue': 'Kontynuuj z kluczem dostępu',
+  'passkey.where':
+    'Taki, który dodano na <link>stronie konta</link>, w sekcji „Klucze dostępu”. Za pierwszym razem Chrome zapyta, czy Keyrook Authenticator może go używać.',
   'pairing.codeLabel': 'Kod {code}',
   'join.title': 'Wpuść tę przeglądarkę',
-  'join.subtitle': '<b>{email}</b> ma już konto. Zatwierdź tę przeglądarkę z takiej, która jest zalogowana.',
+  'join.subtitle': '<b>{email}</b> ma już konto. Zatwierdź tę przeglądarkę z urządzenia, które jest zalogowane.',
   'join.masterPassword': 'Hasło główne tego sejfu',
   'join.masterHint': 'Nadal blokuje tu ten sejf; samo konto nie ma hasła.',
   'join.ask': 'Poproś o dołączenie',
   'join.step1':
-    'W przeglądarce, która jest już zalogowana, otwórz Keyrook Authenticator. Prośba pojawi się tam — w okienku i w Ustawieniach w sekcji Synchronizacja.',
+    'Na urządzeniu, które jest już zalogowane, otwórz Keyrook Authenticator. Prośba pojawi się tam — nad kodami i w Ustawieniach w sekcji Synchronizacja.',
   'join.step2': 'Sprawdź, czy pokazuje ten sam kod co ta strona, i zatwierdź.',
   'join.askAgain': 'Poproś ponownie',
-  'join.compare': 'Druga przeglądarka też pokazuje kod. Zatwierdź tam tylko, jeśli jest dokładnie taki sam.',
-  'join.waiting': 'Czekamy na drugą przeglądarkę…',
-  'join.noOther': 'Nie została żadna inna przeglądarka?',
+  'join.compare': 'Drugie urządzenie też pokazuje kod. Zatwierdź tam tylko, jeśli jest dokładnie taki sam.',
+  'join.waiting': 'Czekamy na drugie urządzenie…',
+  'join.noOther': 'Nie zostało żadne inne urządzenie?',
   'join.useKey': 'Użyj klucza odzyskiwania',
   'join.wrongAccount': 'Zalogowano przez {provider} na niewłaściwe konto?',
-  'joinKey.subtitle': 'Klucz zapisany przy tworzeniu konta. Wpuszcza tę przeglądarkę bez innej.',
+  'joinKey.subtitle': 'Klucz zapisany przy tworzeniu konta. Wpuszcza tę przeglądarkę bez innego urządzenia.',
   'joinKey.submit': 'Dołącz do konta',
-  'approve.approved': 'Zatwierdzono. Druga przeglądarka za chwilę otworzy twój sejf.',
+  'approve.approved': 'Zatwierdzono. Drugie urządzenie za chwilę otworzy twój sejf.',
   'approve.mismatch':
     'Odrzucono. Jeśli to nie ty logujesz się teraz, ktoś inny może logować się na twoje konto {provider} — zmień jego hasło i sprawdź ustawienia bezpieczeństwa.',
   'approve.declined': 'Odrzucono. Nic nie wysłano.',
-  'approve.title': 'Przeglądarki proszące o dołączenie',
+  'approve.title': 'Urządzenia proszące o dołączenie',
   'approve.description':
-    'Każda prośba pochodzi od kogoś, kto właśnie zalogował się przez twoje konto {provider}. Zatwierdź tylko przeglądarkę, w której teraz logujesz się osobiście.',
+    'Każda prośba pochodzi od kogoś, kto właśnie zalogował się przez twoje konto {provider}. Zatwierdź tylko urządzenie, na którym teraz logujesz się osobiście.',
+  'approve.descriptionAny':
+    'Każda prośba pochodzi od kogoś, kto właśnie zalogował się przez twoje konto Google lub GitHub. Zatwierdź tylko urządzenie, na którym teraz logujesz się osobiście.',
+  'approve.mismatchAny':
+    'Odrzucono. Jeśli to nie ty logujesz się teraz, ktoś inny może logować się na twoje konto Google lub GitHub — zmień jego hasło i sprawdź ustawienia bezpieczeństwa.',
   'approve.askedAt': 'Prośba o {time}',
   'approve.review': 'Sprawdź',
   'approve.deny': 'Odrzuć',
-  'approve.question': 'Czy przeglądarka, która prosi, pokazuje dokładnie ten kod? Jeśli nie, ktoś inny próbuje się dostać.',
+  'approve.question': 'Czy urządzenie, które prosi, pokazuje dokładnie ten kod? Jeśli nie, ktoś inny próbuje się dostać.',
   'approve.matches': 'Zgadza się — wpuść',
   'approve.doesNotMatch': 'Nie zgadza się',
 
@@ -979,7 +1063,7 @@ export const pl: Dictionary = {
   'nav.sync': 'Synchronizacja',
   'nav.general': 'Ogólne',
   'nav.needsAttention': 'Wymaga uwagi',
-  'sync.description': 'Te same kody w każdej przeglądarce, w której się zalogujesz, zaszyfrowane tutaj, zanim wyjdą.',
+  'sync.description': 'Te same kody na każdym urządzeniu, na którym się zalogujesz, zaszyfrowane tutaj, zanim wyjdą.',
   'backup.description': 'Zachowaj zaszyfrowaną kopię, sprowadź konta lub przenieś je do innej aplikacji.',
   'backup.choice.backup.title': 'Kopia zapasowa',
   'backup.choice.backup.body': 'Zaszyfrowany plik, zabezpieczony wybranym hasłem.',
@@ -995,16 +1079,16 @@ export const pl: Dictionary = {
     'Otwarcie okienka na stronie logowania proponuje pasujący kod. Odczytywana jest tylko ta karta.',
 
   'vault.signInToSync': 'Zaloguj się, by synchronizować',
-  'vault.empty.signIn': 'Używasz Keyrook Authenticator w innej przeglądarce? <link>Zaloguj się</link>, by przenieść tu kody.',
+  'vault.empty.signIn': 'Używasz Keyrook Authenticator na innym urządzeniu? <link>Zaloguj się</link>, by przenieść tu kody.',
   'setup.haveAccount': 'Już używasz Keyrook Authenticator? <link>Zaloguj się</link>, by przenieść tu kody.',
   'popup.signInOpensTab': 'Otworzy się w nowej karcie i dokończy w Ustawieniach.',
 
   'error.backupWrongPassword': 'To hasło nie otwiera tego pliku.',
-  'error.foreign.steam': 'Kodów Steam Guard nie da się jeszcze zaimportować.',
+  'error.foreign.steamFolder': 'Wybierz naraz wszystkie pliki z folderu maFiles aplikacji Steam Desktop Authenticator: manifest.json i leżące obok pliki .maFile.',
   'error.foreign.locked': 'Ten eksport jest zabezpieczony hasłem, którego Keyrook Authenticator nie otworzy. Wyeksportuj go ponownie bez hasła.',
   'import.lockedFrom': '{app} zabezpieczył ten eksport hasłem. Wpisz hasło ustawione tam.',
   'import.fromApps':
-    'Działają też eksporty z Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, rozszerzenia Authenticator i Google Authenticator — oraz CSV z Apple Passwords, 1Password lub innego menedżera haseł.',
+    'Działają też eksporty z Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, rozszerzenia Authenticator i Google Authenticator — oraz CSV z Apple Passwords, 1Password lub innego menedżera haseł.',
   'shortcut.open': 'Otwórz Keyrook Authenticator',
   'shortcut.fill': 'Wpisz kod dla tej strony',
   'shortcut.fillHint': 'Wpisuje tylko tam, gdzie do strony należy dokładnie jedno konto; gdzie indziej otwiera listę.',
@@ -1014,4 +1098,63 @@ export const pl: Dictionary = {
   'import.csvWarning':
     'Ten plik zawiera twoje hasła jawnym tekstem. Odczytano tylko klucze uwierzytelniania dwuskładnikowego i nic więcej nie zachowano — usuń plik, gdy skończysz.',
   'import.noKeysInCsv': 'W tym pliku nie ma kluczy uwierzytelniania dwuskładnikowego — tylko hasła.',
+  'crash.title': 'Coś poszło nie tak',
+  'crash.body':
+    'Ten ekran napotkał problem i się zatrzymał. Twoich zapisanych kont to nie dotyczy. Zwykle pomaga ponowne wczytanie.',
+  'crash.reload': 'Wczytaj ponownie',
+  'setup.device.description.phone':
+    'Twoje sekrety są szyfrowane kluczem, który ten telefon przechowuje za ciebie. Nic do zapamiętania, nic do wpisywania.',
+  'setup.device.footnote.phone':
+    'Chroni przed kopią plików aplikacji. Nie chroni przed kimś, kto może odblokować ten telefon.',
+  'setup.password.footnote.phone':
+    'Najsilniejsza opcja: po zablokowaniu nic na tym telefonie nie otworzy sejfu bez hasła.',
+  'unrecoverable.why.phone':
+    'Jego klucz szyfrowania przechowywał ten telefon i klucz zniknął — zwykle dlatego, że wyczyszczono dane aplikacji, ponownie zainstalowano aplikację albo sejf pochodzi z kopii zapasowej innego telefonu. Bez tego klucza nikt, łącznie z nami, nie odszyfruje zapisanych kont.',
+  'vault.empty.body.phone':
+    'Gdy serwis pokaże kod QR do skonfigurowania uwierzytelniania dwuskładnikowego, zeskanuj go aparatem tego telefonu.',
+  'add.camera.description.phone': 'Dla kodu na innym ekranie — także eksportu z Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Przenosisz z Google Authenticator na innym telefonie? Wyeksportuj tam konta, a potem zeskanuj pokazany kod aparatem tego telefonu. Jeśli kodów jest kilka, zrób to dla każdego.',
+  'camera.noCamera.phone': 'Ten telefon nie daje aplikacji dostępu do aparatu.',
+  'camera.blocked.phone':
+    'Aplikacja nie ma uprawnień do aparatu. Zezwól na nie w ustawieniach telefonu albo dodaj konto w inny sposób.',
+  'camera.none.phone': 'Na tym telefonie nie znaleziono aparatu.',
+  'security.languageBrowser.phone': 'Język telefonu ({language})',
+  'protect.removeWarning.phone':
+    'Sejf pozostanie zaszyfrowany, ale będzie się sam odblokowywał przy każdym otwarciu aplikacji. Wtedy każdy, kto może odblokować ten telefon, zobaczy twoje kody.',
+  'kit.device.phone':
+    'Ten sejf otwiera się kluczem przechowywanym przez twój telefon. Jeśli ten klucz zniknie — wyczyszczone dane aplikacji, ponowna instalacja, nowy telefon — otworzy go już tylko klucz odzyskiwania.',
+  'kit.withoutDevice.phone':
+    'Bez niego utrata klucza przechowywanego przez ten telefon oznacza bezpowrotną utratę każdego konta w tym sejfie.',
+  'security.description.phone': 'Jak otwiera się ten sejf i jak wrócić, jeśli stracisz ten telefon.',
+  'security.deviceKeyHint.phone':
+    'Nic do wpisywania. Każdy, kto może odblokować ten telefon, może go otworzyć.',
+  'general.description.phone': 'Jak aplikacja wygląda i działa, i skąd pochodzi.',
+  'about.securityModelDescription.phone': 'Co gwarantuje aplikacja, a czego nie.',
+  'about.logos.description.phone':
+    'Znaki są wkompilowane w aplikację, nigdy nie są pobierane. Pobranie logotypu z sieci zdradziłoby odpowiadającemu, w których serwisach masz uwierzytelnianie dwuskładnikowe.',
+  'about.fact.access.title.phone': 'Tylko aparat i tylko do skanowania',
+  'about.fact.access.body.phone':
+    'Aplikacja nie prosi o żadne uprawnienie poza aparatem, i to tylko wtedy, gdy zdecydujesz się zeskanować kod. To, co widzi aparat, nigdy nie opuszcza telefonu.',
+  'about.fact.keys.body.phone':
+    'Twoje konta są zaszyfrowane kluczem danych, który sam jest opakowany innym kluczem. Z hasłem głównym klucz opakowujący powstaje z PBKDF2 w 600 000 rundach i istnieje tylko w pamięci, gdy sejf jest odblokowany. Bez hasła to klucz zapieczętowany przez własny magazyn kluczy telefonu, więc kopia plików aplikacji nie otworzy sejfu.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Duży kod — jak eksport z Google Authenticator — często nie da się tu zeskanować aparatem. Jeśli się nie da, zrób mu zdjęcie aplikacją aparatu w telefonie i użyj opcji Prześlij obraz z kodem QR.',
+  'import.noNativeReader.phone':
+    'Duży kod — jak eksport z Google Authenticator — często nie da się tu zeskanować aparatem. Jeśli się nie da, zrób zdjęcie każdego kodu aplikacją aparatu w telefonie i wybierz je wszystkie przez Wybierz pliki.',
+  'error.signOutUnsynced.phone':
+    'Niektóre zmiany na tym telefonie nie dotarły jeszcze na Twoje konto, a wylogowanie teraz by je utraciło. Połącz się z internetem i spróbuj ponownie.',
+  'account.signOutNote.phone':
+    'Wylogowanie usuwa Twoje kody z tego telefonu. Zostają na Twoim koncie Keyrook — zaloguj się ponownie, aby je przywrócić.',
+  'secondStepTip.suggest.phone':
+    'Wymagaj też kodu za każdym razem, gdy to konto loguje się na innym urządzeniu. Włącz je na account.keyrook.com i trzymaj kod tutaj: dodaj konto w tej aplikacji i zeskanuj kod QR, który pokazuje tamta strona.',
+  'intro.benefit2.phone': 'Zgubiony lub zepsuty telefon to nie zgubiony sejf.',
+  'provider.finishInWindow.phone': 'Dokończ na stronie {provider} otwartej w przeglądarce.',
+  'join.title.phone': 'Wpuść ten telefon',
+  'join.subtitle.phone':
+    '<b>{email}</b> ma już konto. Zatwierdź ten telefon z urządzenia, które jest zalogowane.',
+  'joinKey.subtitle.phone':
+    'Klucz zapisany przy tworzeniu konta. Wpuszcza ten telefon bez innego urządzenia.',
+  'facts.autofill.phone': 'Skanowanie QR',
 };

@@ -139,7 +139,88 @@ export const DOMAIN_OVERRIDES = {
   google: ['google.com', 'accounts.google.com'],
   apple: ['apple.com', 'appleid.apple.com', 'icloud.com'],
   proton: ['proton.me', 'protonmail.com'],
-  claude: ['claude.ai'],
+  // The Console moved from console.anthropic.com to platform.claude.com, the
+  // "Claude Platform". Claude Code's docs host, code.claude.com, made the icon
+  // set give claude.com to Claude Code, which has no sign-in of its own.
+  claude: ['claude.ai', 'claude.com'],
+  // The icon set's source is Wise's design system, wise.design, where nobody
+  // signs in.
+  wise: ['wise.com'],
+  // notion.so/login now answers from app.notion.com.
+  notion: ['notion.com', 'notion.so'],
+  // VK made vk.ru its main address in July 2026; vk.com still signs in.
+  vk: ['vk.ru', 'vk.com'],
+  // Shopee runs one site per market, and an account belongs to one of them.
+  // These are the markets Shopee's own footer links to. Colombia and Chile,
+  // which it no longer links, are out, as are the markets it left, whose
+  // domains only redirect: a country domain Shopee stops renewing can be
+  // registered by anyone, and would then be offered a code.
+  shopee: [
+    'shopee.com', 'shopee.co.id', 'shopee.co.th', 'shopee.com.ar', 'shopee.com.br',
+    'shopee.com.mx', 'shopee.com.my', 'shopee.ph', 'shopee.sg', 'shopee.tw', 'shopee.vn',
+  ],
+  // NordVPN's two-step codes belong to the Nord Account, which signs in at
+  // my.nordaccount.com.
+  nordvpn: ['nordvpn.com', 'nordaccount.com'],
+  // The API platform signs in on openai.com, ChatGPT on chatgpt.com, and one
+  // two-step setting covers both.
+  openai: ['openai.com', 'chatgpt.com'],
+  canva: ['canva.com'],
+  // The icon set points these at a brand page shared with their siblings —
+  // meta.com, atlassian.design, a Figma file of Zapier's, Turborepo's
+  // vercel.com — and a domain several services claim is dropped from all of
+  // them. Never the hosts where their users publish: vercel.app, figma.site,
+  // canva.site, notion.site, atlassian.net.
+  facebook: ['facebook.com'],
+  instagram: ['instagram.com'],
+  atlassian: ['atlassian.com'],
+  figma: ['figma.com'],
+  vercel: ['vercel.com'],
+  // A catalogued domain covers every host under it, so it must be one where
+  // nobody but the service publishes: a page someone else wrote there can mark
+  // a field as a one-time code and be filled with nobody looking.
+  //
+  // Where customers' sites live under the service's own domain, only the host
+  // it signs in on: *.squarespace.com is every Squarespace site's built-in
+  // address, *.wpengine.com every WP Engine install's, members.linode.com
+  // names customers' servers, and the public suffix list gives customers
+  // app.render.com, pro.typeform.com and platform.sh's regions.
+  squarespace: ['login.squarespace.com'],
+  wpengine: ['identity.wpengine.com', 'my.wpengine.com'],
+  render: ['dashboard.render.com'],
+  typeform: ['admin.typeform.com'],
+  platformdotsh: ['auth.api.platform.sh', 'console.platform.sh'],
+  // The icon set's source was a host where anyone publishes: webflow.io holds
+  // every Webflow site, railway.app every Railway app (up.railway.app), js.org
+  // any JavaScript project that asks.
+  webflow: ['webflow.com'],
+  railway: ['railway.com'],
+  webpack: [],
+  // Tumblr signs in on www.tumblr.com, and every blog beside it on
+  // tumblr.com runs its owner's own script. A catalogued domain reaches
+  // through "www." to all of them, so Tumblr has none.
+  tumblr: [],
+  // Another company's: brand portals on frontify.com and visualbook.pro, a
+  // press-release host on mediaroom.com, a logo site on cryptologos.cc.
+  algolia: ['algolia.com'],
+  trezor: ['trezor.io'],
+  tripadvisor: ['tripadvisor.com'],
+  dogecoin: [],
+  // The service's own, but a design system, a press kit or a corporate site,
+  // where nobody signs in, or an old address that only redirects.
+  medium: ['medium.com'],
+  klarna: ['klarna.com'],
+  wechat: ['wechat.com'],
+  porkbun: ['porkbun.com'],
+  deezer: ['deezer.com'],
+  kakao: ['kakao.com'],
+  reddit: ['reddit.com'],
+  godaddy: ['godaddy.com'],
+  replit: ['replit.com'],
+  bigcommerce: ['bigcommerce.com'],
+  // Copilot signs in on github.com, which is GitHub's; primer.style is
+  // GitHub's design system.
+  githubcopilot: [],
   googlegemini: ['gemini.google.com'],
   googlecolab: ['colab.research.google.com'],
   googledrive: ['drive.google.com'],
@@ -154,13 +235,14 @@ export const DOMAIN_OVERRIDES = {
   blockchaindotcom: ['blockchain.com'],
   bookingdotcom: ['booking.com'],
   alibabadotcom: ['alibaba.com'],
-  platformdotsh: ['platform.sh'],
   lastdotfm: ['last.fm'],
   archivedotorg: ['archive.org'],
   mailboxdotorg: ['mailbox.org'],
   rollupdotjs: ['rollupjs.org'],
   tencentqq: ['qq.com'],
   battledotnet: ['battle.net'],
+  // Where Steam asks for a Steam Guard code: its store and its community.
+  steam: ['steampowered.com', 'steamcommunity.com'],
   starlingbank: ['starlingbank.com'],
   charlesschwab: ['schwab.com'],
   interactivebrokers: ['interactivebrokers.com'],
@@ -263,55 +345,62 @@ export const NAMES = {
   interactivebrokers: 'Interactive Brokers',
 };
 
-/** Other names a service is issued under, beyond its own. */
+/**
+ * Other names a service is issued under, beyond its own. Each is one whole
+ * name, spaces and all: a word out of a longer name is not a name. "mail" out
+ * of "proton mail" claimed every issuer starting with it, Mail.ru among them,
+ * and an account that records no website is filled on the domains of whatever
+ * service its issuer resolves to.
+ */
 export const ALIASES = {
-  google: 'gmail google account',
-  x: 'twitter',
-  apple: 'icloud apple id',
-  proton: 'protonmail proton mail protonvpn',
-  battledotnet: 'blizzard battlenet',
-  playstation: 'sony psn',
-  ea: 'electronic arts origin',
-  steam: 'valve',
-  npm: 'npmjs',
-  docker: 'dockerhub',
-  mongodb: 'atlas',
-  wise: 'transferwise',
-  epicgames: 'epic',
-  riotgames: 'riot',
-  flydotio: 'fly',
-  alibabadotcom: 'alibaba',
-  '1password': 'onepassword',
-  anthropic: 'claude',
-  openai: 'chatgpt chat gpt open ai gpt',
-  googlegemini: 'gemini bard',
-  grok: 'xai grok ai',
-  githubcopilot: 'copilot',
-  huggingface: 'hf',
-  visualstudiocode: 'vscode',
-  nodedotjs: 'node nodejs',
-  postgresql: 'postgres',
-  elasticsearch: 'elastic',
-  kubernetes: 'k8s',
-  hashicorpvault: 'vault hashicorp',
-  tencentqq: 'qq tencent',
-  ubereats: 'uber eats',
-  primevideo: 'amazon prime video',
-  americanexpress: 'amex',
-  charlesschwab: 'schwab',
-  interactivebrokers: 'ibkr',
-  lastdotfm: 'lastfm',
-  itchdotio: 'itch',
-  gogdotcom: 'gog',
-  rocketdotchat: 'rocketchat',
-  cryptodotcom: 'crypto com',
-  blockchaindotcom: 'blockchain',
-  bookingdotcom: 'booking',
-  platformdotsh: 'platformsh',
-  rollupdotjs: 'rollup',
-  archivedotorg: 'internet archive',
-  mailboxdotorg: 'mailbox',
-  gatedotio: 'gate',
+  google: ['gmail', 'google account'],
+  x: ['twitter'],
+  apple: ['icloud', 'apple id'],
+  proton: ['protonmail', 'proton mail', 'protonvpn'],
+  battledotnet: ['blizzard', 'battlenet'],
+  playstation: ['sony', 'psn'],
+  ea: ['electronic arts', 'origin'],
+  steam: ['valve'],
+  npm: ['npmjs'],
+  docker: ['dockerhub'],
+  mongodb: ['atlas'],
+  wise: ['transferwise'],
+  epicgames: ['epic'],
+  riotgames: ['riot'],
+  flydotio: ['fly'],
+  alibabadotcom: ['alibaba'],
+  '1password': ['onepassword'],
+  anthropic: ['claude'],
+  openai: ['chatgpt', 'gpt'],
+  nordvpn: ['nord account'],
+  googlegemini: ['gemini', 'bard'],
+  grok: ['xai', 'grok ai'],
+  githubcopilot: ['copilot'],
+  huggingface: ['hf'],
+  visualstudiocode: ['vscode'],
+  nodedotjs: ['node', 'nodejs'],
+  postgresql: ['postgres'],
+  elasticsearch: ['elastic'],
+  kubernetes: ['k8s'],
+  hashicorpvault: ['vault', 'hashicorp'],
+  tencentqq: ['qq', 'tencent'],
+  ubereats: ['uber eats'],
+  primevideo: ['amazon prime video'],
+  americanexpress: ['amex'],
+  charlesschwab: ['schwab'],
+  interactivebrokers: ['ibkr'],
+  lastdotfm: ['lastfm'],
+  itchdotio: ['itch'],
+  gogdotcom: ['gog'],
+  rocketdotchat: ['rocketchat'],
+  cryptodotcom: ['crypto com'],
+  blockchaindotcom: ['blockchain'],
+  bookingdotcom: ['booking'],
+  platformdotsh: ['platformsh'],
+  rollupdotjs: ['rollup'],
+  archivedotorg: ['internet archive'],
+  mailboxdotorg: ['mailbox'],
+  gatedotio: ['gate'],
 };
 
 /**
@@ -338,16 +427,18 @@ export const WORDMARKS = new Set([
  * service's own colour is listed here — a colour is a fact, not artwork.
  */
 export const FONT_AWESOME = [
-  ['microsoft', 'Microsoft', 'microsoft.com live.com outlook.com office.com', 'outlook office live msa azure', '00A4EF'],
-  ['amazon', 'Amazon', 'amazon.com', '', 'FF9900'],
-  ['aws', 'AWS', 'aws.amazon.com signin.aws.amazon.com', 'amazonwebservices amazon web services', '232F3E'],
-  ['linkedin', 'LinkedIn', 'linkedin.com', '', '0A66C2'],
-  ['slack', 'Slack', 'slack.com', '', '4A154B'],
-  ['xbox', 'Xbox', 'xbox.com', '', '107C10'],
-  ['yandex', 'Yandex', 'yandex.com yandex.ru', '', 'FC3F1D'],
-  ['linode', 'Linode', 'linode.com', 'akamai connected cloud', '00A95C'],
-  ['alipay', 'Alipay', 'alipay.com', 'ant group', '1677FF'],
-  ['paypal', 'PayPal', 'paypal.com', '', '003087'],
+  // Work and school accounts sign in at login.microsoftonline.com.
+  ['microsoft', 'Microsoft', 'microsoft.com live.com outlook.com office.com microsoftonline.com', ['outlook', 'office', 'live', 'msa', 'azure'], '00A4EF'],
+  ['amazon', 'Amazon', 'amazon.com', [], 'FF9900'],
+  ['aws', 'AWS', 'aws.amazon.com signin.aws.amazon.com', ['amazon web services'], '232F3E'],
+  ['linkedin', 'LinkedIn', 'linkedin.com', [], '0A66C2'],
+  ['slack', 'Slack', 'slack.com', [], '4A154B'],
+  ['xbox', 'Xbox', 'xbox.com', [], '107C10'],
+  ['yandex', 'Yandex', 'yandex.com yandex.ru', [], 'FC3F1D'],
+  // Not linode.com: members.linode.com names customers' own servers.
+  ['linode', 'Linode', 'login.linode.com cloud.linode.com', ['akamai connected cloud'], '00A95C'],
+  ['alipay', 'Alipay', 'alipay.com', ['ant group'], '1677FF'],
+  ['paypal', 'PayPal', 'paypal.com', [], '003087'],
 ];
 
 /**

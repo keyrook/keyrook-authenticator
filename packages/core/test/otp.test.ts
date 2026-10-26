@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { base32Decode, base32Encode, isValidBase32 } from '../src/util/base32.js';
-import { generateHotp, generateTotp, formatCode, totpWindow } from '../src/otp/totp.js';
-import { buildOtpUri, parseOtpUri } from '../src/otp/uri.js';
+import { generateCode, generateHotp, generateSteam, generateTotp, formatCode, totpWindow } from '../src/otp/totp.js';
+import { buildOtpUri, parseOtpUri, parseSteamLink } from '../src/otp/uri.js';
+import { STEAM_PARAMS } from '../src/otp/types.js';
 import { utf8 } from '../src/util/bytes.js';
 
 describe('base32 (RFC 4648 §10 vectors)', () => {
@@ -80,6 +81,34 @@ describe('TOTP (RFC 6238 Appendix B)', () => {
   });
 });
 
+// Made by Steam's own mobile app for a throw-away account, whose key was then
+// taken from the app's data: KeePassXC's tests/TestTotp.cpp, testSteamTotp.
+// Independent of this code, and of every library it might have copied.
+const STEAM_SECRET = '63BEDWCQZKTQWPESARIERL5DTTQFCJTK';
+
+describe('Steam Guard (codes from Steam’s mobile app)', () => {
+  it.each([
+    [1511200518, 'FR8RV'],
+    [1511200714, '9P3VP'],
+  ])('at %i makes %s', async (seconds, code) => {
+    expect(await generateSteam(STEAM_SECRET, seconds * 1000)).toBe(code);
+    expect(await generateCode({ ...STEAM_PARAMS, secret: STEAM_SECRET }, seconds * 1000)).toBe(code);
+  });
+
+  it('keeps Steam’s settings whatever an account says of its own', async () => {
+    const odd = { ...STEAM_PARAMS, secret: STEAM_SECRET, digits: 8, period: 60, algorithm: 'SHA512' as const };
+    expect(await generateCode(odd, 1511200518_000)).toBe('FR8RV');
+  });
+
+  it('writes the code in Steam’s alphabet, five characters, ungrouped', async () => {
+    for (let step = 0; step < 50; step++) {
+      const code = await generateSteam(STEAM_SECRET, step * 30_000);
+      expect(code).toMatch(/^[23456789BCDFGHJKMNPQRTVWXY]{5}$/);
+      expect(formatCode(code)).toBe(code);
+    }
+  });
+});
+
 describe('totpWindow', () => {
   it('reports the time left in the current step', () => {
     // 999_990 is an exact multiple of the 30-second step, so +7s lands 7 in.
@@ -133,7 +162,7 @@ describe('otpauth URI', () => {
     expect(() => parseOtpUri('https://example.com')).toThrow(/Not an otpauth/);
     expect(() => parseOtpUri('otpauth://totp/x')).toThrow(/missing the "secret"/);
     expect(() => parseOtpUri('otpauth://totp/x?secret=not-base32!')).toThrow(/not valid base32/);
-    expect(() => parseOtpUri('otpauth://steam/x?secret=JBSWY3DPEHPK3PXP')).toThrow(/Unsupported OTP type/);
+    expect(() => parseOtpUri('otpauth://motp/x?secret=JBSWY3DPEHPK3PXP')).toThrow(/Unsupported OTP type/);
   });
 
   it('round-trips through buildOtpUri', () => {
@@ -141,6 +170,41 @@ describe('otpauth URI', () => {
       'otpauth://totp/ACME:jane?secret=JBSWY3DPEHPK3PXP&issuer=ACME&algorithm=SHA512&digits=8&period=45',
     );
     expect(parseOtpUri(buildOtpUri(original))).toEqual(original);
+  });
+
+  it('reads Steam Guard however a link says it', () => {
+    const steam = { ...STEAM_PARAMS, secret: STEAM_SECRET };
+    // Aegis, Ente and 2FAS.
+    expect(
+      parseOtpUri(`otpauth://steam/Steam:gaben?secret=${STEAM_SECRET}&issuer=Steam&algorithm=SHA1&digits=5&period=30`),
+    ).toEqual({ ...steam, issuer: 'Steam', label: 'gaben' });
+    // KeePassXC, whatever else the link claims.
+    expect(parseOtpUri(`otpauth://totp/Valve:gaben?secret=${STEAM_SECRET}&digits=5&encoder=steam`)).toEqual({
+      ...steam,
+      issuer: 'Valve',
+      label: 'gaben',
+    });
+    // The link Steam hands out, which Steam Desktop Authenticator shows: a
+    // plain TOTP, issued by Steam, whose six digits Steam would refuse.
+    expect(parseOtpUri(`otpauth://totp/Steam:gaben?secret=${STEAM_SECRET}&issuer=Steam`)).toEqual({
+      ...steam,
+      issuer: 'Steam',
+      label: 'gaben',
+    });
+    // Bitwarden's, Proton's and the spreadsheets'.
+    expect(parseSteamLink(`steam://${STEAM_SECRET.toLowerCase()}`)).toEqual({ ...steam, issuer: '', label: '' });
+    expect(() => parseSteamLink('steam://not-base32!')).toThrow(/not valid base32/);
+  });
+
+  it('leaves a counter-based account issued by Steam as it is', () => {
+    expect(parseOtpUri(`otpauth://hotp/Steam:x?secret=${STEAM_SECRET}&counter=3`).type).toBe('hotp');
+  });
+
+  it('writes Steam Guard as otpauth://steam/, and reads it back the same', () => {
+    const original = parseOtpUri(`otpauth://steam/Steam:gaben?secret=${STEAM_SECRET}&issuer=Steam`);
+    const uri = buildOtpUri(original);
+    expect(uri).toBe(`otpauth://steam/Steam:gaben?secret=${STEAM_SECRET}&issuer=Steam&digits=5`);
+    expect(parseOtpUri(uri)).toEqual(original);
   });
 
   it('round-trips HOTP counters', () => {

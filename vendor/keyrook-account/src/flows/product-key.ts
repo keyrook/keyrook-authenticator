@@ -16,6 +16,7 @@ import {
   deriveRootCheck,
   newAccountRoot,
   openRootWithPassword,
+  openRootWithRecoveryKey,
   wrapRootUnderPassword,
   wrapRootUnderRecoveryKey,
   type AccountRoot,
@@ -30,7 +31,7 @@ import {
 } from '../sync/account.js';
 import { generateRecoveryKey } from '../sync/kit.js';
 import { prelogin, providerRegister, register, SyncHttpError, type Fetcher, type HttpSyncAdapter } from '../sync/http.js';
-import type { AccountKeysResponse, InitialKeys, LoginResponse, ProviderLogin, ProviderTicket } from '../sync/protocol.js';
+import type { AccountKeysResponse, InitialKeys, LoginResponse, ProviderLogin, ProviderTicket, SecondStepProof } from '../sync/protocol.js';
 import { deriveKeyCheck, deriveRecoveryAuthHash } from '../sync/recovery.js';
 
 /** Where the account lives, for the calls made before there is a session. */
@@ -342,6 +343,29 @@ async function withRoot(
 }
 
 /**
+ * Checks the recovery key typed whole on this product's screen: it must open
+ * the account's root here, the root the server reports. Returns that root, for
+ * `openProductKey` with `recoveryKeyTyped`, which is what records on this
+ * product's own pin that the recovery key protects it. The server is told as
+ * well, only so that nobody is reminded to look for it for a while.
+ */
+export async function checkRecoveryKey(api: HttpSyncAdapter, accountId: string, recoveryKey: string): Promise<AccountRoot> {
+  const held = await api.accountKeys();
+  assertSameAccount(held, accountId);
+  if (!held.root?.recoveryWrap) throw new Error('This account has no recovery key yet.');
+  let root: AccountRoot;
+  try {
+    root = await openRootWithRecoveryKey(held.root.recoveryWrap, recoveryKey, accountId);
+  } catch (error) {
+    if (error instanceof DecryptionError) throw new Error('That recovery key does not open this account.');
+    throw error;
+  }
+  if (root.publicKey !== held.root.publicKey) throw new Error('The server reported an account key other than the one that opened.');
+  await api.recoveryChecked({ rootRecoveryAuthHash: await deriveRecoveryAuthHash(recoveryKey) });
+  return root;
+}
+
+/**
  * Gives an account without a root its root, from a product that is not its
  * first: the person was told, signed in again, and chose to (section 4). The
  * recovery key it is wrapped under is the one the account already has — typed
@@ -357,6 +381,8 @@ export async function createAccountRoot(
     keys?: AccountKeys;
     /** A fresh sign-in with the provider, on an account without one. */
     reauth?: ProviderTicket;
+    /** On an account with a second step, beside the password or the sign-in (`secondStepProof`). */
+    secondStep?: SecondStepProof;
     /** The recovery key the account already has, if the person has it. */
     recoveryKey?: string;
     existingKey?: CryptoKey;
@@ -375,6 +401,7 @@ export async function createAccountRoot(
       ...(input.recoveryKey !== undefined ? { keepsRecoveryKey: true } : {}),
       ...(input.keys ? { authHash: input.keys.authHash } : {}),
       ...(input.reauth ? { reauth: input.reauth } : {}),
+      ...(input.secondStep ? { secondStep: input.secondStep } : {}),
     });
   } catch (error) {
     // Another device made the root first: open that one instead.

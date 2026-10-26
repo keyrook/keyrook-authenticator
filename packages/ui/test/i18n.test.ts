@@ -166,6 +166,11 @@ describe('English that comes from elsewhere', () => {
     'Malformed account key.',
     'Malformed root pin.',
     'Not a Keyrook product name.',
+    // A removal proof's guards on this device's own values, which it always
+    // sends well formed; what the server sent never throws.
+    'Malformed device id.',
+    'Malformed removal time.',
+    'Malformed sign-in time.',
     'That box was not sealed to this account.',
     'That is not an account key.',
     // A shared link's: the share page shows these, in English like the page,
@@ -184,6 +189,44 @@ describe('English that comes from elsewhere', () => {
     'Only the account page can ask for this.',
     'Only the account page reads every product’s key box.',
     'The account page cannot do that.',
+    // Asking to start an account over, which this app never does: Passhold
+    // and the account page do (keyrook-account's design, section 10).
+    'This account already starts over on 12.',
+    'Update this app to start the account over: it now takes effect a week after it is asked for.',
+    // Cancelling one that another device cancelled first: done either way.
+    'This account has no start over waiting.',
+    // Passkeys are added, listed, removed and given the root on the account
+    // page alone, and this app never proves the owner with one: what only
+    // those can meet. A malformed id is a server's, refused for the log.
+    'Add a passkey on account.keyrook.com.',
+    'That passkey is already on a Keyrook account.',
+    'That passkey is not on this account.',
+    'This account already has 10 passkeys. Remove one before adding another.',
+    'That passkey does not unlock this account. Confirm with the password instead.',
+    'The passkey’s wrap did not open again. Nothing was changed.',
+    'That passkey did not confirm it is you. Try again.',
+    'This account has no passkey.',
+    'Malformed passkey id.',
+    // The account page's alone: setting up the keys of an account only this
+    // app used, the ways to sign in added and removed, two-step sign-in
+    // turned on and off.
+    'Confirm with the password, or the recovery key and a sign-in with Google or GitHub.',
+    'Keyrook Authenticator’s key is not under this password yet. Open Keyrook Authenticator once, then try again.',
+    'This account has no key of Keyrook Authenticator’s to set its keys up from.',
+    'That Google or GitHub account already signs in to another Keyrook account.',
+    'That Google or GitHub account has another email address than this Keyrook account.',
+    'That sign-in is not on this account.',
+    'This account already has a password.',
+    'This account already signs in with an account of that provider.',
+    'This account already signs in with it.',
+    'This is the only way to sign in to this account.',
+    'Start turning on two-step sign-in again.',
+    'Two-step sign-in is already off.',
+    'Two-step sign-in is already on.',
+    'Two-step sign-in is not offered yet.',
+    // Naming the account (keyrook-account's S22): this app never sets a name,
+    // so it never meets the server's refusal of one.
+    'A name may hold letters, spaces, apostrophes, hyphens and full stops, up to 64 characters.',
   ]);
 
   // In the core, anything thrown. The server's sentences come from its kit,

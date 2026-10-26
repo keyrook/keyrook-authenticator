@@ -21,3 +21,7 @@ store-assets/video/
 # The intro page plays the same film from its own folder: copied from there
 # before an upload (docs/deploy.md), never committed.
 site/keyrook.com/authenticator/video/*.mp4
+
+# The Android toolchain — JDK, SDK, emulator images, Gradle caches — kept in the
+# repository rather than the home directory (apps/mobile/scripts/android-env.sh).
+/.toolchain/

@@ -17,6 +17,7 @@ export const fr: Dictionary = {
   'error.recoverOnAccountPage': 'Votre clé de récupération est la bonne, mais le mot de passe de ce compte se réinitialise désormais sur la page du compte, pour toutes les apps Keyrook à la fois.',
   'error.kitOnAccountPage': 'La clé de récupération de ce compte se crée désormais sur la page du compte, pour toutes les apps Keyrook à la fois.',
   'error.restoreEmpty': 'Il ne reste rien de ce compte à récupérer : il a été supprimé sur un autre appareil avant que celui-ci ne l’ait jamais eu.',
+  'error.noAccountSheet': 'Ce compte n’a pas encore de clé de récupération. Créez-en une sur la page du compte.',
   'error.recoveryKeyWrong': 'Cette clé de récupération ne correspond pas à ce compte.',
   'error.noRecoveryKit': 'Ce coffre n’a pas de clé de récupération.',
   'error.syncUnavailable': 'La synchronisation n’est pas disponible dans cette version.',
@@ -24,6 +25,8 @@ export const fr: Dictionary = {
   'error.alreadySignedIn': 'Déjà connecté.',
   'error.signedOutElsewhere':
     'Cet appareil a été déconnecté de la synchronisation — le mot de passe a été changé ou l’appareil a été retiré depuis un autre. Reconnectez-vous.',
+  'error.removedFromAccount':
+    'Un autre appareil a retiré celui-ci de votre compte Keyrook, les codes du compte ont donc été supprimés ici. Reconnectez-vous pour les récupérer.',
   'error.signOutUnsynced':
     'Certaines modifications faites dans ce navigateur ne sont pas encore arrivées dans votre compte, et se déconnecter maintenant les perdrait. Connectez-vous à Internet et réessayez.',
   'error.enterAccountPassword': 'Saisissez le mot de passe de votre compte.',
@@ -55,10 +58,10 @@ export const fr: Dictionary = {
   'error.nothingWaiting': 'Rien n’attend d’approbation.',
   'error.pairingExpired': 'La demande a pris fin — elle a été refusée, ou dix minutes se sont écoulées. Redemandez.',
   'error.pairingWrongKey':
-    'La clé reçue n’est pas celle de ce compte. Rien n’a été modifié. Réessayez depuis l’autre navigateur.',
-  'error.pairingForged': 'Cette approbation ne vient pas du navigateur dont vous avez vérifié le code.',
+    'La clé reçue n’est pas celle de ce compte. Rien n’a été modifié. Réessayez depuis l’autre appareil.',
+  'error.pairingForged': 'Cette approbation ne vient pas de l’appareil dont vous avez vérifié le code.',
   'error.pairingForgedAsk':
-    'Cette approbation ne vient pas du navigateur dont le code a été vérifié. Rien n’a été modifié. Redemandez.',
+    'Cette approbation ne vient pas de l’appareil dont le code a été vérifié. Rien n’a été modifié. Redemandez.',
   'error.pairingEnded': 'Cette demande a pris fin.',
   'error.approveAgain': 'Recommencez l’approbation de cette demande.',
   'error.backupPasswordShort': 'Le mot de passe de la sauvegarde doit comporter au moins 8 caractères.',
@@ -76,6 +79,24 @@ export const fr: Dictionary = {
   'error.migrationNotOurs': 'Ce n’est pas un export de Google Authenticator.',
   'error.migrationMalformed': 'Cet export de Google Authenticator est endommagé ou incomplet.',
   'error.offline': 'Impossible de joindre le serveur de synchronisation. Vérifiez votre connexion et réessayez.',
+  'error.passkey.wrongOrigin': 'Une clé d’accès ne répond qu’à la page et aux applications de Keyrook.',
+  'error.passkey.notOffered': 'La connexion par clé d’accès n’est pas proposée ici.',
+  'error.passkey.unchecked': 'Cette clé d’accès n’a pas pu être vérifiée. Réessayez.',
+  'error.passkey.unknown': 'Aucun compte Keyrook ne connaît cette clé d’accès. Elle a peut-être été supprimée.',
+  'error.passkey.ended': 'La demande pour cette clé d’accès a expiré. Réessayez.',
+  'error.passkey.noUnlock': 'Cette clé d’accès n’ouvre pas la clé de ce compte. Connectez-vous plutôt avec le mot de passe.',
+  'error.passkey.noUnlockProvider':
+    'Cette clé d’accès n’ouvre pas la clé de ce compte. Continuez plutôt avec Google ou GitHub.',
+  'error.passkey.masterPassword':
+    'Un coffre verrouillé par un mot de passe principal ne peut pas se connecter avec une clé d’accès. Connectez-vous avec le mot de passe du compte, ou avec Google ou GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator a besoin de l’autorisation de Chrome pour utiliser les clés d’accès d’account.keyrook.com. Choisissez de nouveau la clé d’accès et autorisez-la.',
+  'error.passkey.cancelled': 'Aucune clé d’accès n’a été utilisée. Réessayez, ou connectez-vous autrement.',
+  'error.passkey.failed': 'Chrome n’a pas pu demander de clé d’accès. Réessayez, ou connectez-vous autrement.',
+  'error.secondStep.missing': 'Saisissez aussi le code de votre application d’authentification.',
+  'error.secondStep.wrongCode': 'Ce code n’est pas le bon. Saisissez celui que votre application d’authentification affiche maintenant.',
+  'error.secondStep.expired': 'Cette connexion a expiré. Reconnectez-vous.',
+  'error.secondStep.used': 'Ce code vient de servir à vous connecter. Attendez que votre application affiche le suivant.',
   'error.provider.refusedBy': '{provider} a refusé la connexion.',
   'error.provider.unreachable': '{provider} est injoignable. Réessayez dans un instant.',
   'error.provider.refused': 'La connexion a été refusée. Réessayez.',
@@ -90,11 +111,11 @@ export const fr: Dictionary = {
   'error.server.signinExpired': 'Cette connexion a expiré. Réessayez.',
   'error.server.tooManyCodes': 'Trop de codes erronés. Demandez-en un nouveau.',
   'error.server.tooManyPairings':
-    'Trop de navigateurs attendent de rejoindre ce compte. Réessayez dans quelques minutes.',
+    'Trop d’appareils attendent de rejoindre ce compte. Réessayez dans quelques minutes.',
   'error.server.wrongKey': 'Cet appareil ne détient pas la clé du compte.',
   'error.server.providerAccount': 'Ce compte se connecte avec Google ou GitHub, pas avec un mot de passe.',
   'error.server.mailFailed': 'L’e-mail n’a pas pu être envoyé. Réessayez dans une minute.',
-  'error.server.pairingTaken': 'Cette demande a pris fin, ou un autre navigateur est en train de l’approuver.',
+  'error.server.pairingTaken': 'Cette demande a pris fin, ou un autre appareil est en train de l’approuver.',
   'error.server.passwordWrong': 'Ce mot de passe est incorrect.',
   'error.server.badCredentials': 'E-mail ou mot de passe incorrect.',
   'error.server.badCode':
@@ -155,6 +176,22 @@ export const fr: Dictionary = {
   'unlock.placeholder': 'Mot de passe principal',
   'unlock.submit': 'Déverrouiller',
   'unlock.forgot': 'Vous l’avez oublié ? <link>Utiliser votre clé de récupération</link>',
+  'platformUnlock.unlock': 'Déverrouiller avec l’empreinte, le visage ou le code PIN',
+  'platformUnlock.title': 'Empreinte, visage ou code PIN',
+  'platformUnlock.body': 'Ouvrez le coffre avec la vérification propre à cet ordinateur — Touch ID, Windows Hello ou son code PIN — au lieu de saisir le mot de passe principal. Le mot de passe l’ouvre toujours, et les modifications le demandent toujours.',
+  'platformUnlock.on': 'Le coffre s’ouvre aussi avec la vérification propre à cet ordinateur. Retirer le mot de passe principal la désactive.',
+  'passkeyUnlock.turnOn': 'Activer',
+  'passkeyUnlock.turnOff': 'Désactiver',
+  'platformUnlock.confirm': 'Votre ordinateur vous demandera ensuite votre empreinte, votre visage ou votre code PIN.',
+  'error.passkeyUnlock.cancelled': 'La vérification a été annulée ou a pris trop de temps. Réessayez, ou utilisez le mot de passe principal.',
+  'error.platformUnlock.noPrf': 'L’endroit où cette clé d’accès a été enregistrée ne peut pas conserver de clé, elle ne peut donc pas ouvrir le coffre. Réactivez ceci et choisissez un autre endroit quand on vous demande où l’enregistrer — ou continuez avec le mot de passe principal.',
+  'error.passkeyUnlock.failed': 'Cela n’a pas ouvert le coffre. Utilisez le mot de passe principal, puis réactivez ceci dans Sécurité.',
+  'securityKey.unlock': 'Déverrouiller avec une clé de sécurité',
+  'securityKey.title': 'Clé de sécurité',
+  'securityKey.body': 'Ouvrez le coffre avec une clé de sécurité USB et son code PIN au lieu de saisir le mot de passe principal. Quiconque détient la clé et connaît son code PIN pourra alors ouvrir le coffre sur cet ordinateur. Si la clé est perdue, le mot de passe principal ouvre toujours le coffre.',
+  'securityKey.on': 'Le coffre s’ouvre aussi avec votre clé de sécurité et son code PIN sur cet ordinateur. Quiconque détient la clé et connaît son code PIN peut l’ouvrir ici : si la clé est perdue, désactivez ceci. Retirer le mot de passe principal la désactive.',
+  'securityKey.confirm': 'Insérez ensuite votre clé de sécurité, saisissez son code PIN et touchez-la. Certaines clés le demandent deux fois.',
+  'error.securityKey.noPrf': 'Cette clé de sécurité ne peut pas conserver de clé, elle ne peut donc pas ouvrir le coffre. Les clés conçues uniquement pour la connexion en deux étapes ne le peuvent pas. Essayez une autre clé, ou continuez avec le mot de passe principal.',
 
   // --- Coffre impossible à ouvrir -----------------------------------------------
   'unrecoverable.title': 'Ce coffre ne peut plus être ouvert',
@@ -195,6 +232,7 @@ export const fr: Dictionary = {
   'setup.password.footnote':
     'L’option la plus sûre : une fois verrouillé, rien sur cet ordinateur ne peut ouvrir le coffre sans le mot de passe.',
   'setup.footer': 'Dans les deux cas, AES-256-GCM. Modifiable à tout moment ; la synchronisation est facultative, dans les Paramètres.',
+  'setup.footer.noSync': 'Dans les deux cas, AES-256-GCM. Modifiable à tout moment, dans les Paramètres.',
   'setup.source': 'Open source — lire le code',
   'common.back': 'Retour',
   'setup.passwordStep.title': 'Définir un mot de passe principal',
@@ -243,8 +281,8 @@ export const fr: Dictionary = {
   'vault.byName': 'Par nom',
   'vault.orderAdded': 'Ordre d’ajout',
   'vault.joinRequests': {
-    one: 'Un navigateur demande à rejoindre votre compte.',
-    other: '{count} navigateurs demandent à rejoindre votre compte.',
+    one: 'Un appareil demande à rejoindre votre compte.',
+    other: '{count} appareils demandent à rejoindre votre compte.',
   },
   'vault.joinRequestsHint': 'N’approuvez que celui sur lequel vous êtes vous-même en train de vous connecter.',
   'vault.reviewInSettings': 'Examiner dans les Paramètres',
@@ -339,6 +377,7 @@ export const fr: Dictionary = {
   'error.alreadyInVault': 'Ce compte est déjà dans votre coffre.',
   'error.gaSkipPeriod': 'Google Authenticator ne garde que les codes de 30 secondes ; celui-ci utilise {period}.',
   'error.gaSkipDigits': 'Google Authenticator ne garde que les codes à 6 ou 8 chiffres ; celui-ci en a {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator ne sait pas produire de codes Steam Guard.',
 
   // --- Scan avec la caméra ------------------------------------------------------
   'scan.progressBatch': 'Code {seen} sur {total} scanné — {accounts}. Affichez le code suivant.',
@@ -430,9 +469,18 @@ export const fr: Dictionary = {
   // --- Une nouvelle clé de récupération -----------------------------------------
   'sheet.once':
     'C’est la seule fois que cette clé s’affiche. Elle n’est enregistrée nulle part — si vous la perdez, créez-en une nouvelle.',
+  'sheet.print': 'Imprimer',
+  'sheet.apart': 'Gardez-la à l’écart de votre messagerie et ne vous l’envoyez jamais par e-mail : avec cette clé et votre adresse e-mail, quelqu’un peut définir un nouveau mot de passe et ouvrir vos codes.',
+  'sheet.apartProvider': 'Gardez-la à l’écart du compte Google ou GitHub avec lequel vous vous connectez, et ne la rangez jamais dans la messagerie ou le stockage de ce compte : avec cette clé et ce compte, quelqu’un peut ouvrir vos codes.',
+  'sheet.kept': 'Je l’ai enregistrée',
+  'sheet.checkHeading': 'Vérifiez que vous l’avez enregistrée',
+  'sheet.checkLead': 'Saisissez deux groupes de la clé d’après ce que vous avez enregistré. Les groupes sont les blocs de quatre entre les tirets, comptés depuis la gauche.',
+  'sheet.group': 'Groupe {position}',
+  'sheet.check': 'Vérifier',
+  'sheet.mismatch': 'Ce n’est pas ce qu’indique votre clé. Regardez à nouveau ce que vous avez enregistré, ou affichez de nouveau la clé et enregistrez-la maintenant.',
+  'sheet.showAgain': 'Afficher de nouveau la clé',
   'sheet.download': 'Télécharger la feuille',
   'sheet.copy': 'Copier',
-  'sheet.saved': 'Je l’ai enregistrée dans un endroit que j’aurai encore si cet ordinateur disparaît.',
 
   // --- Groupes ------------------------------------------------------------------
   'groups.title': 'Groupes',
@@ -499,6 +547,7 @@ export const fr: Dictionary = {
   'accounts.digits': '{type} {digits} chiffres',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · compteur {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Partager ou transférer {name}',
   'accounts.edit': 'Modifier',
   'common.delete': 'Supprimer',
@@ -638,6 +687,7 @@ export const fr: Dictionary = {
   'export.oneByOne.progress': 'Comptes affichés',
   'export.oneByOne.position': 'Compte {index} sur {total}',
   'export.oneByOne.keys': '→ ou Espace pour le suivant, Échap pour arrêter',
+  'export.steamRefused': '{app} ne sait pas produire de codes Steam Guard, et n’acceptera donc pas ce compte.',
   'export.print.label': 'QR codes à imprimer ou scanner',
   'export.print.title': 'Keyrook Authenticator — codes de configuration',
   'export.print.body':
@@ -718,11 +768,11 @@ export const fr: Dictionary = {
   // --- Paramètres : clé de récupération -----------------------------------------
   'kit.title': 'Clé de récupération',
   'kit.provider':
-    'Votre compte n’a pas de mot de passe. Une clé de récupération est le moyen de revenir si tous les navigateurs connectés sont perdus : elle laisse un nouveau navigateur entrer dans votre compte sans qu’un autre ait à l’approuver. {provider} ne peut pas le faire pour vous.',
+    'Votre compte n’a pas de mot de passe. Une clé de récupération est le moyen de revenir si tous les appareils connectés sont perdus : elle laisse un nouvel appareil entrer dans votre compte sans qu’un autre ait à l’approuver. {provider} ne peut pas le faire pour vous.',
   'kit.signedIn':
-    'Personne ne peut réinitialiser votre mot de passe — ni nous, ni Google. Une clé de récupération est le seul moyen de revenir si vous l’oubliez : elle ouvre ce coffre, vos autres appareils, et votre compte sur un nouvel appareil.',
+    'Personne ne peut réinitialiser votre mot de passe à votre place — pas même nous. Une clé de récupération est le seul moyen de revenir si vous l’oubliez : elle ouvre ce coffre, vos autres appareils, et votre compte sur un nouvel appareil.',
   'kit.passphrase':
-    'Personne ne peut réinitialiser votre mot de passe principal — ni nous, ni Google. C’est ce qui empêche quiconque d’ouvrir votre coffre, et c’est aussi pourquoi une clé de récupération est le seul moyen de revenir si vous l’oubliez.',
+    'Personne ne peut réinitialiser votre mot de passe principal — pas même nous. C’est ce qui empêche quiconque d’ouvrir votre coffre, et c’est aussi pourquoi une clé de récupération est le seul moyen de revenir si vous l’oubliez.',
   'kit.device':
     'Ce coffre se déverrouille avec une clé gardée par votre navigateur. Si cette clé disparaît — données de navigation effacées, nouveau profil, réinstallation —, seule une clé de récupération peut encore l’ouvrir.',
   'kit.none': 'Pas encore de clé de récupération',
@@ -737,19 +787,19 @@ export const fr: Dictionary = {
   'kit.replacesSignedIn':
     'Créer une nouvelle clé désactive la précédente, ici et sur vos autres appareils : une ancienne feuille imprimée peut être jetée une fois remplacée.',
   'kit.withoutProvider':
-    'Sans elle, perdre tous les navigateurs connectés à votre compte signifie perdre pour de bon tous les comptes de ce coffre.',
+    'Sans elle, perdre tous les appareils connectés à votre compte signifie perdre pour de bon tous les comptes de ce coffre.',
   'kit.withoutPassword':
     'Sans elle, oublier votre mot de passe signifie perdre pour de bon tous les comptes de ce coffre.',
   'kit.withoutDevice':
     'Sans elle, perdre la clé gardée par ce navigateur signifie perdre pour de bon tous les comptes de ce coffre.',
   'kit.noSupport': 'Aucune demande d’assistance ne peut y remédier.',
   'kit.removeProvider':
-    'Sans elle, seul un navigateur déjà connecté peut laisser entrer un nouveau navigateur dans votre compte.',
+    'Sans elle, seul un appareil déjà connecté peut laisser entrer un nouvel appareil dans votre compte.',
   'kit.removePassword': 'Sans elle, votre mot de passe reste le seul moyen d’entrer.',
   'kit.removePasswordSignedIn':
     'Sans elle, votre mot de passe reste le seul moyen d’entrer — sur cet appareil, vos autres appareils et votre compte.',
   'kit.reauth':
-    'Une clé de récupération peut laisser entrer un navigateur dans votre compte : {provider} vous demande donc d’abord de vous reconnecter.',
+    'Une clé de récupération peut laisser entrer un appareil dans votre compte : {provider} vous demande donc d’abord de vous reconnecter.',
   'kit.passwordHint': 'Une clé de récupération peut réinitialiser votre compte : la modifier demande votre mot de passe.',
   'kit.removeConfirm': 'Supprimer la clé de récupération',
   'kit.createConfirm': 'Créer la clé',
@@ -779,7 +829,7 @@ export const fr: Dictionary = {
   'account.syncNow': 'Synchroniser',
   'account.signOut': 'Se déconnecter',
   'account.noKitProvider':
-    'Votre compte n’a pas de clé de récupération. Si tous les navigateurs connectés sont perdus, rien ne pourra récupérer vos comptes — ni nous, ni {provider}.',
+    'Votre compte n’a pas de clé de récupération. Si tous les appareils connectés sont perdus, rien ne pourra récupérer vos comptes — ni nous, ni {provider}.',
   'account.noKit':
     'Votre compte n’a pas de clé de récupération. Si vous oubliez votre mot de passe et perdez cet appareil, rien ne pourra récupérer vos comptes — ni nous, ni personne.',
   'account.createUnderSecurity': 'En créer une dans Sécurité',
@@ -802,11 +852,34 @@ export const fr: Dictionary = {
   'accountPage.bodyNoRoot': 'Son mot de passe et sa suppression se trouvent sur la page du compte. Sa clé de récupération se crée ici, dans Sécurité, tant qu’aucune autre app Keyrook n’utilise le compte.',
   'accountPage.bodyProvider': 'Sa clé de récupération, le recommencer et le supprimer se trouvent sur la page du compte, pour toutes les apps Keyrook à la fois.',
   'accountPage.bodyNoRootProvider': 'Sa suppression se trouve sur la page du compte. Sa clé de récupération se crée ici, dans Sécurité, tant qu’aucune autre app Keyrook n’utilise le compte.',
+  'sheetCheck.lead': 'Saisissez une fois la clé de récupération que vous avez enregistrée, pour que cette app sache qu’elle peut récupérer vos codes. Elle est vérifiée sur cet appareil et n’est envoyée nulle part.',
+  'sheetCheck.submit': 'La vérifier',
+  'sheetCheck.lost': 'Perdue, ou jamais eue ? Créez-en une nouvelle sur la page du compte.',
+  'accountPage.noSheetYet': 'Rien n’indique encore que votre clé de récupération protège Keyrook Authenticator. Sans elle, un mot de passe oublié peut vous coûter vos codes. Saisissez-la une fois dans Sécurité, ou créez-en une nouvelle sur la page du compte.',
+  'account.checkUnderSecurity': 'La vérifier dans Sécurité',
   'accountPage.open': 'Ouvrir la page du compte',
   'accountPage.recoveryKey': 'La clé de récupération d’un coffre connecté est celle du compte Keyrook. Elle se crée et se change sur la page du compte.',
   'accountPage.sheetProtects': 'La clé de récupération du compte protège Keyrook Authenticator',
   'accountPage.sheetUnknown': 'On ne sait pas encore si elle protège Keyrook Authenticator',
-  'accountPage.noSheet': 'Rien n’indique encore que la clé de récupération de ce compte protège Keyrook Authenticator. Sans elle, un mot de passe oublié peut faire perdre vos codes. Créez-en une, ou vérifiez la vôtre, sur la page du compte.',
+  'secondStep.title': 'Encore une étape',
+  'secondStep.lead': 'Votre compte Keyrook demande une deuxième étape. Saisissez le code à 6 chiffres que votre application d’authentification affiche pour lui.',
+  'secondStep.field': 'Code ou clé de récupération',
+  'secondStep.hint': 'Vous avez perdu cette application ? Saisissez plutôt la clé de récupération de votre compte.',
+  'secondStep.passkey': 'Utiliser plutôt une clé d’accès',
+  'secondStep.where': 'La connexion en deux étapes s’active et se désactive sur account.keyrook.com.',
+  'secondStep.ownerLead': 'Votre compte demande aussi une deuxième étape pour ceci : le code de votre application d’authentification, ou votre clé de récupération.',
+  'secondStep.nextCode': 'Chaque code ne sert qu’une fois. Si vous venez de vous connecter avec l’un d’eux, attendez que votre application affiche le suivant.',
+  'secondStepTip.title': 'Connexion en deux étapes',
+  'secondStepTip.suggest': 'Demandez aussi un code chaque fois que ce compte se connecte sur un autre appareil. Activez-la sur account.keyrook.com et gardez le code ici : sur cette page, ouvrez Keyrook Authenticator et choisissez « {scan} ».',
+  'secondStepTip.kept': 'Le code de connexion de ce compte lui-même est gardé ici, sur chaque appareil connecté à ce compte.',
+  'secondStepTip.warning': 'Si vous perdez tous les appareils qui le gardent, connectez-vous avec votre clé de récupération à la place du code. Gardez la clé de récupération à part.',
+  'secondStepTip.open': 'L’activer',
+  'signin.providerHasPassword': '{provider} a confirmé que c’est bien vous, et {email} a aussi un mot de passe. Saisissez-le pour ouvrir vos codes ici.',
+  'provider.addOnPage': 'Pour vous connecter aussi avec Google ou GitHub, connectez-vous à la page du compte avec votre mot de passe et ajoutez-le là-bas.',
+  'startOver.title': 'Votre compte Keyrook recommencera à zéro le {date}',
+  'startOver.lead': 'Quelqu’un sur « {device} » l’a demandé le {date}, avec le code que nous vous avons envoyé par e-mail : un nouveau mot de passe et de nouvelles clés, et vos applications repartiraient vides.',
+  'startOver.ifYou': 'Si c’était vous, vous n’avez rien à faire. Sinon, annulez-le maintenant, puis changez le mot de passe de votre messagerie : la personne qui l’a demandé peut lire vos e-mails.',
+  'startOver.cancel': 'Ce n’était pas moi — annuler',
   'kept.title': 'Conservé d’avant le nouveau départ du compte',
   'kept.body': 'Quand ce compte a recommencé à zéro, ce que Keyrook Authenticator y avait a été conservé, jusqu’au {date}. Récupérez-le avec le mot de passe du compte à l’époque, ou sa clé de récupération d’alors.',
   'kept.password': 'Mot de passe d’alors',
@@ -814,7 +887,7 @@ export const fr: Dictionary = {
   'kept.usePassword': 'Utiliser plutôt le mot de passe d’alors',
   'kept.useRecoveryKey': 'Utiliser plutôt la clé de récupération d’alors',
   'kept.bring': 'Le récupérer',
-  'kept.done': 'C’est de retour dans ce coffre, et en route vers vos autres navigateurs.',
+  'kept.done': 'C’est de retour dans ce coffre, et en route vers vos autres appareils.',
   'error.keys.awaitingConfirmation': 'Une autre app Keyrook a remplacé les clés de ce compte, et celle de Keyrook Authenticator n’a pas encore suivi. Ouvrez la page du compte pour les vérifier, puis reconnectez-vous.',
   'password.changedBoth':
     'Mot de passe changé, pour votre compte et ce coffre. Vos autres appareils vous demanderont de vous reconnecter avec.',
@@ -828,9 +901,12 @@ export const fr: Dictionary = {
   'password.formTitle': 'Changer le mot de passe de votre compte',
   'devices.title': 'Appareils connectés',
   'devices.description':
-    'Déconnectez un appareil que vous n’utilisez plus ou que vous n’avez plus. Il garde ce qu’il avait déjà synchronisé, derrière le même mot de passe, mais ne reçoit plus rien.',
+    'Déconnectez un appareil que vous n’utilisez plus ou que vous n’avez plus. S’il utilise une version à jour de Keyrook Authenticator, il retire lui-même les codes de ce compte à sa prochaine connexion, et ne garde que ce qu’il n’a jamais envoyé. D’ici là, ou s’il ne se reconnecte jamais, il garde ce qu’il avait, derrière le même mot de passe.',
+  'devices.descriptionProvider':
+    'Déconnectez un appareil que vous n’utilisez plus ou que vous n’avez plus. S’il utilise une version à jour de Keyrook Authenticator, il retire lui-même les codes de ce compte à sa prochaine connexion, et ne garde que ce qu’il n’a jamais envoyé. D’ici là, ou s’il ne se reconnecte jamais, il garde ce qu’il avait, verrouillé comme l’est son coffre sur cet appareil.',
   'devices.this': 'Cet appareil',
   'devices.when': 'Connecté le {created} · actif pour la dernière fois le {seen}',
+  'removed.kept': 'Les codes ajoutés ou modifiés ici qui n’avaient pas atteint le compte sont toujours là.',
   'delete.row': 'Supprimer votre compte',
   'delete.rowDescription':
     'Supprime toutes les copies chiffrées détenues par le serveur. Cet appareil garde son coffre tel quel ; les autres appareils cessent de se synchroniser.',
@@ -841,7 +917,7 @@ export const fr: Dictionary = {
   'delete.confirm': 'Supprimer le compte',
 
   // --- Connexion : la première carte --------------------------------------------
-  'intro.benefit1': 'Les mêmes codes dans chaque navigateur où vous vous connectez.',
+  'intro.benefit1': 'Les mêmes codes sur chaque appareil où vous vous connectez.',
   'intro.benefit2': 'Un ordinateur perdu ou cassé n’est pas un coffre perdu.',
   'intro.benefit3': 'Gratuit et facultatif — tout continue de fonctionner sur cet appareil sans.',
   'intro.title': 'Synchroniser votre coffre',
@@ -905,9 +981,9 @@ export const fr: Dictionary = {
     'Votre compte est prêt. {done} comptes sur {total} sont sauvegardés pour l’instant ; les autres suivront à la prochaine synchronisation.',
   'fresh.title': 'Enregistrez votre clé de récupération',
   'fresh.provider':
-    'Si tous les navigateurs connectés à votre compte sont perdus, cette clé est le seul moyen de revenir — {provider} ne peut pas restaurer votre coffre, et nous non plus.',
+    'Si tous les appareils connectés à votre compte sont perdus, cette clé est le seul moyen de revenir — {provider} ne peut pas restaurer votre coffre, et nous non plus.',
   'fresh.password':
-    'Si vous oubliez votre mot de passe, cette clé est le seul moyen de revenir — personne ne peut le réinitialiser pour vous, ni nous, ni Google.',
+    'Si vous oubliez votre mot de passe, cette clé est le seul moyen de revenir — personne ne peut le réinitialiser pour vous, pas même nous.',
   'welcome.fromAccount': '{count} depuis votre compte',
   'welcome.fromDevice': '{count} ajoutés depuis cet appareil',
   'welcome.inSync': 'Déjà synchronisé.',
@@ -932,44 +1008,51 @@ export const fr: Dictionary = {
   'provider.finishInWindow': 'Terminez dans la fenêtre {provider} qui s’est ouverte.',
   'provider.confirmed': '{provider} a confirmé <b>{email}</b>. Aucun compte n’utilise encore cette adresse.',
   'provider.point1':
-    'Pas de mot de passe. Sur un nouveau navigateur, vous continuez avec {provider}, et un navigateur déjà connecté le laisse entrer après que vous avez vérifié que les deux affichent le même code.',
+    'Pas de mot de passe. Sur un nouvel appareil, vous continuez avec {provider}, et un appareil déjà connecté le laisse entrer après que vous avez vérifié que les deux affichent le même code.',
   'provider.point2':
-    '{provider} prouve que c’est vous. Il ne voit jamais vos codes : ils sont chiffrés ici, avec une clé qui reste sur vos navigateurs.',
+    '{provider} prouve que c’est vous. Il ne voit jamais vos codes : ils sont chiffrés ici, avec une clé qui reste sur vos appareils.',
   'provider.point3':
-    'Ensuite, vous enregistrez une clé de récupération — le moyen de revenir si tous les navigateurs connectés au compte sont perdus. {provider} ne peut pas restaurer votre coffre.',
+    'Ensuite, vous enregistrez une clé de récupération — le moyen de revenir si tous les appareils connectés au compte sont perdus. {provider} ne peut pas restaurer votre coffre.',
   'provider.notRight': 'Ce n’est pas le bon compte ?',
   'provider.startAgain': 'Recommencer',
+  'passkey.continue': 'Continuer avec une clé d’accès',
+  'passkey.where':
+    'Une clé que vous avez ajoutée sur <link>la page du compte</link>, dans « Clés d’accès ». La première fois, Chrome vous demande d’autoriser Keyrook Authenticator à l’utiliser.',
   'pairing.codeLabel': 'Code {code}',
   'join.title': 'Laisser entrer ce navigateur',
   'join.subtitle':
-    '<b>{email}</b> a déjà un compte. Approuvez ce navigateur depuis un navigateur qui y est connecté.',
+    '<b>{email}</b> a déjà un compte. Approuvez ce navigateur depuis un appareil qui y est connecté.',
   'join.masterPassword': 'Mot de passe principal de ce coffre',
   'join.masterHint': 'Il continue de verrouiller ce coffre ici ; le compte lui-même n’a pas de mot de passe.',
   'join.ask': 'Demander à rejoindre',
   'join.step1':
-    'Sur un navigateur déjà connecté, ouvrez Keyrook Authenticator. La demande s’y affiche — dans la fenêtre de l’extension, et dans les paramètres, sous Synchronisation.',
+    'Sur un appareil déjà connecté, ouvrez Keyrook Authenticator. La demande s’y affiche — au-dessus des codes, et dans les paramètres, sous Synchronisation.',
   'join.step2': 'Vérifiez qu’il affiche le même code que cette page, puis approuvez-le.',
   'join.askAgain': 'Redemander',
-  'join.compare': 'L’autre navigateur affiche aussi un code. N’approuvez là-bas que s’il est exactement celui-ci.',
-  'join.waiting': 'En attente d’un autre navigateur…',
-  'join.noOther': 'Plus aucun autre navigateur ?',
+  'join.compare': 'L’autre appareil affiche aussi un code. N’approuvez là-bas que s’il est exactement celui-ci.',
+  'join.waiting': 'En attente d’un autre appareil…',
+  'join.noOther': 'Plus aucun autre appareil ?',
   'join.useKey': 'Utiliser votre clé de récupération',
   'join.wrongAccount': 'Connecté avec {provider} au mauvais compte ?',
   'joinKey.subtitle':
-    'La clé enregistrée lors de la création du compte. Elle laisse entrer ce navigateur sans en avoir besoin d’un autre.',
+    'La clé enregistrée lors de la création du compte. Elle laisse entrer ce navigateur sans avoir besoin d’un autre appareil.',
   'joinKey.submit': 'Rejoindre le compte',
-  'approve.approved': 'Approuvé. L’autre navigateur ouvre votre coffre dans un instant.',
+  'approve.approved': 'Approuvé. L’autre appareil ouvre votre coffre dans un instant.',
   'approve.mismatch':
     'Refusé. Si vous n’étiez pas en train de vous connecter vous-même à l’instant, quelqu’un d’autre peut se connecter à votre compte {provider} — changez son mot de passe et vérifiez ses paramètres de sécurité.',
   'approve.declined': 'Refusé. Rien n’a été envoyé.',
-  'approve.title': 'Navigateurs demandant à rejoindre',
+  'approve.title': 'Appareils demandant à rejoindre',
   'approve.description':
-    'Chaque demande vient de quelqu’un qui vient de se connecter avec votre compte {provider}. N’approuvez qu’un navigateur sur lequel vous êtes vous-même en train de vous connecter.',
+    'Chaque demande vient de quelqu’un qui vient de se connecter avec votre compte {provider}. N’approuvez qu’un appareil sur lequel vous êtes vous-même en train de vous connecter.',
+  'approve.descriptionAny':
+    'Chaque demande vient de quelqu’un qui vient de se connecter avec votre compte Google ou GitHub. N’approuvez qu’un appareil sur lequel vous êtes vous-même en train de vous connecter.',
+  'approve.mismatchAny':
+    'Refusé. Si vous n’étiez pas en train de vous connecter vous-même à l’instant, quelqu’un d’autre peut se connecter à votre compte Google ou GitHub — changez son mot de passe et vérifiez ses paramètres de sécurité.',
   'approve.askedAt': 'Demandé à {time}',
   'approve.review': 'Examiner',
   'approve.deny': 'Refuser',
   'approve.question':
-    'Le navigateur qui demande affiche-t-il exactement ce code ? Sinon, quelqu’un d’autre essaie d’entrer.',
+    'L’appareil qui demande affiche-t-il exactement ce code ? Sinon, quelqu’un d’autre essaie d’entrer.',
   'approve.matches': 'Il correspond — le laisser entrer',
   'approve.doesNotMatch': 'Il ne correspond pas',
 
@@ -983,7 +1066,7 @@ export const fr: Dictionary = {
   'nav.general': 'Général',
   'nav.needsAttention': 'Action requise',
   'sync.description':
-    'Les mêmes codes dans chaque navigateur où vous vous connectez, chiffrés ici avant de partir.',
+    'Les mêmes codes sur chaque appareil où vous vous connectez, chiffrés ici avant de partir.',
   'backup.description':
     'Gardez une copie chiffrée, importez des comptes ou transférez-les vers une autre app.',
   'backup.choice.backup.title': 'Sauvegarder',
@@ -1001,18 +1084,18 @@ export const fr: Dictionary = {
     'Ouvrir la fenêtre sur une page de connexion propose le bon code. Seul cet onglet est lu.',
   'vault.signInToSync': 'Se connecter pour synchroniser',
   'vault.empty.signIn':
-    'Vous utilisez Keyrook Authenticator dans un autre navigateur ? <link>Connectez-vous</link> pour retrouver vos codes ici.',
+    'Vous utilisez Keyrook Authenticator sur un autre appareil ? <link>Connectez-vous</link> pour retrouver vos codes ici.',
   'setup.haveAccount':
     'Vous utilisez déjà Keyrook Authenticator ? <link>Connectez-vous</link> pour retrouver vos codes ici.',
   'popup.signInOpensTab': 'S’ouvre dans un nouvel onglet et se termine dans les paramètres.',
   'error.backupWrongPassword': 'Ce mot de passe n’ouvre pas ce fichier.',
-  'error.foreign.steam': 'Les codes Steam Guard ne peuvent pas encore être importés.',
+  'error.foreign.steamFolder': 'Choisissez ensemble tous les fichiers du dossier maFiles de Steam Desktop Authenticator : manifest.json et les fichiers .maFile à côté.',
   'error.foreign.locked':
     'Cet export est verrouillé par un mot de passe que Keyrook Authenticator ne sait pas ouvrir. Exportez de nouveau sans mot de passe.',
   'import.lockedFrom':
     '{app} a verrouillé cet export par un mot de passe. Saisissez celui que vous y avez choisi.',
   'import.fromApps':
-    'Les exports d’Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, de l’extension Authenticator et de Google Authenticator fonctionnent aussi — ainsi qu’un CSV d’Apple Mots de passe, 1Password ou d’un autre gestionnaire.',
+    'Les exports d’Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, de l’extension Authenticator et de Google Authenticator fonctionnent aussi — ainsi qu’un CSV d’Apple Mots de passe, 1Password ou d’un autre gestionnaire.',
   'shortcut.open': 'Ouvrir Keyrook Authenticator',
   'shortcut.fill': 'Remplir le code de cette page',
   'shortcut.fillHint': 'Ne remplit que si un seul compte appartient au site ; ailleurs, la liste s’ouvre.',
@@ -1021,4 +1104,63 @@ export const fr: Dictionary = {
   'import.csvWarning':
     'Ce fichier contient vos mots de passe en clair. Seules les clés à deux facteurs ont été lues, rien d’autre n’est gardé — supprimez le fichier une fois terminé.',
   'import.noKeysInCsv': 'Ce fichier ne contient aucune clé à deux facteurs, seulement des mots de passe.',
+  'crash.title': 'Un problème est survenu',
+  'crash.body':
+    'Cet écran a rencontré un problème et s’est arrêté. Vos comptes stockés ne sont pas touchés. Le recharger suffit en général.',
+  'crash.reload': 'Recharger',
+  'setup.device.description.phone':
+    'Vos secrets sont chiffrés avec une clé que ce téléphone garde pour vous. Rien à retenir, rien à saisir.',
+  'setup.device.footnote.phone':
+    'Protège contre une copie des fichiers de l’app. Pas contre quelqu’un qui peut déverrouiller ce téléphone.',
+  'setup.password.footnote.phone':
+    'L’option la plus sûre : une fois verrouillé, rien sur ce téléphone ne peut ouvrir le coffre sans le mot de passe.',
+  'unrecoverable.why.phone':
+    'Sa clé de chiffrement était gardée par ce téléphone et a disparu — en général parce que les données de l’app ont été effacées, que l’app a été réinstallée, ou que le coffre vient de la sauvegarde d’un autre téléphone. Sans cette clé, personne ne peut déchiffrer les comptes enregistrés, pas même nous.',
+  'vault.empty.body.phone':
+    'Quand un site affiche un QR code pour configurer la double authentification, scannez-le avec la caméra de ce téléphone.',
+  'add.camera.description.phone':
+    'Pour un code affiché sur un autre écran — y compris un export de Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Vous venez de Google Authenticator sur un autre téléphone ? Exportez-y vos comptes, puis scannez le code qu’il affiche avec la caméra de ce téléphone. S’il en affiche plusieurs, faites-les un par un.',
+  'camera.noCamera.phone': 'Ce téléphone ne donne pas accès à une caméra à l’app.',
+  'camera.blocked.phone':
+    'L’app n’est pas autorisée à utiliser la caméra. Autorisez-la dans les réglages du téléphone, ou utilisez une autre façon d’ajouter un compte.',
+  'camera.none.phone': 'Aucune caméra trouvée sur ce téléphone.',
+  'security.languageBrowser.phone': 'Langue du téléphone ({language})',
+  'protect.removeWarning.phone':
+    'Le coffre reste chiffré, mais il se déverrouillera tout seul chaque fois que l’app s’ouvre. Quiconque peut déverrouiller ce téléphone pourra alors voir vos codes.',
+  'kit.device.phone':
+    'Ce coffre se déverrouille avec une clé gardée par votre téléphone. Si cette clé disparaît — données de l’app effacées, réinstallation, nouveau téléphone —, seule une clé de récupération peut encore l’ouvrir.',
+  'kit.withoutDevice.phone':
+    'Sans elle, perdre la clé gardée par ce téléphone signifie perdre pour de bon tous les comptes de ce coffre.',
+  'security.description.phone': 'Comment ce coffre s’ouvre, et comment y revenir si ce téléphone est perdu.',
+  'security.deviceKeyHint.phone': 'Rien à saisir. Quiconque peut déverrouiller ce téléphone peut l’ouvrir.',
+  'general.description.phone': 'L’apparence et le comportement de l’app, et d’où elle vient.',
+  'about.securityModelDescription.phone': 'Ce que l’app garantit, et ce qu’elle ne garantit pas.',
+  'about.logos.description.phone':
+    'Les logos sont intégrés à l’app, jamais téléchargés. Demander un logo au réseau révélerait à celui qui répond les services sur lesquels vous utilisez la double authentification.',
+  'about.fact.access.title.phone': 'La caméra, et seulement pour scanner',
+  'about.fact.access.body.phone':
+    'L’app ne demande aucune autorisation hormis la caméra, et seulement quand vous choisissez de scanner un code. Ce que voit la caméra ne quitte jamais le téléphone.',
+  'about.fact.keys.body.phone':
+    'Vos comptes sont chiffrés avec une clé de données elle-même enveloppée. Avec un mot de passe principal, la clé d’enveloppe provient de PBKDF2 à 600 000 itérations et n’existe qu’en mémoire tant que le coffre est déverrouillé. Sans, c’est une clé scellée par le magasin de clés du téléphone lui-même : une copie des fichiers de l’app ne peut donc pas ouvrir le coffre.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Un gros code — comme un export de Google Authenticator — passe souvent mal à la caméra ici. Si le vôtre ne passe pas, prenez-le en photo avec l’app Appareil photo du téléphone et utilisez plutôt « Importer une image de QR code ».',
+  'import.noNativeReader.phone':
+    'Un gros code — comme un export de Google Authenticator — passe souvent mal à la caméra ici. Si le vôtre ne passe pas, prenez chaque code en photo avec l’app Appareil photo du téléphone et choisissez-les toutes avec « Choisir des fichiers ».',
+  'error.signOutUnsynced.phone':
+    'Certaines modifications faites sur ce téléphone ne sont pas encore arrivées dans votre compte, et se déconnecter maintenant les perdrait. Connectez-vous à Internet et réessayez.',
+  'account.signOutNote.phone':
+    'Se déconnecter retire vos codes de ce téléphone. Ils restent dans votre compte Keyrook — reconnectez-vous pour les récupérer.',
+  'secondStepTip.suggest.phone':
+    'Demandez aussi un code chaque fois que ce compte se connecte sur un autre appareil. Activez-la sur account.keyrook.com et gardez le code ici : ajoutez un compte dans cette app et scannez le code QR qu’affiche cette page.',
+  'intro.benefit2.phone': 'Un téléphone perdu ou cassé n’est pas un coffre perdu.',
+  'provider.finishInWindow.phone': 'Terminez sur la page {provider} qui s’est ouverte dans votre navigateur.',
+  'join.title.phone': 'Laisser entrer ce téléphone',
+  'join.subtitle.phone':
+    '<b>{email}</b> a déjà un compte. Approuvez ce téléphone depuis un appareil qui y est connecté.',
+  'joinKey.subtitle.phone':
+    'La clé enregistrée lors de la création du compte. Elle laisse entrer ce téléphone sans avoir besoin d’un autre appareil.',
+  'facts.autofill.phone': 'Scan de QR',
 };

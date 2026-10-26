@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import type { VaultStatus } from '../lib/protocol.js';
+import { ErrorBoundary } from '../components/ErrorBoundary.js';
 import { useActivityPing, useTheme, useVault } from '../components/hooks.js';
 import { Logo } from '../components/icons.js';
 import { Spinner } from '../components/primitives.js';
@@ -9,7 +10,16 @@ import { UnlockScreen } from './UnlockScreen.js';
 import { UnrecoverableScreen } from './UnrecoverableScreen.js';
 import { VaultScreen } from './VaultScreen.js';
 
+/** The popup, with a way back if one of its screens throws while drawing. */
 export function App() {
+  return (
+    <ErrorBoundary className="h-[480px] app:h-(--app-height)">
+      <Popup />
+    </ErrorBoundary>
+  );
+}
+
+function Popup() {
   const { status, data, error, refresh, mutate, setStatus } = useVault();
   const [recovering, setRecovering] = useState(false);
   const [signInNext, setSignInNext] = useState(false);
@@ -72,6 +82,7 @@ export function App() {
         onUnlocked={handleAuthenticated}
         hasRecovery={status.hasRecovery}
         onUseRecoveryKey={() => setRecovering(true)}
+        passkeys={status.passkeys}
       />
     );
   }
@@ -88,7 +99,7 @@ export function App() {
 
 function Centered({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-[480px] flex-col items-center justify-center gap-4 px-8 text-center">
+    <div className="flex h-[480px] flex-col items-center app:h-(--app-height) justify-center gap-4 px-8 text-center">
       <Logo className="h-9 w-9 opacity-90" />
       {children}
     </div>

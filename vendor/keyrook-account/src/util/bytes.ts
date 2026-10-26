@@ -35,6 +35,11 @@ export function toBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
+/** Base64url without padding: how WebAuthn writes a credential id and a challenge. */
+export function toBase64Url(bytes: Uint8Array): string {
+  return toBase64(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
 export function fromBase64(b64: string): Uint8Array {
   // Tolerate base64url and missing padding — real-world QR payloads use both.
   let normalized = b64.replace(/-/g, '+').replace(/_/g, '/').replace(/\s+/g, '');

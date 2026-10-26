@@ -30,6 +30,7 @@ const bank = item(
 const counter = item('otpauth://hotp/Vault:ops@example.com?secret=KRSXG5CTMVRXEZLUGE2TSMJS&issuer=Vault&counter=42');
 const slow = item('otpauth://totp/Odd:me@example.com?secret=GEZDGNBVGY3TQOJQ&issuer=Odd&period=60');
 const seven = item('otpauth://totp/Seven:me@example.com?secret=NBSWY3DPEB3W64TM&issuer=Seven&digits=7');
+const steam = item('otpauth://steam/Steam:gaben?secret=63BEDWCQZKTQWPESARIERL5DTTQFCJTK&issuer=Steam');
 
 const essentials = ({ type, secret, algorithm, digits, counter: count, issuer, label }: VaultItem) => ({
   type,
@@ -69,11 +70,12 @@ describe('to Google Authenticator', () => {
   });
 
   it('leaves out, and says why, what the format would carry wrongly', () => {
-    const { uris, skipped } = encodeMigrationUris([github, slow, seven]);
+    const { uris, skipped } = encodeMigrationUris([github, slow, seven, steam]);
     expect(parseMigrationUri(uris[0]!).items.map((entry) => entry.issuer)).toEqual(['GitHub']);
     expect(skipped.map((entry) => [entry.item.issuer, entry.reason])).toEqual([
       ['Odd', expect.stringMatching(/30-second/)],
       ['Seven', expect.stringMatching(/6- or 8-digit/)],
+      ['Steam', 'Google Authenticator cannot make Steam Guard codes.'],
     ]);
   });
 
@@ -128,6 +130,16 @@ describe('to an Aegis file', () => {
     expect(file.db.entries[1]!.groups).toEqual([]);
   });
 
+  it('carries Steam Guard as Aegis keeps it', () => {
+    const [entry] = (JSON.parse(exportAegisJson([steam], [])) as { db: { entries: Record<string, unknown>[] } }).db.entries;
+    expect(entry).toMatchObject({
+      type: 'steam',
+      issuer: 'Steam',
+      name: 'gaben',
+      info: { secret: '63BEDWCQZKTQWPESARIERL5DTTQFCJTK', algo: 'SHA1', digits: 5, period: 30 },
+    });
+  });
+
   it('writes a typed key canonically, as the setup links do', () => {
     const typed = item('otpauth://totp/T:me?secret=JBSWY3DPEHPK&issuer=T');
     const [entry] = (JSON.parse(exportAegisJson([typed], [])) as { db: { entries: { info: { secret: string } }[] } }).db
@@ -165,6 +177,11 @@ describe('to a Bitwarden file', () => {
   it('carries each account whole in its setup link, settings included', () => {
     const back = file.items.map((entry) => itemFromUri(parseOtpUri(entry.login.totp)));
     expect(back.map(essentials)).toEqual([github, bank, counter].map(essentials));
+  });
+
+  it('carries Steam Guard as Bitwarden keeps it, steam:// and the key', () => {
+    const [entry] = (JSON.parse(exportBitwardenJson([steam], [])) as typeof file).items;
+    expect(entry!.login.totp).toBe('steam://63BEDWCQZKTQWPESARIERL5DTTQFCJTK');
   });
 
   it('keeps the account name, the note, the sites and the group', () => {

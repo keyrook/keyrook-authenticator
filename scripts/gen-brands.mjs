@@ -187,6 +187,19 @@ function fromFontAwesome(slug) {
   return { kind: 'mono', viewBox, body: paths.join(' ') };
 }
 
+/**
+ * A service's other names, each kept whole. A string is refused rather than
+ * split on its spaces: that once turned "proton mail" into "proton" and "mail",
+ * and "mail" claimed every issuer that starts with it.
+ */
+function aliasList(slug, aliases) {
+  if (aliases === undefined) return [];
+  if (!Array.isArray(aliases) || aliases.some((alias) => typeof alias !== 'string' || !alias.trim())) {
+    throw new Error(`Aliases for ${slug} must be a list of names, e.g. ['proton mail'], not ${JSON.stringify(aliases)}`);
+  }
+  return aliases.map((alias) => alias.trim());
+}
+
 /** The service's own website, from the icon set's source URL where usable. */
 function domainFromSource(slug, source) {
   if (DOMAIN_OVERRIDES[slug]) return DOMAIN_OVERRIDES[slug];
@@ -285,7 +298,7 @@ for (const slug of slugs) {
     slug,
     name: title,
     domains: domainFromSource(slug, icon.source),
-    aliases: (ALIASES[slug] ?? '').split(' ').filter(Boolean),
+    aliases: aliasList(slug, ALIASES[slug]),
     wide: WORDMARKS.has(slug),
   });
   icons.push({
@@ -317,7 +330,7 @@ for (const [slug, name, domains, aliases, color] of FONT_AWESOME) {
     slug,
     name,
     domains: domains.split(' ').filter(Boolean),
-    aliases: (aliases ?? '').split(' ').filter(Boolean),
+    aliases: aliasList(slug, aliases),
     wide: WORDMARKS.has(slug),
   });
   icons.push({

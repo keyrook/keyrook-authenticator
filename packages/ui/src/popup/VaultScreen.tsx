@@ -18,6 +18,8 @@ import { Button, Callout, cx } from '../components/primitives.js';
 import { AccountRow } from './AccountRow.js';
 import { AddSheet } from './AddSheet.js';
 import { RatePrompt } from './RatePrompt.js';
+import { RemovedFromAccount } from '../components/RemovedFromAccount.js';
+import { StartOverWaiting } from '../components/StartOverWaiting.js';
 import { ShareSheet } from './ShareSheet.js';
 import { SignInSheet } from './SignInSheet.js';
 import { FILL_COMMAND } from '../lib/commands.js';
@@ -47,7 +49,14 @@ export function VaultScreen({
   const t = useT();
   const [query, setQuery] = useState('');
   const [adding, setAdding] = useState(false);
-  const [signingIn, setSigningIn] = useState(startWithSignIn);
+  // The popup cannot hold a sign-in, which leaves for the provider's page and
+  // comes back: it shows the choices and sends the person on to Settings. An
+  // app's window holds Settings itself, so its sign-in goes straight there.
+  const [signingIn, setSigningIn] = useState(startWithSignIn && host().overPage);
+  const signIn = () => (host().overPage ? setSigningIn(true) : void host().openSettings(ACCOUNT_FRAGMENT));
+  useEffect(() => {
+    if (startWithSignIn && !host().overPage) void host().openSettings(ACCOUNT_FRAGMENT);
+  }, []);
   const [sharing, setSharing] = useState<VaultItem | null>(null);
   const [tab, setTab] = useState<TabContext | null>(null);
   const [fields, setFields] = useState<FieldDetection | null>(null);
@@ -60,8 +69,9 @@ export function VaultScreen({
   const all = useMemo(() => sortItems(liveItems(data), data.settings.sortBy), [data]);
   const codes = useCodes(all, now);
 
+  // An app's codes screen sits over no page: no site to sort by or fill into.
   useEffect(() => {
-    void send({ type: 'tab/context' }).then(setTab);
+    if (host().overPage) void send({ type: 'tab/context' }).then(setTab);
   }, []);
 
   // A browser waiting on this one to let it into the account. Looked for
@@ -168,7 +178,7 @@ export function VaultScreen({
   }
 
   return (
-    <div className="relative flex h-[520px] flex-col">
+    <div className="relative flex h-[520px] flex-col app:h-(--app-height)">
       <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 dark:border-neutral-900">
         <Logo className="h-6 w-6 shrink-0" compact />
         <div className="relative min-w-0 flex-1">
@@ -220,7 +230,7 @@ export function VaultScreen({
                 <span className="shrink-0 whitespace-pre">{' · '}</span>
                 <button
                   type="button"
-                  onClick={() => setSigningIn(true)}
+                  onClick={signIn}
                   title={t('vault.signInToSync')}
                   className="min-w-0 truncate font-medium text-brand-600 hover:underline dark:text-brand-400"
                 >
@@ -255,6 +265,20 @@ export function VaultScreen({
           </div>
         )}
 
+        {/* Where the codes were, until it is closed. */}
+        {!syncedAs && (
+          <div className="mb-2 px-1 empty:hidden">
+            <RemovedFromAccount />
+          </div>
+        )}
+
+        {/* Asked of the server at most hourly: the popup opens all day. */}
+        {syncedAs && (
+          <div className="mb-2 px-1 empty:hidden">
+            <StartOverWaiting />
+          </div>
+        )}
+
         {joinRequests > 0 && (
           <div className="mb-2 px-1">
             <Callout tone="info">
@@ -274,7 +298,7 @@ export function VaultScreen({
         )}
 
         {all.length === 0 ? (
-          <EmptyState onAdd={() => setAdding(true)} onSignIn={canSignIn ? () => setSigningIn(true) : undefined} />
+          <EmptyState onAdd={() => setAdding(true)} onSignIn={canSignIn ? signIn : undefined} />
         ) : filtered.length === 0 ? (
           <p className="px-3 py-10 text-center text-[13px] text-neutral-400">
             {t('vault.noMatch', { query })}
@@ -365,7 +389,7 @@ export function VaultScreen({
 
       {sharing && <ShareSheet item={sharing} onClose={() => setSharing(null)} />}
 
-      {signingIn && <SignInSheet onClose={() => setSigningIn(false)} />}
+      {signingIn && <SignInSheet protection={protection} onClose={() => setSigningIn(false)} />}
 
       {adding && (
         <AddSheet
@@ -373,13 +397,18 @@ export function VaultScreen({
           onAdd={(items) => mutate({ op: 'items/add', items })}
           onClose={() => setAdding(false)}
           existing={data.items}
-          // Settings, opened at the scanner rather than on a list the user
-          // then has to navigate. Opening it moves focus, which closes the
-          // popup anyway; closing it here just does so without the flicker.
-          onCameraElsewhere={() => {
-            void host().openSettings(SCAN_FRAGMENT);
-            window.close();
-          }}
+          {...(host().overPage
+            ? {
+                // Settings, opened at the scanner rather than on a list the user
+                // then has to navigate. Opening it moves focus, which closes the
+                // popup anyway; closing it here just does so without the flicker.
+                onCameraElsewhere: () => {
+                  void host().openSettings(SCAN_FRAGMENT);
+                  window.close();
+                },
+              }
+            : // A window of the app's own asks for the camera itself, and has no page to read.
+              { camera: true, pageScan: false })}
         />
       )}
     </div>

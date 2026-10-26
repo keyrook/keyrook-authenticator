@@ -29,3 +29,26 @@ export const tokenStore: TokenStore = {
     await platform().disk.remove(TOKENS_KEY);
   },
 };
+
+/**
+ * Which account this device's session belongs to, and when it began by this
+ * device's clock: what a removal proof is checked against
+ * (`checkDeviceRemovalProof`). Kept apart from the tokens, which the adapter
+ * rewrites on every refresh and clears the moment the server says the session
+ * is over — exactly when this is read.
+ */
+export interface SessionStart {
+  accountId: string;
+  signedInAt: number;
+}
+
+const SESSION_KEY = 'authx.session';
+
+export const sessionStart = {
+  async get(): Promise<SessionStart | null> {
+    return ((await platform().disk.get(SESSION_KEY)) as SessionStart | undefined) ?? null;
+  },
+  async set(start: SessionStart): Promise<void> {
+    await platform().disk.set(SESSION_KEY, start);
+  },
+};

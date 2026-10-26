@@ -102,6 +102,58 @@ export interface LoginRequest {
   authHash: string;
   deviceId: string;
   deviceName: string;
+  /**
+   * This client can finish a sign-in with a second step (`SecondStepRequired`).
+   * Without it, an account that has one is refused: an older client would
+   * not know what the answer meant.
+   */
+  secondStep?: true;
+}
+
+// --- A second step at sign-in (docs/console.md, S21) -------------------------
+
+/**
+ * The answer to a sign-in, with the password or Google or GitHub, on an
+ * account with a second step: no session yet. `ticket` finishes it
+ * (`POST /auth/second-step`) within five minutes, with a few tries.
+ * `passkeys`: the account has passkeys, and one of them may answer instead.
+ */
+export interface SecondStepRequired {
+  secondStep: { ticket: string; passkeys: boolean };
+}
+
+/**
+ * Finishing a sign-in: the code the person's authenticator app shows, the
+ * recovery key in its place (`deriveRecoveryAuthHash`, for an app that was
+ * lost), or one of the account's passkeys, touched for a challenge from
+ * `POST /auth/second-step/passkey`.
+ */
+export interface SecondStepRequest {
+  ticket: string;
+  code?: string;
+  recoveryAuthHash?: string;
+  passkey?: PasskeyProof;
+}
+
+/**
+ * Where a change asks the owner, on an account with a second step: with the
+ * password or a fresh provider sign-in, the code, or the recovery key in its
+ * place. A passkey stands alone, as it does at sign-in.
+ */
+export type SecondStepProof = { code: string } | { recoveryAuthHash: string };
+
+/** The owner's proof, as every change that asks for it takes it. */
+export interface OwnerProofFields {
+  authHash?: string;
+  reauth?: ProviderTicket;
+  passkey?: PasskeyProof;
+  secondStep?: SecondStepProof;
+}
+
+/** A second step being set up: its secret, shown once, as text and as its QR code's contents. */
+export interface SecondStepBegun {
+  secret: string;
+  uri: string;
 }
 
 export interface LoginResponse {
@@ -121,6 +173,19 @@ export interface LoginResponse {
     email: string;
     /** How the account proves who is signing in. */
     method?: AccountMethod;
+    /**
+     * Which of Google and GitHub sign in to the account, whatever this
+     * sign-in was made with: on an account without a password, a change is
+     * confirmed with a fresh sign-in with one of them. A server from before
+     * says nothing.
+     */
+    providers?: SignInProvider[];
+    /**
+     * The name the person gave the account, if any (docs/console.md, S22).
+     * The server's word, shown as text and never taken as a sign of who
+     * anyone is. A server from before says nothing.
+     */
+    name?: string | null;
   };
 }
 
@@ -139,8 +204,11 @@ export type SignInProvider = 'google' | 'github';
 //   → https://<extension id>.chromiumapp.org/oauth#ticket=…&state=…
 //     (or #error=…&state=…)
 //
+// A phone app asks with `return=app&app=<app id>` in place of `ext`, and is
+// handed `<app id>:/oauth#ticket=…&state=…` (docs/phone-apps.md).
+//
 // The ticket is worth nothing without the verifier, which never leaves the
-// extension.
+// extension or the app.
 
 /** A ticket from the callback, and the verifier its challenge was made from. */
 export interface ProviderTicket {
@@ -151,6 +219,8 @@ export interface ProviderTicket {
 export interface ProviderSessionRequest extends ProviderTicket {
   deviceId: string;
   deviceName: string;
+  /** As `LoginRequest.secondStep`. */
+  secondStep?: true;
 }
 
 /**
@@ -163,11 +233,16 @@ export type ProviderLogin = Omit<LoginResponse, 'protectedKey'>;
 /**
  * `existing`: signed in; the device holds no data key yet unless it already
  * had the account's. `new`: no account has this identity — `signupToken`
- * creates one within ten minutes.
+ * creates one within ten minutes. `link`, to the account page alone: the
+ * address has an account with a password that this identity does not sign in
+ * to yet. `linkToken`, with that password, adds it (`linkIdentity`) within ten
+ * minutes; alone it signs in to nothing.
  */
 export type ProviderSessionResponse =
   | { status: 'existing'; session: ProviderLogin }
-  | { status: 'new'; signupToken: string; email: string };
+  | { status: 'new'; signupToken: string; email: string }
+  | { status: 'link'; linkToken: string; email: string; provider: string }
+  | { status: 'second_step'; secondStep: SecondStepRequired['secondStep'] };
 
 export interface ProviderRegisterRequest {
   signupToken: string;
@@ -196,6 +271,114 @@ export interface ProviderRegisterRequest {
  * sign-in with the provider, made for this purpose within the last minutes.
  */
 export type OwnerProof = { authHash: string } | { reauth: ProviderTicket };
+
+// --- Passkeys: /auth/passkey, /account/passkeys ------------------------------
+
+/**
+ * A passkey's answer as `PublicKeyCredential.toJSON()` writes it, with
+ * `clientExtensionResults` taken out: the PRF answer opens the root and never
+ * leaves the device, and the server refuses an answer that carries it.
+ */
+export interface PasskeyCredential {
+  id: string;
+  rawId: string;
+  type: 'public-key';
+  response: Record<string, string | null>;
+}
+
+/** What `navigator.credentials.get` is called with (base64url as the JSON form writes it); the PRF input is added by the client, never sent by the server. */
+export interface PasskeySignInOptions {
+  /** Names the challenge when the answer comes back; the challenge itself is in `publicKey`. */
+  challengeId: string;
+  publicKey: {
+    challenge: string;
+    rpId: string;
+    timeout: number;
+    userVerification: 'required';
+    allowCredentials: { type: 'public-key'; id: string }[];
+  };
+}
+
+export interface PasskeySignInRequest {
+  challengeId: string;
+  credential: PasskeyCredential;
+  deviceId: string;
+  deviceName: string;
+}
+
+/**
+ * A session, like any sign-in, and the root wrapped under the passkey that
+ * signed in when it unlocks: opened with its PRF answer, in the browser.
+ */
+export interface PasskeySignInResponse extends LoginResponse {
+  passkey: { id: string; rootWrap: SealedBox | null };
+}
+
+/**
+ * One of the account's passkeys touched just now, for a challenge from
+ * `POST /account/passkeys/reauth`: where a change asks for the owner's proof,
+ * it stands in for the password or a fresh Google or GitHub sign-in.
+ */
+export interface PasskeyProof {
+  challengeId: string;
+  credential: PasskeyCredential;
+}
+
+/** The owner's proof that adding a passkey needs: the password, a fresh Google or GitHub sign-in, or another of its passkeys. */
+export interface PasskeyOptionsRequest {
+  authHash?: string;
+  reauth?: ProviderTicket;
+  passkey?: PasskeyProof;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
+}
+
+/** What `navigator.credentials.create` is called with, as its JSON form writes it. */
+export interface PasskeyCreationOptions {
+  challengeId: string;
+  publicKey: {
+    challenge: string;
+    rp: { id: string; name: string };
+    user: { id: string; name: string; displayName: string };
+    pubKeyCredParams: { type: 'public-key'; alg: number }[];
+    timeout: number;
+    excludeCredentials: { type: 'public-key'; id: string }[];
+    authenticatorSelection: { residentKey: 'required'; requireResidentKey: true; userVerification: 'required' };
+    attestation: 'none';
+  };
+}
+
+/**
+ * A passkey just made, named by the person, and, when it answered PRF, the
+ * root wrapped under that answer with proof of holding the root.
+ */
+export interface AddPasskeyRequest {
+  challengeId: string;
+  credential: PasskeyCredential;
+  name: string;
+  unlock?: PasskeyUnlock;
+}
+
+/** The root wrapped under a passkey's PRF answer, and proof of holding that root (`deriveRootCheck`). */
+export interface PasskeyUnlock {
+  rootWrap: SealedBox;
+  rootCheck: string;
+}
+
+export interface PasskeyView {
+  id: string;
+  name: string;
+  createdAt: number;
+  lastUsedAt: number | null;
+  /** Kept by a service that copies it to the person's other devices (iCloud Keychain, Google Password Manager). */
+  synced: boolean;
+  /** Whether it opens the root, or only signs in. */
+  unlocks: boolean;
+}
+
+export interface PasskeysResponse {
+  passkeys: PasskeyView[];
+}
 
 // --- Joining by approval: /pairing ------------------------------------------
 
@@ -310,7 +493,16 @@ export type LogoutRequest = RefreshRequest;
 
 /** One signed-in session. A device that signs in again replaces its own. */
 export interface DeviceSummary {
+  /** The session's id: what `DELETE /account/devices/:id` takes. */
   id: string;
+  /**
+   * The id the device chose and sends at sign-in, which a removal proof names
+   * (`makeDeviceRemovalProof`). As the server reports it: a server that lies
+   * about it gets a proof the device it names refuses. A server from before
+   * migration 11 says nothing: no proof can name the device, and removing it
+   * only signs it out.
+   */
+  deviceId?: string;
   name: string;
   /** The product the device signed in to; `console` is the account page. */
   product: string;
@@ -324,6 +516,44 @@ export interface DevicesResponse {
   devices: DeviceSummary[];
 }
 
+/**
+ * Removing a device. Without a proof the session ends as it always did, and
+ * the device keeps what it holds; with one, the device is told it was removed
+ * and shown the proof (`device_removed`), and decides for itself.
+ */
+export interface RemoveDeviceRequest {
+  proof?: DeviceRemovalProof;
+}
+
+/**
+ * "The holder of this product's key removed this device": made and checked
+ * with the product's key (`makeDeviceRemovalProof`, `checkDeviceRemovalProof`),
+ * which the server never holds. It keeps the proof as sent and hands it back
+ * as sent, and cannot make one.
+ */
+export interface DeviceRemovalProof {
+  /** When it was made, by the remover's clock. Part of what the MAC covers. */
+  removedAt: number;
+  /** HMAC-SHA256, base64. */
+  mac: string;
+}
+
+// --- PUT /account/profile ---------------------------------------------------
+
+/**
+ * The account's name: letters and marks of any script, spaces, and
+ * `' ’ - .`, up to 64 characters; `null` or an empty name clears it. Anything
+ * else is refused with 400, as any request the server cannot take.
+ */
+export interface ProfileRequest {
+  name: string | null;
+}
+
+/** The name as the server keeps it: trimmed, NFC, spaces run together. */
+export interface ProfileResponse {
+  name: string | null;
+}
+
 // --- GET /account/console ---------------------------------------------------
 
 /**
@@ -333,6 +563,8 @@ export interface DevicesResponse {
 export interface ConsoleSummary {
   accountId: string;
   email: string;
+  /** The name the person gave the account; null for none. A server from before migration 10 says nothing. */
+  name?: string | null;
   method: 'password' | 'provider';
   /** The Google or GitHub identities that sign in to this account. */
   providers: { provider: string; email: string; since: number }[];
@@ -340,6 +572,12 @@ export interface ConsoleSummary {
   products: ConsoleProduct[];
   /** What was kept when the account started over, and when each is deleted. */
   archives: { id: string; archivedAt: number; expiresAt: number }[];
+  /** A start over still waiting, which this page may cancel. */
+  pendingStartOver: PendingStartOver | null;
+  /** When the recovery key was issued and last confirmed to open the root, for reminding; null on an account without a root. */
+  recoveryKey: { issuedAt: number | null; confirmedAt: number | null } | null;
+  /** Since when sign-in asks for a second step; null when it does not. A server from before migration 9 says nothing. */
+  secondStep?: { since: number } | null;
 }
 
 export interface ConsoleProduct {
@@ -382,6 +620,8 @@ export interface ChangePasswordRequest {
   keyCheck?: string;
   /** The account's root under the new password. Required on an account with a root. */
   rootPasswordWrap?: SealedBox;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 /**
@@ -408,6 +648,8 @@ export interface SetRecoveryRequest {
   authHash?: string;
   /** A fresh sign-in with the provider. Provider accounts. */
   reauth?: ProviderTicket;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
   keyCheck: string;
   /**
    * The sealed state's `issuedAt`, in the clear so an honest server can refuse
@@ -456,6 +698,54 @@ export interface RecoverResetRequest {
 export interface DeleteAccountRequest {
   authHash?: string;
   reauth?: ProviderTicket;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
+}
+
+// --- Ways to sign in: Google or GitHub added or removed, a password added ---
+
+/**
+ * A Google or GitHub identity added to the account, never by its email alone:
+ * the owner's proof, and a fresh sign-in as that identity. `link` is the
+ * ticket of a sign-in the page started for this (`purpose=link`);
+ * `linkToken` comes from a page sign-in the server answered with
+ * `status: 'link'`. Its verified email must be the account's.
+ */
+export interface LinkIdentityRequest {
+  link?: ProviderTicket;
+  linkToken?: string;
+  authHash?: string;
+  reauth?: ProviderTicket;
+  passkey?: PasskeyProof;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
+}
+
+/** The owner's proof for removing a Google or GitHub identity, while the account keeps another way to sign in. */
+export interface UnlinkIdentityRequest {
+  authHash?: string;
+  reauth?: ProviderTicket;
+  passkey?: PasskeyProof;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
+}
+
+/**
+ * A password for an account that signs in with Google or GitHub. Its root,
+ * opened in the browser, wrapped under the new password, with proof it is the
+ * account's root; and the owner's proof, a fresh provider sign-in or a passkey.
+ * The account signs in with the password from then on, and with its
+ * identities as before.
+ */
+export interface AddPasswordRequest {
+  authHash: string;
+  kdf: AccountKdfParams;
+  rootPasswordWrap: SealedBox;
+  rootCheck: string;
+  reauth?: ProviderTicket;
+  passkey?: PasskeyProof;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 // --- GET /sync?since=<serverRev> -------------------------------------------
@@ -516,13 +806,22 @@ export type SyncErrorCode =
    * up with.
    */
   | 'update_required'
-  | 'unauthorized';
+  | 'unauthorized'
+  /**
+   * A 401 like `unauthorized`, for a session `DELETE /account/devices/:id`
+   * ended: the device was removed from the account. Every product hears it
+   * the same way; what it does with it is its own. It says nothing a device
+   * should act on without checking `proof` with its own key.
+   */
+  | 'device_removed';
 
 export interface SyncErrorBody {
   error: SyncErrorCode;
   message: string;
   /** Seconds to wait, on `rate_limited`. */
   retryAfter?: number;
+  /** On `device_removed`: the proof the remover sent, as sent, or null when it sent none. Untrusted until checked. */
+  proof?: DeviceRemovalProof | null;
 }
 
 // --- /account/keys: keys per product ----------------------------------------
@@ -563,7 +862,37 @@ export interface AccountKeysResponse {
    * For showing a person, never for deciding: whether the recovery key
    * protects a product is that product's pin's to say.
    */
-  recovery: { wrappedAt: number | null; products: string[] };
+  recovery: { wrappedAt: number | null; checkedAt: number | null; products: string[] };
+  /** A start over asked for with the email alone, still waiting: any session of the account may cancel it. */
+  pendingStartOver: PendingStartOver | null;
+  /**
+   * The name the person gave the account, as at sign-in (`account.name`), so
+   * a product that rarely signs in again keeps up with one changed on the
+   * page. Shown as text, never a sign of who anyone is. A server from before
+   * migration 10 says nothing.
+   */
+  name?: string | null;
+}
+
+/**
+ * A start over asked for with the email alone, which takes effect at
+ * `executesAt` unless a session of the account cancels it first
+ * (`DELETE /account/start-over`).
+ */
+export interface PendingStartOver {
+  requestedAt: number;
+  executesAt: number;
+  /** The device that asked, as it named itself. */
+  deviceName: string;
+}
+
+/**
+ * The recovery key just opened the root on this device, typed whole: the
+ * server checks its proof and notes when, so people are reminded to look for
+ * it again. A reminder only; a product decides from its own pin.
+ */
+export interface RecoveryCheckedRequest {
+  rootRecoveryAuthHash: string;
 }
 
 /**
@@ -589,6 +918,8 @@ export interface CreateRootRequest {
   authHash?: string;
   /** A fresh sign-in with the provider. Provider accounts. */
   reauth?: ProviderTicket;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 /**
@@ -603,6 +934,8 @@ export interface SetRootRecoveryRequest {
   keepsRecoveryKey?: boolean;
   authHash?: string;
   reauth?: ProviderTicket;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 /** Asks for a code to the account's address, to reset the password with the recovery key. */
@@ -697,6 +1030,8 @@ export interface RotateRootRequest {
   code?: string;
   /** A new password, when the old one is forgotten. Needs `code`. */
   newPassword?: { authHash: string; kdf: AccountKdfParams };
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 // --- The account page's keys -------------------------------------------------
@@ -719,6 +1054,34 @@ export interface ConsoleKeysResponse {
   protectedKey: SealedBox | null;
   /** Whether Keyrook Authenticator 0.3 can still use the account (`legacy_retired`). */
   olderAuthenticator: 'active' | 'retired';
+  /** The root wrapped under each passkey that unlocks it now; absent from a server without passkeys. */
+  passkeyWraps?: { id: string; rootWrap: SealedBox }[];
+}
+
+/**
+ * The account page gives an account that only Keyrook Authenticator has used
+ * its root, and Authenticator's key its box, in one step: Authenticator's key
+ * opened in the browser from its wrap under the password, or from its old
+ * kit with the recovery key (`POST /account/recovery/wrap`). The server checks
+ * the box holds Authenticator's key by its key check, and that a recovery
+ * wrap is under the kit's own recovery key, so the account keeps one.
+ */
+export interface ConsoleRootRequest {
+  publicKey: string;
+  rootCheck: string;
+  /** Under the password; null on an account without one. */
+  passwordWrap: SealedBox | null;
+  /** Under the old kit's recovery key; null when none was typed (an account with a password). */
+  recoveryWrap: SealedBox | null;
+  recoveryAuthHash?: string;
+  /** Keyrook Authenticator's key, sealed to the new root, its pin, and its key check. */
+  box: ProductBox;
+  pin: SealedBox;
+  keyCheck: string;
+  authHash?: string;
+  reauth?: ProviderTicket;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 /**
@@ -739,6 +1102,8 @@ export interface ConsoleRotateRequest {
   leaked: boolean;
   authHash?: string;
   reauth?: ProviderTicket;
+  /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
+  secondStep?: SecondStepProof;
 }
 
 /** Each product's pin brought up to date by the account page, after a recovery key was made or typed there. */
@@ -771,11 +1136,16 @@ export interface StartOverBeginResponse {
 }
 
 /**
- * Starts the account over: what it held is put aside, still sealed, for 90
- * days, and the account gets a new root and the calling product's new key.
- * Every session ends and the address is told.
+ * Asks to start the account over. It takes effect a week later
+ * (`StartOverScheduledResponse`) unless a session of the account cancels it:
+ * then what it held is put aside, still sealed, for 90 days, the account gets
+ * this new root and the calling product's new key, and every session ends.
+ * The address is told when it is asked for, the day before, and when it
+ * happens or is cancelled.
  */
 export interface StartOverRequest {
+  /** A build that knows a start over waits says so; one that does not is told to update. */
+  schedule: true;
   email: string;
   ticket: string;
   /** A password account's new password. An account without one sends neither. */
@@ -785,6 +1155,11 @@ export interface StartOverRequest {
   keys: InitialKeys;
   deviceId: string;
   deviceName: string;
+}
+
+/** When the start over asked for takes effect. No session is issued: until then the account is as it was. */
+export interface StartOverScheduledResponse {
+  executesAt: number;
 }
 
 // --- /account/archives: what an account held before it started over --------

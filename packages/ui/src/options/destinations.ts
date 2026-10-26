@@ -28,6 +28,12 @@ export interface Destination {
   methods: Method[];
   /** What to do in that app, as a message key. */
   steps: MessageKey;
+  /**
+   * Whether it makes Steam Guard codes. Those that do not refuse the setup
+   * code, or worse, keep it as six digits Steam turns away; the page says so
+   * before anyone scans it.
+   */
+  makesSteam: boolean;
 }
 
 export const DESTINATIONS: Destination[] = [
@@ -38,6 +44,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: true,
     methods: ['transfer'],
     steps: 'dest.google.steps',
+    makesSteam: false,
   },
   {
     id: 'microsoft',
@@ -46,6 +53,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: false,
     methods: ['one-by-one'],
     steps: 'dest.microsoft.steps',
+    makesSteam: false,
   },
   {
     id: 'apple',
@@ -54,6 +62,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: false,
     methods: ['one-by-one'],
     steps: 'dest.apple.steps',
+    makesSteam: false,
   },
   {
     id: 'authy',
@@ -62,6 +71,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: false,
     methods: ['one-by-one'],
     steps: 'dest.authy.steps',
+    makesSteam: false,
   },
   {
     id: '1password',
@@ -70,6 +80,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: false,
     methods: ['one-by-one'],
     steps: 'dest.1password.steps',
+    makesSteam: false,
   },
   {
     id: 'bitwarden',
@@ -78,6 +89,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: true,
     methods: ['bitwarden', 'transfer'],
     steps: 'dest.bitwarden.steps',
+    makesSteam: true,
   },
   {
     id: 'proton',
@@ -86,6 +98,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: true,
     methods: ['transfer', 'aegis'],
     steps: 'dest.proton.steps',
+    makesSteam: true,
   },
   {
     id: 'ente',
@@ -94,6 +107,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: true,
     methods: ['transfer', 'text'],
     steps: 'dest.ente.steps',
+    makesSteam: true,
   },
   {
     id: 'aegis',
@@ -102,6 +116,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: true,
     methods: ['aegis', 'transfer'],
     steps: 'dest.aegis.steps',
+    makesSteam: true,
   },
   {
     id: '2fas',
@@ -110,6 +125,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: true,
     methods: ['transfer', 'aegis'],
     steps: 'dest.2fas.steps',
+    makesSteam: true,
   },
   {
     id: 'other',
@@ -119,5 +135,7 @@ export const DESTINATIONS: Destination[] = [
     allAtOnce: false,
     methods: ['one-by-one', 'transfer', 'text'],
     steps: 'dest.other.steps',
+    // Whichever it is, nobody named it: nothing to warn about.
+    makesSteam: true,
   },
 ];

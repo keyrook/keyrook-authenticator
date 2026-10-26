@@ -1,7 +1,8 @@
-import type { ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
 import { cx } from '../components/primitives.js';
 import { ArrowLeftIcon } from '../components/icons.js';
 import { translate } from '../i18n/runtime.js';
+import { useBack } from '../lib/back.js';
 
 /**
  * The top of every Settings tab: what the tab is for, in one line, and the
@@ -32,6 +33,13 @@ export function PageHeader({
   );
 }
 
+/**
+ * True where the window's own header already holds the way back — a phone's
+ * Settings, whose arrow goes back one step whatever the step is. A second
+ * arrow under it, going somewhere else, left people guessing which was which.
+ */
+export const BackInHeader = createContext(false);
+
 /** A page one step into a tab, with the way back to it. */
 export function SubpageHeader({
   title,
@@ -42,16 +50,20 @@ export function SubpageHeader({
   description?: ReactNode;
   onBack: () => void;
 }) {
+  useBack(true, onBack);
+  const backInHeader = useContext(BackInHeader);
   return (
     <header className="mb-8">
-      <button
-        type="button"
-        onClick={onBack}
-        aria-label={translate('common.back')}
-        className="-ms-1.5 mb-3 grid h-8 w-8 place-items-center rounded-lg text-[17px] text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
-      >
-        <ArrowLeftIcon />
-      </button>
+      {!backInHeader && (
+        <button
+          type="button"
+          onClick={onBack}
+          aria-label={translate('common.back')}
+          className="-ms-1.5 mb-3 grid h-8 w-8 place-items-center rounded-lg text-[17px] text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
+        >
+          <ArrowLeftIcon />
+        </button>
+      )}
       <h1 className="text-[22px] font-semibold tracking-[-0.015em]">{title}</h1>
       {description && (
         <p className="mt-1 max-w-[62ch] text-[13.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
@@ -122,20 +134,32 @@ export function Section({
 
 export function Row({
   label,
+  name,
   description,
   control,
   children,
 }: {
   label: ReactNode;
+  /**
+   * The row's name as a group, where two rows have controls of the same name —
+   * two "Turn on" buttons — and each needs saying which it belongs to.
+   */
+  name?: string;
   description?: ReactNode;
   control?: ReactNode;
   /** What opens under the row when its control is used: a form, a warning. */
   children?: ReactNode;
 }) {
   return (
-    <div className="border-b border-neutral-100 px-4 py-3.5 last:border-b-0 dark:border-neutral-800/80">
-      <div className="flex items-center justify-between gap-6">
-        <div className="min-w-0">
+    <div
+      {...(name ? { role: 'group', 'aria-label': name } : {})}
+      className="border-b border-neutral-100 px-4 py-3.5 last:border-b-0 dark:border-neutral-800/80"
+    >
+      {/* The control goes under the words where both will not fit beside
+          each other — on a phone, a button would squeeze them into a column
+          a few words wide. A switch still fits beside them. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+        <div className="min-w-48 flex-1">
           <div className="text-[13.5px] font-medium">{label}</div>
           {description && (
             <p className="mt-0.5 text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">{description}</p>

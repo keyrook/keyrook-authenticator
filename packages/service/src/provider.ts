@@ -15,6 +15,13 @@
  * - **joining**: it holds a session but not the key, and waits for approval or
  *   for the recovery key. What it is waiting with lives in session storage, so
  *   a service worker stopped mid-wait loses nothing.
+ *
+ * Two more since an account may sign in more than one way (keyrook-account's
+ * S20, S21). An account with a second step answers with a ticket before any
+ * session, kept here like the rest until the code comes. And Google or GitHub
+ * may sign in to an account that has a password: they say who is signing in,
+ * and the password opens the key, so that session is ended and the person
+ * signs in with the password — never asked to wait for another browser.
  */
 import {
   adoptDataKey,
@@ -24,6 +31,7 @@ import {
   deviceKeyring,
   exportPairingKeys,
   importPairingKeys,
+  logout,
   newPairingKeys,
   openRecoveryState,
   pairingCode,
@@ -40,6 +48,7 @@ import {
   verifyPassword,
   wrapDataKeyForPairing,
   DecryptionError,
+  type LoginResponse,
   type OwnerProof,
   type PairingSummary,
   type ProviderTicket,
@@ -50,7 +59,13 @@ import {
 } from '@authx/core';
 import { platform } from './platform.js';
 import { fail } from '@authx/ui/i18n/errors.js';
-import type { ProviderOffer, ProviderOutcome, ProviderPending as ProviderPendingView } from '@authx/ui/lib/protocol.js';
+import type {
+  ProviderOffer,
+  ProviderOutcome,
+  ProviderPending as ProviderPendingView,
+  SecondStepAnswer,
+} from '@authx/ui/lib/protocol.js';
+import { finishSignInStep } from './second-step.js';
 import { adapter, deviceName, markEverythingPending, serverFetch, storeSession } from './sync.js';
 
 const PENDING_KEY = 'authx.providerPending';
@@ -74,7 +89,9 @@ export type ProviderPending =
       provider: SignInProvider;
       email: string;
       pairing?: { id: string; keys: StoredKeys };
-    };
+    }
+  /** No session yet: the account asks for a second step, which `ticket` finishes within five minutes. */
+  | { kind: 'secondStep'; provider: SignInProvider; ticket: string; passkeys: boolean };
 
 export async function pendingView(): Promise<ProviderPendingView | null> {
   const pending = await pendingProvider();
@@ -82,8 +99,10 @@ export async function pendingView(): Promise<ProviderPendingView | null> {
   return {
     kind: pending.kind,
     provider: pending.provider,
-    email: pending.email,
+    // The address is the account's to say, once there is a session.
+    email: pending.kind === 'secondStep' ? '' : pending.email,
     asked: pending.kind === 'join' && Boolean(pending.pairing),
+    ...(pending.kind === 'secondStep' ? { passkeys: pending.passkeys } : {}),
   };
 }
 
@@ -105,15 +124,28 @@ const isOffer = (value: unknown): value is ProviderOffer =>
   Array.isArray((value as ProviderOffer).providers) &&
   typeof (value as ProviderOffer).inTab === 'boolean';
 
+/** An answer kept by a build from before passkeys says nothing of them, which is no. */
+const asOffer = (known: ProviderOffer): ProviderOffer => ({
+  ...known,
+  passkeys: known.passkeys === true,
+  secondStep: known.secondStep === true,
+});
+
 /** Asks the server, and remembers the answer for next time. */
 export async function refreshProviderOffer(): Promise<ProviderOffer> {
   // Briefly: a server that does not answer should leave the email forms, not
   // a card waiting on it.
   const named = serverFetch();
-  const { providers, byMessage } = await signInOptions(platform().syncApiUrl, (input, init) =>
+  const { providers, byMessage, byApp, passkeys, secondStep } = await signInOptions(platform().syncApiUrl, (input, init) =>
     named(input, { ...init, signal: AbortSignal.timeout(5_000) }),
   );
-  const offer: ProviderOffer = { providers, inTab: byMessage };
+  // An app has no tab to come back to, and a server that cannot hand the
+  // answer back to it offers the app no provider at all: the browser it would
+  // end in is not the app.
+  const offer: ProviderOffer =
+    platform().signInReturn === 'app'
+      ? { providers: byApp ? providers : [], inTab: false, passkeys, secondStep }
+      : { providers, inTab: byMessage, passkeys, secondStep };
   await platform().disk.set(OFFER_KEY, offer);
   return offer;
 }
@@ -127,9 +159,9 @@ export async function providerOffer(): Promise<ProviderOffer> {
   const fresh = refreshProviderOffer();
   if (isOffer(known)) {
     void fresh.catch(() => undefined);
-    return known;
+    return asOffer(known);
   }
-  return fresh.catch(() => ({ providers: [], inTab: false }));
+  return fresh.catch(() => ({ providers: [], inTab: false, passkeys: false }));
 }
 
 /** Where a sign-in starts: our server, which sends the person on to the provider. */
@@ -141,12 +173,15 @@ async function flowStart(
   const verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));
   const challenge = base64url(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
   const state = base64url(crypto.getRandomValues(new Uint8Array(16)));
+  const back: Record<string, string> =
+    platform().signInReturn === 'app'
+      ? { return: 'app', app: platform().clientId }
+      : { ext: platform().clientId, ...(returnBy === 'message' ? { return: 'message' } : {}) };
   const url = `${platform().syncApiUrl}/oauth/${provider}/start?${new URLSearchParams({
-    ext: platform().clientId,
+    ...back,
     challenge,
     state,
     purpose,
-    ...(returnBy === 'message' ? { return: 'message' } : {}),
   })}`;
   return { url, state, verifier };
 }
@@ -257,7 +292,9 @@ function signedInData(data: VaultData, email: string, provider: SignInProvider):
 export type ProviderStart =
   | { kind: 'new'; email: string }
   | { kind: 'signedIn'; file: VaultFile; data: VaultData }
-  | { kind: 'join'; email: string };
+  | { kind: 'join'; email: string }
+  | { kind: 'password'; provider: SignInProvider; email: string }
+  | { kind: 'secondStep'; passkeys: boolean };
 
 /**
  * Redeems a sign-in's ticket. For the vault's write queue: the provider's
@@ -270,7 +307,7 @@ export async function startProviderSignIn(
 ): Promise<ProviderStart> {
   const answer = await providerSession(
     platform().syncApiUrl,
-    { ...ticket, deviceId: unlocked.data.sync.deviceId, deviceName: deviceName() },
+    { ...ticket, secondStep: true, deviceId: unlocked.data.sync.deviceId, deviceName: deviceName() },
     serverFetch(),
   ).catch((error: unknown) => {
     if (error instanceof SyncHttpError && error.code === 'email_taken') throw new Error(error.message);
@@ -281,9 +318,55 @@ export async function startProviderSignIn(
     await setPending({ kind: 'signup', provider, email: answer.email, signupToken: answer.signupToken });
     return { kind: 'new', email: answer.email };
   }
+  if (answer.status === 'second_step') {
+    await setPending({ kind: 'secondStep', provider, ticket: answer.secondStep.ticket, passkeys: answer.secondStep.passkeys });
+    return { kind: 'secondStep', passkeys: answer.secondStep.passkeys };
+  }
+  // Adding this identity to an account with a password is the account page's;
+  // the server answers so to that page alone, but a product is told the same.
+  if (answer.status === 'link') fail('error.server.emailTakenPassword', { email: answer.email });
+  return withProviderSession(unlocked, provider, answer.session);
+}
 
-  await storeSession(answer.session);
-  const email = answer.session.account.email;
+/** The server's word that a second step's ticket is gone. */
+const STEP_EXPIRED = 'That sign-in has expired. Sign in again.';
+
+/** Finishes the sign-in waiting at its second step, then goes on as any provider sign-in does. */
+export async function finishProviderStep(unlocked: UnlockedVault, answer: SecondStepAnswer): Promise<ProviderStart> {
+  const pending = await pendingProvider();
+  if (pending?.kind !== 'secondStep') fail('error.secondStep.expired');
+  const session = await finishSignInStep(pending.ticket, answer).catch(async (error: unknown) => {
+    // Its ticket is spent or past its five minutes: the sign-in starts again.
+    // A wrong code leaves it, for the few tries the server allows.
+    if (error instanceof SyncHttpError && error.message === STEP_EXPIRED) await setPending(null);
+    throw error;
+  });
+  return withProviderSession(unlocked, pending.provider, session);
+}
+
+/** The ticket of the Google or GitHub sign-in waiting at its second step. */
+export async function providerStepTicket(): Promise<string> {
+  const pending = await pendingProvider();
+  if (pending?.kind !== 'secondStep') fail('error.secondStep.expired');
+  return pending.ticket;
+}
+
+/** Where a session from Google or GitHub leaves this browser. */
+async function withProviderSession(
+  unlocked: UnlockedVault,
+  provider: SignInProvider,
+  session: Pick<LoginResponse, 'accessToken' | 'refreshToken' | 'account'>,
+): Promise<ProviderStart> {
+  const email = session.account.email;
+  if (session.account.method === 'password') {
+    // Who is signing in is proved; what opens the key is the password, and a
+    // vault signed in to a password account opens with it or its device key.
+    // So this session is ended unused, and the password signs in.
+    await setPending(null);
+    await logout(platform().syncApiUrl, session.refreshToken, serverFetch()).catch(() => undefined);
+    return { kind: 'password', provider, email };
+  }
+  await storeSession(session);
   // Signed in here before, then out: this vault already has the key.
   if (await opensAccountKit(unlocked.dataKey)) {
     await setPending(null);
@@ -515,7 +598,10 @@ export async function denyPairing(id: string): Promise<void> {
  * fresh sign-in with the provider on a provider account.
  */
 export async function ownerProof(data: VaultData, authHash: () => Promise<string>): Promise<OwnerProof> {
-  if (data.account.method === 'provider' && data.account.provider) {
+  if (data.account.method === 'provider') {
+    // Signed in with a passkey, which does not say whose sign-in the account
+    // is: there is no password to ask for, and no provider to ask either.
+    if (!data.account.provider) fail('error.providerHasNoPassword');
     return { reauth: await providerFlow(data.account.provider, 'reauth') };
   }
   return { authHash: await authHash() };

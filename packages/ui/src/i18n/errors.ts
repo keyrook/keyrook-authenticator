@@ -47,7 +47,9 @@ export const KNOWN_MESSAGES: Record<string, MessageKey> = {
   'That password does not open this file.': 'error.backupWrongPassword',
   // DecryptionError's own wording, which our backups' wrong password arrives as.
   'Could not decrypt — wrong password or corrupted data.': 'error.backupWrongPassword',
-  'Steam Guard codes cannot be imported yet.': 'error.foreign.steam',
+  'Choose every file in Steam Desktop Authenticator’s maFiles folder together: manifest.json and the .maFile files beside it.':
+    'error.foreign.steamFolder',
+  'Google Authenticator cannot make Steam Guard codes.': 'error.gaSkipSteam',
   'This export is locked with a password Keyrook Authenticator cannot open. Export it again without a password.':
     'error.foreign.locked',
   'Not an otpauth:// URI': 'error.uriNotOtpauth',
@@ -84,8 +86,12 @@ export const KNOWN_MESSAGES: Record<string, MessageKey> = {
   'Missing bearer token.': 'error.server.session',
   'That session is no longer valid.': 'error.server.session',
   'That session has expired.': 'error.server.session',
+  // Only an ordinary end until the vault service checks the removal proof,
+  // and says it in its own words when it does.
+  'This device was removed from the account.': 'error.server.session',
   'That account no longer exists.': 'error.server.accountGone',
   'That recovery key does not match this account.': 'error.recoveryKeyWrong',
+  'That recovery key does not open this account.': 'error.recoveryKeyWrong',
   'That sign-up has expired. Sign in again.': 'error.server.signupExpired',
   'That sign-in has expired. Try again.': 'error.server.signinExpired',
   'Too many wrong codes. Ask for a new one.': 'error.server.tooManyCodes',
@@ -149,6 +155,22 @@ export const KNOWN_MESSAGES: Record<string, MessageKey> = {
   'The server reported an account key other than the one just made.': 'error.account.serverMismatch',
   'This account has a password: confirm with it.': 'error.account.confirmWithPassword',
   'This account has no root key yet. Open Keyrook Authenticator to do this.': 'error.server.noRoot',
+  // Passkeys (keyrook-account, migration 8): what signing in with one can meet.
+  'A passkey answers only for Keyrook’s own page and apps.': 'error.passkey.wrongOrigin',
+  'Passkeys are not offered here.': 'error.passkey.notOffered',
+  'That passkey could not be checked. Try again.': 'error.passkey.unchecked',
+  'That passkey is not one any Keyrook account knows. It may have been removed.': 'error.passkey.unknown',
+  'That passkey request has ended. Try again.': 'error.passkey.ended',
+  'That passkey does not open this account’s key. Sign in with the password instead.': 'error.passkey.noUnlock',
+  // A passkey made without the PRF extension answers, but cannot unlock: to a
+  // person, the same as one that no longer does.
+  'That passkey did not answer as one that unlocks.': 'error.passkey.noUnlock',
+  'The server answered for another passkey.': 'error.account.serverMismatch',
+  // A second step at sign-in (keyrook-account, migration 9).
+  'Enter the code from your authenticator app too.': 'error.secondStep.missing',
+  'That code is not right. Enter the one your authenticator app shows now.': 'error.secondStep.wrongCode',
+  'That sign-in has expired. Sign in again.': 'error.secondStep.expired',
+  'This account asks for a second step to sign in. Update this app to sign in.': 'error.server.updateRequired',
   'Not found.': 'error.server.unavailable',
   'Account vanished mid-transaction': 'error.server.unavailable',
   'A provider account has no wrapped key to hand out.': 'error.server.providerAccount',

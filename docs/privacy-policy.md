@@ -1,6 +1,6 @@
 # Privacy Policy — Keyrook Authenticator
 
-_Last updated: 18 October 2026_
+_Last updated: 26 October 2026_
 
 ## The short version
 
@@ -23,6 +23,14 @@ version 0.2.0.
   secret needed to generate codes, and any note or picture you add. These are
   encrypted with AES-256-GCM before they are written to disk, using either that
   device's key or your master password.
+- **If you unlock with your fingerprint, face or PIN, or with a security
+  key** — the key that opens your accounts, encrypted with a key only a passkey
+  on your device or on your security key can make, and only after it has
+  checked you; and that passkey's identifier. The passkey stays with your
+  device, your passkey manager or your security key. Neither we nor the
+  extension ever receive your fingerprint, your face or your PIN, or your
+  security key's PIN: your device or your key checks them and answers yes or
+  no.
 - **Your preferences** — theme, sort order, auto-lock delay, and whether
   autofill is enabled.
 - **When to ask for a rating** — the time you first used a code and how many
@@ -58,6 +66,11 @@ them is recorded, kept or uploaded, with or without an account.
 
 ### What we receive and keep
 
+A Keyrook account can be made in Keyrook Authenticator, in Keyrook's other
+apps, or on its own page, account.keyrook.com. Wherever it was made, it holds
+what is listed here. The account, for every Keyrook app at once, also has its
+own privacy policy at account.keyrook.com/privacy/.
+
 - **Your email address**, to identify your account and to send you a code that
   proves the address is yours. If you sign in with Google or GitHub, the address
   comes from them, already verified, and no code is sent.
@@ -90,14 +103,62 @@ them is recorded, kept or uploaded, with or without an account.
   from the database. We also store your data key in encrypted form, so a new
   device can open it with your password, and, if you made one, the same for your
   recovery key.
+- **Your passkeys, if you add one on account.keyrook.com** (from 21 October
+  2026). For each: its public key and identifier, the name you give it, whether
+  a service copies it to your other devices, a counter it reports, and when it
+  was added and last used; and for the account, a random identifier your
+  passkeys carry instead of your email address. A passkey's private key stays
+  on your device or with your passkey manager, and we never receive it. If it
+  can unlock your data, we also keep the key that opens it encrypted under a
+  key only that passkey produces on your device, which we never receive either.
+- **More than one way to sign in, if you add one.** An account with a password
+  can also sign in with Google or GitHub, added on account.keyrook.com with the
+  password, and an account made with Google or GitHub can have a password added
+  there. For each Google or GitHub account added, we keep what we keep for one:
+  the identifier it gives your account and the verified email address it
+  reports. It can be removed again while another way to sign in is left.
+- **Two-step sign-in, if you turn it on** on account.keyrook.com, once it is
+  offered there. The secret your authenticator app shares with us, the last
+  30-second period a code was taken for, so that no code works twice, and when
+  you set it up and turned it on. The secret is sealed with a key held apart
+  from the database, but it is not hidden from the server: checking your codes
+  needs it. It tells a right code from a wrong one, and opens none of your
+  data. When you sign in, Keyrook Authenticator sends the code you type, or in
+  its place a proof made from your recovery key, never the key itself; between
+  the two steps we hold for five minutes which device and app the sign-in is
+  for. It is off unless you turn it on, and we keep nothing for it until then.
 - **Your signed-in devices** — a name such as "Chrome on Mac", when each signed
   in and was last used, and a hash of its session tokens, so you can see the
   list and sign a device out.
+- **Devices you remove** (from 26 October 2026). When you remove a device from
+  your account — under Signed-in devices in Keyrook Authenticator, or on
+  account.keyrook.com — we keep a record of it for 180 days: which app it was,
+  its device identifier, when it was removed, the proof your app's key made (we
+  can neither make nor read it), and scrambled forms of that device's session
+  tokens, so that it can be told when it next connects. Keyrook Authenticator
+  on that device checks the proof with its own key and then takes your
+  account's codes off it, keeping only those added there that never reached
+  your account. A device that never connects again keeps what it had.
 - **A new browser asking to join.** A browser signed in with Google or GitHub
   gets your entries only when one already signed in approves it. Until then we
   hold its name and a one-time public key; once you approve, your data key
   encrypted for that browser alone, which we cannot open. The request is deleted
   when it is used or declined, and stops working after ten minutes.
+- **What an account kept when it started over.** An account whose password and
+  recovery key are both lost can start over with its email address alone. What
+  it held before is kept, still encrypted under the keys of then, so that the
+  old password or recovery key can bring it back. We cannot open it.
+- **A start over asked for, while it waits** (from 21 October 2026). Starting
+  over with the email address alone takes effect a week after it is asked
+  for. Until then nothing changes, and we keep what the request brings,
+  sealed: the new password's proof, the new keys, and the name the asking
+  device gave itself. Every device still signed in, Keyrook Authenticator
+  among them, shows the day it takes effect and can cancel it.
+- **When your recovery key last proved it still works** (from 21 October
+  2026): the date it last opened your account's key, typed whole under
+  Settings → Security or on account.keyrook.com, or used to set a new
+  password. The key itself never leaves your device. Only so that you can be
+  reminded to look for it; we decide nothing by it.
 
 ### What the service sees in passing
 
@@ -116,10 +177,20 @@ them is recorded, kept or uploaded, with or without an account.
 
 ### Emails we send
 
-Only what the account needs: the code that confirms your address when you sign
-up, and a notice if someone tries to sign up with an address that already has an
-account. An account made with Google or GitHub gets no email from us at all. No
-newsletters, no marketing.
+Only what the account needs: a code that confirms it is you when you sign up,
+reset a forgotten password, start the account over or replace its keys; a notice
+when someone tries to sign up with an address that already has an account, when
+the account's keys were replaced, when its recovery key was changed, or when
+it was started over; from 21 October 2026, a notice when a start over is asked
+for, a reminder the day before it takes effect, and a notice if it is
+cancelled, and a notice when a passkey is added to the account or removed; a
+notice when Google or GitHub is added to the account or removed, and when a
+password is added; with two-step sign-in, a notice when it is turned on or off,
+and when the recovery key is used in place of a code; from 26 October 2026,
+a notice when a device is removed from your account with a proof that lets its
+app take your data off it; and a reminder a week before what it kept from
+before starting over is deleted. No newsletters, no
+marketing.
 
 ### Who processes it for us
 
@@ -137,16 +208,30 @@ which companies they are, write to us.
 ### How long we keep it
 
 - **Your account and everything synced**: until you delete the account.
-  Deleting it (Settings → Account & sync → Delete account, which asks for
-  your password, or for you to sign in with Google or GitHub again) removes your email address, your encrypted entries, your devices and
+  Deleting it on its page, account.keyrook.com (which asks for your password,
+  or for you to sign in with Google or GitHub again), removes your email address, your encrypted entries, your devices and
   your recovery data from our database at once — including what any other
   Keyrook app synced to the same account.
+- **What an account kept when it started over**: 90 days from the day it
+  started over, then deleted. A week before, we email the address to say so.
+- **A start over asked for**: until it takes effect a week later, or is
+  cancelled.
+- **Your passkeys**: until you remove one, delete the account, or it starts
+  over.
+- **Two-step sign-in**: until you turn it off, delete the account, or it
+  starts over. One set up but never confirmed with a code is deleted within a
+  day.
+- **When your recovery key last proved it works**: until you delete the
+  account.
+- **A device you removed** (from 26 October 2026): 180 days, or until you
+  delete the account or it starts over.
 - **Backups**: encrypted daily copies of the database are kept for 14 days on
   the server, and the off-site copies are deleted within 60 days. Deleted
   accounts disappear from backups as they expire.
 - **Sign-ins in progress**: a Google or GitHub sign-in that has not finished,
-  and a request to join from a new browser, stop working after ten minutes and
-  are deleted within a day.
+  and a request to join from a new browser, stop working after ten minutes; a
+  sign-in waiting for its second step, after five. Each is deleted within a
+  day.
 - **Sign-up codes**: a code works for 15 minutes. The record of the request,
   with the address it went to, is deleted within a day once its hour has passed.
 - **Failed sign-in counts** are forgotten after an hour without failures, and

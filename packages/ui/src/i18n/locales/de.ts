@@ -17,6 +17,7 @@ export const de: Dictionary = {
   'error.recoverOnAccountPage': 'Ihr Wiederherstellungsschlüssel stimmt, aber das Passwort dieses Kontos wird jetzt auf der Kontoseite zurückgesetzt – für alle Keyrook-Apps zugleich.',
   'error.kitOnAccountPage': 'Der Wiederherstellungsschlüssel dieses Kontos wird jetzt auf der Kontoseite erstellt – für alle Keyrook-Apps zugleich.',
   'error.restoreEmpty': 'Von diesem Konto ist nichts mehr da, das sich zurückholen ließe: Es wurde auf einem anderen Gerät gelöscht, bevor dieses es je hatte.',
+  'error.noAccountSheet': 'Dieses Konto hat noch keinen Wiederherstellungsschlüssel. Erstellen Sie einen auf der Kontoseite.',
   'error.recoveryKeyWrong': 'Dieser Wiederherstellungsschlüssel passt nicht zu diesem Konto.',
   'error.noRecoveryKit': 'Dieser Tresor hat keinen Wiederherstellungsschlüssel.',
   'error.syncUnavailable': 'In dieser Version ist keine Synchronisierung verfügbar.',
@@ -24,6 +25,8 @@ export const de: Dictionary = {
   'error.alreadySignedIn': 'Bereits angemeldet.',
   'error.signedOutElsewhere':
     'Dieses Gerät wurde von der Synchronisierung abgemeldet – das Passwort wurde geändert oder das Gerät auf einem anderen entfernt. Melden Sie sich erneut an.',
+  'error.removedFromAccount':
+    'Ein anderes Gerät hat dieses aus Ihrem Keyrook-Konto entfernt, deshalb wurden die Codes des Kontos hier gelöscht. Melden Sie sich wieder an, um sie zurückzuholen.',
   'error.signOutUnsynced':
     'Einige Änderungen in diesem Browser sind noch nicht in Ihrem Konto angekommen, und eine Abmeldung jetzt würde sie verlieren. Verbinden Sie sich mit dem Internet und versuchen Sie es erneut.',
   'error.enterAccountPassword': 'Geben Sie Ihr Kontopasswort ein.',
@@ -56,10 +59,10 @@ export const de: Dictionary = {
   'error.pairingExpired':
     'Die Anfrage ist beendet – sie wurde abgelehnt oder zehn Minuten sind vergangen. Fragen Sie erneut an.',
   'error.pairingWrongKey':
-    'Der empfangene Schlüssel gehört nicht zu diesem Konto. Es wurde nichts geändert. Versuchen Sie es vom anderen Browser aus erneut.',
-  'error.pairingForged': 'Diese Freigabe kam nicht von dem Browser, dessen Code Sie geprüft haben.',
+    'Der empfangene Schlüssel gehört nicht zu diesem Konto. Es wurde nichts geändert. Versuchen Sie es vom anderen Gerät aus erneut.',
+  'error.pairingForged': 'Diese Freigabe kam nicht von dem Gerät, dessen Code Sie geprüft haben.',
   'error.pairingForgedAsk':
-    'Diese Freigabe kam nicht von dem Browser, dessen Code geprüft wurde. Es wurde nichts geändert. Fragen Sie erneut an.',
+    'Diese Freigabe kam nicht von dem Gerät, dessen Code geprüft wurde. Es wurde nichts geändert. Fragen Sie erneut an.',
   'error.pairingEnded': 'Diese Anfrage ist beendet.',
   'error.approveAgain': 'Beginnen Sie die Freigabe dieser Anfrage erneut.',
   'error.backupPasswordShort': 'Das Backup-Passwort muss mindestens 8 Zeichen lang sein.',
@@ -77,6 +80,26 @@ export const de: Dictionary = {
   'error.migrationNotOurs': 'Kein Export aus Google Authenticator.',
   'error.migrationMalformed': 'Dieser Export aus Google Authenticator ist beschädigt oder unvollständig.',
   'error.offline': 'Der Synchronisierungsserver ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.',
+  'error.passkey.wrongOrigin': 'Ein Passkey gilt nur für Keyrooks eigene Seite und Apps.',
+  'error.passkey.notOffered': 'Die Anmeldung mit Passkey wird hier nicht angeboten.',
+  'error.passkey.unchecked': 'Dieser Passkey konnte nicht geprüft werden. Versuchen Sie es erneut.',
+  'error.passkey.unknown': 'Diesen Passkey kennt kein Keyrook-Konto. Vielleicht wurde er entfernt.',
+  'error.passkey.ended': 'Die Anfrage für diesen Passkey ist abgelaufen. Versuchen Sie es erneut.',
+  'error.passkey.noUnlock': 'Dieser Passkey öffnet den Schlüssel dieses Kontos nicht. Melden Sie sich stattdessen mit dem Passwort an.',
+  'error.passkey.noUnlockProvider':
+    'Dieser Passkey öffnet den Schlüssel dieses Kontos nicht. Fahren Sie stattdessen mit Google oder GitHub fort.',
+  'error.passkey.masterPassword':
+    'Ein Tresor, der mit einem Master-Passwort sperrt, kann sich nicht mit einem Passkey anmelden. Melden Sie sich mit dem Kontopasswort oder mit Google oder GitHub an.',
+  'error.passkey.permission':
+    'Keyrook Authenticator braucht die Erlaubnis von Chrome, um die Passkeys von account.keyrook.com zu verwenden. Wählen Sie den Passkey erneut und erlauben Sie es.',
+  'error.passkey.cancelled':
+    'Es wurde kein Passkey verwendet. Versuchen Sie es erneut oder melden Sie sich auf andere Weise an.',
+  'error.passkey.failed':
+    'Chrome konnte keinen Passkey anfragen. Versuchen Sie es erneut oder melden Sie sich auf andere Weise an.',
+  'error.secondStep.missing': 'Geben Sie auch den Code aus Ihrer Authenticator-App ein.',
+  'error.secondStep.wrongCode': 'Dieser Code stimmt nicht. Geben Sie den ein, den Ihre Authenticator-App jetzt anzeigt.',
+  'error.secondStep.expired': 'Diese Anmeldung ist abgelaufen. Melden Sie sich erneut an.',
+  'error.secondStep.used': 'Dieser Code wurde gerade zum Anmelden verwendet. Warten Sie, bis Ihre App den nächsten anzeigt.',
   'error.provider.refusedBy': '{provider} hat die Anmeldung abgelehnt.',
   'error.provider.unreachable': '{provider} ist nicht erreichbar. Versuchen Sie es gleich noch einmal.',
   'error.provider.refused': 'Die Anmeldung wurde abgelehnt. Versuchen Sie es erneut.',
@@ -91,11 +114,11 @@ export const de: Dictionary = {
   'error.server.signinExpired': 'Diese Anmeldung ist abgelaufen. Versuchen Sie es erneut.',
   'error.server.tooManyCodes': 'Zu viele falsche Codes. Fordern Sie einen neuen an.',
   'error.server.tooManyPairings':
-    'Zu viele Browser warten darauf, diesem Konto beizutreten. Versuchen Sie es in ein paar Minuten erneut.',
+    'Zu viele Geräte warten darauf, diesem Konto beizutreten. Versuchen Sie es in ein paar Minuten erneut.',
   'error.server.wrongKey': 'Dieses Gerät besitzt den Kontoschlüssel nicht.',
   'error.server.providerAccount': 'Dieses Konto meldet sich mit Google oder GitHub an, nicht mit einem Passwort.',
   'error.server.mailFailed': 'Die E-Mail konnte nicht gesendet werden. Versuchen Sie es in einer Minute erneut.',
-  'error.server.pairingTaken': 'Diese Anfrage ist beendet oder wird gerade von einem anderen Browser freigegeben.',
+  'error.server.pairingTaken': 'Diese Anfrage ist beendet oder wird gerade von einem anderen Gerät freigegeben.',
   'error.server.passwordWrong': 'Dieses Passwort ist nicht korrekt.',
   'error.server.badCredentials': 'E-Mail oder Passwort ist falsch.',
   'error.server.badCode':
@@ -156,6 +179,22 @@ export const de: Dictionary = {
   'unlock.placeholder': 'Master-Passwort',
   'unlock.submit': 'Entsperren',
   'unlock.forgot': 'Vergessen? <link>Wiederherstellungsschlüssel verwenden</link>',
+  'platformUnlock.unlock': 'Mit Fingerabdruck, Gesicht oder PIN entsperren',
+  'platformUnlock.title': 'Fingerabdruck, Gesicht oder PIN',
+  'platformUnlock.body': 'Öffnen Sie den Tresor mit der eigenen Prüfung dieses Computers – Touch ID, Windows Hello oder seiner PIN – statt das Master-Passwort einzugeben. Das Passwort öffnet ihn weiterhin, und Änderungen verlangen es weiterhin.',
+  'platformUnlock.on': 'Der Tresor öffnet sich auch mit der eigenen Prüfung dieses Computers. Wird das Master-Passwort entfernt, wird das ausgeschaltet.',
+  'passkeyUnlock.turnOn': 'Einschalten',
+  'passkeyUnlock.turnOff': 'Ausschalten',
+  'platformUnlock.confirm': 'Danach fragt Ihr Computer nach Fingerabdruck, Gesicht oder PIN.',
+  'error.passkeyUnlock.cancelled': 'Die Prüfung wurde abgebrochen oder hat zu lange gedauert. Versuchen Sie es erneut oder verwenden Sie das Master-Passwort.',
+  'error.platformUnlock.noPrf': 'Dort, wo dieser Passkey gespeichert wurde, lässt sich kein Schlüssel halten, daher kann er den Tresor nicht öffnen. Schalten Sie dies erneut ein und wählen Sie einen anderen Ort, wenn Sie gefragt werden, wo er gespeichert werden soll – oder verwenden Sie weiter das Master-Passwort.',
+  'error.passkeyUnlock.failed': 'Das hat den Tresor nicht geöffnet. Verwenden Sie das Master-Passwort und schalten Sie dies unter Sicherheit wieder ein.',
+  'securityKey.unlock': 'Mit Sicherheitsschlüssel entsperren',
+  'securityKey.title': 'Sicherheitsschlüssel',
+  'securityKey.body': 'Öffnen Sie den Tresor mit einem USB-Sicherheitsschlüssel und seiner PIN, statt das Master-Passwort einzugeben. Wer den Schlüssel hat und seine PIN kennt, kann den Tresor dann auf diesem Computer öffnen. Geht der Schlüssel verloren, öffnet das Master-Passwort den Tresor weiterhin.',
+  'securityKey.on': 'Der Tresor öffnet sich auf diesem Computer auch mit Ihrem Sicherheitsschlüssel und seiner PIN. Wer den Schlüssel hat und seine PIN kennt, kann ihn hier öffnen – schalten Sie das also aus, wenn der Schlüssel verloren geht. Wird das Master-Passwort entfernt, wird das ausgeschaltet.',
+  'securityKey.confirm': 'Stecken Sie danach Ihren Sicherheitsschlüssel ein, geben Sie seine PIN ein und berühren Sie ihn. Manche Schlüssel fragen zweimal.',
+  'error.securityKey.noPrf': 'Dieser Sicherheitsschlüssel kann keinen Schlüssel halten und daher den Tresor nicht öffnen. Schlüssel, die nur für die Anmeldung in zwei Schritten gemacht sind, können das nicht. Versuchen Sie einen anderen Schlüssel oder verwenden Sie weiter das Master-Passwort.',
 
   // --- Tresor lässt sich nicht öffnen ------------------------------------------
   'unrecoverable.title': 'Dieser Tresor lässt sich nicht mehr öffnen',
@@ -196,6 +235,7 @@ export const de: Dictionary = {
   'setup.password.footnote':
     'Die stärkste Option: Ist er gesperrt, kann nichts auf diesem Computer den Tresor ohne das Passwort öffnen.',
   'setup.footer': 'In beiden Fällen AES-256-GCM. Jederzeit umstellbar; Synchronisierung ist optional, in den Einstellungen.',
+  'setup.footer.noSync': 'In beiden Fällen AES-256-GCM. Jederzeit umstellbar, in den Einstellungen.',
   'setup.source': 'Open Source – den Code lesen',
   'common.back': 'Zurück',
   'setup.passwordStep.title': 'Master-Passwort festlegen',
@@ -244,8 +284,8 @@ export const de: Dictionary = {
   'vault.byName': 'Nach Name',
   'vault.orderAdded': 'Hinzugefügt',
   'vault.joinRequests': {
-    one: 'Ein Browser möchte Ihrem Konto beitreten.',
-    other: '{count} Browser möchten Ihrem Konto beitreten.',
+    one: 'Ein Gerät möchte Ihrem Konto beitreten.',
+    other: '{count} Geräte möchten Ihrem Konto beitreten.',
   },
   'vault.joinRequestsHint': 'Geben Sie nur einen frei, bei dem Sie sich gerade selbst anmelden.',
   'vault.reviewInSettings': 'In den Einstellungen prüfen',
@@ -340,6 +380,7 @@ export const de: Dictionary = {
   'error.alreadyInVault': 'Dieses Konto ist bereits in Ihrem Tresor.',
   'error.gaSkipPeriod': 'Google Authenticator speichert nur 30-Sekunden-Codes; dieser verwendet {period}.',
   'error.gaSkipDigits': 'Google Authenticator speichert nur 6- oder 8-stellige Codes; dieser hat {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator kann keine Steam-Guard-Codes erzeugen.',
 
   // --- Scannen mit der Kamera ---------------------------------------------------
   'scan.progressBatch': 'Code {seen} von {total} gescannt – {accounts}. Zeigen Sie den nächsten Code.',
@@ -431,9 +472,18 @@ export const de: Dictionary = {
   // --- Ein neuer Wiederherstellungsschlüssel ------------------------------------
   'sheet.once':
     'Dieser Schlüssel wird nur dieses eine Mal angezeigt. Er wird nirgends gespeichert – verlieren Sie ihn, stellen Sie einen neuen aus.',
+  'sheet.print': 'Drucken',
+  'sheet.apart': 'Bewahren Sie ihn getrennt von Ihrer E-Mail auf und schicken Sie ihn sich nie per E-Mail: Mit diesem Schlüssel und Ihrer E-Mail-Adresse kann jemand ein neues Passwort setzen und Ihre Codes öffnen.',
+  'sheet.apartProvider': 'Bewahren Sie ihn getrennt von dem Google- oder GitHub-Konto auf, mit dem Sie sich anmelden, und legen Sie ihn nie in dessen Postfach oder Cloud-Speicher ab: Mit diesem Schlüssel und diesem Konto kann jemand Ihre Codes öffnen.',
+  'sheet.kept': 'Ich habe ihn gespeichert',
+  'sheet.checkHeading': 'Prüfen, ob Sie ihn gespeichert haben',
+  'sheet.checkLead': 'Geben Sie zwei Gruppen des Schlüssels aus Ihrer gespeicherten Kopie ein. Gruppen sind die Viererblöcke zwischen den Bindestrichen, von links gezählt.',
+  'sheet.group': 'Gruppe {position}',
+  'sheet.check': 'Prüfen',
+  'sheet.mismatch': 'Das steht nicht in Ihrem Schlüssel. Sehen Sie in Ihrer Kopie nach, oder lassen Sie den Schlüssel erneut anzeigen und speichern Sie ihn jetzt.',
+  'sheet.showAgain': 'Schlüssel erneut anzeigen',
   'sheet.download': 'Blatt herunterladen',
   'sheet.copy': 'Kopieren',
-  'sheet.saved': 'Ich habe ihn an einem Ort gespeichert, den ich auch dann noch habe, wenn dieser Computer weg ist.',
 
   // --- Gruppen ------------------------------------------------------------------
   'groups.title': 'Gruppen',
@@ -500,6 +550,7 @@ export const de: Dictionary = {
   'accounts.digits': '{type} {digits} Stellen',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · Zähler {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': '{name} teilen oder übertragen',
   'accounts.edit': 'Bearbeiten',
   'common.delete': 'Löschen',
@@ -639,6 +690,7 @@ export const de: Dictionary = {
   'export.oneByOne.progress': 'Angezeigte Konten',
   'export.oneByOne.position': 'Konto {index} von {total}',
   'export.oneByOne.keys': '→ oder Leertaste für das nächste, Esc zum Beenden',
+  'export.steamRefused': '{app} kann keine Steam-Guard-Codes erzeugen und nimmt dieses Konto daher nicht an.',
   'export.print.label': 'QR-Codes zum Drucken oder Scannen',
   'export.print.title': 'Keyrook Authenticator – Einrichtungscodes',
   'export.print.body':
@@ -719,11 +771,11 @@ export const de: Dictionary = {
   // --- Einstellungen: Wiederherstellungsschlüssel -------------------------------
   'kit.title': 'Wiederherstellungsschlüssel',
   'kit.provider':
-    'Ihr Konto hat kein Passwort. Ein Wiederherstellungsschlüssel ist der Weg zurück, falls jeder angemeldete Browser verloren geht: Er lässt einen neuen Browser in Ihr Konto, ohne dass ein anderer zustimmen muss. {provider} kann das nicht für Sie tun.',
+    'Ihr Konto hat kein Passwort. Ein Wiederherstellungsschlüssel ist der Weg zurück, falls jedes angemeldete Gerät verloren geht: Er lässt ein neues Gerät in Ihr Konto, ohne dass ein anderes zustimmen muss. {provider} kann das nicht für Sie tun.',
   'kit.signedIn':
-    'Niemand kann Ihr Passwort zurücksetzen – weder wir noch Google. Ein Wiederherstellungsschlüssel ist der einzige Weg zurück, wenn Sie es vergessen: Er öffnet diesen Tresor, Ihre anderen Geräte und Ihr Konto auf einem neuen.',
+    'Niemand kann Ihr Passwort für Sie zurücksetzen – nicht einmal wir. Ein Wiederherstellungsschlüssel ist der einzige Weg zurück, wenn Sie es vergessen: Er öffnet diesen Tresor, Ihre anderen Geräte und Ihr Konto auf einem neuen.',
   'kit.passphrase':
-    'Niemand kann Ihr Master-Passwort zurücksetzen – weder wir noch Google. Genau das hält andere von Ihrem Tresor fern, und deshalb ist ein Wiederherstellungsschlüssel auch der einzige Weg zurück, wenn Sie es vergessen.',
+    'Niemand kann Ihr Master-Passwort zurücksetzen – nicht einmal wir. Genau das hält andere von Ihrem Tresor fern, und deshalb ist ein Wiederherstellungsschlüssel auch der einzige Weg zurück, wenn Sie es vergessen.',
   'kit.device':
     'Dieser Tresor entsperrt mit einem Schlüssel, den Ihr Browser verwahrt. Geht dieser verloren – gelöschte Browserdaten, ein neues Profil, eine Neuinstallation –, kann ihn nur noch ein Wiederherstellungsschlüssel öffnen.',
   'kit.none': 'Noch kein Wiederherstellungsschlüssel',
@@ -738,19 +790,19 @@ export const de: Dictionary = {
   'kit.replacesSignedIn':
     'Ein neuer Schlüssel macht den vorherigen ungültig, hier und auf Ihren anderen Geräten, ein altes ausgedrucktes Blatt können Sie also wegwerfen, sobald Sie es ersetzt haben.',
   'kit.withoutProvider':
-    'Ohne ihn sind alle Konten in diesem Tresor endgültig verloren, wenn jeder bei Ihrem Konto angemeldete Browser verloren geht.',
+    'Ohne ihn sind alle Konten in diesem Tresor endgültig verloren, wenn jedes bei Ihrem Konto angemeldete Gerät verloren geht.',
   'kit.withoutPassword':
     'Ohne ihn sind alle Konten in diesem Tresor endgültig verloren, wenn Sie Ihr Passwort vergessen.',
   'kit.withoutDevice':
     'Ohne ihn sind alle Konten in diesem Tresor endgültig verloren, wenn der Schlüssel dieses Browsers verloren geht.',
   'kit.noSupport': 'Keine Supportanfrage kann das rückgängig machen.',
   'kit.removeProvider':
-    'Ohne ihn kann nur noch ein bereits angemeldeter Browser einen neuen in Ihr Konto lassen.',
+    'Ohne ihn kann nur noch ein bereits angemeldetes Gerät ein neues in Ihr Konto lassen.',
   'kit.removePassword': 'Ohne ihn bleibt Ihr Passwort der einzige Zugang.',
   'kit.removePasswordSignedIn':
     'Ohne ihn bleibt Ihr Passwort der einzige Zugang – auf diesem Gerät, Ihren anderen Geräten und zu Ihrem Konto.',
   'kit.reauth':
-    'Ein Wiederherstellungsschlüssel kann einen Browser in Ihr Konto lassen, deshalb bittet {provider} Sie zuerst, sich noch einmal anzumelden.',
+    'Ein Wiederherstellungsschlüssel kann ein Gerät in Ihr Konto lassen, deshalb bittet {provider} Sie zuerst, sich noch einmal anzumelden.',
   'kit.passwordHint':
     'Ein Wiederherstellungsschlüssel kann Ihr Konto zurücksetzen, deshalb braucht seine Änderung Ihr Passwort.',
   'kit.removeConfirm': 'Wiederherstellungsschlüssel entfernen',
@@ -781,7 +833,7 @@ export const de: Dictionary = {
   'account.syncNow': 'Jetzt synchronisieren',
   'account.signOut': 'Abmelden',
   'account.noKitProvider':
-    'Ihr Konto hat keinen Wiederherstellungsschlüssel. Geht jeder angemeldete Browser verloren, kann nichts Ihre Konten zurückholen – weder wir noch {provider}.',
+    'Ihr Konto hat keinen Wiederherstellungsschlüssel. Geht jedes angemeldete Gerät verloren, kann nichts Ihre Konten zurückholen – weder wir noch {provider}.',
   'account.noKit':
     'Ihr Konto hat keinen Wiederherstellungsschlüssel. Vergessen Sie Ihr Passwort und verlieren dieses Gerät, kann nichts Ihre Konten zurückholen – weder wir noch sonst jemand.',
   'account.createUnderSecurity': 'Unter Sicherheit erstellen',
@@ -804,11 +856,34 @@ export const de: Dictionary = {
   'accountPage.bodyNoRoot': 'Passwort und Löschen finden Sie auf der Kontoseite. Der Wiederherstellungsschlüssel wird hier unter „Sicherheit“ erstellt, bis eine andere Keyrook-App das Konto nutzt.',
   'accountPage.bodyProvider': 'Wiederherstellungsschlüssel, Neubeginn und Löschen finden Sie auf der Kontoseite – für alle Keyrook-Apps zugleich.',
   'accountPage.bodyNoRootProvider': 'Das Löschen finden Sie auf der Kontoseite. Der Wiederherstellungsschlüssel wird hier unter „Sicherheit“ erstellt, bis eine andere Keyrook-App das Konto nutzt.',
+  'sheetCheck.lead': 'Geben Sie den gespeicherten Wiederherstellungsschlüssel einmal ein, damit diese App weiß, dass sie Ihre Codes zurückholen kann. Er wird auf diesem Gerät geprüft und nirgendwohin gesendet.',
+  'sheetCheck.submit': 'Prüfen',
+  'sheetCheck.lost': 'Verloren oder nie gehabt? Erstellen Sie auf der Kontoseite einen neuen.',
+  'accountPage.noSheetYet': 'Noch deutet nichts darauf hin, dass Ihr Wiederherstellungsschlüssel Keyrook Authenticator schützt. Ohne ihn kann ein vergessenes Passwort Sie Ihre Codes kosten. Geben Sie ihn einmal unter „Sicherheit“ ein oder erstellen Sie auf der Kontoseite einen neuen.',
+  'account.checkUnderSecurity': 'Unter „Sicherheit“ prüfen',
   'accountPage.open': 'Kontoseite öffnen',
   'accountPage.recoveryKey': 'Der Wiederherstellungsschlüssel eines angemeldeten Tresors ist der des Keyrook-Kontos. Er wird auf der Kontoseite erstellt und geändert.',
   'accountPage.sheetProtects': 'Der Wiederherstellungsschlüssel des Kontos schützt Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Noch nicht bekannt, ob er Keyrook Authenticator schützt',
-  'accountPage.noSheet': 'Noch deutet nichts darauf hin, dass der Wiederherstellungsschlüssel dieses Kontos Keyrook Authenticator schützt. Wird das Passwort ohne ihn vergessen, können Ihre Codes verloren gehen. Erstellen oder prüfen Sie ihn auf der Kontoseite.',
+  'secondStep.title': 'Noch ein Schritt',
+  'secondStep.lead': 'Ihr Keyrook-Konto verlangt einen zweiten Schritt. Geben Sie den 6-stelligen Code ein, den Ihre Authenticator-App dafür anzeigt.',
+  'secondStep.field': 'Code oder Wiederherstellungsschlüssel',
+  'secondStep.hint': 'App verloren? Geben Sie stattdessen den Wiederherstellungsschlüssel Ihres Kontos ein.',
+  'secondStep.passkey': 'Stattdessen einen Passkey verwenden',
+  'secondStep.where': 'Die Anmeldung in zwei Schritten wird auf account.keyrook.com ein- und ausgeschaltet.',
+  'secondStep.ownerLead': 'Ihr Konto verlangt auch hierfür einen zweiten Schritt: den Code aus Ihrer Authenticator-App oder Ihren Wiederherstellungsschlüssel.',
+  'secondStep.nextCode': 'Jeder Code gilt nur einmal. Wenn Sie sich gerade mit einem angemeldet haben, warten Sie, bis Ihre App den nächsten anzeigt.',
+  'secondStepTip.title': 'Anmeldung in zwei Schritten',
+  'secondStepTip.suggest': 'Verlangen Sie auch einen Code, wenn sich dieses Konto auf einem anderen Gerät anmeldet. Schalten Sie es auf account.keyrook.com ein und bewahren Sie den Code hier auf: Öffnen Sie auf dieser Seite Keyrook Authenticator und wählen Sie „{scan}“.',
+  'secondStepTip.kept': 'Der eigene Anmeldecode dieses Kontos ist hier gespeichert, auf jedem Gerät, das darin angemeldet ist.',
+  'secondStepTip.warning': 'Gehen alle Geräte verloren, die ihn haben, melden Sie sich mit Ihrem Wiederherstellungsschlüssel statt mit dem Code an. Bewahren Sie den Wiederherstellungsschlüssel getrennt auf.',
+  'secondStepTip.open': 'Einschalten',
+  'signin.providerHasPassword': '{provider} hat bestätigt, dass Sie es sind, und {email} hat auch ein Passwort. Geben Sie es ein, um Ihre Codes hier zu öffnen.',
+  'provider.addOnPage': 'Um sich auch mit Google oder GitHub anzumelden, melden Sie sich auf der Kontoseite mit Ihrem Passwort an und fügen Sie es dort hinzu.',
+  'startOver.title': 'Ihr Keyrook-Konto beginnt am {date} neu',
+  'startOver.lead': 'Jemand auf „{device}“ hat das am {date} angefordert, mit dem Code, den wir Ihnen per E-Mail geschickt haben: ein neues Passwort und neue Schlüssel, und Ihre Apps würden leer beginnen.',
+  'startOver.ifYou': 'Waren Sie es selbst, müssen Sie nichts tun. Falls nicht, brechen Sie es jetzt ab und ändern Sie danach das Passwort Ihres E-Mail-Kontos: Wer das angefordert hat, kann Ihre E-Mails lesen.',
+  'startOver.cancel': 'Das war ich nicht – abbrechen',
   'kept.title': 'Aufbewahrt aus der Zeit vor dem Neubeginn',
   'kept.body': 'Als dieses Konto neu begann, wurde aufbewahrt, was Keyrook Authenticator darin hatte – bis zum {date}. Holen Sie es mit dem damaligen Passwort oder dem damaligen Wiederherstellungsschlüssel zurück.',
   'kept.password': 'Damaliges Passwort',
@@ -816,7 +891,7 @@ export const de: Dictionary = {
   'kept.usePassword': 'Stattdessen das damalige Passwort verwenden',
   'kept.useRecoveryKey': 'Stattdessen den damaligen Wiederherstellungsschlüssel verwenden',
   'kept.bring': 'Zurückholen',
-  'kept.done': 'Es ist wieder in diesem Tresor und auf dem Weg zu Ihren anderen Browsern.',
+  'kept.done': 'Es ist wieder in diesem Tresor und auf dem Weg zu Ihren anderen Geräten.',
   'error.keys.awaitingConfirmation': 'Eine andere Keyrook-App hat die Schlüssel dieses Kontos ersetzt, und der von Keyrook Authenticator ist noch nicht nachgezogen. Prüfen Sie sie auf der Kontoseite und melden Sie sich dann erneut an.',
   'password.changedBoth':
     'Passwort geändert, für Ihr Konto und diesen Tresor. Ihre anderen Geräte bitten Sie, sich damit neu anzumelden.',
@@ -830,9 +905,13 @@ export const de: Dictionary = {
   'password.formTitle': 'Kontopasswort ändern',
   'devices.title': 'Angemeldete Geräte',
   'devices.description':
-    'Melden Sie ein Gerät ab, das Sie nicht mehr nutzen oder nicht mehr haben. Es behält, was es bereits synchronisiert hat, hinter demselben Passwort, bekommt aber nichts Neues mehr.',
+    'Melden Sie ein Gerät ab, das Sie nicht mehr nutzen oder nicht mehr haben. Läuft darauf ein aktueller Keyrook Authenticator, entfernt es die Codes dieses Kontos bei der nächsten Verbindung selbst und behält nur, was es nie gesendet hat. Bis dahin – oder wenn es sich nie wieder verbindet – behält es, was es hatte, hinter demselben Passwort.',
+  'devices.descriptionProvider':
+    'Melden Sie ein Gerät ab, das Sie nicht mehr nutzen oder nicht mehr haben. Läuft darauf ein aktueller Keyrook Authenticator, entfernt es die Codes dieses Kontos bei der nächsten Verbindung selbst und behält nur, was es nie gesendet hat. Bis dahin – oder wenn es sich nie wieder verbindet – behält es, was es hatte, so gesperrt, wie sein Tresor dort gesperrt ist.',
   'devices.this': 'Dieses Gerät',
   'devices.when': 'Angemeldet am {created} · zuletzt aktiv {seen}',
+  'removed.kept':
+    'Codes, die hier hinzugefügt oder geändert wurden und das Konto nicht erreicht hatten, sind weiterhin hier.',
   'delete.row': 'Ihr Konto löschen',
   'delete.rowDescription':
     'Entfernt jede verschlüsselte Kopie auf dem Server. Dieses Gerät behält seinen Tresor genau so, wie er ist; andere Geräte synchronisieren nicht mehr.',
@@ -843,7 +922,7 @@ export const de: Dictionary = {
   'delete.confirm': 'Konto löschen',
 
   // --- Anmelden: die erste Karte -----------------------------------------------
-  'intro.benefit1': 'Dieselben Codes in jedem Browser, in dem Sie angemeldet sind.',
+  'intro.benefit1': 'Dieselben Codes auf jedem Gerät, auf dem Sie angemeldet sind.',
   'intro.benefit2': 'Ein verlorener oder kaputter Laptop ist kein verlorener Tresor.',
   'intro.benefit3': 'Kostenlos und optional – ohne Konto funktioniert auf diesem Gerät weiterhin alles.',
   'intro.title': 'Tresor synchronisieren',
@@ -907,9 +986,9 @@ export const de: Dictionary = {
     'Ihr Konto ist bereit. {done} von {total} Konten sind bisher gesichert; der Rest folgt bei der nächsten Synchronisierung.',
   'fresh.title': 'Wiederherstellungsschlüssel speichern',
   'fresh.provider':
-    'Geht jeder bei Ihrem Konto angemeldete Browser verloren, ist dieser Schlüssel der einzige Weg zurück – {provider} kann Ihren Tresor nicht wiederherstellen, und wir auch nicht.',
+    'Geht jedes bei Ihrem Konto angemeldete Gerät verloren, ist dieser Schlüssel der einzige Weg zurück – {provider} kann Ihren Tresor nicht wiederherstellen, und wir auch nicht.',
   'fresh.password':
-    'Vergessen Sie Ihr Passwort, ist dieser Schlüssel der einzige Weg zurück – niemand kann es für Sie zurücksetzen, weder wir noch Google.',
+    'Vergessen Sie Ihr Passwort, ist dieser Schlüssel der einzige Weg zurück – niemand kann es für Sie zurücksetzen, nicht einmal wir.',
   'welcome.fromAccount': '{count} aus Ihrem Konto',
   'welcome.fromDevice': '{count} von diesem Gerät hinzugefügt',
   'welcome.inSync': 'Bereits synchron.',
@@ -934,44 +1013,51 @@ export const de: Dictionary = {
   'provider.finishInWindow': 'Schließen Sie die Anmeldung im geöffneten {provider}-Fenster ab.',
   'provider.confirmed': '{provider} hat <b>{email}</b> bestätigt. Noch kein Konto verwendet diese Adresse.',
   'provider.point1':
-    'Kein Passwort. Auf einem neuen Browser fahren Sie mit {provider} fort, und ein bereits angemeldeter Browser lässt ihn hinein, nachdem Sie geprüft haben, dass beide denselben Code zeigen.',
+    'Kein Passwort. Auf einem neuen Gerät fahren Sie mit {provider} fort, und ein bereits angemeldetes Gerät lässt es hinein, nachdem Sie geprüft haben, dass beide denselben Code zeigen.',
   'provider.point2':
-    '{provider} bestätigt, dass Sie es sind. Ihre Codes sieht {provider} nie: Sie werden hier verschlüsselt, mit einem Schlüssel, der auf Ihren Browsern bleibt.',
+    '{provider} bestätigt, dass Sie es sind. Ihre Codes sieht {provider} nie: Sie werden hier verschlüsselt, mit einem Schlüssel, der auf Ihren Geräten bleibt.',
   'provider.point3':
-    'Als Nächstes speichern Sie einen Wiederherstellungsschlüssel – der Weg zurück, falls jeder angemeldete Browser verloren geht. {provider} kann Ihren Tresor nicht wiederherstellen.',
+    'Als Nächstes speichern Sie einen Wiederherstellungsschlüssel – der Weg zurück, falls jedes angemeldete Gerät verloren geht. {provider} kann Ihren Tresor nicht wiederherstellen.',
   'provider.notRight': 'Nicht das richtige Konto?',
   'provider.startAgain': 'Neu beginnen',
+  'passkey.continue': 'Weiter mit einem Passkey',
+  'passkey.where':
+    'Einen, den Sie auf der <link>Kontoseite</link> unter „Passkeys“ hinzugefügt haben. Beim ersten Mal fragt Chrome, ob Keyrook Authenticator ihn verwenden darf.',
   'pairing.codeLabel': 'Code {code}',
   'join.title': 'Diesen Browser hineinlassen',
   'join.subtitle':
-    '<b>{email}</b> hat bereits ein Konto. Geben Sie diesen Browser von einem frei, der dort angemeldet ist.',
+    '<b>{email}</b> hat bereits ein Konto. Geben Sie diesen Browser von einem Gerät frei, das dort angemeldet ist.',
   'join.masterPassword': 'Master-Passwort dieses Tresors',
   'join.masterHint': 'Es sperrt diesen Tresor hier weiterhin; das Konto selbst hat kein Passwort.',
   'join.ask': 'Beitritt anfragen',
   'join.step1':
-    'Öffnen Sie Keyrook Authenticator in einem bereits angemeldeten Browser. Die Anfrage erscheint dort – im Popup und in den Einstellungen unter Synchronisierung.',
+    'Öffnen Sie Keyrook Authenticator auf einem bereits angemeldeten Gerät. Die Anfrage erscheint dort – über den Codes und in den Einstellungen unter Synchronisierung.',
   'join.step2': 'Prüfen Sie, dass dort derselbe Code steht wie auf dieser Seite, und geben Sie ihn dann frei.',
   'join.askAgain': 'Erneut anfragen',
-  'join.compare': 'Der andere Browser zeigt ebenfalls einen Code. Geben Sie dort nur frei, wenn es genau dieser ist.',
-  'join.waiting': 'Warten auf einen anderen Browser …',
-  'join.noOther': 'Kein anderer Browser mehr?',
+  'join.compare': 'Das andere Gerät zeigt ebenfalls einen Code. Geben Sie dort nur frei, wenn es genau dieser ist.',
+  'join.waiting': 'Warten auf ein anderes Gerät …',
+  'join.noOther': 'Kein anderes Gerät mehr?',
   'join.useKey': 'Wiederherstellungsschlüssel verwenden',
   'join.wrongAccount': 'Mit dem falschen {provider}-Konto angemeldet?',
   'joinKey.subtitle':
-    'Der Schlüssel, den Sie beim Erstellen des Kontos gespeichert haben. Er lässt diesen Browser ohne einen anderen hinein.',
+    'Der Schlüssel, den Sie beim Erstellen des Kontos gespeichert haben. Er lässt diesen Browser ohne ein anderes Gerät hinein.',
   'joinKey.submit': 'Dem Konto beitreten',
-  'approve.approved': 'Freigegeben. Der andere Browser öffnet Ihren Tresor gleich.',
+  'approve.approved': 'Freigegeben. Das andere Gerät öffnet Ihren Tresor gleich.',
   'approve.mismatch':
     'Abgelehnt. Wenn Sie sich gerade nicht selbst angemeldet haben, kann sich jemand anderes bei Ihrem {provider}-Konto anmelden – ändern Sie dessen Passwort und prüfen Sie die Sicherheitseinstellungen.',
   'approve.declined': 'Abgelehnt. Es wurde nichts gesendet.',
-  'approve.title': 'Browser, die beitreten möchten',
+  'approve.title': 'Geräte, die beitreten möchten',
   'approve.description':
-    'Jede Anfrage stammt von jemandem, der sich gerade mit Ihrem {provider}-Konto angemeldet hat. Geben Sie nur einen Browser frei, bei dem Sie sich gerade selbst anmelden.',
+    'Jede Anfrage stammt von jemandem, der sich gerade mit Ihrem {provider}-Konto angemeldet hat. Geben Sie nur ein Gerät frei, auf dem Sie sich gerade selbst anmelden.',
+  'approve.descriptionAny':
+    'Jede Anfrage stammt von jemandem, der sich gerade mit Ihrem Google- oder GitHub-Konto angemeldet hat. Geben Sie nur ein Gerät frei, auf dem Sie sich gerade selbst anmelden.',
+  'approve.mismatchAny':
+    'Abgelehnt. Wenn Sie sich gerade nicht selbst angemeldet haben, kann sich jemand anderes bei Ihrem Google- oder GitHub-Konto anmelden – ändern Sie dessen Passwort und prüfen Sie die Sicherheitseinstellungen.',
   'approve.askedAt': 'Angefragt um {time}',
   'approve.review': 'Prüfen',
   'approve.deny': 'Ablehnen',
   'approve.question':
-    'Zeigt der anfragende Browser genau diesen Code? Wenn nicht, versucht jemand anderes hineinzukommen.',
+    'Zeigt das anfragende Gerät genau diesen Code? Wenn nicht, versucht jemand anderes hineinzukommen.',
   'approve.matches': 'Stimmt überein – hineinlassen',
   'approve.doesNotMatch': 'Stimmt nicht überein',
 
@@ -985,7 +1071,7 @@ export const de: Dictionary = {
   'nav.general': 'Allgemein',
   'nav.needsAttention': 'Erfordert Ihre Aufmerksamkeit',
   'sync.description':
-    'Dieselben Codes in jedem Browser, in dem Sie sich anmelden – verschlüsselt, bevor sie dieses Gerät verlassen.',
+    'Dieselben Codes auf jedem Gerät, auf dem Sie sich anmelden – verschlüsselt, bevor sie dieses Gerät verlassen.',
   'backup.description':
     'Eine verschlüsselte Kopie aufbewahren, Konten importieren oder sie in eine andere App übertragen.',
   'backup.choice.backup.title': 'Sichern',
@@ -1005,18 +1091,18 @@ export const de: Dictionary = {
     'Wenn Sie das Pop-up auf einer Anmeldeseite öffnen, wird der passende Code angeboten. Nur dieser Tab wird gelesen.',
   'vault.signInToSync': 'Zum Synchronisieren anmelden',
   'vault.empty.signIn':
-    'Nutzen Sie Keyrook Authenticator schon in einem anderen Browser? <link>Melden Sie sich an</link>, um Ihre Codes hierher zu holen.',
+    'Nutzen Sie Keyrook Authenticator schon auf einem anderen Gerät? <link>Melden Sie sich an</link>, um Ihre Codes hierher zu holen.',
   'setup.haveAccount':
     'Sie nutzen Keyrook Authenticator bereits? <link>Melden Sie sich an</link>, um Ihre Codes hierher zu holen.',
   'popup.signInOpensTab': 'Öffnet sich in einem neuen Tab und endet in den Einstellungen.',
   'error.backupWrongPassword': 'Mit diesem Passwort lässt sich die Datei nicht öffnen.',
-  'error.foreign.steam': 'Steam-Guard-Codes können noch nicht importiert werden.',
+  'error.foreign.steamFolder': 'Wählen Sie alle Dateien im maFiles-Ordner von Steam Desktop Authenticator zusammen aus: manifest.json und die .maFile-Dateien daneben.',
   'error.foreign.locked':
     'Dieser Export ist mit einem Passwort gesperrt, das Keyrook Authenticator nicht öffnen kann. Exportieren Sie erneut ohne Passwort.',
   'import.lockedFrom':
     '{app} hat diesen Export mit einem Passwort gesperrt. Geben Sie das dort festgelegte Passwort ein.',
   'import.fromApps':
-    'Exporte aus Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, der Authenticator-Erweiterung und Google Authenticator funktionieren ebenfalls – auch eine CSV aus Apple Passwörter, 1Password oder einem anderen Passwortmanager.',
+    'Exporte aus Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, der Authenticator-Erweiterung und Google Authenticator funktionieren ebenfalls – auch eine CSV aus Apple Passwörter, 1Password oder einem anderen Passwortmanager.',
   'shortcut.open': 'Keyrook Authenticator öffnen',
   'shortcut.fill': 'Code für diese Seite ausfüllen',
   'shortcut.fillHint': 'Füllt nur aus, wenn genau ein Konto zur Website gehört; sonst öffnet sich die Liste.',
@@ -1025,4 +1111,66 @@ export const de: Dictionary = {
   'import.csvWarning':
     'Diese Datei enthält Ihre Passwörter im Klartext. Gelesen wurden nur die Zwei-Faktor-Schlüssel, sonst wird nichts behalten – löschen Sie die Datei, wenn Sie fertig sind.',
   'import.noKeysInCsv': 'Diese Datei enthält keine Zwei-Faktor-Schlüssel, nur Passwörter.',
+  'crash.title': 'Etwas ist schiefgelaufen',
+  'crash.body':
+    'Diese Ansicht ist auf ein Problem gestoßen und hat angehalten. Ihre gespeicherten Konten sind davon nicht betroffen. Neu laden behebt das meistens.',
+  'crash.reload': 'Neu laden',
+  'setup.device.description.phone':
+    'Ihre Geheimnisse werden mit einem Schlüssel verschlüsselt, den dieses Smartphone für Sie aufbewahrt. Nichts merken, nichts eintippen.',
+  'setup.device.footnote.phone':
+    'Schützt vor einer Kopie der App-Dateien. Nicht vor jemandem, der dieses Smartphone entsperren kann.',
+  'setup.password.footnote.phone':
+    'Die stärkste Option: Ist er gesperrt, kann nichts auf diesem Smartphone den Tresor ohne das Passwort öffnen.',
+  'unrecoverable.why.phone':
+    'Sein Schlüssel wurde von diesem Smartphone verwahrt und ist verschwunden – meist, weil die App-Daten gelöscht wurden, die App neu installiert wurde oder der Tresor aus der Sicherung eines anderen Smartphones stammt. Ohne diesen Schlüssel kann niemand die gespeicherten Konten entschlüsseln, auch wir nicht.',
+  'vault.empty.body.phone':
+    'Zeigt eine Website einen QR-Code zum Einrichten der Zwei-Faktor-Authentifizierung, scannen Sie ihn mit der Kamera dieses Smartphones.',
+  'add.camera.description.phone':
+    'Für einen Code auf einem anderen Bildschirm – auch einen Export aus Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Sie kommen von Google Authenticator auf einem anderen Smartphone? Exportieren Sie dort Ihre Konten und scannen Sie den angezeigten Code mit der Kamera dieses Smartphones. Zeigt es mehrere an, nehmen Sie jeden einzeln.',
+  'camera.noCamera.phone': 'Dieses Smartphone gibt der App keine Kamera.',
+  'camera.blocked.phone':
+    'Die App darf die Kamera nicht verwenden. Erlauben Sie es in den Einstellungen des Smartphones oder nutzen Sie einen anderen Weg, ein Konto hinzuzufügen.',
+  'camera.none.phone': 'Auf diesem Smartphone wurde keine Kamera gefunden.',
+  'security.languageBrowser.phone': 'Sprache des Smartphones ({language})',
+  'protect.removeWarning.phone':
+    'Der Tresor bleibt verschlüsselt, entsperrt sich aber von selbst, sobald die App geöffnet wird. Jeder, der dieses Smartphone entsperren kann, kann dann Ihre Codes sehen.',
+  'kit.device.phone':
+    'Dieser Tresor entsperrt mit einem Schlüssel, den Ihr Smartphone verwahrt. Geht dieser verloren – gelöschte App-Daten, eine Neuinstallation, ein neues Smartphone –, kann ihn nur noch ein Wiederherstellungsschlüssel öffnen.',
+  'kit.withoutDevice.phone':
+    'Ohne ihn sind alle Konten in diesem Tresor endgültig verloren, wenn der Schlüssel dieses Smartphones verloren geht.',
+  'security.description.phone':
+    'Wie sich dieser Tresor öffnet – und wie Sie wieder hineinkommen, wenn dieses Smartphone verloren geht.',
+  'security.deviceKeyHint.phone':
+    'Nichts einzugeben. Jeder, der dieses Smartphone entsperren kann, kann ihn öffnen.',
+  'general.description.phone': 'Wie die App aussieht und sich verhält – und woher sie kommt.',
+  'about.securityModelDescription.phone': 'Was die App garantiert – und was nicht.',
+  'about.logos.description.phone':
+    'Die Logos sind in die App eingebaut und werden nie geladen. Ein Logo aus dem Netz abzurufen, würde dem Antwortenden verraten, für welche Dienste Sie Zwei-Faktor-Authentifizierung nutzen.',
+  'about.fact.access.title.phone': 'Nur die Kamera, nur zum Scannen',
+  'about.fact.access.body.phone':
+    'Die App verlangt keine Berechtigung außer der Kamera, und die nur, wenn Sie einen Code scannen möchten. Was die Kamera sieht, verlässt das Smartphone nie.',
+  'about.fact.keys.body.phone':
+    'Ihre Konten sind mit einem Datenschlüssel verschlüsselt, der selbst wieder verschlüsselt ist. Mit Master-Passwort stammt der Hüllschlüssel aus PBKDF2 mit 600.000 Runden und existiert nur im Speicher, solange entsperrt ist. Ohne eines ist es ein Schlüssel, den der eigene Schlüsselspeicher des Smartphones versiegelt – eine Kopie der App-Dateien öffnet den Tresor also nicht.',
+  'rate.store.play': 'Google Play Store',
+  'add.noNativeReader.phone':
+    'Ein großer Code – etwa ein Export aus Google Authenticator – lässt sich hier mit der Kamera oft nicht scannen. Klappt es nicht, fotografieren Sie ihn mit der Kamera-App des Smartphones und nutzen Sie „QR-Bild hochladen“.',
+  'import.noNativeReader.phone':
+    'Ein großer Code – etwa ein Export aus Google Authenticator – lässt sich hier mit der Kamera oft nicht scannen. Klappt es nicht, fotografieren Sie jeden Code mit der Kamera-App des Smartphones und wählen Sie alle über „Dateien wählen“.',
+  'error.signOutUnsynced.phone':
+    'Einige Änderungen auf diesem Telefon sind noch nicht in Ihrem Konto angekommen, und eine Abmeldung jetzt würde sie verlieren. Verbinden Sie sich mit dem Internet und versuchen Sie es erneut.',
+  'account.signOutNote.phone':
+    'Die Abmeldung entfernt Ihre Codes von diesem Telefon. Sie bleiben in Ihrem Keyrook-Konto – melden Sie sich wieder an, um sie zurückzuholen.',
+  'secondStepTip.suggest.phone':
+    'Verlangen Sie auch einen Code, wenn sich dieses Konto auf einem anderen Gerät anmeldet. Schalten Sie es auf account.keyrook.com ein und bewahren Sie den Code hier auf: Fügen Sie in dieser App ein Konto hinzu und scannen Sie den QR-Code, den diese Seite zeigt.',
+  'intro.benefit2.phone': 'Ein verlorenes oder kaputtes Telefon ist kein verlorener Tresor.',
+  'provider.finishInWindow.phone':
+    'Schließen Sie die Anmeldung auf der {provider}-Seite ab, die sich in Ihrem Browser geöffnet hat.',
+  'join.title.phone': 'Dieses Telefon hineinlassen',
+  'join.subtitle.phone':
+    '<b>{email}</b> hat bereits ein Konto. Geben Sie dieses Telefon von einem Gerät frei, das dort angemeldet ist.',
+  'joinKey.subtitle.phone':
+    'Der Schlüssel, den Sie beim Erstellen des Kontos gespeichert haben. Er lässt dieses Telefon ohne ein anderes Gerät hinein.',
+  'facts.autofill.phone': 'QR-Scan',
 };

@@ -8,6 +8,9 @@
  *
  * - No `host_permissions` and no declarative `content_scripts`. Ever. This is
  *   what keeps "read and change all your data on all websites" off the listing.
+ * - One optional host permission, the Keyrook account's page, and no other:
+ *   Chrome asks for it only when someone signs in with one of the account's
+ *   passkeys, and it shows nothing at install.
  * - No permission beyond the ones the stores were given reasons for.
  * - `externally_connectable` lets the official sync server's pages message
  *   the extension, and no other site.
@@ -18,7 +21,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { PRODUCTION_SYNC_API_URL } from '../apps/extension/scripts/release.mjs';
+import { PRODUCTION_ACCOUNT_RP, PRODUCTION_SYNC_API_URL } from '../apps/extension/scripts/release.mjs';
 
 const path = resolve(process.argv[2] ?? 'apps/extension/dist/manifest.json');
 const manifest = JSON.parse(readFileSync(path, 'utf8'));
@@ -26,6 +29,14 @@ const failures = [];
 
 if (manifest.host_permissions) {
   failures.push(`host_permissions declared: ${JSON.stringify(manifest.host_permissions)}`);
+}
+// The account page's passkeys, and nothing else: a wider pattern would be a
+// host permission on sites this app has no business on, granted by one click
+// meant for a passkey.
+const optionalHosts = JSON.stringify(manifest.optional_host_permissions ?? null);
+const expectedOptionalHosts = JSON.stringify([`https://${PRODUCTION_ACCOUNT_RP}/*`]);
+if (optionalHosts !== expectedOptionalHosts) {
+  failures.push(`optional_host_permissions is ${optionalHosts}; a release may ask for the account page alone: ${expectedOptionalHosts}`);
 }
 if (manifest.key) {
   failures.push('manifest carries a "key": a build:as-edge build for loading unpacked, not for a store');
@@ -62,5 +73,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `✓ ${manifest.name} ${manifest.version}: permissions ${JSON.stringify(manifest.permissions)}, connect-src ${expected}, no host permissions`,
+  `✓ ${manifest.name} ${manifest.version}: permissions ${JSON.stringify(manifest.permissions)}, connect-src ${expected}, no host permissions, optional ${expectedOptionalHosts}`,
 );

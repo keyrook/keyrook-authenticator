@@ -21,6 +21,18 @@ import type {
   StartOverBeginResponse,
   StartOverCodeRequest,
   StartOverRequest,
+  StartOverScheduledResponse,
+  ConsoleRootRequest,
+  AddPasskeyRequest,
+  PasskeyCreationOptions,
+  PasskeyOptionsRequest,
+  PasskeySignInOptions,
+  PasskeySignInRequest,
+  PasskeySignInResponse,
+  PasskeysResponse,
+  PasskeyUnlock,
+  PasskeyView,
+  RecoveryCheckedRequest,
   ChangePasswordRequest,
   ConsoleCollected,
   ConsoleKeysResponse,
@@ -34,8 +46,19 @@ import type {
   CreateBoxRequest,
   CreateRootRequest,
   DeleteAccountRequest,
+  AddPasswordRequest,
+  OwnerProofFields,
+  SecondStepBegun,
+  SecondStepRequest,
+  SecondStepRequired,
+  LinkIdentityRequest,
+  UnlinkIdentityRequest,
+  DeviceRemovalProof,
   DeviceSummary,
   DevicesResponse,
+  RemoveDeviceRequest,
+  ProfileRequest,
+  ProfileResponse,
   LoginRequest,
   LoginResponse,
   PairingCreated,
@@ -89,13 +112,20 @@ export function namedClient(fetcher: Fetcher, client: string): Fetcher {
 
 export class SyncHttpError extends Error {
   override readonly name = 'SyncHttpError';
+  /**
+   * On `device_removed`: the removal proof as the server sent it, or null
+   * when it sent none. Whatever it is, only `checkDeviceRemovalProof` says
+   * whether it means anything.
+   */
+  readonly proof?: unknown;
   constructor(
     readonly status: number,
     readonly code: SyncErrorCode | 'network',
     message: string,
-    options?: { cause?: unknown },
+    options?: { cause?: unknown; proof?: unknown },
   ) {
     super(message, options);
+    if (code === 'device_removed') this.proof = options?.proof ?? null;
   }
 }
 
@@ -132,6 +162,7 @@ async function request<T>(
       response.status,
       body?.error ?? 'unauthorized',
       body?.message ?? `Sync request failed (${response.status}).`,
+      { proof: body?.proof },
     );
   }
 
@@ -209,6 +240,33 @@ export function login(
     { method: 'POST', body: JSON.stringify(body) },
     fetcher,
   );
+}
+
+/**
+ * Signs in saying this client can ask for a second step: a session, or, on an
+ * account that has one, a ticket to finish with (`finishSecondStep`).
+ */
+export function beginLogin(
+  baseUrl: string,
+  body: Omit<LoginRequest, 'secondStep'>,
+  fetcher: Fetcher = fetch,
+): Promise<LoginResponse | SecondStepRequired> {
+  return request<LoginResponse | SecondStepRequired>(
+    baseUrl,
+    '/auth/login',
+    { method: 'POST', body: JSON.stringify({ ...body, secondStep: true }) },
+    fetcher,
+  );
+}
+
+/** Finishes a sign-in with its second step: the code, the recovery key's proof, or a passkey. */
+export function finishSecondStep(baseUrl: string, body: SecondStepRequest, fetcher: Fetcher = fetch): Promise<LoginResponse> {
+  return request<LoginResponse>(baseUrl, '/auth/second-step', { method: 'POST', body: JSON.stringify(body) }, fetcher);
+}
+
+/** A challenge for one of the account's passkeys to answer as the second step. */
+export function secondStepPasskeyOptions(baseUrl: string, ticket: string, fetcher: Fetcher = fetch): Promise<PasskeySignInOptions> {
+  return request<PasskeySignInOptions>(baseUrl, '/auth/second-step/passkey', { method: 'POST', body: JSON.stringify({ ticket }) }, fetcher);
 }
 
 /** Fetches the account's wrapped key, for a device holding only the recovery key. */
@@ -289,9 +347,19 @@ export function beginStartOver(
   return request<StartOverBeginResponse>(baseUrl, '/auth/start-over/begin', { method: 'POST', body: JSON.stringify(body) }, fetcher);
 }
 
-/** Starts the account over with new keys; what it held is kept, sealed, for 90 days. */
-export function startOver(baseUrl: string, body: StartOverRequest, fetcher: Fetcher = fetch): Promise<LoginResponse> {
-  return request<LoginResponse>(baseUrl, '/auth/start-over', { method: 'POST', body: JSON.stringify(body) }, fetcher);
+/** Asks to start the account over with new keys, a week from now; what it held is then kept, sealed, for 90 days. */
+export function startOver(baseUrl: string, body: StartOverRequest, fetcher: Fetcher = fetch): Promise<StartOverScheduledResponse> {
+  return request<StartOverScheduledResponse>(baseUrl, '/auth/start-over', { method: 'POST', body: JSON.stringify(body) }, fetcher);
+}
+
+/** A challenge to sign in with a passkey, for the origin asking: the page's, or a product's. */
+export function passkeySignInOptions(baseUrl: string, fetcher: Fetcher = fetch): Promise<PasskeySignInOptions> {
+  return request<PasskeySignInOptions>(baseUrl, '/auth/passkey/options', { method: 'POST', body: '{}' }, fetcher);
+}
+
+/** Signs in with a passkey's answer; the root wrapped under it comes back when the passkey unlocks. */
+export function passkeySignIn(baseUrl: string, body: PasskeySignInRequest, fetcher: Fetcher = fetch): Promise<PasskeySignInResponse> {
+  return request<PasskeySignInResponse>(baseUrl, '/auth/passkey/signin', { method: 'POST', body: JSON.stringify(body) }, fetcher);
 }
 
 export async function logout(
@@ -345,10 +413,20 @@ export interface SignInOptions {
    * only redirects, which a browser catches in a window of its own.
    */
   byMessage: boolean;
+  /**
+   * It can hand a sign-in back to a phone app, at `<app id>:/oauth`
+   * (`return=app&app=<app id>`). A server that cannot leaves an app with no
+   * way to sign in with a provider.
+   */
+  byApp: boolean;
+  /** It signs in with passkeys (migration 8). A server from before says nothing, which is read as no. */
+  passkeys: boolean;
+  /** An account may turn on a second step at sign-in (migration 9, `AUTHX_SECOND_STEP`). */
+  secondStep: boolean;
 }
 
 export async function signInOptions(baseUrl: string, fetcher: Fetcher = fetch): Promise<SignInOptions> {
-  const { providers, returnBy } = await request<{ providers: string[]; returnBy?: string[] }>(
+  const { providers, returnBy, passkeys, secondStep } = await request<{ providers: string[]; returnBy?: string[]; passkeys?: boolean; secondStep?: boolean }>(
     baseUrl,
     '/providers',
     { method: 'GET' },
@@ -357,6 +435,9 @@ export async function signInOptions(baseUrl: string, fetcher: Fetcher = fetch): 
   return {
     providers: providers.filter((name): name is SignInProvider => name === 'google' || name === 'github'),
     byMessage: Array.isArray(returnBy) && returnBy.includes('message'),
+    byApp: Array.isArray(returnBy) && returnBy.includes('app'),
+    passkeys: passkeys === true,
+    secondStep: secondStep === true,
   };
 }
 
@@ -476,6 +557,8 @@ export class HttpSyncAdapter implements SyncAdapter {
       // captive portal is not a reason to sign someone out.
       if (error instanceof SyncHttpError && error.status === 401) {
         await this.options.tokens.clear();
+        // A removal reaches the product as one, proof and all, for it to check.
+        if (error.code === 'device_removed') throw error;
         throw new SyncHttpError(
           401,
           'unauthorized',
@@ -498,8 +581,21 @@ export class HttpSyncAdapter implements SyncAdapter {
     return (await this.authed<DevicesResponse>('/account/devices', { method: 'GET' })).devices;
   }
 
-  async revokeDevice(id: string): Promise<void> {
-    await this.authed<void>(`/account/devices/${encodeURIComponent(id)}`, { method: 'DELETE' });
+  /** Gives the account a name, or clears it with null; answers the name as kept. */
+  async setName(name: string | null): Promise<string | null> {
+    const body: ProfileRequest = { name };
+    return (await this.authed<ProfileResponse>('/account/profile', { method: 'PUT', body: JSON.stringify(body) })).name;
+  }
+
+  /**
+   * Removes a device: `id` is its session's (`DeviceSummary.id`). With a
+   * proof (`makeDeviceRemovalProof`, for that device's product and
+   * `deviceId`), the device is told it was removed and can check it; without,
+   * it is signed out and keeps what it holds.
+   */
+  async revokeDevice(id: string, proof?: DeviceRemovalProof): Promise<void> {
+    const body: RemoveDeviceRequest = proof ? { proof } : {};
+    await this.authed<void>(`/account/devices/${encodeURIComponent(id)}`, { method: 'DELETE', body: JSON.stringify(body) });
   }
 
   async changePassword(body: ChangePasswordRequest): Promise<void> {
@@ -516,6 +612,78 @@ export class HttpSyncAdapter implements SyncAdapter {
 
   async deleteAccount(body: DeleteAccountRequest): Promise<void> {
     await this.authed<void>('/account', { method: 'DELETE', body: JSON.stringify(body) });
+  }
+
+  /** Adds a Google or GitHub identity the person just signed in as. */
+  async linkIdentity(body: LinkIdentityRequest): Promise<void> {
+    await this.authed<void>('/account/identities', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** Removes the account's identity with `provider`, while another way to sign in is left. */
+  async unlinkIdentity(provider: string, body: UnlinkIdentityRequest): Promise<void> {
+    await this.authed<void>(`/account/identities/${encodeURIComponent(provider)}`, { method: 'DELETE', body: JSON.stringify(body) });
+  }
+
+  /** A password for an account that has none. */
+  async addPassword(body: AddPasswordRequest): Promise<void> {
+    await this.authed<void>('/account/password/add', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** Starts turning on a second step: a secret for the authenticator app, shown once. Nothing changes until `confirmSecondStep`. */
+  async beginSecondStep(body: OwnerProofFields): Promise<SecondStepBegun> {
+    return this.authed<SecondStepBegun>('/account/second-step/begin', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** A code from the app just set up: from now on sign-in asks for one. */
+  async confirmSecondStep(code: string): Promise<void> {
+    await this.authed<void>('/account/second-step/confirm', { method: 'POST', body: JSON.stringify({ code }) });
+  }
+
+  /** Turns the second step off, on the owner's proof with the second step itself, or a passkey. */
+  async turnOffSecondStep(body: OwnerProofFields): Promise<void> {
+    await this.authed<void>('/account/second-step', { method: 'DELETE', body: JSON.stringify(body) });
+  }
+
+  /** Cancels a start over still waiting (`AccountKeysResponse.pendingStartOver`). Any session of the account may. */
+  async cancelStartOver(): Promise<void> {
+    await this.authed<void>('/account/start-over', { method: 'DELETE' });
+  }
+
+  /** Tells the server the recovery key just opened the root here, so it reminds no one for a while. */
+  async recoveryChecked(body: RecoveryCheckedRequest): Promise<void> {
+    await this.authed<void>('/account/keys/root/recovery/checked', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** The passkeys that sign in to the account, and whether each unlocks it. */
+  async passkeys(): Promise<PasskeysResponse> {
+    return this.authed<PasskeysResponse>('/account/passkeys', { method: 'GET' });
+  }
+
+  /** What `navigator.credentials.create` needs to make a passkey for the account; the page alone, with the owner's proof. */
+  async passkeyOptions(proof: PasskeyOptionsRequest): Promise<PasskeyCreationOptions> {
+    return this.authed<PasskeyCreationOptions>('/account/passkeys/options', { method: 'POST', body: JSON.stringify(proof) });
+  }
+
+  async addPasskey(body: AddPasskeyRequest): Promise<PasskeyView> {
+    return this.authed<PasskeyView>('/account/passkeys', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** A challenge to prove the owner with one of the account's passkeys, where a change asks for the password. */
+  async passkeyReauthOptions(): Promise<PasskeySignInOptions> {
+    return this.authed<PasskeySignInOptions>('/account/passkeys/reauth', { method: 'POST', body: '{}' });
+  }
+
+  async renamePasskey(id: string, name: string): Promise<PasskeyView> {
+    return this.authed<PasskeyView>(`/account/passkeys/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify({ name }) });
+  }
+
+  /** Lets a passkey open the root: the root wrapped under its answer, with proof of holding the root. */
+  async setPasskeyUnlock(id: string, unlock: PasskeyUnlock): Promise<PasskeyView> {
+    return this.authed<PasskeyView>(`/account/passkeys/${encodeURIComponent(id)}/wrap`, { method: 'PUT', body: JSON.stringify(unlock) });
+  }
+
+  async removePasskey(id: string): Promise<void> {
+    await this.authed<void>(`/account/passkeys/${encodeURIComponent(id)}`, { method: 'DELETE' });
   }
 
   /** The account's root and this product's key, as the server holds them. */
@@ -574,6 +742,11 @@ export class HttpSyncAdapter implements SyncAdapter {
 
   async deleteArchive(id: string, body: DeleteArchiveRequest): Promise<void> {
     await this.authed<void>(`/account/archives/${encodeURIComponent(id)}`, { method: 'DELETE', body: JSON.stringify(body) });
+  }
+
+  /** The page gives an account that only Keyrook Authenticator has used its root, and Authenticator's key its box. */
+  async consoleSetUpRoot(body: ConsoleRootRequest): Promise<ConsoleKeysResponse> {
+    return this.authed<ConsoleKeysResponse>('/account/console/root', { method: 'POST', body: JSON.stringify(body) });
   }
 
   /** The kit's wrap, for a signed-in browser holding the recovery key. */

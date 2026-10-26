@@ -17,6 +17,7 @@ export const nl: Dictionary = {
   'error.recoverOnAccountPage': 'Je herstelsleutel klopt, maar het wachtwoord van dit account stel je nu opnieuw in op de accountpagina, voor alle Keyrook-apps tegelijk.',
   'error.kitOnAccountPage': 'De herstelsleutel van dit account maak je nu op de accountpagina, voor alle Keyrook-apps tegelijk.',
   'error.restoreEmpty': 'Van dit account is niets meer terug te halen: het is op een ander apparaat verwijderd voordat dit apparaat het ooit had.',
+  'error.noAccountSheet': 'Dit account heeft nog geen herstelsleutel. Maak er een op de accountpagina.',
   'error.recoveryKeyWrong': 'Die herstelsleutel hoort niet bij dit account.',
   'error.noRecoveryKit': 'Deze kluis heeft geen herstelsleutel.',
   'error.syncUnavailable': 'Synchronisatie is niet beschikbaar in deze versie.',
@@ -24,6 +25,8 @@ export const nl: Dictionary = {
   'error.alreadySignedIn': 'Al ingelogd.',
   'error.signedOutElsewhere':
     'Dit apparaat is uitgelogd bij synchronisatie: het wachtwoord is gewijzigd of het apparaat is vanaf een ander verwijderd. Log opnieuw in.',
+  'error.removedFromAccount':
+    'Een ander apparaat heeft dit apparaat uit je Keyrook-account verwijderd, dus de codes van het account zijn hier weggehaald. Log opnieuw in om ze terug te halen.',
   'error.signOutUnsynced':
     'Sommige wijzigingen in deze browser zijn nog niet in je account aangekomen, en door nu uit te loggen raak je ze kwijt. Maak verbinding met internet en probeer het opnieuw.',
   'error.enterAccountPassword': 'Voer het wachtwoord van je account in.',
@@ -55,10 +58,10 @@ export const nl: Dictionary = {
   'error.nothingWaiting': 'Er wacht niets op goedkeuring.',
   'error.pairingExpired': 'Het verzoek is beëindigd: het is geweigerd of er zijn tien minuten verstreken. Vraag het opnieuw.',
   'error.pairingWrongKey':
-    'De ontvangen sleutel hoort niet bij dit account. Er is niets gewijzigd. Probeer het opnieuw vanuit de andere browser.',
-  'error.pairingForged': 'Die goedkeuring kwam niet van de browser waarvan je de code hebt gecontroleerd.',
+    'De ontvangen sleutel hoort niet bij dit account. Er is niets gewijzigd. Probeer het opnieuw vanaf het andere apparaat.',
+  'error.pairingForged': 'Die goedkeuring kwam niet van het apparaat waarvan je de code hebt gecontroleerd.',
   'error.pairingForgedAsk':
-    'Die goedkeuring kwam niet van de browser waarvan de code is gecontroleerd. Er is niets gewijzigd. Vraag het opnieuw.',
+    'Die goedkeuring kwam niet van het apparaat waarvan de code is gecontroleerd. Er is niets gewijzigd. Vraag het opnieuw.',
   'error.pairingEnded': 'Dat verzoek is beëindigd.',
   'error.approveAgain': 'Begin opnieuw met het goedkeuren van dat verzoek.',
   'error.backupPasswordShort': 'Het back-upwachtwoord moet minstens 8 tekens lang zijn.',
@@ -76,6 +79,26 @@ export const nl: Dictionary = {
   'error.migrationNotOurs': 'Geen export van Google Authenticator.',
   'error.migrationMalformed': 'Deze export van Google Authenticator is beschadigd of onvolledig.',
   'error.offline': 'De synchronisatieserver is niet bereikbaar. Controleer je verbinding en probeer het opnieuw.',
+  'error.passkey.wrongOrigin': 'Een toegangssleutel werkt alleen voor Keyrooks eigen pagina en apps.',
+  'error.passkey.notOffered': 'Inloggen met een toegangssleutel wordt hier niet aangeboden.',
+  'error.passkey.unchecked': 'Die toegangssleutel kon niet worden gecontroleerd. Probeer het opnieuw.',
+  'error.passkey.unknown': 'Geen enkel Keyrook-account kent die toegangssleutel. Misschien is hij verwijderd.',
+  'error.passkey.ended': 'Het verzoek voor die toegangssleutel is verlopen. Probeer het opnieuw.',
+  'error.passkey.noUnlock': 'Die toegangssleutel opent de sleutel van dit account niet. Log in plaats daarvan in met het wachtwoord.',
+  'error.passkey.noUnlockProvider':
+    'Die toegangssleutel opent de sleutel van dit account niet. Ga in plaats daarvan verder met Google of GitHub.',
+  'error.passkey.masterPassword':
+    'Een kluis die vergrendelt met een hoofdwachtwoord kan niet inloggen met een toegangssleutel. Log in met het wachtwoord van het account, of met Google of GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator heeft toestemming van Chrome nodig om de toegangssleutels van account.keyrook.com te gebruiken. Kies de toegangssleutel opnieuw en sta het toe.',
+  'error.passkey.cancelled':
+    'Er is geen toegangssleutel gebruikt. Probeer het opnieuw, of log op een andere manier in.',
+  'error.passkey.failed':
+    'Chrome kon niet om een toegangssleutel vragen. Probeer het opnieuw, of log op een andere manier in.',
+  'error.secondStep.missing': 'Voer ook de code uit je authenticator-app in.',
+  'error.secondStep.wrongCode': 'Die code klopt niet. Voer de code in die je authenticator-app nu laat zien.',
+  'error.secondStep.expired': 'Die aanmelding is verlopen. Log opnieuw in.',
+  'error.secondStep.used': 'Die code is net gebruikt om in te loggen. Wacht tot je app de volgende laat zien.',
   'error.provider.refusedBy': '{provider} heeft het inloggen geweigerd.',
   'error.provider.unreachable': '{provider} is niet bereikbaar. Probeer het zo opnieuw.',
   'error.provider.refused': 'Het inloggen is geweigerd. Probeer het opnieuw.',
@@ -90,11 +113,11 @@ export const nl: Dictionary = {
   'error.server.signinExpired': 'Die inlogpoging is verlopen. Probeer het opnieuw.',
   'error.server.tooManyCodes': 'Te veel verkeerde codes. Vraag een nieuwe aan.',
   'error.server.tooManyPairings':
-    'Te veel browsers wachten om aan dit account te koppelen. Probeer het over een paar minuten opnieuw.',
+    'Te veel apparaten wachten om aan dit account te koppelen. Probeer het over een paar minuten opnieuw.',
   'error.server.wrongKey': 'Dit apparaat heeft de accountsleutel niet.',
   'error.server.providerAccount': 'Dit account logt in met Google of GitHub, niet met een wachtwoord.',
   'error.server.mailFailed': 'De e-mail kon niet worden verzonden. Probeer het over een minuut opnieuw.',
-  'error.server.pairingTaken': 'Dat verzoek is beëindigd, of een andere browser keurt het al goed.',
+  'error.server.pairingTaken': 'Dat verzoek is beëindigd, of een ander apparaat keurt het al goed.',
   'error.server.passwordWrong': 'Dat wachtwoord klopt niet.',
   'error.server.badCredentials': 'E-mailadres of wachtwoord is onjuist.',
   'error.server.badCode':
@@ -155,6 +178,22 @@ export const nl: Dictionary = {
   'unlock.placeholder': 'Hoofdwachtwoord',
   'unlock.submit': 'Ontgrendelen',
   'unlock.forgot': 'Vergeten? <link>Gebruik je herstelsleutel</link>',
+  'platformUnlock.unlock': 'Ontgrendelen met vingerafdruk, gezicht of pincode',
+  'platformUnlock.title': 'Vingerafdruk, gezicht of pincode',
+  'platformUnlock.body': 'Open de kluis met de eigen controle van deze computer — Touch ID, Windows Hello of de pincode — in plaats van het hoofdwachtwoord te typen. Het wachtwoord opent hem nog steeds, en wijzigingen vragen er nog steeds om.',
+  'platformUnlock.on': 'De kluis opent ook met de eigen controle van deze computer. Als je het hoofdwachtwoord verwijdert, gaat dit uit.',
+  'passkeyUnlock.turnOn': 'Aanzetten',
+  'passkeyUnlock.turnOff': 'Uitzetten',
+  'platformUnlock.confirm': 'Daarna vraagt je computer om je vingerafdruk, gezicht of pincode.',
+  'error.passkeyUnlock.cancelled': 'De controle is geannuleerd of duurde te lang. Probeer het opnieuw, of gebruik het hoofdwachtwoord.',
+  'error.platformUnlock.noPrf': 'Waar deze toegangssleutel is opgeslagen, kan geen sleutel worden bewaard, dus kan hij de kluis niet openen. Zet dit opnieuw aan en kies een andere plek als je wordt gevraagd waar je hem wilt opslaan — of blijf het hoofdwachtwoord gebruiken.',
+  'error.passkeyUnlock.failed': 'Daarmee ging de kluis niet open. Gebruik het hoofdwachtwoord en zet dit daarna opnieuw aan onder Beveiliging.',
+  'securityKey.unlock': 'Ontgrendelen met beveiligingssleutel',
+  'securityKey.title': 'Beveiligingssleutel',
+  'securityKey.body': 'Open de kluis met een USB-beveiligingssleutel en de pincode ervan in plaats van het hoofdwachtwoord te typen. Wie de sleutel heeft en de pincode kent, kan de kluis dan op deze computer openen. Raak je de sleutel kwijt, dan opent het hoofdwachtwoord de kluis nog steeds.',
+  'securityKey.on': 'De kluis opent op deze computer ook met je beveiligingssleutel en de pincode ervan. Wie de sleutel heeft en de pincode kent, kan hem hier openen, dus zet dit uit als je de sleutel kwijtraakt. Als je het hoofdwachtwoord verwijdert, gaat dit uit.',
+  'securityKey.confirm': 'Steek daarna je beveiligingssleutel erin, typ de pincode en raak de sleutel aan. Sommige sleutels vragen het twee keer.',
+  'error.securityKey.noPrf': 'Deze beveiligingssleutel kan geen sleutel bewaren, dus kan de kluis niet openen. Sleutels die alleen voor inloggen in twee stappen zijn gemaakt, kunnen dat niet. Probeer een andere sleutel of blijf het hoofdwachtwoord gebruiken.',
 
   // --- Kluis die niet meer opent ------------------------------------------------
   'unrecoverable.title': 'Deze kluis kan niet meer worden geopend',
@@ -195,6 +234,7 @@ export const nl: Dictionary = {
   'setup.password.footnote':
     'De sterkste optie: eenmaal vergrendeld kan niets op deze computer de kluis openen zonder het wachtwoord.',
   'setup.footer': 'Hoe dan ook AES-256-GCM. Altijd te wijzigen; synchronisatie is optioneel, in Instellingen.',
+  'setup.footer.noSync': 'Hoe dan ook AES-256-GCM. Altijd te wijzigen, in Instellingen.',
   'setup.source': 'Open source: lees de code',
   'common.back': 'Terug',
   'setup.passwordStep.title': 'Hoofdwachtwoord instellen',
@@ -243,10 +283,10 @@ export const nl: Dictionary = {
   'vault.byName': 'Op naam',
   'vault.orderAdded': 'Toevoegvolgorde',
   'vault.joinRequests': {
-    one: 'Een browser vraagt om aan je account te koppelen.',
-    other: '{count} browsers vragen om aan je account te koppelen.',
+    one: 'Een apparaat vraagt om aan je account te koppelen.',
+    other: '{count} apparaten vragen om aan je account te koppelen.',
   },
-  'vault.joinRequestsHint': 'Keur alleen een browser goed waarop je nu zelf aan het inloggen bent.',
+  'vault.joinRequestsHint': 'Keur alleen een apparaat goed waarop je nu zelf aan het inloggen bent.',
   'vault.reviewInSettings': 'Bekijken in Instellingen',
   'vault.noMatch': 'Geen accounts komen overeen met „{query}”.',
   'vault.forHost': 'Voor {host}',
@@ -339,6 +379,7 @@ export const nl: Dictionary = {
   'error.alreadyInVault': 'Dat account staat al in je kluis.',
   'error.gaSkipPeriod': 'Google Authenticator bewaart alleen codes van 30 seconden; deze gebruikt {period}.',
   'error.gaSkipDigits': 'Google Authenticator bewaart alleen codes van 6 of 8 cijfers; deze heeft er {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator kan geen Steam Guard-codes maken.',
 
   // --- Scannen met de camera ----------------------------------------------------
   'scan.progressBatch': 'Code {seen} van {total} gescand: {accounts}. Toon de volgende code.',
@@ -430,9 +471,18 @@ export const nl: Dictionary = {
   // --- Een nieuwe herstelsleutel ------------------------------------------------
   'sheet.once':
     'Dit is de enige keer dat deze sleutel wordt getoond. Hij wordt nergens opgeslagen: raak je hem kwijt, maak dan een nieuwe.',
+  'sheet.print': 'Afdrukken',
+  'sheet.apart': 'Bewaar hem apart van je e-mail en mail hem nooit naar jezelf: met deze sleutel en je e-mailadres kan iemand een nieuw wachtwoord instellen en je codes openen.',
+  'sheet.apartProvider': 'Bewaar hem apart van het Google- of GitHub-account waarmee je inlogt, en zet hem nooit in de mail of opslag van dat account: met deze sleutel en dat account kan iemand je codes openen.',
+  'sheet.kept': 'Ik heb hem bewaard',
+  'sheet.checkHeading': 'Controleer of je hem hebt bewaard',
+  'sheet.checkLead': 'Typ twee groepen van de sleutel over uit wat je hebt bewaard. Groepen zijn de blokken van vier tussen de streepjes, van links geteld.',
+  'sheet.group': 'Groep {position}',
+  'sheet.check': 'Controleren',
+  'sheet.mismatch': 'Dat staat niet in je sleutel. Kijk nog eens naar wat je hebt bewaard, of toon de sleutel opnieuw en bewaar hem nu.',
+  'sheet.showAgain': 'Sleutel opnieuw tonen',
   'sheet.download': 'Blad downloaden',
   'sheet.copy': 'Kopiëren',
-  'sheet.saved': 'Ik heb hem opgeslagen op een plek die ik nog heb als deze computer er niet meer is.',
 
   // --- Groepen ------------------------------------------------------------------
   'groups.title': 'Groepen',
@@ -499,6 +549,7 @@ export const nl: Dictionary = {
   'accounts.digits': '{type} {digits} cijfers',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · teller {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': '{name} delen of verplaatsen',
   'accounts.edit': 'Bewerken',
   'common.delete': 'Verwijderen',
@@ -638,6 +689,7 @@ export const nl: Dictionary = {
   'export.oneByOne.progress': 'Getoonde accounts',
   'export.oneByOne.position': 'Account {index} van {total}',
   'export.oneByOne.keys': '→ of spatie voor de volgende, Esc om te stoppen',
+  'export.steamRefused': '{app} kan geen Steam Guard-codes maken en neemt dit account dus niet over.',
   'export.print.label': 'QR-codes om af te drukken of te scannen',
   'export.print.title': 'Keyrook Authenticator — instelcodes',
   'export.print.body':
@@ -718,11 +770,11 @@ export const nl: Dictionary = {
   // --- Instellingen: herstelsleutel ---------------------------------------------
   'kit.title': 'Herstelsleutel',
   'kit.provider':
-    'Je account heeft geen wachtwoord. Een herstelsleutel is de weg terug als alle ingelogde browsers verloren gaan: hij laat een nieuwe browser in je account zonder dat een andere hem hoeft goed te keuren. {provider} kan dat niet voor je doen.',
+    'Je account heeft geen wachtwoord. Een herstelsleutel is de weg terug als alle ingelogde apparaten verloren gaan: hij laat een nieuw apparaat in je account zonder dat een ander het hoeft goed te keuren. {provider} kan dat niet voor je doen.',
   'kit.signedIn':
-    'Niemand kan je wachtwoord herstellen, wij niet en Google niet. Een herstelsleutel is de enige weg terug als je het vergeet: hij opent deze kluis, je andere apparaten en je account op een nieuw apparaat.',
+    'Niemand kan je wachtwoord voor je herstellen, zelfs wij niet. Een herstelsleutel is de enige weg terug als je het vergeet: hij opent deze kluis, je andere apparaten en je account op een nieuw apparaat.',
   'kit.passphrase':
-    'Niemand kan je hoofdwachtwoord herstellen, wij niet en Google niet. Juist dat houdt anderen uit je kluis, en daarom is een herstelsleutel ook de enige weg terug als je het vergeet.',
+    'Niemand kan je hoofdwachtwoord herstellen, zelfs wij niet. Juist dat houdt anderen uit je kluis, en daarom is een herstelsleutel ook de enige weg terug als je het vergeet.',
   'kit.device':
     'Deze kluis ontgrendelt met een sleutel die je browser bewaart. Raakt die sleutel weg (gewiste browsegegevens, een nieuw profiel, een herinstallatie), dan kan alleen een herstelsleutel hem nog openen.',
   'kit.none': 'Nog geen herstelsleutel',
@@ -737,19 +789,19 @@ export const nl: Dictionary = {
   'kit.replacesSignedIn':
     'Een nieuwe sleutel maakt de vorige ongeldig, hier en op je andere apparaten, dus een oud afgedrukt blad kun je weggooien zodra je het hebt vervangen.',
   'kit.withoutProvider':
-    'Zonder sleutel betekent het verlies van alle browsers die bij je account zijn ingelogd, dat alle accounts in deze kluis voorgoed weg zijn.',
+    'Zonder sleutel betekent het verlies van alle apparaten die bij je account zijn ingelogd, dat alle accounts in deze kluis voorgoed weg zijn.',
   'kit.withoutPassword':
     'Zonder sleutel betekent je wachtwoord vergeten dat alle accounts in deze kluis voorgoed weg zijn.',
   'kit.withoutDevice':
     'Zonder sleutel betekent het verlies van de sleutel van deze browser dat alle accounts in deze kluis voorgoed weg zijn.',
   'kit.noSupport': 'Geen supportverzoek kan dat ongedaan maken.',
   'kit.removeProvider':
-    'Zonder sleutel kan alleen een al ingelogde browser een nieuwe in je account laten.',
+    'Zonder sleutel kan alleen een al ingelogd apparaat een nieuw in je account laten.',
   'kit.removePassword': 'Zonder sleutel blijft je wachtwoord de enige toegang.',
   'kit.removePasswordSignedIn':
     'Zonder sleutel blijft je wachtwoord de enige toegang: op dit apparaat, je andere apparaten en je account.',
   'kit.reauth':
-    'Een herstelsleutel kan een browser in je account laten, dus {provider} vraagt je eerst nog één keer in te loggen.',
+    'Een herstelsleutel kan een apparaat in je account laten, dus {provider} vraagt je eerst nog één keer in te loggen.',
   'kit.passwordHint': 'Een herstelsleutel kan je account herstellen, dus voor het wijzigen ervan is je wachtwoord nodig.',
   'kit.removeConfirm': 'Herstelsleutel verwijderen',
   'kit.createConfirm': 'Sleutel maken',
@@ -779,7 +831,7 @@ export const nl: Dictionary = {
   'account.syncNow': 'Nu synchroniseren',
   'account.signOut': 'Uitloggen',
   'account.noKitProvider':
-    'Je account heeft geen herstelsleutel. Gaan alle ingelogde browsers verloren, dan kan niets je accounts terughalen: wij niet en {provider} niet.',
+    'Je account heeft geen herstelsleutel. Gaan alle ingelogde apparaten verloren, dan kan niets je accounts terughalen: wij niet en {provider} niet.',
   'account.noKit':
     'Je account heeft geen herstelsleutel. Vergeet je je wachtwoord en raak je dit apparaat kwijt, dan kan niets je accounts terughalen: wij niet en niemand anders.',
   'account.createUnderSecurity': 'Maak er een bij Beveiliging',
@@ -802,11 +854,34 @@ export const nl: Dictionary = {
   'accountPage.bodyNoRoot': 'Het wachtwoord en verwijderen staan op de accountpagina. De herstelsleutel maak je hier, onder Beveiliging, tot een andere Keyrook-app het account gebruikt.',
   'accountPage.bodyProvider': 'De herstelsleutel, opnieuw beginnen en verwijderen staan op de accountpagina, voor alle Keyrook-apps tegelijk.',
   'accountPage.bodyNoRootProvider': 'Verwijderen staat op de accountpagina. De herstelsleutel maak je hier, onder Beveiliging, tot een andere Keyrook-app het account gebruikt.',
+  'sheetCheck.lead': 'Typ de herstelsleutel die je hebt bewaard één keer in, zodat deze app weet dat hij je codes kan terughalen. Hij wordt op dit apparaat gecontroleerd en nergens heen gestuurd.',
+  'sheetCheck.submit': 'Controleren',
+  'sheetCheck.lost': 'Kwijt, of nooit gehad? Maak een nieuwe op de accountpagina.',
+  'accountPage.noSheetYet': 'Nog niets wijst erop dat je herstelsleutel Keyrook Authenticator beschermt. Zonder kan een vergeten wachtwoord je je codes kosten. Typ hem één keer in onder Beveiliging, of maak een nieuwe op de accountpagina.',
+  'account.checkUnderSecurity': 'Controleren onder Beveiliging',
   'accountPage.open': 'Accountpagina openen',
   'accountPage.recoveryKey': 'De herstelsleutel van een aangemelde kluis is die van het Keyrook-account. Je maakt en wijzigt hem op de accountpagina.',
   'accountPage.sheetProtects': 'De herstelsleutel van het account beschermt Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Nog niet bekend of hij Keyrook Authenticator beschermt',
-  'accountPage.noSheet': 'Nog niets wijst erop dat de herstelsleutel van dit account Keyrook Authenticator beschermt. Vergeet je het wachtwoord zonder, dan kun je je codes kwijtraken. Maak er een, of controleer de jouwe, op de accountpagina.',
+  'secondStep.title': 'Nog één stap',
+  'secondStep.lead': 'Je Keyrook-account vraagt om een tweede stap. Voer de 6-cijferige code in die je authenticator-app ervoor laat zien.',
+  'secondStep.field': 'Code of herstelsleutel',
+  'secondStep.hint': 'Die app kwijt? Voer in plaats daarvan de herstelsleutel van je account in.',
+  'secondStep.passkey': 'Gebruik een toegangssleutel',
+  'secondStep.where': 'Inloggen in twee stappen zet je aan en uit op account.keyrook.com.',
+  'secondStep.ownerLead': 'Je account vraagt ook hiervoor om een tweede stap: de code uit je authenticator-app, of je herstelsleutel.',
+  'secondStep.nextCode': 'Elke code werkt maar één keer. Heb je net met een code ingelogd, wacht dan tot je app de volgende laat zien.',
+  'secondStepTip.title': 'Inloggen in twee stappen',
+  'secondStepTip.suggest': 'Vraag ook om een code telkens als dit account op een ander apparaat inlogt. Zet het aan op account.keyrook.com en bewaar de code hier: open op die pagina Keyrook Authenticator en kies ‘{scan}’.',
+  'secondStepTip.kept': 'De eigen inlogcode van dit account wordt hier bewaard, op elk apparaat dat erop is ingelogd.',
+  'secondStepTip.warning': 'Raak je alle apparaten kwijt die hem bewaren, log dan in met je herstelsleutel in plaats van de code. Bewaar de herstelsleutel ergens anders.',
+  'secondStepTip.open': 'Aanzetten',
+  'signin.providerHasPassword': '{provider} heeft bevestigd dat jij het bent, en {email} heeft ook een wachtwoord. Voer het in om je codes hier te openen.',
+  'provider.addOnPage': 'Wil je ook met Google of GitHub inloggen? Log dan op de accountpagina in met je wachtwoord en voeg het daar toe.',
+  'startOver.title': 'Je Keyrook-account begint op {date} opnieuw',
+  'startOver.lead': 'Iemand op „{device}” heeft dit op {date} aangevraagd, met de code die we je hebben gemaild: een nieuw wachtwoord en nieuwe sleutels, en je apps zouden leeg beginnen.',
+  'startOver.ifYou': 'Was jij het, dan hoef je niets te doen. Zo niet, annuleer het dan nu en wijzig daarna het wachtwoord van je e-mail: wie het heeft aangevraagd, kan je e-mail lezen.',
+  'startOver.cancel': 'Dat was ik niet — annuleren',
   'kept.title': 'Bewaard van vóór het opnieuw beginnen',
   'kept.body': 'Toen dit account opnieuw begon, is bewaard wat Keyrook Authenticator erin had, tot {date}. Haal het terug met het wachtwoord van toen, of met de herstelsleutel van toen.',
   'kept.password': 'Wachtwoord van toen',
@@ -814,7 +889,7 @@ export const nl: Dictionary = {
   'kept.usePassword': 'Gebruik het wachtwoord van toen',
   'kept.useRecoveryKey': 'Gebruik de herstelsleutel van toen',
   'kept.bring': 'Terughalen',
-  'kept.done': 'Het staat weer in deze kluis en gaat naar je andere browsers.',
+  'kept.done': 'Het staat weer in deze kluis en gaat naar je andere apparaten.',
   'error.keys.awaitingConfirmation': 'Een andere Keyrook-app heeft de sleutels van dit account vervangen, en die van Keyrook Authenticator is nog niet mee. Controleer ze op de accountpagina en meld je daarna opnieuw aan.',
   'password.changedBoth':
     'Wachtwoord gewijzigd, voor je account en deze kluis. Je andere apparaten vragen je om er opnieuw mee in te loggen.',
@@ -828,9 +903,12 @@ export const nl: Dictionary = {
   'password.formTitle': 'Het wachtwoord van je account wijzigen',
   'devices.title': 'Ingelogde apparaten',
   'devices.description':
-    'Log een apparaat uit dat je niet meer gebruikt of niet meer hebt. Het houdt wat het al had gesynchroniseerd, achter hetzelfde wachtwoord, maar krijgt niets nieuws meer.',
+    'Log een apparaat uit dat je niet meer gebruikt of niet meer hebt. Draait er een bijgewerkte Keyrook Authenticator op, dan haalt het de codes van dit account bij de volgende verbinding zelf weg en houdt het alleen wat het nooit heeft verstuurd. Tot die tijd, of als het nooit meer verbinding maakt, houdt het wat het had, achter hetzelfde wachtwoord.',
+  'devices.descriptionProvider':
+    'Log een apparaat uit dat je niet meer gebruikt of niet meer hebt. Draait er een bijgewerkte Keyrook Authenticator op, dan haalt het de codes van dit account bij de volgende verbinding zelf weg en houdt het alleen wat het nooit heeft verstuurd. Tot die tijd, of als het nooit meer verbinding maakt, houdt het wat het had, vergrendeld zoals de kluis op dat apparaat vergrendeld is.',
   'devices.this': 'Dit apparaat',
   'devices.when': 'Ingelogd op {created} · laatst actief {seen}',
+  'removed.kept': 'Codes die hier zijn toegevoegd of gewijzigd en het account nog niet hadden bereikt, staan er nog.',
   'delete.row': 'Je account verwijderen',
   'delete.rowDescription':
     'Verwijdert elke versleutelde kopie op de server. Dit apparaat houdt zijn kluis precies zoals hij is; andere apparaten synchroniseren niet meer.',
@@ -841,7 +919,7 @@ export const nl: Dictionary = {
   'delete.confirm': 'Het account verwijderen',
 
   // --- Inloggen: de eerste kaart ------------------------------------------------
-  'intro.benefit1': 'Dezelfde codes in elke browser waarin je inlogt.',
+  'intro.benefit1': 'Dezelfde codes op elk apparaat waarop je inlogt.',
   'intro.benefit2': 'Een verloren of kapotte laptop is geen verloren kluis.',
   'intro.benefit3': 'Gratis en optioneel: zonder werkt alles op dit apparaat gewoon door.',
   'intro.title': 'Je kluis synchroniseren',
@@ -905,9 +983,9 @@ export const nl: Dictionary = {
     'Je account is klaar. {done} van {total} accounts staan er tot nu toe in; de rest volgt bij de volgende synchronisatie.',
   'fresh.title': 'Bewaar je herstelsleutel',
   'fresh.provider':
-    'Gaan alle browsers die bij je account zijn ingelogd verloren, dan is deze sleutel de enige weg terug: {provider} kan je kluis niet herstellen, en wij ook niet.',
+    'Gaan alle apparaten die bij je account zijn ingelogd verloren, dan is deze sleutel de enige weg terug: {provider} kan je kluis niet herstellen, en wij ook niet.',
   'fresh.password':
-    'Vergeet je je wachtwoord, dan is deze sleutel de enige weg terug: niemand kan het voor je herstellen, wij niet en Google niet.',
+    'Vergeet je je wachtwoord, dan is deze sleutel de enige weg terug: niemand kan het voor je herstellen, zelfs wij niet.',
   'welcome.fromAccount': '{count} uit je account',
   'welcome.fromDevice': '{count} toegevoegd vanaf dit apparaat',
   'welcome.inSync': 'Al gesynchroniseerd.',
@@ -932,44 +1010,51 @@ export const nl: Dictionary = {
   'provider.finishInWindow': 'Rond het af in het geopende {provider}-venster.',
   'provider.confirmed': '{provider} heeft <b>{email}</b> bevestigd. Nog geen account gebruikt dit adres.',
   'provider.point1':
-    'Geen wachtwoord. Op een nieuwe browser ga je verder met {provider}, en een al ingelogde browser laat hem binnen nadat je hebt gecontroleerd dat beide dezelfde code tonen.',
+    'Geen wachtwoord. Op een nieuw apparaat ga je verder met {provider}, en een al ingelogd apparaat laat het binnen nadat je hebt gecontroleerd dat beide dezelfde code tonen.',
   'provider.point2':
-    '{provider} bewijst dat jij het bent. Het ziet je codes nooit: die worden hier versleuteld, met een sleutel die op je browsers blijft.',
+    '{provider} bewijst dat jij het bent. Het ziet je codes nooit: die worden hier versleuteld, met een sleutel die op je apparaten blijft.',
   'provider.point3':
-    'Daarna bewaar je een herstelsleutel: de weg terug als alle browsers die bij het account zijn ingelogd verloren gaan. {provider} kan je kluis niet herstellen.',
+    'Daarna bewaar je een herstelsleutel: de weg terug als alle apparaten die bij het account zijn ingelogd verloren gaan. {provider} kan je kluis niet herstellen.',
   'provider.notRight': 'Niet het juiste account?',
   'provider.startAgain': 'Opnieuw beginnen',
+  'passkey.continue': 'Doorgaan met een toegangssleutel',
+  'passkey.where':
+    'Een die je hebt toegevoegd op de <link>accountpagina</link>, onder Toegangssleutels. De eerste keer vraagt Chrome of Keyrook Authenticator hem mag gebruiken.',
   'pairing.codeLabel': 'Code {code}',
   'join.title': 'Deze browser binnenlaten',
   'join.subtitle':
-    '<b>{email}</b> heeft al een account. Keur deze browser goed vanaf een browser die daar al is ingelogd.',
+    '<b>{email}</b> heeft al een account. Keur deze browser goed vanaf een apparaat dat daar al is ingelogd.',
   'join.masterPassword': 'Hoofdwachtwoord van deze kluis',
   'join.masterHint': 'Het blijft deze kluis hier vergrendelen; het account zelf heeft geen wachtwoord.',
   'join.ask': 'Vragen om te koppelen',
   'join.step1':
-    'Open Keyrook Authenticator in een browser die al is ingelogd. Het verzoek verschijnt daar: in de pop-up en in de instellingen onder Synchronisatie.',
+    'Open Keyrook Authenticator op een apparaat dat al is ingelogd. Het verzoek verschijnt daar: boven de codes en in de instellingen onder Synchronisatie.',
   'join.step2': 'Controleer of daar dezelfde code staat als op deze pagina, en keur het dan goed.',
   'join.askAgain': 'Opnieuw vragen',
-  'join.compare': 'De andere browser toont ook een code. Keur daar alleen goed als het precies deze is.',
-  'join.waiting': 'Wachten op een andere browser…',
-  'join.noOther': 'Geen andere browser meer?',
+  'join.compare': 'Het andere apparaat toont ook een code. Keur daar alleen goed als het precies deze is.',
+  'join.waiting': 'Wachten op een ander apparaat…',
+  'join.noOther': 'Geen ander apparaat meer?',
   'join.useKey': 'Gebruik je herstelsleutel',
   'join.wrongAccount': 'Met het verkeerde {provider}-account ingelogd?',
   'joinKey.subtitle':
-    'De sleutel die je bewaarde toen het account werd gemaakt. Hij laat deze browser binnen zonder een andere.',
+    'De sleutel die je bewaarde toen het account werd gemaakt. Hij laat deze browser binnen zonder een ander apparaat.',
   'joinKey.submit': 'Aan het account koppelen',
-  'approve.approved': 'Goedgekeurd. De andere browser opent je kluis zo.',
+  'approve.approved': 'Goedgekeurd. Het andere apparaat opent je kluis zo.',
   'approve.mismatch':
     'Geweigerd. Was je net niet zelf aan het inloggen, dan kan iemand anders inloggen op je {provider}-account: wijzig het wachtwoord daarvan en controleer de beveiligingsinstellingen.',
   'approve.declined': 'Geweigerd. Er is niets verzonden.',
-  'approve.title': 'Browsers die willen koppelen',
+  'approve.title': 'Apparaten die willen koppelen',
   'approve.description':
-    'Elk verzoek komt van iemand die net heeft ingelogd met je {provider}-account. Keur alleen een browser goed waarop je nu zelf aan het inloggen bent.',
+    'Elk verzoek komt van iemand die net heeft ingelogd met je {provider}-account. Keur alleen een apparaat goed waarop je nu zelf aan het inloggen bent.',
+  'approve.descriptionAny':
+    'Elk verzoek komt van iemand die net heeft ingelogd met je Google- of GitHub-account. Keur alleen een apparaat goed waarop je nu zelf aan het inloggen bent.',
+  'approve.mismatchAny':
+    'Geweigerd. Was je net niet zelf aan het inloggen, dan kan iemand anders inloggen op je Google- of GitHub-account: wijzig het wachtwoord daarvan en controleer de beveiligingsinstellingen.',
   'approve.askedAt': 'Gevraagd om {time}',
   'approve.review': 'Bekijken',
   'approve.deny': 'Weigeren',
   'approve.question':
-    'Toont de browser die het vraagt precies deze code? Zo niet, dan probeert iemand anders binnen te komen.',
+    'Toont het apparaat dat het vraagt precies deze code? Zo niet, dan probeert iemand anders binnen te komen.',
   'approve.matches': 'Komt overeen: binnenlaten',
   'approve.doesNotMatch': 'Komt niet overeen',
 
@@ -983,7 +1068,7 @@ export const nl: Dictionary = {
   'nav.general': 'Algemeen',
   'nav.needsAttention': 'Vraagt aandacht',
   'sync.description':
-    'Dezelfde codes in elke browser waarin je inlogt, hier versleuteld voordat ze vertrekken.',
+    'Dezelfde codes op elk apparaat waarop je inlogt, hier versleuteld voordat ze vertrekken.',
   'backup.description':
     'Bewaar een versleutelde kopie, haal accounts binnen of verhuis ze naar een andere app.',
   'backup.choice.backup.title': 'Back-up maken',
@@ -1001,17 +1086,17 @@ export const nl: Dictionary = {
     'Open je de pop-up op een inlogpagina, dan wordt de juiste code aangeboden. Alleen dat tabblad wordt gelezen.',
   'vault.signInToSync': 'Inloggen om te synchroniseren',
   'vault.empty.signIn':
-    'Gebruik je Keyrook Authenticator al in een andere browser? <link>Log in</link> om je codes hierheen te halen.',
+    'Gebruik je Keyrook Authenticator al op een ander apparaat? <link>Log in</link> om je codes hierheen te halen.',
   'setup.haveAccount': 'Gebruik je Keyrook Authenticator al? <link>Log in</link> om je codes hierheen te halen.',
   'popup.signInOpensTab': 'Opent in een nieuw tabblad en eindigt in de instellingen.',
   'error.backupWrongPassword': 'Met dat wachtwoord gaat dit bestand niet open.',
-  'error.foreign.steam': 'Steam Guard-codes kunnen nog niet worden geïmporteerd.',
+  'error.foreign.steamFolder': 'Kies alle bestanden in de map maFiles van Steam Desktop Authenticator tegelijk: manifest.json en de .maFile-bestanden ernaast.',
   'error.foreign.locked':
     'Deze export is vergrendeld met een wachtwoord dat Keyrook Authenticator niet kan openen. Exporteer opnieuw zonder wachtwoord.',
   'import.lockedFrom':
     '{app} heeft deze export met een wachtwoord vergrendeld. Vul het wachtwoord in dat je daar hebt gekozen.',
   'import.fromApps':
-    'Exports uit Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, de Authenticator-extensie en Google Authenticator werken ook — en een CSV uit Apple Wachtwoorden, 1Password of een andere wachtwoordmanager.',
+    'Exports uit Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, de Authenticator-extensie en Google Authenticator werken ook — en een CSV uit Apple Wachtwoorden, 1Password of een andere wachtwoordmanager.',
   'shortcut.open': 'Keyrook Authenticator openen',
   'shortcut.fill': 'Code voor deze pagina invullen',
   'shortcut.fillHint': 'Vult alleen in als precies één account bij de site hoort; anders opent de lijst.',
@@ -1020,4 +1105,65 @@ export const nl: Dictionary = {
   'import.csvWarning':
     'Dit bestand bevat je wachtwoorden onversleuteld. Alleen de tweestapssleutels zijn gelezen en verder wordt niets bewaard — verwijder het bestand als je klaar bent.',
   'import.noKeysInCsv': 'Dat bestand bevat geen tweestapssleutels, alleen wachtwoorden.',
+  'crash.title': 'Er ging iets mis',
+  'crash.body':
+    'Dit scherm liep tegen een probleem aan en is gestopt. Je opgeslagen accounts zijn niet geraakt. Opnieuw laden lost het meestal op.',
+  'crash.reload': 'Opnieuw laden',
+  'setup.device.description.phone':
+    'Je geheimen worden versleuteld met een sleutel die deze telefoon voor je bewaart. Niets onthouden, niets intypen.',
+  'setup.device.footnote.phone':
+    'Beschermt tegen een kopie van de bestanden van de app. Niet tegen iemand die deze telefoon kan ontgrendelen.',
+  'setup.password.footnote.phone':
+    'De sterkste optie: eenmaal vergrendeld kan niets op deze telefoon de kluis openen zonder het wachtwoord.',
+  'unrecoverable.why.phone':
+    'De versleutelingssleutel werd door deze telefoon bewaard en is weg, meestal omdat de gegevens van de app zijn gewist, de app opnieuw is geïnstalleerd of de kluis uit de back-up van een andere telefoon komt. Zonder die sleutel kan niemand de opgeslagen accounts ontsleutelen, wij ook niet.',
+  'vault.empty.body.phone':
+    'Toont een site een QR-code om tweestapsverificatie in te stellen, scan hem dan met de camera van deze telefoon.',
+  'add.camera.description.phone':
+    'Voor een code op een ander scherm, ook een export van Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Kom je van Google Authenticator op een andere telefoon? Exporteer daar je accounts en scan de code die het toont met de camera van deze telefoon. Toont het er meerdere, doe ze dan één voor één.',
+  'camera.noCamera.phone': 'Deze telefoon geeft de app geen camera.',
+  'camera.blocked.phone':
+    'De app mag de camera niet gebruiken. Sta het toe in de instellingen van de telefoon, of voeg een account op een andere manier toe.',
+  'camera.none.phone': 'Geen camera gevonden op deze telefoon.',
+  'security.languageBrowser.phone': 'Taal van de telefoon ({language})',
+  'protect.removeWarning.phone':
+    'De kluis blijft versleuteld, maar ontgrendelt vanzelf zodra de app opent. Iedereen die deze telefoon kan ontgrendelen, kan dan je codes zien.',
+  'kit.device.phone':
+    'Deze kluis ontgrendelt met een sleutel die je telefoon bewaart. Raakt die sleutel weg (gewiste app-gegevens, een herinstallatie, een nieuwe telefoon), dan kan alleen een herstelsleutel hem nog openen.',
+  'kit.withoutDevice.phone':
+    'Zonder sleutel betekent het verlies van de sleutel van deze telefoon dat alle accounts in deze kluis voorgoed weg zijn.',
+  'security.description.phone':
+    'Hoe deze kluis opent, en hoe je er weer in komt als deze telefoon verloren gaat.',
+  'security.deviceKeyHint.phone':
+    'Niets te typen. Iedereen die deze telefoon kan ontgrendelen, kan hem openen.',
+  'general.description.phone': 'Hoe de app eruitziet en werkt, en waar hij vandaan komt.',
+  'about.securityModelDescription.phone': 'Wat de app garandeert, en wat niet.',
+  'about.logos.description.phone':
+    'Logo’s zitten in de app en worden nooit opgehaald. Een logo via het netwerk opvragen zou wie antwoordt vertellen voor welke diensten je tweestapsverificatie gebruikt.',
+  'about.fact.access.title.phone': 'Alleen de camera, en alleen om te scannen',
+  'about.fact.access.body.phone':
+    'De app vraagt geen enkele toestemming behalve de camera, en alleen als je ervoor kiest een code te scannen. Wat de camera ziet, verlaat de telefoon nooit.',
+  'about.fact.keys.body.phone':
+    'Je accounts zijn versleuteld met een gegevenssleutel die zelf weer is ingepakt. Met een hoofdwachtwoord komt de inpaksleutel uit PBKDF2 met 600.000 rondes en bestaat hij alleen in het geheugen zolang de kluis ontgrendeld is. Zonder is het een sleutel verzegeld door de eigen sleutelopslag van de telefoon, dus een kopie van de bestanden van de app kan de kluis niet openen.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Een grote code, zoals een export van Google Authenticator, scant hier vaak niet met de camera. Lukt het niet, maak er dan een foto van met de camera-app van je telefoon en gebruik „QR-afbeelding uploaden”.',
+  'import.noNativeReader.phone':
+    'Een grote code, zoals een export van Google Authenticator, scant hier vaak niet met de camera. Lukt het niet, maak dan van elke code een foto met de camera-app van je telefoon en kies ze allemaal met „Bestanden kiezen”.',
+  'error.signOutUnsynced.phone':
+    'Sommige wijzigingen op deze telefoon zijn nog niet in je account aangekomen, en door nu uit te loggen raak je ze kwijt. Maak verbinding met internet en probeer het opnieuw.',
+  'account.signOutNote.phone':
+    'Uitloggen haalt je codes van deze telefoon. Ze blijven in je Keyrook-account: log opnieuw in om ze terug te halen.',
+  'secondStepTip.suggest.phone':
+    'Vraag ook om een code telkens als dit account op een ander apparaat inlogt. Zet het aan op account.keyrook.com en bewaar de code hier: voeg in deze app een account toe en scan de QR-code die die pagina toont.',
+  'intro.benefit2.phone': 'Een verloren of kapotte telefoon is geen verloren kluis.',
+  'provider.finishInWindow.phone': 'Rond het af op de {provider}-pagina die in je browser is geopend.',
+  'join.title.phone': 'Deze telefoon binnenlaten',
+  'join.subtitle.phone':
+    '<b>{email}</b> heeft al een account. Keur deze telefoon goed vanaf een apparaat dat daar al is ingelogd.',
+  'joinKey.subtitle.phone':
+    'De sleutel die je bewaarde toen het account werd gemaakt. Hij laat deze telefoon binnen zonder een ander apparaat.',
+  'facts.autofill.phone': 'QR-scannen',
 };

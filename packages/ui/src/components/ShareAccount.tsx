@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { buildOtpUri, type VaultItem } from '@authx/core';
+import { host } from '../host.js';
 import { CheckIcon, CopyIcon, ImageIcon } from './icons.js';
 import { Button, Callout } from './primitives.js';
 import { QrCode, qrPng } from './QrCode.js';
@@ -41,17 +42,13 @@ export function ShareAccount({ item, compact = false }: { item: VaultItem; compa
   }, [now, shownUntil]);
 
   async function copyLink() {
-    await navigator.clipboard.writeText(uri);
+    await host().copy(uri);
     setCopied(true);
   }
 
   async function saveImage() {
-    const url = URL.createObjectURL(await qrPng(uri));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${(item.issuer || item.label || 'account').replace(/[^\p{L}\p{N}._-]+/gu, '-')}-2fa-qr.png`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+    const name = `${(item.issuer || item.label || 'account').replace(/[^\p{L}\p{N}._-]+/gu, '-')}-2fa-qr.png`;
+    await host().saveFile(name, await qrPng(uri));
   }
 
   if (!shown) {

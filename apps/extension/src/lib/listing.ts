@@ -14,6 +14,6 @@ export function storeListing(
 ): StoreListing {
   const edge = extensionId === EDGE_ID || (extensionId !== CHROME_ID && / Edg\//.test(userAgent));
   return edge
-    ? { store: 'Edge Add-ons', url: `https://microsoftedge.microsoft.com/addons/detail/${EDGE_ID}` }
-    : { store: 'the Chrome Web Store', url: `https://chromewebstore.google.com/detail/${CHROME_ID}/reviews` };
+    ? { store: 'edge', url: `https://microsoftedge.microsoft.com/addons/detail/${EDGE_ID}` }
+    : { store: 'chrome', url: `https://chromewebstore.google.com/detail/${CHROME_ID}/reviews` };
 }

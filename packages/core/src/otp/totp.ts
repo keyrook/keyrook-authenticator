@@ -1,5 +1,5 @@
 import { base32Decode } from '../util/base32.js';
-import { DEFAULT_OTP_PARAMS, type OtpAlgorithm, type OtpParams } from './types.js';
+import { DEFAULT_OTP_PARAMS, STEAM_PARAMS, type OtpAlgorithm, type OtpParams } from './types.js';
 
 const SUBTLE_ALGORITHM: Record<OtpAlgorithm, string> = {
   SHA1: 'SHA-1',
@@ -66,11 +66,40 @@ export async function generateTotp(
   return generateHotp(secret, counter, algorithm, digits);
 }
 
-/** Dispatch on `type` so callers can treat TOTP and HOTP items uniformly. */
+/** Steam's alphabet: digits and consonants, without the ones that read as each other. */
+const STEAM_ALPHABET = '23456789BCDFGHJKMNPQRTVWXY';
+
+/**
+ * Steam Guard: RFC 6238's HMAC-SHA1 and truncation on 30-second steps, the
+ * 31 bits then spelled out in Steam's alphabet, least significant first, as
+ * Steam's mobile app does. Nothing about it is a setting.
+ */
+export async function generateSteam(secret: string, now: number = Date.now()): Promise<string> {
+  const key = base32Decode(secret);
+  if (key.length === 0) throw new Error('Secret decoded to zero bytes');
+
+  const digest = await hmac(key, counterToBytes(Math.floor(now / 1000 / STEAM_PARAMS.period)), 'SHA1');
+  const offset = digest[digest.length - 1]! & 0x0f;
+  let value =
+    ((digest[offset]! & 0x7f) << 24) |
+    ((digest[offset + 1]! & 0xff) << 16) |
+    ((digest[offset + 2]! & 0xff) << 8) |
+    (digest[offset + 3]! & 0xff);
+
+  let code = '';
+  for (let index = 0; index < STEAM_PARAMS.digits; index++) {
+    code += STEAM_ALPHABET[value % STEAM_ALPHABET.length];
+    value = Math.floor(value / STEAM_ALPHABET.length);
+  }
+  return code;
+}
+
+/** Dispatch on `type` so callers can treat every kind of account uniformly. */
 export async function generateCode(params: OtpParams, now: number = Date.now()): Promise<string> {
   if (params.type === 'hotp') {
     return generateHotp(params.secret, params.counter, params.algorithm, params.digits);
   }
+  if (params.type === 'steam') return generateSteam(params.secret, now);
   return generateTotp(
     params.secret,
     { algorithm: params.algorithm, digits: params.digits, period: params.period },
@@ -97,7 +126,10 @@ export function totpWindow(period: number, now: number = Date.now()): TotpWindow
   };
 }
 
-/** Group a code for readability: 123456 → "123 456", 12345678 → "1234 5678". */
+/**
+ * Group a code for readability: 123456 → "123 456", 12345678 → "1234 5678".
+ * Steam Guard's five characters stay whole, as Steam shows them.
+ */
 export function formatCode(code: string): string {
   if (code.length === 6) return `${code.slice(0, 3)} ${code.slice(3)}`;
   if (code.length === 8) return `${code.slice(0, 4)} ${code.slice(4)}`;

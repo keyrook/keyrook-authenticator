@@ -11,8 +11,8 @@
  * clock (site/src/share.ts). Nothing is stored anywhere, so nothing can be
  * taken back either: the link works until it ends, for anyone who has it.
  */
-import { generateHotp } from './totp.js';
-import type { OtpAlgorithm } from './types.js';
+import { generateHotp, generateSteam } from './totp.js';
+import { STEAM_PARAMS, type OtpAlgorithm, type OtpType } from './types.js';
 
 /** What a link can be made for, in minutes. An hour is the most. */
 export const SHARE_MINUTES = [5, 15, 60] as const;
@@ -21,14 +21,26 @@ export type ShareMinutes = (typeof SHARE_MINUTES)[number];
 /** Where a shared link opens. The page connects nowhere (its policy says so). */
 export const SHARE_PAGE_URL = 'https://keyrook.com/authenticator/share/';
 
-/** The format's version: a page meeting a newer one says so rather than guessing. */
+/**
+ * The format's versions: a page meeting a newer one says so rather than
+ * guessing. 1 carries digits. 2 is Steam Guard's, whose letters a page that
+ * knows only 1 would call damaged; it says a newer version made the link
+ * instead, which is true. A link of digits stays 1, so a page not yet updated
+ * still opens every link but Steam's.
+ */
 const VERSION = 1;
+const STEAM_VERSION = 2;
+const NEWEST = STEAM_VERSION;
+/** Steam Guard's alphabet (otp/totp.ts), and nothing else, in a Steam link. */
+const STEAM_CODES = /^[23456789BCDFGHJKMNPQRTVWXY]+$/;
 /** Bounds a reader holds a link to, whoever made it. */
 const MAX_TEXT = 128;
 const MAX_MINUTES = 60;
 const PERIODS = [15, 30, 60, 90, 120];
 
 export interface SharedCodes {
+  /** Digits, or Steam Guard's five characters. */
+  kind: 'totp' | 'steam';
   issuer: string;
   label: string;
   digits: number;
@@ -41,7 +53,7 @@ export interface SharedCodes {
 }
 
 interface Shareable {
-  type: 'totp' | 'hotp';
+  type: OtpType;
   secret: string;
   algorithm: OtpAlgorithm;
   digits: number;
@@ -62,19 +74,26 @@ export function sharedUntil(shared: Pick<SharedCodes, 'start' | 'period' | 'code
  */
 export async function shareCodes(item: Shareable, minutes: ShareMinutes, now: number = Date.now()): Promise<SharedCodes> {
   // A counter-based code is used up when it is made; there is no "for a while".
-  if (item.type !== 'totp') throw new Error('Only time-based codes can be shared for a while.');
+  if (item.type === 'hotp') throw new Error('Only time-based codes can be shared for a while.');
   if (!SHARE_MINUTES.includes(minutes)) throw new Error('Not a length a link can be made for.');
-  const start = Math.floor(now / 1000 / item.period);
-  const end = Math.ceil((now / 1000 + minutes * 60) / item.period);
+  const steam = item.type === 'steam';
+  const { digits, period } = steam ? STEAM_PARAMS : item;
+  const start = Math.floor(now / 1000 / period);
+  const end = Math.ceil((now / 1000 + minutes * 60) / period);
   const codes: string[] = [];
   for (let step = start; step < end; step++) {
-    codes.push(await generateHotp(item.secret, step, item.algorithm, item.digits));
+    codes.push(
+      steam
+        ? await generateSteam(item.secret, step * period * 1000)
+        : await generateHotp(item.secret, step, item.algorithm, digits),
+    );
   }
   return {
+    kind: steam ? 'steam' : 'totp',
     issuer: item.issuer.slice(0, MAX_TEXT),
     label: item.label.slice(0, MAX_TEXT),
-    digits: item.digits,
-    period: item.period,
+    digits,
+    period,
     start,
     codes,
   };
@@ -83,7 +102,7 @@ export async function shareCodes(item: Shareable, minutes: ShareMinutes, now: nu
 /** The link that opens the share page on these codes. */
 export function shareLink(shared: SharedCodes, page: string = SHARE_PAGE_URL): string {
   const body = {
-    v: VERSION,
+    ...(shared.kind === 'steam' ? { v: STEAM_VERSION, k: 'steam' } : { v: VERSION }),
     i: shared.issuer,
     l: shared.label,
     d: shared.digits,
@@ -111,24 +130,33 @@ export function readSharedCodes(fragment: string): SharedCodes {
   } catch {
     throw new Error('This link is damaged.');
   }
-  if (typeof body.v === 'number' && body.v > VERSION) throw new Error('This link was made by a newer version of Keyrook Authenticator.');
-  const { v, i, l, d, p, s, c } = body;
+  if (typeof body.v === 'number' && body.v > NEWEST) throw new Error('This link was made by a newer version of Keyrook Authenticator.');
+  const { v, k, i, l, d, p, s, c } = body;
+  const steam = v === STEAM_VERSION && k === 'steam';
   const text128 = (value: unknown) => typeof value === 'string' && value.length <= MAX_TEXT;
+  // Steam's settings are its own, and nothing else is a Steam link: a version
+  // 2 that says otherwise is as damaged as a version 1 with letters in it.
+  const kindHolds = steam
+    ? d === STEAM_PARAMS.digits && p === STEAM_PARAMS.period && typeof c === 'string' && STEAM_CODES.test(c)
+    : v === VERSION &&
+      typeof d === 'number' &&
+      Number.isInteger(d) &&
+      d >= 6 &&
+      d <= 10 &&
+      typeof p === 'number' &&
+      PERIODS.includes(p) &&
+      typeof c === 'string' &&
+      /^\d+$/.test(c);
   if (
-    v !== VERSION ||
+    !kindHolds ||
     !text128(i) ||
     !text128(l) ||
     typeof d !== 'number' ||
-    !Number.isInteger(d) ||
-    d < 6 ||
-    d > 10 ||
     typeof p !== 'number' ||
-    !PERIODS.includes(p) ||
     typeof s !== 'number' ||
     !Number.isSafeInteger(s) ||
     s < 0 ||
     typeof c !== 'string' ||
-    !/^\d+$/.test(c) ||
     c.length % d !== 0
   ) {
     throw new Error('This link is damaged.');
@@ -137,7 +165,7 @@ export function readSharedCodes(fragment: string): SharedCodes {
   // More codes than an hour holds is not a link this app makes.
   if (count < 1 || count > Math.ceil((MAX_MINUTES * 60) / p) + 1) throw new Error('This link is damaged.');
   const codes = Array.from({ length: count }, (_, index) => c.slice(index * d, (index + 1) * d));
-  return { issuer: i as string, label: l as string, digits: d, period: p, start: s, codes };
+  return { kind: steam ? 'steam' : 'totp', issuer: i as string, label: l as string, digits: d, period: p, start: s, codes };
 }
 
 export type SharedNow =

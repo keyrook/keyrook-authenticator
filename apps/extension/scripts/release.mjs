@@ -11,6 +11,26 @@
 export const PRODUCTION_SYNC_API_URL = 'https://api.keyrook.com';
 
 /**
+ * The site the Keyrook account's passkeys belong to — their RP ID — for the
+ * server a build talks to: the account's page, for the official server; and
+ * `localhost` for the kit's server on this machine, whose page it places at
+ * localhost:5174. No other server's: a build against one asks no passkey.
+ *
+ * Chrome lets an extension ask another site's passkeys only with the host
+ * permission for that site, so this is also the one optional host permission
+ * a build declares (scripts/manifest.mjs), and check-release holds a release
+ * to the official one.
+ */
+export const PRODUCTION_ACCOUNT_RP = 'account.keyrook.com';
+
+export function accountRpFor(syncApiUrl) {
+  if (!syncApiUrl) return '';
+  const url = new URL(syncApiUrl);
+  if (url.origin === new URL(PRODUCTION_SYNC_API_URL).origin) return PRODUCTION_ACCOUNT_RP;
+  return url.hostname === 'localhost' || url.hostname === '127.0.0.1' ? 'localhost' : '';
+}
+
+/**
  * The Edge Add-ons listing's public key (Partner Center → the extension →
  * Extension identity). A manifest that carries it loads with the Edge
  * listing's id, lnbabkbknabedpnmdihllnbhdmolianm — one the sync server

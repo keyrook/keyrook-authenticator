@@ -9,7 +9,7 @@
 import { base32Decode, base32Encode } from '../util/base32.js';
 import { fromBase64, fromUtf8, toBase64, utf8 } from '../util/bytes.js';
 import type { OtpAlgorithm, OtpType } from './types.js';
-import type { ParsedOtpUri } from './uri.js';
+import { asSteamGuard, isSteamIssuer, type ParsedOtpUri } from './uri.js';
 
 const WIRE_VARINT = 0;
 const WIRE_64BIT = 1;
@@ -140,7 +140,7 @@ function parseOtpParameters(bytes: Uint8Array): ParsedOtpUri | null {
     label = label.slice(separator + 1).trim();
   }
 
-  return {
+  const parsed: ParsedOtpUri = {
     type,
     secret: base32Encode(secret),
     algorithm,
@@ -150,6 +150,9 @@ function parseOtpParameters(bytes: Uint8Array): ParsedOtpUri | null {
     issuer,
     label,
   };
+  // Google's format has no Steam Guard, so a Steam account in it was kept as
+  // six digits that Steam never took. See isSteamIssuer.
+  return type === 'totp' && isSteamIssuer(issuer) ? asSteamGuard(parsed) : parsed;
 }
 
 export function isMigrationUri(uri: string): boolean {
@@ -261,6 +264,10 @@ export function encodeMigrationUris<T extends MigrationSource>(
 ): MigrationExport<T> {
   const skipped: MigrationExport<T>['skipped'] = [];
   const carried = items.filter((item) => {
+    if (item.type === 'steam') {
+      skipped.push({ item, reason: 'Google Authenticator cannot make Steam Guard codes.' });
+      return false;
+    }
     if (item.type === 'totp' && item.period !== 30) {
       skipped.push({ item, reason: `Google Authenticator only keeps 30-second codes; this one uses ${item.period}.` });
       return false;

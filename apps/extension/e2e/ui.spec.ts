@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { createDeviceVault, expect, openOptions, openPopup, test } from './fixtures.js';
+import { createDeviceVault, expect, openOptions, openPopup, saveRecoveryKey, test } from './fixtures.js';
 
 /**
  * What the interface shows, checked in a real browser.
@@ -221,9 +221,7 @@ test('a whole recovery key fits in the recovery field', async ({ context, extens
   await options.getByLabel('Confirm new password').fill(MASTER_PASSWORD);
   await options.getByRole('button', { name: 'Set password' }).click();
   await options.getByRole('button', { name: /Create a recovery key/ }).click();
-  const key = (await options.locator('code.code-digits').innerText()).trim();
-  await options.getByText(/I have saved this somewhere/).click();
-  await options.getByRole('button', { name: 'Done' }).click();
+  const key = await saveRecoveryKey(options);
 
   const popup = await openPopup(context, extensionId);
   await popup.setViewportSize({ width: 380, height: 520 });
@@ -246,4 +244,32 @@ test('General lists both shortcuts as Chrome has them set, the fill one included
   // Whatever keys Chrome assigned on install, shown as keys rather than left blank.
   const keys = await options.locator('kbd').allInnerTexts();
   expect(keys.join('+')).toContain('F');
+});
+
+test('a new recovery key is kept only once two of its groups are typed back from it', async ({ context, extensionId }) => {
+  const options = await openOptions(context, extensionId);
+  await createDeviceVault(options);
+  await options.getByRole('button', { name: 'Security', exact: true }).click();
+  await options.getByRole('button', { name: /Create a recovery key/ }).click();
+  const key = (await options.locator('code.code-digits').innerText()).replace(/\s/g, '');
+
+  // A checkbox let people go on with a key they never kept. Groups that are
+  // not the key's are refused — U is not in a key's alphabet, so never one —
+  // and the key can still be shown again and saved now.
+  await options.getByRole('button', { name: 'I have saved it' }).click();
+  for (const field of await options.locator('input[data-group]').all()) await field.fill('UUUU');
+  await options.getByRole('button', { name: 'Check', exact: true }).click();
+  await expect(options.getByText(/That is not what your key says/)).toBeVisible();
+  await expect(options.getByText('A recovery key has been issued')).toHaveCount(0);
+  await options.getByRole('button', { name: 'Show the key again' }).click();
+  expect((await options.locator('code.code-digits').innerText()).replace(/\s/g, '')).toBe(key);
+
+  // The right groups, typed the way a person copies them, let it go.
+  await options.getByRole('button', { name: 'I have saved it' }).click();
+  const groups = key.split('-');
+  for (const field of await options.locator('input[data-group]').all()) {
+    await field.fill(groups[Number(await field.getAttribute('data-group')) - 1]!.toLowerCase());
+  }
+  await options.getByRole('button', { name: 'Check', exact: true }).click();
+  await expect(options.getByText('A recovery key has been issued')).toBeVisible();
 });

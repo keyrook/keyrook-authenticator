@@ -31,21 +31,37 @@ export function takeScanRequest(): boolean {
 export const ACCOUNT_FRAGMENT = '#account';
 export const SIGN_IN_FRAGMENT = '#account/sign-in';
 export const CREATE_FRAGMENT = '#account/create';
+/** The popup's "Continue with a passkey": the popup closes when Chrome asks, so Settings asks instead. */
+export const PASSKEY_FRAGMENT = '#account/passkey';
 
 /** Every place in Settings a page may open it at (`Host.openSettings`). */
 export type SettingsFragment =
   | typeof SCAN_FRAGMENT
   | typeof ACCOUNT_FRAGMENT
   | typeof SIGN_IN_FRAGMENT
-  | typeof CREATE_FRAGMENT;
+  | typeof CREATE_FRAGMENT
+  | typeof PASSKEY_FRAGMENT;
 
-export type AccountRequest = 'account' | 'signIn' | 'create';
+export type AccountRequest = 'account' | 'signIn' | 'create' | 'passkey';
 
 const ACCOUNT_REQUESTS: Record<string, AccountRequest> = {
   [ACCOUNT_FRAGMENT]: 'account',
   [SIGN_IN_FRAGMENT]: 'signIn',
   [CREATE_FRAGMENT]: 'create',
+  [PASSKEY_FRAGMENT]: 'passkey',
 };
+
+/**
+ * What a fragment asks Settings for, where it is handed over rather than read
+ * from the address: an app whose Settings opens over its codes, on the same
+ * page, has no address to put one in.
+ */
+export function requestAt(fragment: SettingsFragment | undefined): {
+  scan: boolean;
+  account: AccountRequest | null;
+} {
+  return { scan: fragment === SCAN_FRAGMENT, account: (fragment && ACCOUNT_REQUESTS[fragment]) ?? null };
+}
 
 export function takeAccountRequest(): AccountRequest | null {
   const request = ACCOUNT_REQUESTS[location.hash];

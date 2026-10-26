@@ -15,9 +15,11 @@ server were hostile, so every claim below is about code you can read.
   Switching between the two re-wraps the key; nothing is re-encrypted.
 - The recovery key is 160 random bits. It wraps the same data key a second time,
   so it survives a password change.
-- The extension asks for no host permissions. Reading a QR code from a page and
-  filling a code into one both run under `activeTab`, which the browser grants
-  only for the tab you invoked the extension on. Only the extension's own pages
+- The extension asks for no host permissions at install. Reading a QR code from
+  a page and filling a code into one both run under `activeTab`, which the
+  browser grants only for the tab you invoked the extension on. Signing in with
+  one of your Keyrook account's passkeys asks, when you choose it, for access to
+  account.keyrook.com, the site those passkeys belong to; nothing runs there. Only the extension's own pages
   can drive the vault; a page the autofill script runs in cannot.
 - Nothing is fetched to display a service's logo. The artwork is compiled in.
 

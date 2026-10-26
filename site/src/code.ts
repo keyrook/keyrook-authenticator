@@ -8,7 +8,7 @@
  */
 import { QUICK_DEFAULTS, readQuickInput, type QuickSettings } from '../../packages/core/src/otp/quick.js';
 import { formatCode, generateCode, totpWindow } from '../../packages/core/src/otp/totp.js';
-import type { OtpAlgorithm } from '../../packages/core/src/otp/types.js';
+import { isTimeBased, type OtpAlgorithm } from '../../packages/core/src/otp/types.js';
 
 const element = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const key = element<HTMLTextAreaElement>('key');
@@ -59,7 +59,7 @@ async function refresh() {
   account.textContent = [params.issuer, params.label].filter(Boolean).join(' · ');
 
   const now = Date.now();
-  const window_ = params.type === 'totp' ? totpWindow(params.period, now) : null;
+  const window_ = isTimeBased(params.type) ? totpWindow(params.period, now) : null;
   ring.hidden = !window_;
   nextLine.hidden = !window_;
   if (window_) {

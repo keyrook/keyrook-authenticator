@@ -29,6 +29,8 @@ export * from './vault/recovery.js';
 export * from './vault/backup.js';
 export * from './vault/foreign.js';
 export * from './vault/autofill.js';
+export * from './vault/hosts.js';
+export * from './vault/passkey-unlock.js';
 export * from './vault/csv.js';
 
 // Brands

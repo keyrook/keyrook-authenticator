@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   BAD_KEY_MESSAGE,
+  domainsToRecord,
   importFromText,
   itemFromUri,
   itemMatchesHost,
@@ -20,6 +21,7 @@ import { QuickCode } from '../components/QuickCode.js';
 import { Button, Callout, Field, Spinner } from '../components/primitives.js';
 import { errorText } from '../i18n/error-text.js';
 import { useT } from '../i18n/react.js';
+import { useBack } from '../lib/back.js';
 import { localise } from '../i18n/error-text.js';
 import { AppError } from '../i18n/errors.js';
 
@@ -199,6 +201,10 @@ export function AddSheet({
     return true;
   }
 
+  // Its own back button's: out of a way of adding to the list of them, then out.
+  const back = () => (mode === 'choose' ? onClose() : setMode('choose'));
+  useBack(true, back);
+
   function openCamera() {
     session.current = startSession();
     setProgress(null);
@@ -212,7 +218,7 @@ export function AddSheet({
       <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 dark:border-neutral-900">
         <button
           type="button"
-          onClick={() => (mode === 'choose' ? onClose() : setMode('choose'))}
+          onClick={back}
           aria-label={t('common.back')}
           className="rounded-lg p-1.5 text-base text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-900"
         >
@@ -366,7 +372,7 @@ function ManualForm({
   const suggested = hostname ? matchBrand('', [hostname]) : null;
 
   const [issuer, setIssuer] = useState(suggested?.name ?? '');
-  const [domains, setDomains] = useState<string[]>(suggested?.domains.slice(0, 1) ?? []);
+  const [domains, setDomains] = useState<string[]>(suggested ? domainsToRecord(suggested, hostname) : []);
   const [label, setLabel] = useState('');
   const [secret, setSecret] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -375,7 +381,7 @@ function ManualForm({
   function pick(brand: BrandEntry) {
     // Taking a suggestion is worth more than the keystrokes: the domains it
     // carries are what let the popup offer this code on the right site later.
-    setDomains(brand.domains.slice(0, 2));
+    setDomains(domainsToRecord(brand, hostname));
   }
 
   const looksLikeUri = /^otpauth(-migration)?:\/\//i.test(secret.trim());

@@ -17,6 +17,7 @@ export const ptBR: Dictionary = {
   'error.recoverOnAccountPage': 'Sua chave de recuperação está certa, mas a senha desta conta agora é redefinida na página da conta, para todos os apps Keyrook de uma vez.',
   'error.kitOnAccountPage': 'A chave de recuperação desta conta agora é criada na página da conta, para todos os apps Keyrook de uma vez.',
   'error.restoreEmpty': 'Não sobrou nada desta conta para recuperar: ela foi excluída em outro dispositivo antes que este chegasse a tê-la.',
+  'error.noAccountSheet': 'Esta conta ainda não tem chave de recuperação. Crie uma na página da conta.',
   'error.recoveryKeyWrong': 'Essa chave de recuperação não é desta conta.',
   'error.noRecoveryKit': 'Este cofre não tem chave de recuperação.',
   'error.syncUnavailable': 'A sincronização não está disponível nesta versão.',
@@ -24,6 +25,8 @@ export const ptBR: Dictionary = {
   'error.alreadySignedIn': 'Você já está conectado.',
   'error.signedOutElsewhere':
     'Este dispositivo foi desconectado da sincronização — a senha foi alterada ou o dispositivo foi removido em outro. Entre de novo.',
+  'error.removedFromAccount':
+    'Outro dispositivo removeu este da sua conta no Keyrook, então os códigos da conta foram tirados daqui. Entre de novo para trazê-los de volta.',
   'error.signOutUnsynced':
     'Algumas alterações deste navegador ainda não chegaram à sua conta, e sair agora faria você perdê-las. Conecte-se à internet e tente de novo.',
   'error.enterAccountPassword': 'Digite a senha da sua conta.',
@@ -53,10 +56,10 @@ export const ptBR: Dictionary = {
   'error.nothingWaiting': 'Não há nada esperando aprovação.',
   'error.pairingExpired': 'O pedido terminou — foi recusado ou passaram dez minutos. Peça de novo.',
   'error.pairingWrongKey':
-    'A chave recebida não é desta conta. Nada foi alterado. Tente de novo a partir do outro navegador.',
-  'error.pairingForged': 'Essa aprovação não veio do navegador cujo código você conferiu.',
+    'A chave recebida não é desta conta. Nada foi alterado. Tente de novo a partir do outro dispositivo.',
+  'error.pairingForged': 'Essa aprovação não veio do dispositivo cujo código você conferiu.',
   'error.pairingForgedAsk':
-    'Essa aprovação não veio do navegador cujo código foi conferido. Nada foi alterado. Peça de novo.',
+    'Essa aprovação não veio do dispositivo cujo código foi conferido. Nada foi alterado. Peça de novo.',
   'error.pairingEnded': 'Esse pedido terminou.',
   'error.approveAgain': 'Comece a aprovar esse pedido de novo.',
   'error.backupPasswordShort': 'A senha do backup precisa ter pelo menos 8 caracteres.',
@@ -74,6 +77,24 @@ export const ptBR: Dictionary = {
   'error.migrationNotOurs': 'Não é uma exportação do Google Authenticator.',
   'error.migrationMalformed': 'Esta exportação do Google Authenticator está danificada ou incompleta.',
   'error.offline': 'Não foi possível acessar o servidor de sincronização. Confira sua conexão e tente de novo.',
+  'error.passkey.wrongOrigin': 'Uma chave de acesso só funciona na página e nos apps do próprio Keyrook.',
+  'error.passkey.notOffered': 'Entrar com chave de acesso não está disponível aqui.',
+  'error.passkey.unchecked': 'Não foi possível verificar essa chave de acesso. Tente de novo.',
+  'error.passkey.unknown': 'Nenhuma conta no Keyrook conhece essa chave de acesso. Talvez ela tenha sido removida.',
+  'error.passkey.ended': 'A solicitação dessa chave de acesso expirou. Tente de novo.',
+  'error.passkey.noUnlock': 'Essa chave de acesso não abre a chave desta conta. Entre com a senha.',
+  'error.passkey.noUnlockProvider':
+    'Essa chave de acesso não abre a chave desta conta. Continue com o Google ou o GitHub.',
+  'error.passkey.masterPassword':
+    'Um cofre que trava com senha mestra não consegue entrar com chave de acesso. Entre com a senha da conta, ou com o Google ou o GitHub.',
+  'error.passkey.permission':
+    'O Keyrook Authenticator precisa da permissão do Chrome para usar as chaves de acesso de account.keyrook.com. Escolha a chave de acesso de novo e permita.',
+  'error.passkey.cancelled': 'Nenhuma chave de acesso foi usada. Tente de novo ou entre de outro jeito.',
+  'error.passkey.failed': 'O Chrome não conseguiu pedir uma chave de acesso. Tente de novo ou entre de outro jeito.',
+  'error.secondStep.missing': 'Digite também o código do seu app autenticador.',
+  'error.secondStep.wrongCode': 'Esse código não está certo. Digite o que o seu app autenticador mostra agora.',
+  'error.secondStep.expired': 'Esse login expirou. Entre de novo.',
+  'error.secondStep.used': 'Esse código acabou de ser usado para entrar. Espere o seu app mostrar o próximo.',
   'error.provider.refusedBy': 'O {provider} recusou o login.',
   'error.provider.unreachable': 'Não foi possível acessar o {provider}. Tente de novo daqui a pouco.',
   'error.provider.refused': 'O login foi recusado. Tente de novo.',
@@ -87,11 +108,11 @@ export const ptBR: Dictionary = {
   'error.server.signupExpired': 'Esse cadastro expirou. Entre de novo.',
   'error.server.signinExpired': 'Esse login expirou. Tente de novo.',
   'error.server.tooManyCodes': 'Muitos códigos errados. Peça um novo.',
-  'error.server.tooManyPairings': 'Há navegadores demais esperando para entrar nesta conta. Tente de novo em alguns minutos.',
+  'error.server.tooManyPairings': 'Há dispositivos demais esperando para entrar nesta conta. Tente de novo em alguns minutos.',
   'error.server.wrongKey': 'Este dispositivo não tem a chave da conta.',
   'error.server.providerAccount': 'Esta conta entra com Google ou GitHub, não com senha.',
   'error.server.mailFailed': 'Não foi possível enviar o e-mail. Tente de novo em um minuto.',
-  'error.server.pairingTaken': 'Esse pedido terminou, ou outro navegador está aprovando.',
+  'error.server.pairingTaken': 'Esse pedido terminou, ou outro dispositivo está aprovando.',
   'error.server.passwordWrong': 'Essa senha não está correta.',
   'error.server.badCredentials': 'E-mail ou senha incorretos.',
   'error.server.badCode': 'Esse código está errado ou expirou. Confira o e-mail ou peça um novo.',
@@ -150,6 +171,22 @@ export const ptBR: Dictionary = {
   'unlock.placeholder': 'Senha mestra',
   'unlock.submit': 'Desbloquear',
   'unlock.forgot': 'Esqueceu? <link>Use sua chave de recuperação</link>',
+  'platformUnlock.unlock': 'Desbloquear com digital, rosto ou PIN',
+  'platformUnlock.title': 'Digital, rosto ou PIN',
+  'platformUnlock.body': 'Abra o cofre com a verificação do próprio computador — Touch ID, Windows Hello ou o PIN dele — em vez de digitar a senha mestra. A senha continua abrindo o cofre, e as alterações continuam pedindo a senha.',
+  'platformUnlock.on': 'O cofre também abre com a verificação do próprio computador. Remover a senha mestra desativa isso.',
+  'passkeyUnlock.turnOn': 'Ativar',
+  'passkeyUnlock.turnOff': 'Desativar',
+  'platformUnlock.confirm': 'Depois o computador vai pedir sua digital, seu rosto ou seu PIN.',
+  'error.passkeyUnlock.cancelled': 'A verificação foi cancelada ou demorou demais. Tente de novo ou use a senha mestra.',
+  'error.platformUnlock.noPrf': 'O lugar onde esta chave de acesso foi salva não consegue guardar uma chave, então não pode abrir o cofre. Ative de novo e escolha outro lugar quando for perguntado onde salvá-la — ou continue usando a senha mestra.',
+  'error.passkeyUnlock.failed': 'Isso não abriu o cofre. Use a senha mestra e ative isso de novo em Segurança.',
+  'securityKey.unlock': 'Desbloquear com chave de segurança',
+  'securityKey.title': 'Chave de segurança',
+  'securityKey.body': 'Abra o cofre com uma chave de segurança USB e o PIN dela em vez de digitar a senha mestra. Quem estiver com a chave e souber o PIN dela poderá abrir o cofre neste computador. Se a chave for perdida, a senha mestra continua abrindo o cofre.',
+  'securityKey.on': 'O cofre também abre com sua chave de segurança e o PIN dela neste computador. Quem estiver com a chave e souber o PIN dela pode abri-lo aqui, então, se perder a chave, desative isso. Remover a senha mestra desativa isso.',
+  'securityKey.confirm': 'Depois, conecte sua chave de segurança, digite o PIN dela e toque nela. Algumas chaves pedem duas vezes.',
+  'error.securityKey.noPrf': 'Esta chave de segurança não consegue guardar uma chave, então não pode abrir o cofre. Chaves feitas só para o login em duas etapas não conseguem. Tente outra chave ou continue usando a senha mestra.',
 
   // --- Cofre que não abre mais --------------------------------------------------
   'unrecoverable.title': 'Este cofre não pode mais ser aberto',
@@ -190,6 +227,7 @@ export const ptBR: Dictionary = {
   'setup.password.footnote':
     'A opção mais forte: depois de bloqueado, nada neste computador abre o cofre sem a senha.',
   'setup.footer': 'De qualquer forma é AES-256-GCM. Troque quando quiser; a sincronização é opcional, nas Configurações.',
+  'setup.footer.noSync': 'De qualquer forma é AES-256-GCM. Troque quando quiser, nas Configurações.',
   'setup.source': 'Código aberto — leia o código',
   'common.back': 'Voltar',
   'setup.passwordStep.title': 'Defina uma senha mestra',
@@ -238,8 +276,8 @@ export const ptBR: Dictionary = {
   'vault.byName': 'Por nome',
   'vault.orderAdded': 'Ordem de inclusão',
   'vault.joinRequests': {
-    one: 'Um navegador está pedindo para entrar na sua conta.',
-    other: '{count} navegadores estão pedindo para entrar na sua conta.',
+    one: 'Um dispositivo está pedindo para entrar na sua conta.',
+    other: '{count} dispositivos estão pedindo para entrar na sua conta.',
   },
   'vault.joinRequestsHint': 'Aprove só um em que você mesmo está entrando, agora.',
   'vault.reviewInSettings': 'Revisar nas Configurações',
@@ -333,6 +371,7 @@ export const ptBR: Dictionary = {
   'error.alreadyInVault': 'Essa conta já está no seu cofre.',
   'error.gaSkipPeriod': 'O Google Authenticator só guarda códigos de 30 segundos; este usa {period}.',
   'error.gaSkipDigits': 'O Google Authenticator só guarda códigos de 6 ou 8 dígitos; este tem {digits}.',
+  'error.gaSkipSteam': 'O Google Authenticator não gera códigos do Steam Guard.',
 
   // --- Leitura pela câmera ------------------------------------------------------
   'scan.progressBatch': 'Código {seen} de {total} escaneado — {accounts}. Mostre o próximo código.',
@@ -424,9 +463,18 @@ export const ptBR: Dictionary = {
   // --- Uma nova chave de recuperação --------------------------------------------
   'sheet.once':
     'Esta é a única vez que esta chave aparece. Ela não fica salva em lugar nenhum — se perder, emita uma nova.',
+  'sheet.print': 'Imprimir',
+  'sheet.apart': 'Guarde-a longe do seu e-mail e nunca a envie para si mesmo por e-mail: com esta chave e seu endereço de e-mail, alguém pode definir uma nova senha e abrir seus códigos.',
+  'sheet.apartProvider': 'Guarde-a longe da conta Google ou GitHub com que você entra, e nunca a deixe no e-mail ou no drive dessa conta: com esta chave e essa conta, alguém pode abrir seus códigos.',
+  'sheet.kept': 'Já guardei',
+  'sheet.checkHeading': 'Confira que você guardou',
+  'sheet.checkLead': 'Digite dois grupos da chave a partir do que você guardou. Grupos são os blocos de quatro entre os traços, contados da esquerda.',
+  'sheet.group': 'Grupo {position}',
+  'sheet.check': 'Conferir',
+  'sheet.mismatch': 'Não é isso que sua chave diz. Olhe de novo o que você guardou, ou mostre a chave outra vez e guarde-a agora.',
+  'sheet.showAgain': 'Mostrar a chave outra vez',
   'sheet.download': 'Baixar a folha',
   'sheet.copy': 'Copiar',
-  'sheet.saved': 'Guardei isto num lugar que continuará comigo mesmo se este computador não continuar.',
 
   // --- Grupos -------------------------------------------------------------------
   'groups.title': 'Grupos',
@@ -493,6 +541,7 @@ export const ptBR: Dictionary = {
   'accounts.digits': '{type} {digits} dígitos',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · contador {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Compartilhar ou mover {name}',
   'accounts.edit': 'Editar',
   'common.delete': 'Excluir',
@@ -632,6 +681,7 @@ export const ptBR: Dictionary = {
   'export.oneByOne.progress': 'Contas mostradas',
   'export.oneByOne.position': 'Conta {index} de {total}',
   'export.oneByOne.keys': '→ ou Espaço para a próxima, Esc para parar',
+  'export.steamRefused': 'O {app} não gera códigos do Steam Guard, então não vai aceitar esta conta.',
   'export.print.label': 'QR codes para imprimir ou escanear',
   'export.print.title': 'Keyrook Authenticator — códigos de configuração',
   'export.print.body':
@@ -712,11 +762,11 @@ export const ptBR: Dictionary = {
   // --- Configurações: chave de recuperação --------------------------------------
   'kit.title': 'Chave de recuperação',
   'kit.provider':
-    'Sua conta não tem senha. A chave de recuperação é o caminho de volta se todos os navegadores conectados a ela se perderem: ela deixa um navegador novo entrar na conta sem outro para aprovar. O {provider} não pode fazer isso por você.',
+    'Sua conta não tem senha. A chave de recuperação é o caminho de volta se todos os dispositivos conectados a ela se perderem: ela deixa um dispositivo novo entrar na conta sem outro para aprovar. O {provider} não pode fazer isso por você.',
   'kit.signedIn':
-    'Ninguém consegue redefinir sua senha — nem nós, nem o Google. A chave de recuperação é o único caminho de volta se você esquecer: ela abre este cofre, seus outros dispositivos e sua conta num dispositivo novo.',
+    'Ninguém consegue redefinir sua senha por você — nem mesmo nós. A chave de recuperação é o único caminho de volta se você esquecer: ela abre este cofre, seus outros dispositivos e sua conta num dispositivo novo.',
   'kit.passphrase':
-    'Ninguém consegue redefinir sua senha mestra — nem nós, nem o Google. É isso que impede outra pessoa de abrir seu cofre, e é também por isso que a chave de recuperação é o único caminho de volta se você esquecer.',
+    'Ninguém consegue redefinir sua senha mestra — nem mesmo nós. É isso que impede outra pessoa de abrir seu cofre, e é também por isso que a chave de recuperação é o único caminho de volta se você esquecer.',
   'kit.device':
     'Este cofre se desbloqueia com uma chave que o navegador guarda. Se essa chave se perder — dados de navegação apagados, um perfil novo, uma reinstalação — só a chave de recuperação ainda consegue abri-lo.',
   'kit.none': 'Nenhuma chave de recuperação ainda',
@@ -731,19 +781,19 @@ export const ptBR: Dictionary = {
   'kit.replacesSignedIn':
     'Emitir uma chave nova faz a anterior parar de funcionar, aqui e nos seus outros dispositivos, então uma folha impressa antiga pode ser jogada fora depois da troca.',
   'kit.withoutProvider':
-    'Sem ela, perder todos os navegadores conectados à sua conta significa perder para sempre todas as contas deste cofre.',
+    'Sem ela, perder todos os dispositivos conectados à sua conta significa perder para sempre todas as contas deste cofre.',
   'kit.withoutPassword':
     'Sem ela, esquecer sua senha significa perder para sempre todas as contas deste cofre.',
   'kit.withoutDevice':
     'Sem ela, perder a chave que este navegador guarda significa perder para sempre todas as contas deste cofre.',
   'kit.noSupport': 'Nenhum pedido ao suporte consegue desfazer isso.',
   'kit.removeProvider':
-    'Removê-la deixa um navegador já conectado como a única forma de deixar um novo entrar na sua conta.',
+    'Removê-la deixa um dispositivo já conectado como a única forma de deixar um novo entrar na sua conta.',
   'kit.removePassword': 'Removê-la deixa sua senha como a única forma de entrar.',
   'kit.removePasswordSignedIn':
     'Removê-la deixa sua senha como a única forma de entrar — neste dispositivo, nos outros e na sua conta.',
   'kit.reauth':
-    'Uma chave de recuperação pode deixar um navegador entrar na sua conta, então o {provider} pede que você entre mais uma vez antes.',
+    'Uma chave de recuperação pode deixar um dispositivo entrar na sua conta, então o {provider} pede que você entre mais uma vez antes.',
   'kit.passwordHint': 'Uma chave de recuperação pode redefinir sua conta, então alterá-la exige sua senha.',
   'kit.removeConfirm': 'Remover a chave de recuperação',
   'kit.createConfirm': 'Criar a chave',
@@ -773,7 +823,7 @@ export const ptBR: Dictionary = {
   'account.syncNow': 'Sincronizar agora',
   'account.signOut': 'Sair',
   'account.noKitProvider':
-    'Sua conta não tem chave de recuperação. Se todos os navegadores conectados a ela se perderem, nada recupera suas contas — nem nós, nem o {provider}.',
+    'Sua conta não tem chave de recuperação. Se todos os dispositivos conectados a ela se perderem, nada recupera suas contas — nem nós, nem o {provider}.',
   'account.noKit':
     'Sua conta não tem chave de recuperação. Se você esquecer a senha e perder este dispositivo, nada recupera suas contas — nem nós, nem ninguém.',
   'account.createUnderSecurity': 'Crie uma em Segurança',
@@ -796,11 +846,34 @@ export const ptBR: Dictionary = {
   'accountPage.bodyNoRoot': 'A senha e excluir ficam na página da conta. A chave de recuperação é criada aqui, em Segurança, até outro app Keyrook usar a conta.',
   'accountPage.bodyProvider': 'A chave de recuperação, recomeçar do zero e excluir ficam na página da conta, para todos os apps Keyrook de uma vez.',
   'accountPage.bodyNoRootProvider': 'Excluir fica na página da conta. A chave de recuperação é criada aqui, em Segurança, até outro app Keyrook usar a conta.',
+  'sheetCheck.lead': 'Digite uma vez a chave de recuperação que você guardou, para este app saber que ela recupera seus códigos. Ela é verificada neste dispositivo e não é enviada a lugar nenhum.',
+  'sheetCheck.submit': 'Verificar',
+  'sheetCheck.lost': 'Perdeu, ou nunca teve uma? Crie uma nova na página da conta.',
+  'accountPage.noSheetYet': 'Nada mostra ainda que sua chave de recuperação protege o Keyrook Authenticator. Sem ela, uma senha esquecida pode custar seus códigos. Digite-a uma vez em Segurança, ou crie uma nova na página da conta.',
+  'account.checkUnderSecurity': 'Verificar em Segurança',
   'accountPage.open': 'Abrir a página da conta',
   'accountPage.recoveryKey': 'A chave de recuperação de um cofre conectado é a da conta Keyrook. Ela é criada e trocada na página da conta.',
   'accountPage.sheetProtects': 'A chave de recuperação da conta protege o Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Ainda não se sabe se protege o Keyrook Authenticator',
-  'accountPage.noSheet': 'Nada mostra ainda que a chave de recuperação desta conta protege o Keyrook Authenticator. Se a senha for esquecida sem ela, você pode perder seus códigos. Crie uma, ou confira a sua, na página da conta.',
+  'secondStep.title': 'Mais uma etapa',
+  'secondStep.lead': 'Sua conta no Keyrook pede uma segunda etapa. Digite o código de 6 dígitos que o seu app autenticador mostra para ela.',
+  'secondStep.field': 'Código ou chave de recuperação',
+  'secondStep.hint': 'Perdeu esse app? Digite a chave de recuperação da sua conta.',
+  'secondStep.passkey': 'Usar uma chave de acesso',
+  'secondStep.where': 'O login em duas etapas é ativado e desativado em account.keyrook.com.',
+  'secondStep.ownerLead': 'Sua conta também pede uma segunda etapa para isto: o código do app autenticador ou a sua chave de recuperação.',
+  'secondStep.nextCode': 'Cada código vale uma vez só. Se você acabou de entrar com um, espere o seu app mostrar o próximo.',
+  'secondStepTip.title': 'Login em duas etapas',
+  'secondStepTip.suggest': 'Peça também um código sempre que esta conta entrar em outro dispositivo. Ative em account.keyrook.com e guarde o código aqui: naquela página, abra o Keyrook Authenticator e escolha “{scan}”.',
+  'secondStepTip.kept': 'O código de login desta própria conta fica guardado aqui, em cada dispositivo conectado a ela.',
+  'secondStepTip.warning': 'Se você perder todos os dispositivos que o guardam, entre com sua chave de recuperação no lugar do código. Guarde a chave de recuperação em outro lugar.',
+  'secondStepTip.open': 'Ativar',
+  'signin.providerHasPassword': '{provider} confirmou que é você, e {email} também tem uma senha. Digite-a para abrir seus códigos aqui.',
+  'provider.addOnPage': 'Para entrar também com o Google ou o GitHub, entre na página da conta com a sua senha e adicione-o lá.',
+  'startOver.title': 'Sua conta no Keyrook vai recomeçar do zero em {date}',
+  'startOver.lead': 'Alguém em “{device}” pediu isso em {date}, com o código que enviamos para o seu e-mail: uma senha nova e chaves novas, e seus apps começariam vazios.',
+  'startOver.ifYou': 'Se foi você, não precisa fazer nada. Se não foi, cancele agora e depois troque a senha do seu e-mail: quem pediu consegue ler seus e-mails.',
+  'startOver.cancel': 'Não fui eu — cancelar',
   'kept.title': 'Guardado de antes de a conta recomeçar',
   'kept.body': 'Quando esta conta recomeçou do zero, o que o Keyrook Authenticator tinha nela foi guardado até {date}. Traga de volta com a senha que a conta tinha na época, ou com a chave de recuperação da época.',
   'kept.password': 'Senha da época',
@@ -808,7 +881,7 @@ export const ptBR: Dictionary = {
   'kept.usePassword': 'Usar a senha da época',
   'kept.useRecoveryKey': 'Usar a chave de recuperação da época',
   'kept.bring': 'Trazer de volta',
-  'kept.done': 'Voltou para este cofre e está a caminho dos seus outros navegadores.',
+  'kept.done': 'Voltou para este cofre e está a caminho dos seus outros dispositivos.',
   'error.keys.awaitingConfirmation': 'Outro app Keyrook substituiu as chaves desta conta, e a do Keyrook Authenticator ainda não acompanhou. Abra a página da conta para conferir e entre de novo.',
   'password.changedBoth':
     'Senha alterada, para sua conta e este cofre. Seus outros dispositivos vão pedir que você entre de novo com ela.',
@@ -822,9 +895,12 @@ export const ptBR: Dictionary = {
   'password.formTitle': 'Alterar a senha da conta',
   'devices.title': 'Dispositivos conectados',
   'devices.description':
-    'Desconecte um dispositivo que você não usa ou não tem mais. Ele mantém o que já tinha sincronizado, protegido pela mesma senha, mas não recebe nada novo.',
+    'Desconecte um dispositivo que você não usa ou não tem mais. Se ele usa um Keyrook Authenticator atualizado, na próxima conexão ele mesmo tira os códigos desta conta e guarda só o que nunca enviou. Até lá, ou se nunca mais se conectar, ele mantém o que tinha, protegido pela mesma senha.',
+  'devices.descriptionProvider':
+    'Desconecte um dispositivo que você não usa ou não tem mais. Se ele usa um Keyrook Authenticator atualizado, na próxima conexão ele mesmo tira os códigos desta conta e guarda só o que nunca enviou. Até lá, ou se nunca mais se conectar, ele mantém o que tinha, bloqueado do jeito que o cofre está bloqueado nele.',
   'devices.this': 'Este dispositivo',
   'devices.when': 'Conectado em {created} · ativo pela última vez em {seen}',
+  'removed.kept': 'Os códigos adicionados ou alterados aqui que não tinham chegado à conta continuam aqui.',
   'delete.row': 'Excluir sua conta',
   'delete.rowDescription':
     'Remove todas as cópias criptografadas que o servidor guarda. Este dispositivo mantém o cofre como está; os outros param de sincronizar.',
@@ -835,7 +911,7 @@ export const ptBR: Dictionary = {
   'delete.confirm': 'Excluir a conta',
 
   // --- Entrando: o primeiro cartão ----------------------------------------------
-  'intro.benefit1': 'Os mesmos códigos em todo navegador em que você entrar.',
+  'intro.benefit1': 'Os mesmos códigos em todo dispositivo em que você entrar.',
   'intro.benefit2': 'Um notebook perdido ou quebrado não é um cofre perdido.',
   'intro.benefit3': 'Grátis e opcional — tudo continua funcionando neste dispositivo sem isso.',
   'intro.title': 'Sincronize seu cofre',
@@ -899,9 +975,9 @@ export const ptBR: Dictionary = {
     'Sua conta está pronta. {done} de {total} contas já foram guardadas; o resto vai na próxima sincronização.',
   'fresh.title': 'Guarde sua chave de recuperação',
   'fresh.provider':
-    'Se todos os navegadores conectados à sua conta se perderem, esta chave é o único caminho de volta — o {provider} não consegue restaurar seu cofre, e nós também não.',
+    'Se todos os dispositivos conectados à sua conta se perderem, esta chave é o único caminho de volta — o {provider} não consegue restaurar seu cofre, e nós também não.',
   'fresh.password':
-    'Se você esquecer a senha, esta chave é o único caminho de volta — ninguém consegue redefini-la para você, nem nós, nem o Google.',
+    'Se você esquecer a senha, esta chave é o único caminho de volta — ninguém consegue redefini-la para você, nem mesmo nós.',
   'welcome.fromAccount': '{count} da sua conta',
   'welcome.fromDevice': '{count} adicionadas deste dispositivo',
   'welcome.inSync': 'Já está sincronizado.',
@@ -926,44 +1002,51 @@ export const ptBR: Dictionary = {
   'provider.finishInWindow': 'Termine na janela do {provider} que se abriu.',
   'provider.confirmed': 'O {provider} confirmou <b>{email}</b>. Nenhuma conta usa esse endereço ainda.',
   'provider.point1':
-    'Sem senha. Num navegador novo você continua com o {provider}, e um navegador já conectado o deixa entrar depois que você confere que os dois mostram o mesmo código.',
+    'Sem senha. Num dispositivo novo você continua com o {provider}, e um dispositivo já conectado o deixa entrar depois que você confere que os dois mostram o mesmo código.',
   'provider.point2':
-    'O {provider} prova que é você. Ele nunca vê seus códigos: eles são criptografados aqui, com uma chave que fica nos seus navegadores.',
+    'O {provider} prova que é você. Ele nunca vê seus códigos: eles são criptografados aqui, com uma chave que fica nos seus dispositivos.',
   'provider.point3':
-    'Em seguida você guarda uma chave de recuperação — o caminho de volta se todos os navegadores conectados à conta se perderem. O {provider} não consegue restaurar seu cofre.',
+    'Em seguida você guarda uma chave de recuperação — o caminho de volta se todos os dispositivos conectados à conta se perderem. O {provider} não consegue restaurar seu cofre.',
   'provider.notRight': 'Não é a conta certa?',
   'provider.startAgain': 'Começar de novo',
+  'passkey.continue': 'Continuar com uma chave de acesso',
+  'passkey.where':
+    'Uma que você adicionou na <link>página da conta</link>, em “Chaves de acesso”. Na primeira vez, o Chrome pergunta se o Keyrook Authenticator pode usá-la.',
   'pairing.codeLabel': 'Código {code}',
   'join.title': 'Deixe este navegador entrar',
   'join.subtitle':
-    '<b>{email}</b> já tem uma conta. Aprove este navegador a partir de um que já esteja conectado a ela.',
+    '<b>{email}</b> já tem uma conta. Aprove este navegador a partir de um dispositivo que já esteja conectado a ela.',
   'join.masterPassword': 'Senha mestra deste cofre',
   'join.masterHint': 'Ela continua bloqueando este cofre aqui; a conta em si não tem senha.',
   'join.ask': 'Pedir para entrar',
   'join.step1':
-    'Num navegador já conectado, abra o Keyrook Authenticator. O pedido aparece lá — na janela da extensão e nas Configurações, em Sincronização.',
+    'Num dispositivo já conectado, abra o Keyrook Authenticator. O pedido aparece lá — acima dos códigos e nas Configurações, em Sincronização.',
   'join.step2': 'Confira se ele mostra o mesmo código desta página e aprove.',
   'join.askAgain': 'Pedir de novo',
-  'join.compare': 'O outro navegador também mostra um código. Aprove lá só se for exatamente este.',
-  'join.waiting': 'Esperando outro navegador…',
-  'join.noOther': 'Não sobrou nenhum outro navegador?',
+  'join.compare': 'O outro dispositivo também mostra um código. Aprove lá só se for exatamente este.',
+  'join.waiting': 'Esperando outro dispositivo…',
+  'join.noOther': 'Não sobrou nenhum outro dispositivo?',
   'join.useKey': 'Use sua chave de recuperação',
   'join.wrongAccount': 'Entrou no {provider} com a conta errada?',
   'joinKey.subtitle':
-    'A chave que você guardou quando a conta foi criada. Ela deixa este navegador entrar sem precisar de outro.',
+    'A chave que você guardou quando a conta foi criada. Ela deixa este navegador entrar sem precisar de outro dispositivo.',
   'joinKey.submit': 'Entrar na conta',
-  'approve.approved': 'Aprovado. O outro navegador abre seu cofre em instantes.',
+  'approve.approved': 'Aprovado. O outro dispositivo abre seu cofre em instantes.',
   'approve.mismatch':
     'Recusado. Se não era você entrando agora, outra pessoa consegue entrar na sua conta do {provider} — troque a senha dela e revise as configurações de segurança.',
   'approve.declined': 'Recusado. Nada foi enviado.',
-  'approve.title': 'Navegadores pedindo para entrar',
+  'approve.title': 'Dispositivos pedindo para entrar',
   'approve.description':
-    'Cada pedido vem de alguém que acabou de entrar com sua conta do {provider}. Aprove só um navegador em que você mesmo está entrando, agora.',
+    'Cada pedido vem de alguém que acabou de entrar com sua conta do {provider}. Aprove só um dispositivo em que você mesmo está entrando, agora.',
+  'approve.descriptionAny':
+    'Cada pedido vem de alguém que acabou de entrar com sua conta do Google ou do GitHub. Aprove só um dispositivo em que você mesmo está entrando, agora.',
+  'approve.mismatchAny':
+    'Recusado. Se não era você entrando agora, outra pessoa consegue entrar na sua conta do Google ou do GitHub — troque a senha dela e revise as configurações de segurança.',
   'approve.askedAt': 'Pedido às {time}',
   'approve.review': 'Revisar',
   'approve.deny': 'Negar',
   'approve.question':
-    'O navegador que está pedindo mostra exatamente este código? Se não mostrar, outra pessoa está tentando entrar.',
+    'O dispositivo que está pedindo mostra exatamente este código? Se não mostrar, outra pessoa está tentando entrar.',
   'approve.matches': 'Confere — deixar entrar',
   'approve.doesNotMatch': 'Não confere',
 
@@ -982,7 +1065,7 @@ export const ptBR: Dictionary = {
   'nav.sync': 'Sincronização',
   'nav.general': 'Geral',
   'nav.needsAttention': 'Precisa de atenção',
-  'sync.description': 'Os mesmos códigos em todo navegador em que você entrar, criptografados aqui antes de sair.',
+  'sync.description': 'Os mesmos códigos em todo dispositivo em que você entrar, criptografados aqui antes de sair.',
   'backup.description': 'Guarde uma cópia criptografada, traga contas ou leve-as para outro app.',
   'backup.choice.backup.title': 'Fazer backup',
   'backup.choice.backup.body': 'Um arquivo criptografado, protegido por uma senha que você escolhe.',
@@ -998,16 +1081,16 @@ export const ptBR: Dictionary = {
     'Abrir a janela da extensão numa página de login oferece o código certo. Só essa aba é lida.',
   'vault.signInToSync': 'Entrar para sincronizar',
   'vault.empty.signIn':
-    'Já usa o Keyrook Authenticator em outro navegador? <link>Entre</link> para trazer seus códigos para cá.',
+    'Já usa o Keyrook Authenticator em outro dispositivo? <link>Entre</link> para trazer seus códigos para cá.',
   'setup.haveAccount': 'Já usa o Keyrook Authenticator? <link>Entre</link> para trazer seus códigos para cá.',
   'popup.signInOpensTab': 'Abre numa nova aba e termina nas Configurações.',
   'error.backupWrongPassword': 'Essa senha não abre este arquivo.',
-  'error.foreign.steam': 'Códigos do Steam Guard ainda não podem ser importados.',
+  'error.foreign.steamFolder': 'Escolha juntos todos os arquivos da pasta maFiles do Steam Desktop Authenticator: o manifest.json e os arquivos .maFile ao lado dele.',
   'error.foreign.locked':
     'Esta exportação está protegida por uma senha que o Keyrook Authenticator não consegue abrir. Exporte de novo sem senha.',
   'import.lockedFrom': 'O {app} protegeu esta exportação com uma senha. Digite a que você definiu lá.',
   'import.fromApps':
-    'Exportações do Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, da extensão Authenticator e do Google Authenticator também funcionam — e um CSV das Senhas da Apple, do 1Password ou de outro gerenciador.',
+    'Exportações do Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, da extensão Authenticator e do Google Authenticator também funcionam — e um CSV das Senhas da Apple, do 1Password ou de outro gerenciador.',
   'shortcut.open': 'Abrir o Keyrook Authenticator',
   'shortcut.fill': 'Preencher o código desta página',
   'shortcut.fillHint': 'Só preenche quando exatamente uma conta pertence ao site; fora isso, abre a lista.',
@@ -1016,4 +1099,64 @@ export const ptBR: Dictionary = {
   'import.csvWarning':
     'Este arquivo traz suas senhas às claras. Só as chaves de dois fatores foram lidas e nada mais é guardado — apague o arquivo quando terminar.',
   'import.noKeysInCsv': 'Esse arquivo não tem chaves de dois fatores — só senhas.',
+  'crash.title': 'Algo deu errado',
+  'crash.body':
+    'Esta tela encontrou um problema e parou. Suas contas guardadas não foram afetadas. Recarregar costuma resolver.',
+  'crash.reload': 'Recarregar',
+  'setup.device.description.phone':
+    'Seus segredos são criptografados com uma chave que este celular guarda para você. Nada para lembrar, nada para digitar.',
+  'setup.device.footnote.phone':
+    'Protege contra uma cópia dos arquivos do app. Não contra alguém que consiga desbloquear este celular.',
+  'setup.password.footnote.phone':
+    'A opção mais forte: depois de bloqueado, nada neste celular abre o cofre sem a senha.',
+  'unrecoverable.why.phone':
+    'A chave de criptografia dele era guardada por este celular e sumiu — normalmente porque os dados do app foram apagados, o app foi reinstalado ou o cofre veio do backup de outro celular. Sem essa chave ninguém consegue descriptografar as contas salvas, nem nós.',
+  'vault.empty.body.phone':
+    'Quando um site mostrar um QR code para configurar a verificação em duas etapas, escaneie com a câmera deste celular.',
+  'add.camera.description.phone':
+    'Para um código em outra tela — inclusive uma exportação do Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Vindo do Google Authenticator em outro celular? Exporte suas contas lá e escaneie o código que ele mostrar com a câmera deste celular. Se aparecerem vários, faça um por um.',
+  'camera.noCamera.phone': 'Este celular não dá uma câmera ao app.',
+  'camera.blocked.phone':
+    'O app não tem permissão para usar a câmera. Permita nas configurações do celular ou use outra forma de adicionar uma conta.',
+  'camera.none.phone': 'Nenhuma câmera encontrada neste celular.',
+  'security.languageBrowser.phone': 'Padrão do celular ({language})',
+  'protect.removeWarning.phone':
+    'O cofre continua criptografado, mas vai se desbloquear sozinho sempre que o app abrir. Qualquer pessoa que consiga desbloquear este celular poderá ver seus códigos.',
+  'kit.device.phone':
+    'Este cofre se desbloqueia com uma chave que o celular guarda. Se essa chave se perder — dados do app apagados, uma reinstalação, um celular novo — só a chave de recuperação ainda consegue abri-lo.',
+  'kit.withoutDevice.phone':
+    'Sem ela, perder a chave que este celular guarda significa perder para sempre todas as contas deste cofre.',
+  'security.description.phone': 'Como este cofre abre, e o caminho de volta se você perder este celular.',
+  'security.deviceKeyHint.phone':
+    'Nada para digitar. Qualquer pessoa que consiga desbloquear este celular pode abri-lo.',
+  'general.description.phone': 'Como o app se parece e se comporta, e de onde ele vem.',
+  'about.securityModelDescription.phone': 'O que o app garante, e o que não garante.',
+  'about.logos.description.phone':
+    'As marcas vêm embutidas no app e nunca são baixadas. Pedir um logotipo pela rede diria a quem respondesse em quais serviços você usa verificação em duas etapas.',
+  'about.fact.access.title.phone': 'Só a câmera, e só para escanear',
+  'about.fact.access.body.phone':
+    'O app não pede nenhuma permissão além da câmera, e só quando você escolhe escanear um código. O que a câmera vê nunca sai do celular.',
+  'about.fact.keys.body.phone':
+    'Suas contas são criptografadas com uma chave de dados que, por sua vez, é protegida por outra. Com senha mestra, essa chave de proteção vem do PBKDF2 com 600.000 rodadas e só existe na memória enquanto o cofre está aberto. Sem senha, é uma chave lacrada pelo próprio armazenamento de chaves do celular, então uma cópia dos arquivos do app não abre o cofre.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera aqui. Se o seu não for, tire uma foto dele com o app de câmera do celular e use Enviar uma imagem de QR.',
+  'import.noNativeReader.phone':
+    'Um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera aqui. Se o seu não for, tire uma foto de cada código com o app de câmera do celular e escolha todas em Escolher arquivos.',
+  'error.signOutUnsynced.phone':
+    'Algumas alterações deste celular ainda não chegaram à sua conta, e sair agora faria você perdê-las. Conecte-se à internet e tente de novo.',
+  'account.signOutNote.phone':
+    'Sair remove seus códigos deste celular. Eles continuam na sua conta no Keyrook — entre de novo para trazê-los de volta.',
+  'secondStepTip.suggest.phone':
+    'Peça também um código sempre que esta conta entrar em outro dispositivo. Ative em account.keyrook.com e guarde o código aqui: adicione uma conta neste app e leia o QR code que aquela página mostra.',
+  'intro.benefit2.phone': 'Um celular perdido ou quebrado não é um cofre perdido.',
+  'provider.finishInWindow.phone': 'Termine na página do {provider} que se abriu no seu navegador.',
+  'join.title.phone': 'Deixe este celular entrar',
+  'join.subtitle.phone':
+    '<b>{email}</b> já tem uma conta. Aprove este celular a partir de um dispositivo que já esteja conectado a ela.',
+  'joinKey.subtitle.phone':
+    'A chave que você guardou quando a conta foi criada. Ela deixa este celular entrar sem precisar de outro dispositivo.',
+  'facts.autofill.phone': 'Leitura de QR',
 };

@@ -1,4 +1,6 @@
 import type { Host } from '@authx/ui/host.js';
+import { accountPasskeys } from './accountPasskeys.js';
+import { passkeyUnlock } from './passkeyUnlock.js';
 import { SYNC_ENABLED } from './config.js';
 import { storeListing } from './listing.js';
 import { VAULT_CHANGED, type VaultChangedEvent } from './messaging.js';
@@ -65,10 +67,30 @@ export const chromeHost: Host = {
     await chrome.tabs.create({ url });
   },
 
+  overPage: true,
+  device: 'browser',
+
+  async saveFile(name, contents) {
+    const url = URL.createObjectURL(contents);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = name;
+    anchor.click();
+    // Not straight away: the download reads the blob after click() returns.
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  },
+
+  print: () => window.print(),
+
+  copy: (text) => navigator.clipboard.writeText(text),
+
   async shortcuts() {
     const commands = await chrome.commands.getAll();
     return Object.fromEntries(commands.map((command) => [command.name ?? '', command.shortcut ?? '']));
   },
 
   storeListing: () => storeListing(),
+
+  accountPasskeys,
+  passkeyUnlock,
 };

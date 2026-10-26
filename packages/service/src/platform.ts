@@ -1,3 +1,5 @@
+import type { Fetcher } from '@authx/core';
+
 /**
  * What the vault service needs from whatever runs it, and nothing more. The
  * extension's service worker installs one built on `chrome.*`
@@ -39,14 +41,33 @@ export interface Platform {
   showLocked(locked: boolean): Promise<void>;
   /** The sync server's origin; empty in a build without one, which turns every account feature off. */
   readonly syncApiUrl: string;
-  /** Who the sync server sends a provider's sign-in back to: the extension's id. */
+  /** Who the sync server sends a provider's sign-in back to: the extension's id, or an app's. */
   readonly clientId: string;
+  /**
+   * Where that sign-in comes back: to the extension, at its chromiumapp.org
+   * address or its own tab — the default — or to an app, at its own scheme
+   * (`<clientId>:/oauth`), which only a server that says so can do.
+   */
+  readonly signInReturn?: 'extension' | 'app';
+  /**
+   * What this build calls itself to the server, before its version:
+   * `authenticator` unless it says otherwise. A phone app says
+   * `authenticator-android`, so that its version is never compared with an
+   * extension's.
+   */
+  readonly clientName?: string;
   /**
    * This build's version, named to the server in every request. A request
    * that names none is taken for a build from before keys per product, and
    * refused what such a build could not keep up with.
    */
   readonly clientVersion: string;
+  /**
+   * How a request reaches the server; the global `fetch` where absent. A phone
+   * app's page has the same origin as every other app's, which no server can
+   * tell apart or allow, so it asks from native code, with no origin at all.
+   */
+  readonly fetch?: Fetcher;
   /** How this device is listed among the account's: "Chrome on Mac". */
   deviceName(): string;
   /**

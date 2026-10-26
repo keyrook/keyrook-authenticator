@@ -1,4 +1,6 @@
 import { matchBrand } from '../brand/registry.js';
+import { isTimeBased } from '../otp/types.js';
+import { coversHost } from './hosts.js';
 import type { VaultItem } from './model.js';
 
 /**
@@ -13,12 +15,7 @@ function trustedDomains(item: VaultItem): readonly string[] {
 }
 
 function hostUnder(hostname: string, domains: readonly string[]): boolean {
-  const host = hostname.toLowerCase().replace(/^www\./, '');
-  if (!host) return false;
-  return domains.some((domain) => {
-    const known = domain.toLowerCase().replace(/^www\./, '');
-    return known.length > 0 && (host === known || host.endsWith(`.${known}`));
-  });
+  return domains.some((domain) => coversHost(domain, hostname));
 }
 
 /**
@@ -35,5 +32,5 @@ export function itemForShortcutFill(items: readonly VaultItem[], hostname: strin
   const candidates = items.filter((item) => item.deletedAt === null && hostUnder(hostname, trustedDomains(item)));
   if (candidates.length !== 1) return null;
   const [item] = candidates;
-  return item!.type === 'totp' ? item! : null;
+  return isTimeBased(item!.type) ? item! : null;
 }

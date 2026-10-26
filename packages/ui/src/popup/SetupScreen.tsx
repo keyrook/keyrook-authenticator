@@ -64,7 +64,7 @@ export function SetupScreen({
   }
 
   return (
-    <div className="flex min-h-[480px] flex-col gap-5 p-6">
+    <div className="flex min-h-[480px] app:min-h-(--app-height) flex-col gap-5 p-6">
       <header className="flex flex-col items-center gap-3 pt-2 text-center">
         <Logo className="h-11 w-11" settle />
         <div>
@@ -118,7 +118,8 @@ export function SetupScreen({
 
       <div className="mt-auto flex flex-col items-center gap-1.5 pt-2">
         <p className="text-center text-[11px] leading-relaxed text-neutral-400 dark:text-neutral-500">
-          {t('setup.footer')}
+          {/* Sync is offered only by a build that has a server to sync with. */}
+          {t(host().syncEnabled ? 'setup.footer' : 'setup.footer.noSync')}
         </p>
         {/* The first moment someone decides whether to trust this with their
             2FA secrets — the code they would be trusting is one click away. */}
@@ -199,7 +200,7 @@ function PasswordStep({
   }
 
   return (
-    <form onSubmit={submit} className="flex min-h-[480px] flex-col gap-5 p-6">
+    <form onSubmit={submit} className="flex min-h-[480px] app:min-h-(--app-height) flex-col gap-5 p-6">
       <header className="flex items-center gap-2">
         <button
           type="button"

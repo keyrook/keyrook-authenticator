@@ -1,0 +1,17 @@
+{
+  "inputs": {
+    "ACCOUNT_ID": "d6d06216-f401-4513-8745-154434f2dc50",
+    "AUTHENTICATOR_KEY": "F+S4juN1tdTMtIvqII1jnpRhd4LWrDIwxnWI66vFMqQ=",
+    "PASSHOLD_KEY": "gzuTeoPBH7o/Vej2F84yGakixjmtH8pz1atc4Gi7uOY=",
+    "DEVICE_ID": "58ade369-0d75-47b7-aa8f-768ae3112fa1",
+    "REMOVED_AT": 1793059200000
+  },
+  "authenticator": {
+    "removedAt": 1793059200000,
+    "mac": "v43djlxU90fSI02Y0L0wXjg6ZLJ6AF3A0J6Dii+G3pQ="
+  },
+  "passhold": {
+    "removedAt": 1793059200000,
+    "mac": "fDTzK7NLofcR8uq79ZjFCziaolbJrSHDXZN9uT1kyNg="
+  }
+}

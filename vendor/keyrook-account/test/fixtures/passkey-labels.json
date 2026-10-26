@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "ACCOUNT_ID": "4b9e1c2d-7a3f-4e5b-9c8d-1a2b3c4d5e6f",
+    "ROOT_PKCS8": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg2hrt8SvGkaa9187LRKbxiXvmHAo+DJR4Ij3LkJphzSOhRANCAATWGBMynBZk8L1yjMZ0480ovOLHB2u682Q8ZMfpFYwYSqM2PBtTva9ucgIvWRnXi5fTgz2h6X5WM9FWuDUeIVSb",
+    "CREDENTIAL_ID": "cOlAd1lkIsvvLWanvacjBvvZcD1jKPXmfxYQqsonYCM",
+    "PRF_OUTPUT": "vxoogA6gNtOf3a6QSt3rEYtzfdZtGdb4boC6jdf71hQ="
+  },
+  "rootPublicKey": "BNYYEzKcFmTwvXKMxnTjzSi84scHa7rzZDxkx+kVjBhKozY8G1O9r25yAi9ZGdeLl9ODPaHpflYz0Va4NR4hVJs=",
+  "rootPasskeyWrap": {
+    "iv": "FnN8kZlCyk8BrdLi",
+    "ct": "m75X7jB4h9HzMhKhcZtWpVSjrdr8IhQ0cMSZhOrGpCohM7pB5imS/MRu8IXiqeAYztJLqJAprm7/CSMGHzmGYJQh8xiEaT2281Dcsdt20jEvPyvvFPxObTn60AamuC/z1xUjpr0Jlpj5LvkrHJEWvAzTTI4bU5zz1iaIbq7VSa2B8Sy/z2SqwnpNTpNs/OeoB7F6mK//XsmVjg=="
+  }
+}

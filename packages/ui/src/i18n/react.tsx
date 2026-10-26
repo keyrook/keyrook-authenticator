@@ -9,6 +9,7 @@ import { parse, pick, type Piece, type Values } from './format.js';
 import type { Locale } from './locales.js';
 import type { MessageKey } from './locales/en.js';
 import { en } from './locales/en.js';
+import { here } from './device.js';
 import { snapshot, subscribe, translate } from './runtime.js';
 
 type RichValues = Record<string, ReactNode>;
@@ -47,7 +48,8 @@ function makeTranslator(): Translator {
   t.locale = locale;
   t.rich = (key, values = {}, tags = {}) => {
     const count = typeof values.count === 'number' ? values.count : undefined;
-    const text = pick(messages[key] ?? en[key], locale, count === undefined ? undefined : { count });
+    const shown = here(key);
+    const text = pick(messages[shown] ?? en[shown], locale, count === undefined ? undefined : { count });
     return render(parse(text), locale, values, tags);
   };
   return t;

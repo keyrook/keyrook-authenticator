@@ -1,5 +1,5 @@
 import { host } from '../host.js';
-import { answered, snooze, updateRating } from '../lib/rating.js';
+import { answered, snooze, storeName, updateRating } from '../lib/rating.js';
 import { StarIcon } from '../components/icons.js';
 import { Button } from '../components/primitives.js';
 import { useT } from '../i18n/react.js';
@@ -36,7 +36,7 @@ export function RatePrompt({ onClose }: { onClose: () => void }) {
         <p className="text-[12.5px] leading-snug text-neutral-600 dark:text-neutral-300">
           {t.rich(
             'rate.body',
-            { store: store === 'Edge Add-ons' ? t('rate.store.edge') : t('rate.store.chrome') },
+            { store: t(storeName(store)) },
             { b: (chunk) => <span className="font-medium text-neutral-900 dark:text-neutral-100">{chunk}</span> },
           )}
         </p>

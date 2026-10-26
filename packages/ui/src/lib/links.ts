@@ -28,3 +28,12 @@ export const ISSUES_URL = `${SOURCE_URL}/issues`;
  * it over, deleting it — for every Keyrook app at once.
  */
 export const ACCOUNT_PAGE_URL = 'https://account.keyrook.com';
+
+/**
+ * The page's views a link opens by name, after signing in if it has to
+ * (keyrook-account's docs/console.md). The names never change; deleting the
+ * account has none.
+ */
+export type AccountPageView = 'devices' | 'signin' | 'recovery' | 'passkeys';
+
+export const accountPageUrl = (view?: AccountPageView) => (view ? `${ACCOUNT_PAGE_URL}/#${view}` : ACCOUNT_PAGE_URL);

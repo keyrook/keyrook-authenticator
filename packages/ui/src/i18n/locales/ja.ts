@@ -17,6 +17,7 @@ export const ja: Dictionary = {
   'error.recoverOnAccountPage': '回復キーは正しいですが、このアカウントのパスワードは現在アカウントページでリセットします。すべての Keyrook アプリに一度に反映されます。',
   'error.kitOnAccountPage': 'このアカウントの回復キーは現在アカウントページで作成します。すべての Keyrook アプリに一度に反映されます。',
   'error.restoreEmpty': 'このアカウントには戻せるものが残っていません。このデバイスに届く前に、別のデバイスで削除されています。',
+  'error.noAccountSheet': 'このアカウントにはまだ回復キーがありません。アカウントページで作成してください。',
   'error.recoveryKeyWrong': 'この回復キーはこのアカウントのものではありません。',
   'error.noRecoveryKit': 'この保管庫には回復キーがありません。',
   'error.syncUnavailable': 'このビルドでは同期を利用できません。',
@@ -24,6 +25,7 @@ export const ja: Dictionary = {
   'error.alreadySignedIn': 'すでにログインしています。',
   'error.signedOutElsewhere':
     'このデバイスは同期からログアウトされました。パスワードが変更されたか、別のデバイスからこのデバイスが削除されました。もう一度ログインしてください。',
+  'error.removedFromAccount': '別のデバイスがこのデバイスを Keyrook アカウントから削除したため、アカウントのコードはここから削除されました。もう一度ログインすれば戻ります。',
   'error.signOutUnsynced':
     'このブラウザでの変更の一部がまだアカウントに届いていないため、今ログアウトすると失われます。インターネットに接続して、もう一度お試しください。',
   'error.enterAccountPassword': 'アカウントのパスワードを入力してください。',
@@ -55,10 +57,10 @@ export const ja: Dictionary = {
   'error.nothingWaiting': '承認待ちのものはありません。',
   'error.pairingExpired': 'リクエストは終了しました。拒否されたか、10分が経過しました。もう一度リクエストしてください。',
   'error.pairingWrongKey':
-    '届いたキーはこのアカウントのものではありません。何も変更していません。もう一方のブラウザからやり直してください。',
-  'error.pairingForged': 'この承認は、コードを確認したブラウザから来たものではありません。',
+    '届いたキーはこのアカウントのものではありません。何も変更していません。もう一方の端末からやり直してください。',
+  'error.pairingForged': 'この承認は、コードを確認した端末から来たものではありません。',
   'error.pairingForgedAsk':
-    'この承認は、コードを確認したブラウザから来たものではありません。何も変更していません。もう一度リクエストしてください。',
+    'この承認は、コードを確認した端末から来たものではありません。何も変更していません。もう一度リクエストしてください。',
   'error.pairingEnded': 'このリクエストは終了しました。',
   'error.approveAgain': 'このリクエストの承認を最初からやり直してください。',
   'error.backupPasswordShort': 'バックアップのパスワードは8文字以上にしてください。',
@@ -76,6 +78,22 @@ export const ja: Dictionary = {
   'error.migrationNotOurs': 'Google Authenticator のエクスポートではありません。',
   'error.migrationMalformed': 'この Google Authenticator のエクスポートは壊れているか、不完全です。',
   'error.offline': '同期サーバーに接続できませんでした。接続を確認して、もう一度お試しください。',
+  'error.passkey.wrongOrigin': 'パスキーは Keyrook のページとアプリでのみ使えます。',
+  'error.passkey.notOffered': 'ここではパスキーでのログインは利用できません。',
+  'error.passkey.unchecked': 'そのパスキーを確認できませんでした。もう一度お試しください。',
+  'error.passkey.unknown': 'そのパスキーを知っている Keyrook アカウントはありません。削除された可能性があります。',
+  'error.passkey.ended': 'そのパスキーのリクエストは期限切れです。もう一度お試しください。',
+  'error.passkey.noUnlock': 'そのパスキーではこのアカウントのキーを開けません。代わりにパスワードでログインしてください。',
+  'error.passkey.noUnlockProvider': 'そのパスキーではこのアカウントのキーを開けません。代わりに Google または GitHub で続けてください。',
+  'error.passkey.masterPassword': 'マスターパスワードでロックする保管庫は、パスキーではログインできません。アカウントのパスワード、または Google か GitHub でログインしてください。',
+  'error.passkey.permission':
+    'Keyrook Authenticator が account.keyrook.com のパスキーを使うには Chrome の許可が必要です。もう一度パスキーを選んで、許可してください。',
+  'error.passkey.cancelled': 'パスキーは使われませんでした。もう一度お試しいただくか、別の方法でログインしてください。',
+  'error.passkey.failed': 'Chrome がパスキーを要求できませんでした。もう一度お試しいただくか、別の方法でログインしてください。',
+  'error.secondStep.missing': '認証アプリのコードも入力してください。',
+  'error.secondStep.wrongCode': 'そのコードは正しくありません。認証アプリにいま表示されているコードを入力してください。',
+  'error.secondStep.expired': 'そのログインは期限切れです。もう一度ログインしてください。',
+  'error.secondStep.used': 'そのコードはログインに使ったばかりです。アプリに次のコードが表示されるまでお待ちください。',
   'error.provider.refusedBy': '{provider} がログインを拒否しました。',
   'error.provider.unreachable': '{provider} に接続できませんでした。しばらくしてからもう一度お試しください。',
   'error.provider.refused': 'ログインが拒否されました。もう一度お試しください。',
@@ -90,11 +108,11 @@ export const ja: Dictionary = {
   'error.server.signinExpired': 'このログインの有効期限が切れました。もう一度お試しください。',
   'error.server.tooManyCodes': '誤ったコードが多すぎます。新しいコードをリクエストしてください。',
   'error.server.tooManyPairings':
-    'このアカウントへの参加を待っているブラウザが多すぎます。数分後にもう一度お試しください。',
+    'このアカウントへの参加を待っている端末が多すぎます。数分後にもう一度お試しください。',
   'error.server.wrongKey': 'このデバイスはアカウントのキーを持っていません。',
   'error.server.providerAccount': 'このアカウントはパスワードではなく、Google または GitHub でログインします。',
   'error.server.mailFailed': 'メールを送信できませんでした。1分後にもう一度お試しください。',
-  'error.server.pairingTaken': 'このリクエストは終了したか、別のブラウザが承認しています。',
+  'error.server.pairingTaken': 'このリクエストは終了したか、別の端末が承認しています。',
   'error.server.passwordWrong': 'パスワードが正しくありません。',
   'error.server.badCredentials': 'メールアドレスまたはパスワードが正しくありません。',
   'error.server.badCode':
@@ -153,6 +171,22 @@ export const ja: Dictionary = {
   'unlock.placeholder': 'マスターパスワード',
   'unlock.submit': 'ロック解除',
   'unlock.forgot': 'お忘れですか？ <link>回復キーを使う</link>',
+  'platformUnlock.unlock': '指紋・顔・PIN でロック解除',
+  'platformUnlock.title': '指紋・顔・PIN',
+  'platformUnlock.body': 'マスターパスワードを入力する代わりに、このコンピュータ自身の確認（Touch ID、Windows Hello、その PIN）で保管庫を開けます。パスワードでも引き続き開けられ、変更には引き続きパスワードが必要です。',
+  'platformUnlock.on': 'この保管庫は、このコンピュータ自身の確認でも開きます。マスターパスワードを外すとオフになります。',
+  'passkeyUnlock.turnOn': 'オンにする',
+  'passkeyUnlock.turnOff': 'オフにする',
+  'platformUnlock.confirm': 'このあと、コンピュータが指紋・顔・PIN を求めます。',
+  'error.passkeyUnlock.cancelled': '確認がキャンセルされたか、時間がかかりすぎました。もう一度試すか、マスターパスワードを使ってください。',
+  'error.platformUnlock.noPrf': 'このパスキーの保存先は鍵を保持できないため、保管庫を開けません。もう一度オンにして、保存先を聞かれたら別の場所を選んでください。またはマスターパスワードを使い続けてください。',
+  'error.passkeyUnlock.failed': '保管庫を開けませんでした。マスターパスワードを使い、セキュリティでもう一度オンにしてください。',
+  'securityKey.unlock': 'セキュリティ キーでロック解除',
+  'securityKey.title': 'セキュリティ キー',
+  'securityKey.body': 'マスターパスワードを入力する代わりに、USB セキュリティ キーとその PIN で保管庫を開きます。キーを持っていてその PIN を知っている人は、このコンピュータで保管庫を開けるようになります。キーをなくしても、マスターパスワードで開けます。',
+  'securityKey.on': 'この保管庫は、このコンピュータではセキュリティ キーとその PIN でも開きます。キーを持っていてその PIN を知っている人はここで開けるので、キーをなくしたらオフにしてください。マスターパスワードを外すとオフになります。',
+  'securityKey.confirm': 'このあと、セキュリティ キーを挿して PIN を入力し、キーに触れてください。2 回求めるキーもあります。',
+  'error.securityKey.noPrf': 'このセキュリティ キーは鍵を保持できないため、保管庫を開けません。2 段階ログイン専用のキーではできません。別のキーを試すか、マスターパスワードを使い続けてください。',
 
   // --- 開けなくなった保管庫 -----------------------------------------------------
   'unrecoverable.title': 'この保管庫はもう開けません',
@@ -193,6 +227,7 @@ export const ja: Dictionary = {
   'setup.password.footnote':
     '最も強力な方法です。ロック後は、パスワードなしではこのパソコン上の何も保管庫を開けません。',
   'setup.footer': 'どちらも AES-256-GCM です。いつでも切り替えられます。同期は任意で、設定から使えます。',
+  'setup.footer.noSync': 'どちらも AES-256-GCM です。設定からいつでも切り替えられます。',
   'setup.source': 'オープンソース — コードを読む',
   'common.back': '戻る',
   'setup.passwordStep.title': 'マスターパスワードを設定',
@@ -241,9 +276,9 @@ export const ja: Dictionary = {
   'vault.byName': '名前順',
   'vault.orderAdded': '追加順',
   'vault.joinRequests': {
-    other: '{count} 台のブラウザがあなたのアカウントへの参加をリクエストしています。',
+    other: '{count} 台の端末があなたのアカウントへの参加をリクエストしています。',
   },
-  'vault.joinRequestsHint': '今まさにあなた自身がログインしているブラウザだけを承認してください。',
+  'vault.joinRequestsHint': '今まさにあなた自身がログインしている端末だけを承認してください。',
   'vault.reviewInSettings': '設定で確認',
   'vault.noMatch': '「{query}」に一致するアカウントはありません。',
   'vault.forHost': '{host} 用',
@@ -335,6 +370,7 @@ export const ja: Dictionary = {
   'error.alreadyInVault': 'このアカウントはすでに保管庫にあります。',
   'error.gaSkipPeriod': 'Google Authenticator は30秒ごとのコードしか保持できません。このコードは {period} 秒です。',
   'error.gaSkipDigits': 'Google Authenticator は6桁か8桁のコードしか保持できません。このコードは {digits} 桁です。',
+  'error.gaSkipSteam': 'Google Authenticator は Steam Guard のコードを作れません。',
 
   // --- カメラでの読み取り -------------------------------------------------------
   'scan.progressBatch': '{total} 個中 {seen} 個目のコードを読み取りました — {accounts}。次のコードを見せてください。',
@@ -423,9 +459,18 @@ export const ja: Dictionary = {
   // --- 新しい回復キー -----------------------------------------------------------
   'sheet.once':
     'このキーが表示されるのは今回だけです。どこにも保存されないため、なくした場合は新しいキーを発行してください。',
+  'sheet.print': '印刷',
+  'sheet.apart': 'メールとは別の場所に保管し、自分宛てにメールで送らないでください。このキーとメールアドレスがあれば、誰かが新しいパスワードを設定してコードを開けてしまいます。',
+  'sheet.apartProvider': 'サインインに使う Google または GitHub アカウントとは別の場所に保管し、そのアカウントのメールやドライブには置かないでください。このキーとそのアカウントがあれば、誰かがコードを開けてしまいます。',
+  'sheet.kept': '保存しました',
+  'sheet.checkHeading': '保存できたか確認',
+  'sheet.checkLead': '保存したものを見て、キーのグループを2つ入力してください。グループとはハイフンで区切られた4文字のまとまりで、左から数えます。',
+  'sheet.group': 'グループ {position}',
+  'sheet.check': '確認',
+  'sheet.mismatch': 'キーの内容と一致しません。保存したものをもう一度見るか、キーを再表示して今すぐ保存してください。',
+  'sheet.showAgain': 'キーを再表示',
   'sheet.download': 'シートをダウンロード',
   'sheet.copy': 'コピー',
-  'sheet.saved': 'このパソコンがなくなっても手元に残る場所に保存しました。',
 
   // --- グループ -----------------------------------------------------------------
   'groups.title': 'グループ',
@@ -491,6 +536,7 @@ export const ja: Dictionary = {
   'accounts.digits': '{type} {digits} 桁',
   'accounts.period': ' · {seconds} 秒',
   'accounts.counter': ' · カウンター {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': '{name} を共有または移行',
   'accounts.edit': '編集',
   'common.delete': '削除',
@@ -622,6 +668,7 @@ export const ja: Dictionary = {
   'export.oneByOne.progress': '表示したアカウント',
   'export.oneByOne.position': 'アカウント {index}/{total}',
   'export.oneByOne.keys': '→ またはスペースで次へ、Esc で終了',
+  'export.steamRefused': '{app} は Steam Guard のコードを作れないため、このアカウントは取り込めません。',
   'export.print.label': '印刷または読み取り用の QR コード',
   'export.print.title': 'Keyrook Authenticator — セットアップコード',
   'export.print.body':
@@ -702,11 +749,11 @@ export const ja: Dictionary = {
   // --- 設定: 回復キー -----------------------------------------------------------
   'kit.title': '回復キー',
   'kit.provider':
-    'あなたのアカウントにはパスワードがありません。回復キーは、ログイン中のブラウザをすべて失ったときに戻るための手段で、ほかのブラウザの承認なしに新しいブラウザをアカウントに入れられます。{provider} にはこれを代わりに行うことはできません。',
+    'あなたのアカウントにはパスワードがありません。回復キーは、ログイン中の端末をすべて失ったときに戻るための手段で、ほかの端末の承認なしに新しい端末をアカウントに入れられます。{provider} にはこれを代わりに行うことはできません。',
   'kit.signedIn':
-    'あなたのパスワードは、私たちにも Google にもリセットできません。忘れたときに戻る唯一の手段が回復キーです。この保管庫、ほかのデバイス、そして新しいデバイスでのアカウントを開けます。',
+    'あなたの代わりにパスワードをリセットできる人はいません。私たちにもできません。忘れたときに戻る唯一の手段が回復キーです。この保管庫、ほかのデバイス、そして新しいデバイスでのアカウントを開けます。',
   'kit.passphrase':
-    'あなたのマスターパスワードは、私たちにも Google にもリセットできません。だからこそ他人には保管庫を開けず、忘れたときに戻る唯一の手段が回復キーになります。',
+    'あなたのマスターパスワードは誰にもリセットできません。私たちにもできません。だからこそ他人には保管庫を開けず、忘れたときに戻る唯一の手段が回復キーになります。',
   'kit.device':
     'この保管庫は、ブラウザが保管するキーでロック解除されます。そのキーが失われると（閲覧データの消去、新しいプロファイル、再インストールなど）、開けるのは回復キーだけです。',
   'kit.none': '回復キーはまだありません',
@@ -721,19 +768,19 @@ export const ja: Dictionary = {
   'kit.replacesSignedIn':
     '新しいキーを発行すると、ここでもほかのデバイスでも以前のキーは使えなくなるため、置き換えた後は古い印刷シートを捨てても安全です。',
   'kit.withoutProvider':
-    'これがないと、アカウントにログイン中のブラウザをすべて失った時点で、この保管庫のアカウントはすべて完全に失われます。',
+    'これがないと、アカウントにログイン中の端末をすべて失った時点で、この保管庫のアカウントはすべて完全に失われます。',
   'kit.withoutPassword':
     'これがないと、パスワードを忘れた時点で、この保管庫のアカウントはすべて完全に失われます。',
   'kit.withoutDevice':
     'これがないと、このブラウザが保管するキーを失った時点で、この保管庫のアカウントはすべて完全に失われます。',
   'kit.noSupport': 'サポートへの問い合わせでも元に戻せません。',
   'kit.removeProvider':
-    '削除すると、新しいブラウザをアカウントに入れられるのは、すでにログイン中のブラウザだけになります。',
+    '削除すると、新しい端末をアカウントに入れられるのは、すでにログイン中の端末だけになります。',
   'kit.removePassword': '削除すると、入る手段はパスワードだけになります。',
   'kit.removePasswordSignedIn':
     '削除すると、このデバイス、ほかのデバイス、アカウントのいずれでも、入る手段はパスワードだけになります。',
   'kit.reauth':
-    '回復キーはブラウザをアカウントに入れられるため、{provider} が先にもう一度ログインを求めます。',
+    '回復キーは端末をアカウントに入れられるため、{provider} が先にもう一度ログインを求めます。',
   'kit.passwordHint': '回復キーはアカウントをリセットできるため、変更にはパスワードが必要です。',
   'kit.removeConfirm': '回復キーを削除',
   'kit.createConfirm': 'キーを作成',
@@ -763,7 +810,7 @@ export const ja: Dictionary = {
   'account.syncNow': '今すぐ同期',
   'account.signOut': 'ログアウト',
   'account.noKitProvider':
-    'あなたのアカウントには回復キーがありません。ログイン中のブラウザをすべて失うと、アカウントを取り戻す手段はありません。私たちにも {provider} にもできません。',
+    'あなたのアカウントには回復キーがありません。ログイン中の端末をすべて失うと、アカウントを取り戻す手段はありません。私たちにも {provider} にもできません。',
   'account.noKit':
     'あなたのアカウントには回復キーがありません。パスワードを忘れてこのデバイスも失うと、アカウントを取り戻す手段はありません。私たちにも誰にもできません。',
   'account.createUnderSecurity': '「セキュリティ」で作成',
@@ -784,11 +831,34 @@ export const ja: Dictionary = {
   'accountPage.bodyNoRoot': 'パスワードと削除はアカウントページにあります。回復キーは、ほかの Keyrook アプリがこのアカウントを使うまで、ここの「セキュリティ」で作成します。',
   'accountPage.bodyProvider': '回復キー、やり直し、削除はアカウントページにあり、すべての Keyrook アプリに一度に反映されます。',
   'accountPage.bodyNoRootProvider': '削除はアカウントページにあります。回復キーは、ほかの Keyrook アプリがこのアカウントを使うまで、ここの「セキュリティ」で作成します。',
+  'sheetCheck.lead': '保存した回復キーを一度だけ入力してください。このアプリが、そのキーでコードを取り戻せることを確認できます。確認はこのデバイス上で行われ、キーはどこにも送信されません。',
+  'sheetCheck.submit': '確認する',
+  'sheetCheck.lost': 'なくした、または一度も持っていない場合は、アカウントページで新しく作成してください。',
+  'accountPage.noSheetYet': 'あなたの回復キーが Keyrook Authenticator を守っていることを示すものはまだありません。回復キーがないままパスワードを忘れると、コードを失うおそれがあります。「セキュリティ」で一度入力するか、アカウントページで新しく作成してください。',
+  'account.checkUnderSecurity': '「セキュリティ」で確認する',
   'accountPage.open': 'アカウントページを開く',
   'accountPage.recoveryKey': 'サインイン中の保管庫の回復キーは Keyrook アカウントのものです。作成と変更はアカウントページで行います。',
   'accountPage.sheetProtects': 'アカウントの回復キーが Keyrook Authenticator を守っています',
   'accountPage.sheetUnknown': 'Keyrook Authenticator を守っているかはまだ不明です',
-  'accountPage.noSheet': 'このアカウントの回復キーが Keyrook Authenticator を守っていることを示すものはまだありません。回復キーがないままパスワードを忘れると、コードを失うおそれがあります。アカウントページで作成するか、お持ちのキーを確認してください。',
+  'secondStep.title': 'もう 1 ステップ',
+  'secondStep.lead': 'Keyrook アカウントで 2 段階目の確認が求められています。認証アプリに表示される 6 桁のコードを入力してください。',
+  'secondStep.field': 'コードまたは回復キー',
+  'secondStep.hint': '認証アプリをなくした場合は、代わりにアカウントの回復キーを入力してください。',
+  'secondStep.passkey': '代わりにパスキーを使う',
+  'secondStep.where': '2 段階ログインのオン・オフは account.keyrook.com で行います。',
+  'secondStep.ownerLead': 'この操作にもアカウントの 2 段階目の確認が必要です。認証アプリのコードか、回復キーを入力してください。',
+  'secondStep.nextCode': 'コードは 1 回しか使えません。いまコードでログインしたばかりなら、アプリに次のコードが表示されるまでお待ちください。',
+  'secondStepTip.title': '2 段階ログイン',
+  'secondStepTip.suggest': 'このアカウントがほかの端末でログインするたびに、コードも求めるようにできます。account.keyrook.com でオンにして、コードはここに保存しましょう。そのページで Keyrook Authenticator を開き、「{scan}」を選びます。',
+  'secondStepTip.kept': 'このアカウント自身のログインコードはここに保存されています。ログインしているすべての端末にあります。',
+  'secondStepTip.warning': 'それを保存している端末がすべて失われた場合は、コードの代わりに回復キーでログインします。回復キーは別の場所に保管してください。',
+  'secondStepTip.open': 'オンにする',
+  'signin.providerHasPassword': '{provider} で本人であることが確認されました。{email} にはパスワードもあります。ここでコードを開くには、そのパスワードを入力してください。',
+  'provider.addOnPage': 'Google や GitHub でもログインするには、アカウントページにパスワードでログインして、そこで追加してください。',
+  'startOver.title': 'Keyrook アカウントは {date} にやり直しになります',
+  'startOver.lead': '「{device}」から {date} に、メールでお送りしたコードを使ってやり直しが申請されました。新しいパスワードと新しいキーになり、アプリは空の状態から始まります。',
+  'startOver.ifYou': 'ご自身で申請した場合は、何もする必要はありません。心当たりがない場合は、今すぐ取り消してから、メールのパスワードを変更してください。申請した人はあなたのメールを読むことができます。',
+  'startOver.cancel': '心当たりがない — 取り消す',
   'kept.title': 'アカウントのやり直し前から保管されているもの',
   'kept.body': 'このアカウントをやり直したとき、Keyrook Authenticator のデータは {date} まで保管されました。当時のアカウントのパスワードか、当時の回復キーで元に戻せます。',
   'kept.password': '当時のパスワード',
@@ -796,7 +866,7 @@ export const ja: Dictionary = {
   'kept.usePassword': '当時のパスワードを使う',
   'kept.useRecoveryKey': '当時の回復キーを使う',
   'kept.bring': '元に戻す',
-  'kept.done': 'この保管庫に戻り、ほかのブラウザにも送られています。',
+  'kept.done': 'この保管庫に戻り、ほかの端末にも送られています。',
   'error.keys.awaitingConfirmation': '別の Keyrook アプリがこのアカウントのキーを置き換えましたが、Keyrook Authenticator のキーはまだ追従していません。アカウントページで確認してから、もう一度サインインしてください。',
   'password.changedBoth':
     'アカウントとこの保管庫のパスワードを変更しました。ほかのデバイスでは、新しいパスワードで再ログインを求められます。',
@@ -810,9 +880,12 @@ export const ja: Dictionary = {
   'password.formTitle': 'アカウントのパスワードを変更',
   'devices.title': 'ログイン中のデバイス',
   'devices.description':
-    'もう使っていない、または手元にないデバイスをログアウトします。そのデバイスはすでに同期した内容を同じパスワードで保持しますが、新しいものは何も受け取りません。',
+    'もう使っていない、または手元にないデバイスをログアウトします。最新の Keyrook Authenticator を使っていれば、次に接続したときにこのアカウントのコードを自分で削除し、一度も送信していないものだけを残します。それまで、または二度と接続しない場合は、持っていた内容を同じパスワードで保持します。',
+  'devices.descriptionProvider':
+    'もう使っていない、または手元にないデバイスをログアウトします。最新の Keyrook Authenticator を使っていれば、次に接続したときにこのアカウントのコードを自分で削除し、一度も送信していないものだけを残します。それまで、または二度と接続しない場合は、持っていた内容を保管庫がそこでロックされているのと同じ方法でロックしたまま保持します。',
   'devices.this': 'このデバイス',
   'devices.when': '{created} にログイン · 最終アクティブ {seen}',
+  'removed.kept': 'ここで追加・変更して、まだアカウントに届いていなかったコードはそのまま残っています。',
   'delete.row': 'アカウントを削除',
   'delete.rowDescription':
     'サーバーが保持する暗号化コピーをすべて削除します。このデバイスの保管庫はそのまま残り、ほかのデバイスは同期を停止します。',
@@ -823,7 +896,7 @@ export const ja: Dictionary = {
   'delete.confirm': 'アカウントを削除',
 
   // --- ログイン: 最初のカード ---------------------------------------------------
-  'intro.benefit1': 'ログインしたどのブラウザでも同じコード。',
+  'intro.benefit1': 'ログインしたどの端末でも同じコード。',
   'intro.benefit2': 'ノートパソコンをなくしても壊しても、保管庫は失われません。',
   'intro.benefit3': '無料で任意です。使わなくても、このデバイスではすべてこれまでどおり動きます。',
   'intro.title': '保管庫を同期',
@@ -886,9 +959,9 @@ export const ja: Dictionary = {
     'アカウントの準備ができました。現在 {total} 件中 {done} 件がバックアップ済みで、残りは次回の同期で続きます。',
   'fresh.title': '回復キーを保存してください',
   'fresh.provider':
-    'アカウントにログイン中のブラウザをすべて失った場合、戻る唯一の手段がこのキーです。{provider} にも私たちにも、保管庫を復元することはできません。',
+    'アカウントにログイン中の端末をすべて失った場合、戻る唯一の手段がこのキーです。{provider} にも私たちにも、保管庫を復元することはできません。',
   'fresh.password':
-    'パスワードを忘れた場合、戻る唯一の手段がこのキーです。私たちにも Google にも、パスワードをリセットすることはできません。',
+    'パスワードを忘れた場合、戻る唯一の手段がこのキーです。誰にも、私たちにも、パスワードをリセットすることはできません。',
   'welcome.fromAccount': 'アカウントから {count} 件',
   'welcome.fromDevice': 'このデバイスから {count} 件を追加',
   'welcome.inSync': 'すでに同期済みです。',
@@ -912,43 +985,49 @@ export const ja: Dictionary = {
   'provider.finishInWindow': '開いた {provider} のウィンドウで完了してください。',
   'provider.confirmed': '{provider} が <b>{email}</b> を確認しました。このアドレスを使うアカウントはまだありません。',
   'provider.point1':
-    'パスワードはありません。新しいブラウザでは {provider} で続け、両方に同じコードが表示されることを確認した後、すでにログイン中のブラウザがそのブラウザを入れます。',
+    'パスワードはありません。新しい端末では {provider} で続け、両方に同じコードが表示されることを確認した後、すでにログイン中の端末がその端末を入れます。',
   'provider.point2':
-    '{provider} があなた本人であることを証明します。{provider} があなたのコードを見ることはありません。コードはここで、あなたのブラウザに残るキーで暗号化されます。',
+    '{provider} があなた本人であることを証明します。{provider} があなたのコードを見ることはありません。コードはここで、あなたの端末に残るキーで暗号化されます。',
   'provider.point3':
-    '次に回復キーを保存します。アカウントにログイン中のブラウザをすべて失ったときに戻るための手段です。{provider} には保管庫を復元できません。',
+    '次に回復キーを保存します。アカウントにログイン中の端末をすべて失ったときに戻るための手段です。{provider} には保管庫を復元できません。',
   'provider.notRight': 'アカウントが違いますか？',
   'provider.startAgain': '最初からやり直す',
+  'passkey.continue': 'パスキーで続ける',
+  'passkey.where': '<link>アカウントページ</link>の「パスキー」で追加したものです。初回は、Keyrook Authenticator に使用を許可するかを Chrome が確認します。',
   'pairing.codeLabel': 'コード {code}',
   'join.title': 'このブラウザを参加させる',
   'join.subtitle':
-    '<b>{email}</b> にはすでにアカウントがあります。そのアカウントにログイン中のブラウザから、このブラウザを承認してください。',
+    '<b>{email}</b> にはすでにアカウントがあります。そのアカウントにログイン中の端末から、このブラウザを承認してください。',
   'join.masterPassword': 'この保管庫のマスターパスワード',
   'join.masterHint': 'ここではこれまでどおりこの保管庫をロックします。アカウント自体にパスワードはありません。',
   'join.ask': '参加をリクエスト',
-  'join.step1': 'すでにログインしているブラウザで Keyrook Authenticator を開きます。リクエストはポップアップと、設定の「同期」に表示されます。',
+  'join.step1': 'すでにログインしている端末で Keyrook Authenticator を開きます。リクエストはコードの上と、設定の「同期」に表示されます。',
   'join.step2': 'このページと同じコードが表示されていることを確認してから、承認してください。',
   'join.askAgain': 'もう一度リクエスト',
-  'join.compare': 'もう一方のブラウザにもコードが表示されます。このコードとまったく同じ場合にだけ、そちらで承認してください。',
-  'join.waiting': 'ほかのブラウザを待っています…',
-  'join.noOther': 'ほかにブラウザが残っていませんか？',
+  'join.compare': 'もう一方の端末にもコードが表示されます。このコードとまったく同じ場合にだけ、そちらで承認してください。',
+  'join.waiting': 'ほかの端末を待っています…',
+  'join.noOther': 'ほかに端末が残っていませんか？',
   'join.useKey': '回復キーを使う',
   'join.wrongAccount': '{provider} で違うアカウントにログインしましたか？',
   'joinKey.subtitle':
-    'アカウント作成時に保存したキーです。ほかのブラウザがなくても、このブラウザを参加させられます。',
+    'アカウント作成時に保存したキーです。ほかの端末がなくても、このブラウザを参加させられます。',
   'joinKey.submit': 'アカウントに参加',
-  'approve.approved': '承認しました。もう一方のブラウザでまもなく保管庫が開きます。',
+  'approve.approved': '承認しました。もう一方の端末でまもなく保管庫が開きます。',
   'approve.mismatch':
     '拒否しました。今まさにあなた自身がログインしていたのでなければ、ほかの誰かがあなたの {provider} アカウントにログインできる状態です。そのアカウントのパスワードを変更し、セキュリティ設定を確認してください。',
   'approve.declined': '拒否しました。何も送信していません。',
-  'approve.title': '参加をリクエストしているブラウザ',
+  'approve.title': '参加をリクエストしている端末',
   'approve.description':
-    '各リクエストは、あなたの {provider} アカウントでたった今ログインした人からのものです。今まさにあなた自身がログインしているブラウザだけを承認してください。',
+    '各リクエストは、あなたの {provider} アカウントでたった今ログインした人からのものです。今まさにあなた自身がログインしている端末だけを承認してください。',
+  'approve.descriptionAny':
+    '各リクエストは、あなたの Google または GitHub アカウントでたった今ログインした人からのものです。今まさにあなた自身がログインしている端末だけを承認してください。',
+  'approve.mismatchAny':
+    '拒否しました。今まさにあなた自身がログインしていたのでなければ、ほかの誰かがあなたの Google または GitHub アカウントにログインできる状態です。そのアカウントのパスワードを変更し、セキュリティ設定を確認してください。',
   'approve.askedAt': '{time} にリクエスト',
   'approve.review': '確認',
   'approve.deny': '拒否',
   'approve.question':
-    'リクエストしているブラウザに、まったく同じコードが表示されていますか？ 違う場合は、ほかの誰かが入ろうとしています。',
+    'リクエストしている端末に、まったく同じコードが表示されていますか？ 違う場合は、ほかの誰かが入ろうとしています。',
   'approve.matches': '一致する — 参加させる',
   'approve.doesNotMatch': '一致しない',
 
@@ -961,7 +1040,7 @@ export const ja: Dictionary = {
   'nav.sync': '同期',
   'nav.general': '一般',
   'nav.needsAttention': '対応が必要です',
-  'sync.description': 'サインインしたすべてのブラウザで同じコードを。送信前にこの端末で暗号化されます。',
+  'sync.description': 'サインインしたすべての端末で同じコードを。送信前にこの端末で暗号化されます。',
   'backup.description': '暗号化したコピーを保存する、アカウントを取り込む、別のアプリへ移す。',
   'backup.choice.backup.title': 'バックアップ',
   'backup.choice.backup.body': '自分で決めたパスワードで保護される暗号化ファイル。',
@@ -975,15 +1054,15 @@ export const ja: Dictionary = {
   'general.inBrowser': 'ブラウザ内',
   'general.autofillHint': 'ログインページでポップアップを開くと、一致するコードを提案します。読み取るのはそのタブだけです。',
   'vault.signInToSync': 'ログインして同期',
-  'vault.empty.signIn': '別のブラウザで Keyrook Authenticator をお使いですか？<link>ログイン</link>すると、ここにコードを取り込めます。',
+  'vault.empty.signIn': '別の端末で Keyrook Authenticator をお使いですか？<link>ログイン</link>すると、ここにコードを取り込めます。',
   'setup.haveAccount': 'すでに Keyrook Authenticator をお使いですか？<link>ログイン</link>すると、ここにコードを取り込めます。',
   'popup.signInOpensTab': '新しいタブで開き、設定画面で完了します。',
   'error.backupWrongPassword': 'このパスワードではファイルを開けません。',
-  'error.foreign.steam': 'Steam Guard のコードはまだインポートできません。',
+  'error.foreign.steamFolder': 'Steam Desktop Authenticator の maFiles フォルダにあるファイルをまとめて選んでください（manifest.json とその横の .maFile ファイル）。',
   'error.foreign.locked': 'このエクスポートは Keyrook Authenticator では開けない方式でパスワード保護されています。パスワードなしで書き出し直してください。',
   'import.lockedFrom': '{app} がこのエクスポートをパスワードで保護しています。{app} で設定したパスワードを入力してください。',
   'import.fromApps':
-    'Aegis、2FAS、Bitwarden、Proton、Ente Auth、andOTP、FreeOTP+、Authenticator 拡張機能、Google Authenticator のエクスポート、さらに Apple のパスワード、1Password などのパスワード管理アプリの CSV にも対応しています。',
+    'Aegis、2FAS、Bitwarden、Proton、Ente Auth、andOTP、FreeOTP+、Steam Desktop Authenticator、Authenticator 拡張機能、Google Authenticator のエクスポート、さらに Apple のパスワード、1Password などのパスワード管理アプリの CSV にも対応しています。',
   'shortcut.open': 'Keyrook Authenticator を開く',
   'shortcut.fill': 'このページのコードを入力',
   'shortcut.fillHint': 'そのサイトに属するアカウントが1つだけのときに入力します。それ以外は一覧を開きます。',
@@ -991,4 +1070,51 @@ export const ja: Dictionary = {
   'vault.shortcutHint': '{keys} で、これを開かずに入力できます。',
   'import.csvWarning': 'このファイルにはパスワードがそのまま入っています。読み取ったのは2段階認証の鍵だけで、ほかは何も保存しません。終わったらファイルを削除してください。',
   'import.noKeysInCsv': 'このファイルには2段階認証の鍵がなく、パスワードだけです。',
+  'crash.title': '問題が発生しました',
+  'crash.body':
+    'この画面で問題が起きたため、表示が止まりました。保存されたアカウントには影響ありません。たいていは再読み込みすると元に戻ります。',
+  'crash.reload': '再読み込み',
+  'setup.device.description.phone': 'シークレットは、このスマートフォンが保管するキーで暗号化されます。覚えることも入力することもありません。',
+  'setup.device.footnote.phone': 'アプリのファイルがコピーされても守られます。このスマートフォンのロックを解除できる人からは守れません。',
+  'setup.password.footnote.phone': '最も強力な方法です。ロック後は、パスワードなしではこのスマートフォン上の何も保管庫を開けません。',
+  'unrecoverable.why.phone':
+    '暗号化キーはこのスマートフォンが保管していましたが、失われました。多くの場合、アプリのデータの消去、アプリの再インストール、または保管庫が別のスマートフォンのバックアップから来たことが原因です。そのキーがなければ、保存されたアカウントは私たちを含め誰にも復号できません。',
+  'vault.empty.body.phone': 'サイトに2段階認証を設定するための QR コードが表示されたら、このスマートフォンのカメラで読み取ってください。',
+  'add.camera.description.phone': '別の画面に表示したコード用です。Google Authenticator のエクスポートにも使えます。',
+  'add.fromGoogle.phone':
+    '別のスマートフォンの Google Authenticator から移行しますか？ そちらでアカウントをエクスポートし、表示されたコードをこのスマートフォンのカメラで読み取ってください。複数表示される場合は、1つずつ行ってください。',
+  'camera.noCamera.phone': 'このスマートフォンはアプリにカメラを提供していません。',
+  'camera.blocked.phone': 'アプリにカメラの使用が許可されていません。スマートフォンの設定で許可するか、別の方法でアカウントを追加してください。',
+  'camera.none.phone': 'このスマートフォンにカメラが見つかりません。',
+  'security.languageBrowser.phone': 'スマートフォンの言語（{language}）',
+  'protect.removeWarning.phone':
+    '保管庫は暗号化されたままですが、アプリを開くたびに自動的にロック解除されます。このスマートフォンのロックを解除できる人なら誰でもコードを見られるようになります。',
+  'kit.device.phone':
+    'この保管庫は、スマートフォンが保管するキーでロック解除されます。そのキーが失われると（アプリのデータの消去、再インストール、新しいスマートフォンなど）、開けるのは回復キーだけです。',
+  'kit.withoutDevice.phone': 'これがないと、このスマートフォンが保管するキーを失った時点で、この保管庫のアカウントはすべて完全に失われます。',
+  'security.description.phone': 'この保管庫の開き方と、このスマートフォンを失ったときに戻る方法。',
+  'security.deviceKeyHint.phone': '入力は不要です。このスマートフォンのロックを解除できる人なら誰でも開けます。',
+  'general.description.phone': 'アプリの見た目と動作、そして提供元について。',
+  'about.securityModelDescription.phone': 'アプリが保証すること、保証しないこと。',
+  'about.logos.description.phone':
+    'ロゴはアプリに組み込まれており、取得することはありません。ネットワークにロゴを求めれば、応答した側にあなたが2段階認証を使っているサービスが伝わってしまいます。',
+  'about.fact.access.title.phone': 'カメラだけ、読み取るときだけ',
+  'about.fact.access.body.phone': 'アプリが求める権限はカメラだけで、それもコードを読み取ると決めたときだけです。カメラに映ったものがスマートフォンの外に出ることはありません。',
+  'about.fact.keys.body.phone':
+    'アカウントはデータキーで暗号化され、そのデータキー自体もラップされています。マスターパスワードがある場合、ラップ用のキーは PBKDF2（600,000 回）から導出され、ロック解除中のメモリ内にしか存在しません。ない場合は、スマートフォン自身のキーストアで封印されたキーなので、アプリのファイルをコピーしても保管庫は開けません。',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Google Authenticator のエクスポートのような大きなコードは、ここではカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンのカメラアプリで撮影し、「QR 画像をアップロード」を使ってください。',
+  'import.noNativeReader.phone':
+    'Google Authenticator のエクスポートのような大きなコードは、ここではカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンのカメラアプリで各コードを撮影し、「ファイルを選択」ですべて選んでください。',
+  'error.signOutUnsynced.phone': 'このスマートフォンでの変更の一部がまだアカウントに届いていないため、今ログアウトすると失われます。インターネットに接続して、もう一度お試しください。',
+  'account.signOutNote.phone': 'ログアウトすると、このスマートフォンからコードが削除されます。コードは Keyrook アカウントに残っているので、もう一度ログインすれば戻ります。',
+  'secondStepTip.suggest.phone':
+    'このアカウントがほかの端末でログインするたびに、コードも求めるようにできます。account.keyrook.com でオンにして、コードはここに保存しましょう。このアプリでアカウントを追加し、そのページに表示される QR コードを読み取ります。',
+  'intro.benefit2.phone': 'スマートフォンをなくしても壊しても、保管庫は失われません。',
+  'provider.finishInWindow.phone': 'ブラウザで開いた {provider} のページで完了してください。',
+  'join.title.phone': 'このスマートフォンを参加させる',
+  'join.subtitle.phone': '<b>{email}</b> にはすでにアカウントがあります。そのアカウントにログイン中の端末から、このスマートフォンを承認してください。',
+  'joinKey.subtitle.phone': 'アカウント作成時に保存したキーです。ほかの端末がなくても、このスマートフォンを参加させられます。',
+  'facts.autofill.phone': 'QR 読み取り',
 };

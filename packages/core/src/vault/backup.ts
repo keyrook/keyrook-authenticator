@@ -10,7 +10,7 @@ import {
   wrapDataKey,
 } from '@keyrook/account';
 import { isMigrationUri, parseMigrationUri } from '../otp/migration.js';
-import { DEFAULT_OTP_PARAMS } from '../otp/types.js';
+import { DEFAULT_OTP_PARAMS, STEAM_PARAMS } from '../otp/types.js';
 import { buildOtpUri, parseOtpUri } from '../otp/uri.js';
 import { canonicalSecret, isValidBase32 } from '../util/base32.js';
 import { utf8 } from '../util/bytes.js';
@@ -172,6 +172,9 @@ export function sanitiseImportedItems(incoming: readonly Partial<VaultItem>[]): 
     if (item.digits < 6 || item.digits > 10) item.digits = DEFAULT_OTP_PARAMS.digits;
     if (!Number.isFinite(item.period) || item.period <= 0) item.period = DEFAULT_OTP_PARAMS.period;
     if (!Number.isInteger(item.counter) || item.counter < 0) item.counter = 0;
+    // Steam's settings are fixed, and its five digits are what keep an older
+    // build from showing a numeric code for it (STEAM_PARAMS).
+    if (item.type === 'steam') Object.assign(item, STEAM_PARAMS);
 
     // Two items sharing an id break every lookup that keys on it.
     if (seen.has(item.id)) item.id = newId();
@@ -271,7 +274,9 @@ export function exportBitwardenJson(items: VaultItem[], groups: Group[]): string
       uris: item.domains.map((domain) => ({ match: null, uri: `https://${domain}` })),
       username: item.label || null,
       password: null,
-      totp: buildOtpUri(item),
+      // Bitwarden keeps Steam Guard as `steam://` and the key, and reads an
+      // otpauth://steam/ link as nothing it knows.
+      totp: item.type === 'steam' ? `steam://${canonicalSecret(item.secret)}` : buildOtpUri(item),
     },
     collectionIds: null,
     creationDate: new Date(item.createdAt).toISOString(),

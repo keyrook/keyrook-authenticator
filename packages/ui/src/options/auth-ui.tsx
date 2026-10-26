@@ -1,7 +1,9 @@
-import { useState, type ReactNode } from 'react';
+import { useContext, useState, type ReactNode } from 'react';
 import { ArrowLeftIcon } from '../components/icons.js';
 import { errorText } from '../i18n/error-text.js';
 import { translate } from '../i18n/runtime.js';
+import { useBack } from '../lib/back.js';
+import { BackInHeader } from './Section.js';
 
 /*
  * The pieces every sign-in card is made of, shared by the email forms and the
@@ -72,6 +74,10 @@ export function FormShell({
   children: ReactNode;
   onSubmit: () => void;
 }) {
+  // A step of a sign-in is a page of its own: the phone's back, and a phone's
+  // header arrow, go back one step, not out of Sync.
+  useBack(true, onBack);
+  const backInHeader = useContext(BackInHeader);
   return (
     <form
       onSubmit={(event) => {
@@ -81,14 +87,16 @@ export function FormShell({
       className="flex flex-col gap-5"
     >
       <div className="flex flex-col gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          aria-label={translate('common.back')}
-          className="-ms-1.5 grid h-8 w-8 place-items-center rounded-lg text-[17px] text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
-        >
-          <ArrowLeftIcon />
-        </button>
+        {!backInHeader && (
+          <button
+            type="button"
+            onClick={onBack}
+            aria-label={translate('common.back')}
+            className="-ms-1.5 grid h-8 w-8 place-items-center rounded-lg text-[17px] text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
+          >
+            <ArrowLeftIcon />
+          </button>
+        )}
         <Heading title={title} subtitle={subtitle} />
       </div>
       {children}

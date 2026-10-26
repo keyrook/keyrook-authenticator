@@ -11,6 +11,10 @@
 import {
   adoptDataKey,
   DecryptionError,
+  deriveKeyCheck,
+  deriveRecoveryAuthHash,
+  isWellFormedRecoveryKey,
+  openRootWithRecoveryKey,
   openArchivedKey,
   readArchivedRecords,
   recordToItem,
@@ -21,18 +25,21 @@ import {
   replaceProductKey,
   unwrapDataKey,
   updateAccount,
+  SyncHttpError,
   type AccountKeys,
+  type AccountKeysResponse,
   type AccountKeyState,
   type HttpSyncAdapter,
   type Keyring,
   type LoginResponse,
+  type PendingStartOver,
   type ProductKey,
   type UnlockedVault,
   type VaultData,
   type VaultFile,
 } from '@authx/core';
 import { platform } from './platform.js';
-import { adapter, PRODUCT } from './sync.js';
+import { adapter, noteSessionAccount, PRODUCT } from './sync.js';
 import { fail } from '@authx/ui/i18n/errors.js';
 import type { KeptArchive } from '@authx/ui/lib/protocol.js';
 
@@ -122,8 +129,27 @@ export async function openAccountKey(
 
 const CHECKED_AT = 'authx.keysCheckedAt';
 const DUE = 'authx.keyReplaceDue';
-/** How often a signed-in device asks whether its key must be replaced. */
+const WAITING = 'authx.startOverWaiting';
+/** How often a signed-in device asks whether its key must be replaced, or a start over waits. */
 const CHECK_EVERY_MS = 60 * 60 * 1000;
+
+/** The last answer about a start over, for the account signed in as `email` then. */
+interface Waiting {
+  email: string | null;
+  at: number;
+  pending: PendingStartOver | null;
+}
+
+/** What the server holds for the account, with what it says is waiting kept for the pages. */
+async function askAccount(data: VaultData): Promise<AccountKeysResponse> {
+  const held = await adapter().accountKeys();
+  await noteSessionAccount(held.accountId);
+  // A server from before 27 October 2026 never makes a start over wait, and
+  // does not say.
+  const waiting: Waiting = { email: data.account.email, at: Date.now(), pending: held.pendingStartOver ?? null };
+  await platform().memory.set(WAITING, waiting);
+  return held;
+}
 
 /** Remembers, for this browser session, that the account asked for a new key. */
 export async function markReplacementDue(due: boolean): Promise<void> {
@@ -141,7 +167,7 @@ export async function replacementDue(data: VaultData): Promise<boolean> {
   if ((await platform().memory.get(DUE)) === true) return true;
   const checkedAt = (await platform().memory.get(CHECKED_AT)) as number | undefined;
   if (checkedAt !== undefined && Date.now() - checkedAt < CHECK_EVERY_MS) return false;
-  const held = await adapter().accountKeys();
+  const held = await askAccount(data);
   await platform().memory.set(CHECKED_AT, Date.now());
   // Another account, another root or no key of ours: not one this device
   // pinned, so not one it acts on here. Signing in again sorts it out.
@@ -149,6 +175,34 @@ export async function replacementDue(data: VaultData): Promise<boolean> {
     held.accountId === state.accountId && held.root?.publicKey === state.root && held.box?.mustReplace === true;
   await markReplacementDue(due);
   return due;
+}
+
+/**
+ * A start over asked for with the account's email alone, still waiting its
+ * week. Whoever holds the inbox can ask for one; besides the account page, a
+ * device still signed in is the only place it can be stopped, so the popup
+ * asks too — at most hourly, unless `fresh`. An answer for another address
+ * is never shown: the device may have signed in to another account since.
+ */
+export async function startOverWaiting(data: VaultData, fresh: boolean): Promise<PendingStartOver | null> {
+  const known = (await platform().memory.get(WAITING)) as Waiting | undefined;
+  if (!fresh && known && known.email === data.account.email && Date.now() - known.at < CHECK_EVERY_MS) {
+    return known.pending;
+  }
+  return (await askAccount(data)).pendingStartOver ?? null;
+}
+
+/** Cancels the start over waiting. Nothing then changes on the account. */
+export async function cancelStartOver(data: VaultData): Promise<void> {
+  try {
+    await adapter().cancelStartOver();
+  } catch (error) {
+    // Nothing waiting: another device cancelled it first, which is what was
+    // asked here too.
+    if (!(error instanceof SyncHttpError && error.status === 404)) throw error;
+  }
+  const waiting: Waiting = { email: data.account.email, at: Date.now(), pending: null };
+  await platform().memory.set(WAITING, waiting);
 }
 
 /**
@@ -209,6 +263,54 @@ export function settleKeys(data: VaultData): VaultData {
   const { previousKey: _dropped, ...kept } = state;
   void _dropped;
   return updateAccount(data, { keys: kept });
+}
+
+/**
+ * The account's recovery key, typed here once, recorded as protecting this
+ * app. Only this app can record it: the mark is in its pin, sealed under its
+ * own key, which neither the server nor the account page holds. So an account
+ * made on account.keyrook.com or by another app reads "not known" here until
+ * the sheet is typed in this app, whatever the page shows.
+ *
+ * The key opens the root on this device, from the wrap the server keeps; it
+ * is never sent, only the proof of it the server has held since it was made. The root must open this app's box to a key that is this
+ * vault's own — a server handing over another account's wrap, or another
+ * root, gets nothing recorded.
+ */
+export async function confirmRecoveryKey(data: VaultData, dataKey: CryptoKey, recoveryKey: string): Promise<VaultData> {
+  const state = data.account.keys;
+  // Without a root the recovery key is this app's own kit, made under Security.
+  if (!state) fail('error.kitOnAccountPage');
+  if (!isWellFormedRecoveryKey(recoveryKey)) fail('error.recoveryKeyMalformed');
+  const api = adapter();
+  const held = await api.accountKeys();
+  if (held.accountId !== state.accountId) throw new Error('The server answered for another account.');
+  if (!held.root?.recoveryWrap) fail('error.noAccountSheet');
+
+  let root;
+  try {
+    root = await openRootWithRecoveryKey(held.root.recoveryWrap, recoveryKey, state.accountId);
+  } catch (error) {
+    if (error instanceof DecryptionError) fail('error.recoveryKeyWrong');
+    throw error;
+  }
+  const opened = await openProductKey(api, {
+    accountId: state.accountId,
+    product: PRODUCT,
+    unlockWith: { root },
+    pinned: { root: state.root },
+    recoveryKeyTyped: true,
+  });
+  if (opened.status !== 'open') throw new Error('The server reported an account key other than the one that opened.');
+  if ((await deriveKeyCheck(opened.productKey.key)) !== (await deriveKeyCheck(dataKey))) {
+    throw new Error('The server reported an account key other than the one that opened.');
+  }
+  // The server notes the day, only to remind people to look for the key
+  // again; what counts here is the pin just written. So a failure costs a
+  // reminder and nothing more — and a server from before 27 October 2026
+  // has no such route at all.
+  await api.recoveryChecked({ rootRecoveryAuthHash: await deriveRecoveryAuthHash(recoveryKey) }).catch(() => undefined);
+  return updateAccount(data, { keys: keyStateOf(opened.productKey, state.previousKey) });
 }
 
 /** What the account kept of this app's from before it started over, if anything. */

@@ -11,7 +11,8 @@
  * name — the privacy policy lists it.
  */
 
-import { host } from '../host.js';
+import { host, type StoreListing } from '../host.js';
+import type { MessageKey } from '../i18n/locales/en.js';
 
 const RATING_KEY = 'authx.rating';
 
@@ -81,3 +82,12 @@ export async function updateRating(change: (state: RatingState) => RatingState):
   const next = change(await loadRating());
   await host().preferences.set(RATING_KEY, next);
 }
+
+const STORE_NAMES = {
+  chrome: 'rate.store.chrome',
+  edge: 'rate.store.edge',
+  play: 'rate.store.play',
+} as const satisfies Record<StoreListing['store'], MessageKey>;
+
+/** The store a copy came from, as a sentence names it: "the Chrome Web Store". */
+export const storeName = (store: StoreListing['store']): MessageKey => STORE_NAMES[store];

@@ -7,7 +7,7 @@ import {
   type ProviderStartResult,
   type SignInResult,
 } from '../lib/protocol.js';
-import { PRIVACY_URL } from '../lib/links.js';
+import { PRIVACY_URL, accountPageUrl } from '../lib/links.js';
 import { ACCOUNT_FRAGMENT } from '../lib/deep-link.js';
 import { host } from '../host.js';
 import { BRAND_ICONS } from '../components/brand-icons.js';
@@ -15,7 +15,8 @@ import { PasswordField } from '../components/password.js';
 import { Button, Callout, Field, Spinner, cx } from '../components/primitives.js';
 import { Section } from './Section.js';
 import { Footnote, FormShell, TextLink, useSubmit } from './auth-ui.js';
-import { errorText } from '../i18n/error-text.js';
+import { errorKey, errorText } from '../i18n/error-text.js';
+import type { MessageKey } from '../i18n/locales/en.js';
 import { useT } from '../i18n/react.js';
 import { BackgroundError } from '../lib/protocol.js';
 
@@ -32,6 +33,24 @@ export const providerLabel = (provider: SignInProvider) => (provider === 'github
 const cancelled = (cause: unknown) => cause instanceof BackgroundError && cause.key === 'error.signinCancelled';
 
 const message = (cause: unknown) => (errorText(cause));
+
+/**
+ * Google or GitHub refused because the address has an account with a
+ * password: they are added to it on the account page, signed in there with
+ * the password (keyrook-account's S20). Said under that refusal.
+ */
+export function AddOnAccountPage({ errorKey: key }: { errorKey: MessageKey | undefined }) {
+  const t = useT();
+  if (key !== 'error.server.emailTakenPassword') return null;
+  return (
+    <p className="mt-1.5">
+      {t('provider.addOnPage')}{' '}
+      <a href={accountPageUrl('signin')} target="_blank" rel="noreferrer" className="font-medium underline underline-offset-2">
+        {t('accountPage.open')}
+      </a>
+    </p>
+  );
+}
 
 /**
  * Google's sign-in button has to carry its four-colour mark, not a single-tone
@@ -55,6 +74,14 @@ export function ProviderMark({ provider, className = 'h-[18px] w-[18px]' }: { pr
     </svg>
   );
 }
+
+/** How "Continue with …" looks: Google, GitHub and a passkey alike. */
+export const CONTINUE_BUTTON = cx(
+  'relative inline-flex h-10 w-full items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-colors select-none',
+  'border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-50 active:bg-neutral-100',
+  'dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800',
+  'disabled:cursor-not-allowed disabled:opacity-60',
+);
 
 /**
  * "Continue with …", one per provider the server offers.
@@ -80,7 +107,7 @@ export function ProviderButtons({
 }) {
   const t = useT();
   const [busy, setBusy] = useState<SignInProvider | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ text: string; key: MessageKey | undefined } | null>(null);
 
   useEffect(() => {
     // Back from the provider's page, the browser can show this page as it
@@ -113,7 +140,7 @@ export function ProviderButtons({
       }
       onStarted?.(provider, await send({ type: 'provider/start', provider }));
     } catch (cause) {
-      if (!cancelled(cause)) setError(message(cause));
+      if (!cancelled(cause)) setError({ text: message(cause), key: errorKey(cause) });
     }
     setBusy(null);
   }
@@ -126,12 +153,7 @@ export function ProviderButtons({
           type="button"
           disabled={busy !== null}
           onClick={() => void start(provider)}
-          className={cx(
-            'relative inline-flex h-10 w-full items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-colors select-none',
-            'border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-50 active:bg-neutral-100',
-            'dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800',
-            'disabled:cursor-not-allowed disabled:opacity-60',
-          )}
+          className={CONTINUE_BUTTON}
         >
           {busy === provider ? <Spinner /> : <ProviderMark provider={provider} />}
           {t('provider.continue', { provider: providerLabel(provider) })}
@@ -142,7 +164,12 @@ export function ProviderButtons({
           {t('provider.finishInWindow', { provider: providerLabel(busy) })}
         </p>
       )}
-      {error && <Callout tone="danger">{error}</Callout>}
+      {error && (
+        <Callout tone="danger">
+          {error.text}
+          <AddOnAccountPage errorKey={error.key} />
+        </Callout>
+      )}
     </div>
   );
 }
@@ -508,7 +535,12 @@ function JoinWithRecoveryKey({
  * request nobody here made means that account is someone else's to use too —
  * the code check is what keeps them out of the vault.
  */
-export function PairingRequests({ provider }: { provider: SignInProvider }) {
+export function PairingRequests({
+  provider,
+}: {
+  /** Unknown on a browser that signed in with a passkey, which does not say which provider. */
+  provider: SignInProvider | undefined;
+}) {
   const t = useT();
   const [requests, setRequests] = useState<PairingSummary[]>([]);
   const [reviewing, setReviewing] = useState<{ id: string; code: string } | null>(null);
@@ -563,7 +595,7 @@ export function PairingRequests({ provider }: { provider: SignInProvider }) {
         mismatch
           ? {
               tone: 'warning',
-              text: t('approve.mismatch', { provider: providerLabel(provider) }),
+              text: provider ? t('approve.mismatch', { provider: providerLabel(provider) }) : t('approve.mismatchAny'),
             }
           : { tone: 'info', text: t('approve.declined') },
       );
@@ -575,7 +607,7 @@ export function PairingRequests({ provider }: { provider: SignInProvider }) {
   return (
     <Section
       title={t('approve.title')}
-      description={t('approve.description', { provider: providerLabel(provider) })}
+      description={provider ? t('approve.description', { provider: providerLabel(provider) }) : t('approve.descriptionAny')}
     >
       <div className="flex flex-col divide-y divide-neutral-100 dark:divide-neutral-900">
         {notice && (

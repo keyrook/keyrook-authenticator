@@ -17,6 +17,7 @@ export const it: Dictionary = {
   'error.recoverOnAccountPage': 'La chiave di recupero è giusta, ma la password di questo account ora si reimposta nella pagina dell’account, per tutte le app Keyrook insieme.',
   'error.kitOnAccountPage': 'La chiave di recupero di questo account ora si crea nella pagina dell’account, per tutte le app Keyrook insieme.',
   'error.restoreEmpty': 'Di questo account non resta nulla da recuperare: è stato eliminato su un altro dispositivo prima che questo lo avesse mai.',
+  'error.noAccountSheet': 'Questo account non ha ancora una chiave di recupero. Creane una nella pagina dell’account.',
   'error.recoveryKeyWrong': 'Questa chiave di recupero non corrisponde a questo account.',
   'error.noRecoveryKit': 'Questa cassaforte non ha una chiave di recupero.',
   'error.syncUnavailable': 'La sincronizzazione non è disponibile in questa versione.',
@@ -24,6 +25,8 @@ export const it: Dictionary = {
   'error.alreadySignedIn': 'Accesso già effettuato.',
   'error.signedOutElsewhere':
     'Questo dispositivo è stato disconnesso dalla sincronizzazione: la password è stata cambiata o il dispositivo è stato rimosso da un altro. Accedi di nuovo.',
+  'error.removedFromAccount':
+    'Un altro dispositivo ha rimosso questo dal tuo account Keyrook, quindi i codici dell’account sono stati tolti da qui. Accedi di nuovo per riaverli.',
   'error.signOutUnsynced':
     'Alcune modifiche fatte in questo browser non sono ancora arrivate al tuo account e uscire ora le farebbe perdere. Connettiti a Internet e riprova.',
   'error.enterAccountPassword': 'Inserisci la password del tuo account.',
@@ -55,10 +58,10 @@ export const it: Dictionary = {
   'error.nothingWaiting': 'Non c’è nulla in attesa di approvazione.',
   'error.pairingExpired': 'La richiesta è terminata: è stata rifiutata o sono passati dieci minuti. Chiedi di nuovo.',
   'error.pairingWrongKey':
-    'La chiave arrivata non appartiene a questo account. Non è cambiato nulla. Riprova dall’altro browser.',
-  'error.pairingForged': 'Questa approvazione non viene dal browser di cui hai verificato il codice.',
+    'La chiave arrivata non appartiene a questo account. Non è cambiato nulla. Riprova dall’altro dispositivo.',
+  'error.pairingForged': 'Questa approvazione non viene dal dispositivo di cui hai verificato il codice.',
   'error.pairingForgedAsk':
-    'Questa approvazione non viene dal browser di cui è stato verificato il codice. Non è cambiato nulla. Chiedi di nuovo.',
+    'Questa approvazione non viene dal dispositivo di cui è stato verificato il codice. Non è cambiato nulla. Chiedi di nuovo.',
   'error.pairingEnded': 'Questa richiesta è terminata.',
   'error.approveAgain': 'Ricomincia l’approvazione di questa richiesta.',
   'error.backupPasswordShort': 'La password del backup deve avere almeno 8 caratteri.',
@@ -76,6 +79,24 @@ export const it: Dictionary = {
   'error.migrationNotOurs': 'Non è un’esportazione di Google Authenticator.',
   'error.migrationMalformed': 'Questa esportazione di Google Authenticator è danneggiata o incompleta.',
   'error.offline': 'Impossibile raggiungere il server di sincronizzazione. Controlla la connessione e riprova.',
+  'error.passkey.wrongOrigin': 'Una passkey risponde solo alla pagina e alle app di Keyrook.',
+  'error.passkey.notOffered': 'L’accesso con passkey non è disponibile qui.',
+  'error.passkey.unchecked': 'Non è stato possibile verificare quella passkey. Riprova.',
+  'error.passkey.unknown': 'Nessun account Keyrook conosce quella passkey. Potrebbe essere stata rimossa.',
+  'error.passkey.ended': 'La richiesta per quella passkey è scaduta. Riprova.',
+  'error.passkey.noUnlock': 'Quella passkey non apre la chiave di questo account. Accedi invece con la password.',
+  'error.passkey.noUnlockProvider':
+    'Quella passkey non apre la chiave di questo account. Continua invece con Google o GitHub.',
+  'error.passkey.masterPassword':
+    'Una cassaforte che si blocca con una password principale non può accedere con una passkey. Accedi con la password dell’account, oppure con Google o GitHub.',
+  'error.passkey.permission':
+    'Keyrook Authenticator ha bisogno del permesso di Chrome per usare le passkey di account.keyrook.com. Scegli di nuovo la passkey e consenti l’accesso.',
+  'error.passkey.cancelled': 'Non è stata usata nessuna passkey. Riprova, oppure accedi in un altro modo.',
+  'error.passkey.failed': 'Chrome non è riuscito a chiedere una passkey. Riprova, oppure accedi in un altro modo.',
+  'error.secondStep.missing': 'Inserisci anche il codice della tua app di autenticazione.',
+  'error.secondStep.wrongCode': 'Quel codice non è giusto. Inserisci quello che la tua app di autenticazione mostra adesso.',
+  'error.secondStep.expired': 'Quell’accesso è scaduto. Accedi di nuovo.',
+  'error.secondStep.used': 'Quel codice è appena stato usato per accedere. Aspetta che la tua app mostri il successivo.',
   'error.provider.refusedBy': '{provider} ha rifiutato l’accesso.',
   'error.provider.unreachable': '{provider} non è raggiungibile. Riprova tra un momento.',
   'error.provider.refused': 'L’accesso è stato rifiutato. Riprova.',
@@ -90,11 +111,11 @@ export const it: Dictionary = {
   'error.server.signinExpired': 'Questo accesso è scaduto. Riprova.',
   'error.server.tooManyCodes': 'Troppi codici errati. Chiedine uno nuovo.',
   'error.server.tooManyPairings':
-    'Troppi browser sono in attesa di entrare in questo account. Riprova tra qualche minuto.',
+    'Troppi dispositivi sono in attesa di entrare in questo account. Riprova tra qualche minuto.',
   'error.server.wrongKey': 'Questo dispositivo non ha la chiave dell’account.',
   'error.server.providerAccount': 'Questo account accede con Google o GitHub, non con una password.',
   'error.server.mailFailed': 'Impossibile inviare l’email. Riprova tra un minuto.',
-  'error.server.pairingTaken': 'Questa richiesta è terminata, oppure un altro browser la sta approvando.',
+  'error.server.pairingTaken': 'Questa richiesta è terminata, oppure un altro dispositivo la sta approvando.',
   'error.server.passwordWrong': 'Questa password non è corretta.',
   'error.server.badCredentials': 'Email o password errate.',
   'error.server.badCode':
@@ -155,6 +176,22 @@ export const it: Dictionary = {
   'unlock.placeholder': 'Password principale',
   'unlock.submit': 'Sblocca',
   'unlock.forgot': 'L’hai dimenticata? <link>Usa la chiave di recupero</link>',
+  'platformUnlock.unlock': 'Sblocca con impronta, volto o PIN',
+  'platformUnlock.title': 'Impronta, volto o PIN',
+  'platformUnlock.body': 'Apri la cassaforte con il controllo di questo computer — Touch ID, Windows Hello o il suo PIN — invece di digitare la password principale. La password continua ad aprirla, e le modifiche continuano a chiederla.',
+  'platformUnlock.on': 'La cassaforte si apre anche con il controllo di questo computer. Rimuovere la password principale lo disattiva.',
+  'passkeyUnlock.turnOn': 'Attiva',
+  'passkeyUnlock.turnOff': 'Disattiva',
+  'platformUnlock.confirm': 'Poi il computer ti chiederà impronta, volto o PIN.',
+  'error.passkeyUnlock.cancelled': 'Il controllo è stato annullato o ci ha messo troppo. Riprova, oppure usa la password principale.',
+  'error.platformUnlock.noPrf': 'Il posto in cui è stata salvata questa passkey non può custodire una chiave, quindi non può aprire la cassaforte. Riattivalo e scegli un altro posto quando ti viene chiesto dove salvarla, oppure continua a usare la password principale.',
+  'error.passkeyUnlock.failed': 'Questo non ha aperto la cassaforte. Usa la password principale, poi riattivalo in Sicurezza.',
+  'securityKey.unlock': 'Sblocca con chiave di sicurezza',
+  'securityKey.title': 'Chiave di sicurezza',
+  'securityKey.body': 'Apri la cassaforte con una chiave di sicurezza USB e il suo PIN invece di digitare la password principale. Chiunque abbia la chiave e ne conosca il PIN potrà aprire la cassaforte su questo computer. Se perdi la chiave, la password principale la apre comunque.',
+  'securityKey.on': 'La cassaforte si apre anche con la tua chiave di sicurezza e il suo PIN su questo computer. Chiunque abbia la chiave e ne conosca il PIN può aprirla qui, quindi se perdi la chiave, disattiva questa opzione. Rimuovere la password principale lo disattiva.',
+  'securityKey.confirm': 'Poi inserisci la chiave di sicurezza, digita il suo PIN e toccala. Alcune chiavi lo chiedono due volte.',
+  'error.securityKey.noPrf': 'Questa chiave di sicurezza non può conservare una chiave, quindi non può aprire la cassaforte. Le chiavi fatte solo per l’accesso in due passaggi non possono. Prova un’altra chiave o continua a usare la password principale.',
 
   // --- Cassaforte che non si apre più ------------------------------------------
   'unrecoverable.title': 'Questa cassaforte non si può più aprire',
@@ -195,6 +232,8 @@ export const it: Dictionary = {
   'setup.password.footnote':
     'L’opzione più sicura: una volta bloccata, nulla su questo computer può aprire la cassaforte senza la password.',
   'setup.footer': 'In entrambi i casi è AES-256-GCM. Puoi cambiare in qualsiasi momento; la sincronizzazione è facoltativa, nelle Impostazioni.',
+  'setup.footer.noSync':
+    'In entrambi i casi è AES-256-GCM. Puoi cambiare in qualsiasi momento, nelle Impostazioni.',
   'setup.source': 'Open source: leggi il codice',
   'common.back': 'Indietro',
   'setup.passwordStep.title': 'Imposta una password principale',
@@ -243,10 +282,10 @@ export const it: Dictionary = {
   'vault.byName': 'Per nome',
   'vault.orderAdded': 'Ordine di aggiunta',
   'vault.joinRequests': {
-    one: 'Un browser chiede di entrare nel tuo account.',
-    other: '{count} browser chiedono di entrare nel tuo account.',
+    one: 'Un dispositivo chiede di entrare nel tuo account.',
+    other: '{count} dispositivi chiedono di entrare nel tuo account.',
   },
-  'vault.joinRequestsHint': 'Approva solo un browser su cui stai accedendo tu, proprio adesso.',
+  'vault.joinRequestsHint': 'Approva solo un dispositivo su cui stai accedendo tu, proprio adesso.',
   'vault.reviewInSettings': 'Controlla nelle Impostazioni',
   'vault.noMatch': 'Nessun account corrisponde a «{query}».',
   'vault.forHost': 'Per {host}',
@@ -339,6 +378,7 @@ export const it: Dictionary = {
   'error.alreadyInVault': 'Questo account è già nella tua cassaforte.',
   'error.gaSkipPeriod': 'Google Authenticator conserva solo codici da 30 secondi; questo usa {period}.',
   'error.gaSkipDigits': 'Google Authenticator conserva solo codici a 6 o 8 cifre; questo ne ha {digits}.',
+  'error.gaSkipSteam': 'Google Authenticator non sa generare codici Steam Guard.',
 
   // --- Scansione con la fotocamera ----------------------------------------------
   'scan.progressBatch': 'Codice {seen} di {total} scansionato: {accounts}. Mostra il codice successivo.',
@@ -430,9 +470,18 @@ export const it: Dictionary = {
   // --- Una nuova chiave di recupero ---------------------------------------------
   'sheet.once':
     'È l’unica volta in cui questa chiave viene mostrata. Non è salvata da nessuna parte: se la perdi, creane una nuova.',
+  'sheet.print': 'Stampa',
+  'sheet.apart': 'Tienila lontano dalla tua email e non inviartela mai per email: con questa chiave e il tuo indirizzo email, qualcuno può impostare una nuova password e aprire i tuoi codici.',
+  'sheet.apartProvider': 'Tienila lontano dall’account Google o GitHub con cui accedi, e non conservarla mai nella posta o nello spazio di archiviazione di quell’account: con questa chiave e quell’account, qualcuno può aprire i tuoi codici.',
+  'sheet.kept': 'L’ho salvata',
+  'sheet.checkHeading': 'Controlla di averla salvata',
+  'sheet.checkLead': 'Digita due gruppi della chiave da quello che hai salvato. I gruppi sono i blocchi di quattro tra i trattini, contati da sinistra.',
+  'sheet.group': 'Gruppo {position}',
+  'sheet.check': 'Controlla',
+  'sheet.mismatch': 'Non è quello che dice la tua chiave. Guarda di nuovo quello che hai salvato, oppure mostra di nuovo la chiave e salvala adesso.',
+  'sheet.showAgain': 'Mostra di nuovo la chiave',
   'sheet.download': 'Scarica il foglio',
   'sheet.copy': 'Copia',
-  'sheet.saved': 'L’ho salvata in un posto che avrò ancora anche se questo computer non ci sarà più.',
 
   // --- Gruppi -------------------------------------------------------------------
   'groups.title': 'Gruppi',
@@ -499,6 +548,7 @@ export const it: Dictionary = {
   'accounts.digits': '{type} {digits} cifre',
   'accounts.period': ' · {seconds} s',
   'accounts.counter': ' · contatore {counter}',
+  'accounts.steam': 'Steam Guard',
   'accounts.moveNamed': 'Condividi o sposta {name}',
   'accounts.edit': 'Modifica',
   'common.delete': 'Elimina',
@@ -638,6 +688,7 @@ export const it: Dictionary = {
   'export.oneByOne.progress': 'Account mostrati',
   'export.oneByOne.position': 'Account {index} di {total}',
   'export.oneByOne.keys': '→ o Spazio per il successivo, Esc per fermarti',
+  'export.steamRefused': '{app} non sa generare codici Steam Guard, quindi non accetterà questo account.',
   'export.print.label': 'Codici QR da stampare o scansionare',
   'export.print.title': 'Keyrook Authenticator — codici di configurazione',
   'export.print.body':
@@ -718,11 +769,11 @@ export const it: Dictionary = {
   // --- Impostazioni: chiave di recupero -----------------------------------------
   'kit.title': 'Chiave di recupero',
   'kit.provider':
-    'Il tuo account non ha password. Una chiave di recupero è la via per rientrare se perdi tutti i browser collegati: fa entrare un nuovo browser nel tuo account senza che un altro debba approvarlo. {provider} non può farlo al posto tuo.',
+    'Il tuo account non ha password. Una chiave di recupero è la via per rientrare se perdi tutti i dispositivi collegati: fa entrare un nuovo dispositivo nel tuo account senza che un altro debba approvarlo. {provider} non può farlo al posto tuo.',
   'kit.signedIn':
-    'Nessuno può reimpostare la tua password, né noi né Google. Una chiave di recupero è l’unica via per rientrare se la dimentichi: apre questa cassaforte, gli altri tuoi dispositivi e il tuo account su uno nuovo.',
+    'Nessuno può reimpostare la tua password al posto tuo, nemmeno noi. Una chiave di recupero è l’unica via per rientrare se la dimentichi: apre questa cassaforte, gli altri tuoi dispositivi e il tuo account su uno nuovo.',
   'kit.passphrase':
-    'Nessuno può reimpostare la tua password principale, né noi né Google. È ciò che impedisce agli altri di aprire la tua cassaforte, ed è anche il motivo per cui una chiave di recupero è l’unica via per rientrare se la dimentichi.',
+    'Nessuno può reimpostare la tua password principale, nemmeno noi. È ciò che impedisce agli altri di aprire la tua cassaforte, ed è anche il motivo per cui una chiave di recupero è l’unica via per rientrare se la dimentichi.',
   'kit.device':
     'Questa cassaforte si sblocca con una chiave custodita dal browser. Se quella chiave sparisce (dati di navigazione cancellati, un nuovo profilo, una reinstallazione), solo una chiave di recupero potrà ancora aprirla.',
   'kit.none': 'Ancora nessuna chiave di recupero',
@@ -737,19 +788,19 @@ export const it: Dictionary = {
   'kit.replacesSignedIn':
     'Creare una nuova chiave rende inutilizzabile la precedente, qui e sugli altri tuoi dispositivi, quindi un vecchio foglio stampato si può buttare una volta sostituito.',
   'kit.withoutProvider':
-    'Senza di essa, perdere tutti i browser collegati al tuo account significa perdere per sempre tutti gli account di questa cassaforte.',
+    'Senza di essa, perdere tutti i dispositivi collegati al tuo account significa perdere per sempre tutti gli account di questa cassaforte.',
   'kit.withoutPassword':
     'Senza di essa, dimenticare la password significa perdere per sempre tutti gli account di questa cassaforte.',
   'kit.withoutDevice':
     'Senza di essa, perdere la chiave custodita da questo browser significa perdere per sempre tutti gli account di questa cassaforte.',
   'kit.noSupport': 'Nessuna richiesta di assistenza può rimediare.',
   'kit.removeProvider':
-    'Rimuovendola, solo un browser già collegato potrà far entrare un nuovo browser nel tuo account.',
+    'Rimuovendola, solo un dispositivo già collegato potrà far entrare un nuovo dispositivo nel tuo account.',
   'kit.removePassword': 'Rimuovendola, la tua password resta l’unico modo per entrare.',
   'kit.removePasswordSignedIn':
     'Rimuovendola, la tua password resta l’unico modo per entrare: su questo dispositivo, sugli altri dispositivi e nel tuo account.',
   'kit.reauth':
-    'Una chiave di recupero può far entrare un browser nel tuo account, quindi {provider} ti chiede prima di accedere ancora una volta.',
+    'Una chiave di recupero può far entrare un dispositivo nel tuo account, quindi {provider} ti chiede prima di accedere ancora una volta.',
   'kit.passwordHint': 'Una chiave di recupero può reimpostare il tuo account, quindi cambiarla richiede la password.',
   'kit.removeConfirm': 'Rimuovi la chiave di recupero',
   'kit.createConfirm': 'Crea la chiave',
@@ -779,7 +830,7 @@ export const it: Dictionary = {
   'account.syncNow': 'Sincronizza ora',
   'account.signOut': 'Esci',
   'account.noKitProvider':
-    'Il tuo account non ha una chiave di recupero. Se perdi tutti i browser collegati, niente potrà recuperare i tuoi account: né noi, né {provider}.',
+    'Il tuo account non ha una chiave di recupero. Se perdi tutti i dispositivi collegati, niente potrà recuperare i tuoi account: né noi, né {provider}.',
   'account.noKit':
     'Il tuo account non ha una chiave di recupero. Se dimentichi la password e perdi questo dispositivo, niente potrà recuperare i tuoi account: né noi, né nessun altro.',
   'account.createUnderSecurity': 'Creala in Sicurezza',
@@ -802,11 +853,34 @@ export const it: Dictionary = {
   'accountPage.bodyNoRoot': 'Password ed eliminazione sono nella pagina dell’account. La chiave di recupero si crea qui, in Sicurezza, finché un’altra app Keyrook non usa l’account.',
   'accountPage.bodyProvider': 'Chiave di recupero, ripartire da zero ed eliminazione sono nella pagina dell’account, per tutte le app Keyrook insieme.',
   'accountPage.bodyNoRootProvider': 'L’eliminazione è nella pagina dell’account. La chiave di recupero si crea qui, in Sicurezza, finché un’altra app Keyrook non usa l’account.',
+  'sheetCheck.lead': 'Digita una volta la chiave di recupero che hai salvato, così questa app sa che può recuperare i tuoi codici. Viene controllata su questo dispositivo e non viene inviata da nessuna parte.',
+  'sheetCheck.submit': 'Controllala',
+  'sheetCheck.lost': 'L’hai persa o non l’hai mai avuta? Creane una nuova nella pagina dell’account.',
+  'accountPage.noSheetYet': 'Niente indica ancora che la tua chiave di recupero protegga Keyrook Authenticator. Senza di essa, una password dimenticata può costarti i tuoi codici. Digitala una volta in Sicurezza, o creane una nuova nella pagina dell’account.',
+  'account.checkUnderSecurity': 'Controllala in Sicurezza',
   'accountPage.open': 'Apri la pagina dell’account',
   'accountPage.recoveryKey': 'La chiave di recupero di una cassaforte connessa è quella dell’account Keyrook. Si crea e si cambia nella pagina dell’account.',
   'accountPage.sheetProtects': 'La chiave di recupero dell’account protegge Keyrook Authenticator',
   'accountPage.sheetUnknown': 'Non si sa ancora se protegge Keyrook Authenticator',
-  'accountPage.noSheet': 'Niente indica ancora che la chiave di recupero di questo account protegga Keyrook Authenticator. Se dimentichi la password senza di essa, puoi perdere i tuoi codici. Creane una, o controlla la tua, nella pagina dell’account.',
+  'secondStep.title': 'Ancora un passaggio',
+  'secondStep.lead': 'Il tuo account Keyrook chiede un secondo passaggio. Inserisci il codice di 6 cifre che la tua app di autenticazione mostra per l’account.',
+  'secondStep.field': 'Codice o chiave di recupero',
+  'secondStep.hint': 'Hai perso l’app? Inserisci invece la chiave di recupero del tuo account.',
+  'secondStep.passkey': 'Usa una passkey',
+  'secondStep.where': 'L’accesso in due passaggi si attiva e si disattiva su account.keyrook.com.',
+  'secondStep.ownerLead': 'Il tuo account chiede un secondo passaggio anche per questo: il codice della tua app di autenticazione o la chiave di recupero.',
+  'secondStep.nextCode': 'Ogni codice funziona una sola volta. Se hai appena effettuato l’accesso con uno, aspetta che la tua app mostri il successivo.',
+  'secondStepTip.title': 'Accesso in due passaggi',
+  'secondStepTip.suggest': 'Chiedi anche un codice ogni volta che questo account accede da un altro dispositivo. Attivalo su account.keyrook.com e tieni qui il codice: su quella pagina apri Keyrook Authenticator e scegli «{scan}».',
+  'secondStepTip.kept': 'Il codice di accesso di questo stesso account è conservato qui, su ogni dispositivo che vi ha eseguito l’accesso.',
+  'secondStepTip.warning': 'Se perdi tutti i dispositivi che lo conservano, accedi con la chiave di recupero al posto del codice. Conserva la chiave di recupero in un posto a parte.',
+  'secondStepTip.open': 'Attivalo',
+  'signin.providerHasPassword': '{provider} ha confermato che sei tu, e {email} ha anche una password. Inseriscila per aprire qui i tuoi codici.',
+  'provider.addOnPage': 'Per accedere anche con Google o GitHub, accedi alla pagina dell’account con la tua password e aggiungilo lì.',
+  'startOver.title': 'Il tuo account Keyrook ripartirà da zero il {date}',
+  'startOver.lead': 'Qualcuno su «{device}» l’ha chiesto il {date}, con il codice che ti abbiamo inviato via email: una nuova password e nuove chiavi, e le tue app ripartirebbero vuote.',
+  'startOver.ifYou': 'Se sei stato tu, non devi fare nulla. Altrimenti annullalo subito, poi cambia la password della tua email: chi l’ha chiesto può leggere la tua posta.',
+  'startOver.cancel': 'Non l’ho chiesto io — annulla',
   'kept.title': 'Conservato da prima che l’account ripartisse da zero',
   'kept.body': 'Quando questo account è ripartito da zero, ciò che Keyrook Authenticator vi aveva è stato conservato fino al {date}. Recuperalo con la password che l’account aveva allora, o con la chiave di recupero di allora.',
   'kept.password': 'Password di allora',
@@ -814,7 +888,7 @@ export const it: Dictionary = {
   'kept.usePassword': 'Usa invece la password di allora',
   'kept.useRecoveryKey': 'Usa invece la chiave di recupero di allora',
   'kept.bring': 'Recuperalo',
-  'kept.done': 'È di nuovo in questa cassaforte e sta arrivando agli altri tuoi browser.',
+  'kept.done': 'È di nuovo in questa cassaforte e sta arrivando agli altri tuoi dispositivi.',
   'error.keys.awaitingConfirmation': 'Un’altra app Keyrook ha sostituito le chiavi di questo account e quella di Keyrook Authenticator non si è ancora adeguata. Apri la pagina dell’account per controllarle, poi accedi di nuovo.',
   'password.changedBoth':
     'Password cambiata, per il tuo account e questa cassaforte. Gli altri dispositivi ti chiederanno di accedere di nuovo con la nuova.',
@@ -828,9 +902,12 @@ export const it: Dictionary = {
   'password.formTitle': 'Cambia la password dell’account',
   'devices.title': 'Dispositivi collegati',
   'devices.description':
-    'Disconnetti un dispositivo che non usi più o che non hai più. Conserva ciò che aveva già sincronizzato, dietro la stessa password, ma non riceve più nulla.',
+    'Disconnetti un dispositivo che non usi più o che non hai più. Se usa una versione aggiornata di Keyrook Authenticator, alla prossima connessione toglie da sé i codici di questo account e conserva solo ciò che non ha mai inviato. Fino ad allora, o se non si ricollega mai più, conserva ciò che aveva, dietro la stessa password.',
+  'devices.descriptionProvider':
+    'Disconnetti un dispositivo che non usi più o che non hai più. Se usa una versione aggiornata di Keyrook Authenticator, alla prossima connessione toglie da sé i codici di questo account e conserva solo ciò che non ha mai inviato. Fino ad allora, o se non si ricollega mai più, conserva ciò che aveva, bloccato come lo è la sua cassaforte su quel dispositivo.',
   'devices.this': 'Questo dispositivo',
   'devices.when': 'Collegato il {created} · ultima attività {seen}',
+  'removed.kept': 'I codici aggiunti o modificati qui che non avevano raggiunto l’account sono ancora qui.',
   'delete.row': 'Elimina il tuo account',
   'delete.rowDescription':
     'Rimuove ogni copia cifrata conservata dal server. Questo dispositivo mantiene la sua cassaforte com’è; gli altri dispositivi smettono di sincronizzarsi.',
@@ -841,7 +918,7 @@ export const it: Dictionary = {
   'delete.confirm': 'Elimina l’account',
 
   // --- Accesso: la prima scheda -------------------------------------------------
-  'intro.benefit1': 'Gli stessi codici in ogni browser in cui accedi.',
+  'intro.benefit1': 'Gli stessi codici su ogni dispositivo in cui accedi.',
   'intro.benefit2': 'Un portatile perso o rotto non è una cassaforte persa.',
   'intro.benefit3': 'Gratis e facoltativo: senza, su questo dispositivo continua a funzionare tutto.',
   'intro.title': 'Sincronizza la tua cassaforte',
@@ -905,9 +982,9 @@ export const it: Dictionary = {
     'Il tuo account è pronto. {done} account su {total} sono salvati finora; il resto arriva con la prossima sincronizzazione.',
   'fresh.title': 'Salva la tua chiave di recupero',
   'fresh.provider':
-    'Se perdi tutti i browser collegati al tuo account, questa chiave è l’unica via per rientrare: {provider} non può ripristinare la tua cassaforte, e nemmeno noi.',
+    'Se perdi tutti i dispositivi collegati al tuo account, questa chiave è l’unica via per rientrare: {provider} non può ripristinare la tua cassaforte, e nemmeno noi.',
   'fresh.password':
-    'Se dimentichi la password, questa chiave è l’unica via per rientrare: nessuno può reimpostarla per te, né noi né Google.',
+    'Se dimentichi la password, questa chiave è l’unica via per rientrare: nessuno può reimpostarla per te, nemmeno noi.',
   'welcome.fromAccount': '{count} dal tuo account',
   'welcome.fromDevice': '{count} aggiunti da questo dispositivo',
   'welcome.inSync': 'Già sincronizzato.',
@@ -932,44 +1009,51 @@ export const it: Dictionary = {
   'provider.finishInWindow': 'Completa nella finestra di {provider} che si è aperta.',
   'provider.confirmed': '{provider} ha confermato <b>{email}</b>. Nessun account lo usa ancora.',
   'provider.point1':
-    'Nessuna password. Su un nuovo browser continui con {provider}, e un browser già collegato lo fa entrare dopo che hai verificato che entrambi mostrano lo stesso codice.',
+    'Nessuna password. Su un nuovo dispositivo continui con {provider}, e un dispositivo già collegato lo fa entrare dopo che hai verificato che entrambi mostrano lo stesso codice.',
   'provider.point2':
-    '{provider} dimostra che sei tu. Non vede mai i tuoi codici: sono cifrati qui, con una chiave che resta sui tuoi browser.',
+    '{provider} dimostra che sei tu. Non vede mai i tuoi codici: sono cifrati qui, con una chiave che resta sui tuoi dispositivi.',
   'provider.point3':
-    'Poi salvi una chiave di recupero: la via per rientrare se perdi tutti i browser collegati all’account. {provider} non può ripristinare la tua cassaforte.',
+    'Poi salvi una chiave di recupero: la via per rientrare se perdi tutti i dispositivi collegati all’account. {provider} non può ripristinare la tua cassaforte.',
   'provider.notRight': 'Non è l’account giusto?',
   'provider.startAgain': 'Ricomincia',
+  'passkey.continue': 'Continua con una passkey',
+  'passkey.where':
+    'Una che hai aggiunto nella <link>pagina dell’account</link>, in «Passkey». La prima volta, Chrome ti chiede se Keyrook Authenticator può usarla.',
   'pairing.codeLabel': 'Codice {code}',
   'join.title': 'Fai entrare questo browser',
   'join.subtitle':
-    '<b>{email}</b> ha già un account. Approva questo browser da uno che vi ha già effettuato l’accesso.',
+    '<b>{email}</b> ha già un account. Approva questo browser da un dispositivo che vi ha già effettuato l’accesso.',
   'join.masterPassword': 'Password principale di questa cassaforte',
   'join.masterHint': 'Continua a bloccare questa cassaforte qui; l’account in sé non ha password.',
   'join.ask': 'Chiedi di entrare',
   'join.step1':
-    'Su un browser già collegato, apri Keyrook Authenticator. La richiesta compare lì: nel popup e nelle impostazioni, in Sincronizzazione.',
+    'Su un dispositivo già collegato, apri Keyrook Authenticator. La richiesta compare lì: sopra i codici e nelle impostazioni, in Sincronizzazione.',
   'join.step2': 'Verifica che mostri lo stesso codice di questa pagina, poi approvala.',
   'join.askAgain': 'Chiedi di nuovo',
-  'join.compare': 'Anche l’altro browser mostra un codice. Approva lì solo se è esattamente questo.',
-  'join.waiting': 'In attesa di un altro browser…',
-  'join.noOther': 'Non hai più un altro browser?',
+  'join.compare': 'Anche l’altro dispositivo mostra un codice. Approva lì solo se è esattamente questo.',
+  'join.waiting': 'In attesa di un altro dispositivo…',
+  'join.noOther': 'Non hai più un altro dispositivo?',
   'join.useKey': 'Usa la chiave di recupero',
   'join.wrongAccount': 'Hai effettuato l’accesso a {provider} con l’account sbagliato?',
   'joinKey.subtitle':
-    'La chiave che hai salvato quando è stato creato l’account. Fa entrare questo browser senza bisogno di un altro.',
+    'La chiave che hai salvato quando è stato creato l’account. Fa entrare questo browser senza bisogno di un altro dispositivo.',
   'joinKey.submit': 'Entra nell’account',
-  'approve.approved': 'Approvato. L’altro browser aprirà la tua cassaforte tra un momento.',
+  'approve.approved': 'Approvato. L’altro dispositivo aprirà la tua cassaforte tra un momento.',
   'approve.mismatch':
     'Rifiutato. Se non stavi accedendo tu proprio adesso, qualcun altro può accedere al tuo account {provider}: cambiane la password e controlla le impostazioni di sicurezza.',
   'approve.declined': 'Rifiutato. Non è stato inviato nulla.',
-  'approve.title': 'Browser che chiedono di entrare',
+  'approve.title': 'Dispositivi che chiedono di entrare',
   'approve.description':
-    'Ogni richiesta viene da qualcuno che ha appena effettuato l’accesso con il tuo account {provider}. Approva solo un browser su cui stai accedendo tu, proprio adesso.',
+    'Ogni richiesta viene da qualcuno che ha appena effettuato l’accesso con il tuo account {provider}. Approva solo un dispositivo su cui stai accedendo tu, proprio adesso.',
+  'approve.descriptionAny':
+    'Ogni richiesta viene da qualcuno che ha appena effettuato l’accesso con il tuo account Google o GitHub. Approva solo un dispositivo su cui stai accedendo tu, proprio adesso.',
+  'approve.mismatchAny':
+    'Rifiutato. Se non stavi accedendo tu proprio adesso, qualcun altro può accedere al tuo account Google o GitHub: cambiane la password e controlla le impostazioni di sicurezza.',
   'approve.askedAt': 'Richiesta alle {time}',
   'approve.review': 'Controlla',
   'approve.deny': 'Rifiuta',
   'approve.question':
-    'Il browser che chiede mostra esattamente questo codice? Se no, qualcun altro sta cercando di entrare.',
+    'Il dispositivo che chiede mostra esattamente questo codice? Se no, qualcun altro sta cercando di entrare.',
   'approve.matches': 'Corrisponde: fallo entrare',
   'approve.doesNotMatch': 'Non corrisponde',
 
@@ -982,7 +1066,7 @@ export const it: Dictionary = {
   'nav.sync': 'Sincronizzazione',
   'nav.general': 'Generali',
   'nav.needsAttention': 'Richiede attenzione',
-  'sync.description': 'Gli stessi codici in ogni browser in cui accedi, cifrati qui prima di partire.',
+  'sync.description': 'Gli stessi codici su ogni dispositivo in cui accedi, cifrati qui prima di partire.',
   'backup.description': 'Conserva una copia cifrata, importa account o spostali in un’altra app.',
   'backup.choice.backup.title': 'Esegui backup',
   'backup.choice.backup.body': 'Un file cifrato, protetto da una password che scegli tu.',
@@ -1000,17 +1084,17 @@ export const it: Dictionary = {
     'Aprendo il popup su una pagina di accesso viene proposto il codice giusto. Viene letta solo quella scheda.',
   'vault.signInToSync': 'Accedi per sincronizzare',
   'vault.empty.signIn':
-    'Usi Keyrook Authenticator in un altro browser? <link>Accedi</link> per portare qui i tuoi codici.',
+    'Usi Keyrook Authenticator su un altro dispositivo? <link>Accedi</link> per portare qui i tuoi codici.',
   'setup.haveAccount': 'Usi già Keyrook Authenticator? <link>Accedi</link> per portare qui i tuoi codici.',
   'popup.signInOpensTab': 'Si apre in una nuova scheda e termina nelle impostazioni.',
   'error.backupWrongPassword': 'Questa password non apre il file.',
-  'error.foreign.steam': 'I codici Steam Guard non si possono ancora importare.',
+  'error.foreign.steamFolder': 'Scegli insieme tutti i file della cartella maFiles di Steam Desktop Authenticator: manifest.json e i file .maFile accanto.',
   'error.foreign.locked':
     'Questa esportazione è bloccata con una password che Keyrook Authenticator non sa aprire. Esporta di nuovo senza password.',
   'import.lockedFrom':
     '{app} ha bloccato questa esportazione con una password. Inserisci quella che hai impostato lì.',
   'import.fromApps':
-    'Funzionano anche le esportazioni di Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, dell’estensione Authenticator e di Google Authenticator, e un CSV di Password di Apple, 1Password o un altro gestore.',
+    'Funzionano anche le esportazioni di Aegis, 2FAS, Bitwarden, Proton, Ente Auth, andOTP, FreeOTP+, Steam Desktop Authenticator, dell’estensione Authenticator e di Google Authenticator, e un CSV di Password di Apple, 1Password o un altro gestore.',
   'shortcut.open': 'Apri Keyrook Authenticator',
   'shortcut.fill': 'Compila il codice per questa pagina',
   'shortcut.fillHint': 'Compila solo se un unico account appartiene al sito; altrimenti apre l’elenco.',
@@ -1019,4 +1103,63 @@ export const it: Dictionary = {
   'import.csvWarning':
     'Questo file contiene le tue password in chiaro. Sono state lette solo le chiavi a due fattori e non si conserva nient’altro: elimina il file quando hai finito.',
   'import.noKeysInCsv': 'Questo file non contiene chiavi a due fattori, solo password.',
+  'crash.title': 'Qualcosa è andato storto',
+  'crash.body':
+    'Questa schermata ha avuto un problema e si è fermata. I tuoi account conservati non ne risentono. Di solito basta ricaricarla.',
+  'crash.reload': 'Ricarica',
+  'setup.device.description.phone':
+    'I tuoi segreti sono cifrati con una chiave che questo telefono custodisce per te. Niente da ricordare, niente da digitare.',
+  'setup.device.footnote.phone':
+    'Protegge da una copia dei file dell’app. Non da chi può sbloccare questo telefono.',
+  'setup.password.footnote.phone':
+    'L’opzione più sicura: una volta bloccata, nulla su questo telefono può aprire la cassaforte senza la password.',
+  'unrecoverable.why.phone':
+    'La sua chiave di cifratura era custodita da questo telefono ed è sparita, di solito perché i dati dell’app sono stati cancellati, l’app è stata reinstallata o la cassaforte viene dal backup di un altro telefono. Senza quella chiave nessuno può decifrare gli account salvati, nemmeno noi.',
+  'vault.empty.body.phone':
+    'Quando un sito mostra un codice QR per configurare l’autenticazione a due fattori, scansionalo con la fotocamera di questo telefono.',
+  'add.camera.description.phone':
+    'Per un codice su un altro schermo, compresa un’esportazione di Google Authenticator.',
+  'add.fromGoogle.phone':
+    'Arrivi da Google Authenticator su un altro telefono? Esporta lì i tuoi account, poi scansiona il codice mostrato con la fotocamera di questo telefono. Se ne mostra più di uno, falli uno alla volta.',
+  'camera.noCamera.phone': 'Questo telefono non fornisce una fotocamera all’app.',
+  'camera.blocked.phone':
+    'L’app non ha il permesso di usare la fotocamera. Consentilo nelle impostazioni del telefono oppure usa un altro modo per aggiungere un account.',
+  'camera.none.phone': 'Nessuna fotocamera trovata su questo telefono.',
+  'security.languageBrowser.phone': 'Lingua del telefono ({language})',
+  'protect.removeWarning.phone':
+    'La cassaforte resta cifrata, ma si sbloccherà da sola ogni volta che l’app si apre. Chiunque possa sbloccare questo telefono potrà vedere i tuoi codici.',
+  'kit.device.phone':
+    'Questa cassaforte si sblocca con una chiave custodita dal telefono. Se quella chiave sparisce (dati dell’app cancellati, una reinstallazione, un telefono nuovo), solo una chiave di recupero potrà ancora aprirla.',
+  'kit.withoutDevice.phone':
+    'Senza di essa, perdere la chiave custodita da questo telefono significa perdere per sempre tutti gli account di questa cassaforte.',
+  'security.description.phone': 'Come si apre questa cassaforte e come rientrarci se perdi questo telefono.',
+  'security.deviceKeyHint.phone': 'Niente da digitare. Chiunque possa sbloccare questo telefono può aprirla.',
+  'general.description.phone': 'Come appare e si comporta l’app, e da dove viene.',
+  'about.securityModelDescription.phone': 'Cosa garantisce l’app, e cosa no.',
+  'about.logos.description.phone':
+    'I loghi sono inclusi nell’app, mai scaricati. Chiedere un logo alla rete direbbe a chi risponde su quali servizi usi l’autenticazione a due fattori.',
+  'about.fact.access.title.phone': 'Solo la fotocamera, e solo per scansionare',
+  'about.fact.access.body.phone':
+    'L’app non chiede alcun permesso tranne la fotocamera, e solo quando scegli di scansionare un codice. Ciò che vede la fotocamera non lascia mai il telefono.',
+  'about.fact.keys.body.phone':
+    'I tuoi account sono cifrati con una chiave dei dati a sua volta protetta. Con una password principale, la chiave di protezione deriva da PBKDF2 con 600.000 iterazioni ed esiste solo in memoria finché la cassaforte è sbloccata. Senza, è una chiave sigillata dall’archivio chiavi del telefono stesso, quindi una copia dei file dell’app non può aprire la cassaforte.',
+  'rate.store.play': 'Google Play',
+  'add.noNativeReader.phone':
+    'Un codice grande, come un’esportazione di Google Authenticator, spesso qui non si scansiona con la fotocamera. Se il tuo non funziona, fotografalo con l’app Fotocamera del telefono e usa «Carica un’immagine QR».',
+  'import.noNativeReader.phone':
+    'Un codice grande, come un’esportazione di Google Authenticator, spesso qui non si scansiona con la fotocamera. Se il tuo non funziona, fotografa ogni codice con l’app Fotocamera del telefono e sceglili tutti con «Scegli file».',
+  'error.signOutUnsynced.phone':
+    'Alcune modifiche fatte su questo telefono non sono ancora arrivate al tuo account e uscire ora le farebbe perdere. Connettiti a Internet e riprova.',
+  'account.signOutNote.phone':
+    'Uscire rimuove i tuoi codici da questo telefono. Restano nel tuo account Keyrook: accedi di nuovo per riaverli.',
+  'secondStepTip.suggest.phone':
+    'Chiedi anche un codice ogni volta che questo account accede da un altro dispositivo. Attivalo su account.keyrook.com e tieni qui il codice: aggiungi un account in questa app e scansiona il codice QR che mostra quella pagina.',
+  'intro.benefit2.phone': 'Un telefono perso o rotto non è una cassaforte persa.',
+  'provider.finishInWindow.phone': 'Completa nella pagina di {provider} che si è aperta nel browser.',
+  'join.title.phone': 'Fai entrare questo telefono',
+  'join.subtitle.phone':
+    '<b>{email}</b> ha già un account. Approva questo telefono da un dispositivo che vi ha già effettuato l’accesso.',
+  'joinKey.subtitle.phone':
+    'La chiave che hai salvato quando è stato creato l’account. Fa entrare questo telefono senza bisogno di un altro dispositivo.',
+  'facts.autofill.phone': 'Scansione QR',
 };

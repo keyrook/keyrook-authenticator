@@ -14,6 +14,7 @@ import {
   addItem,
   advanceHotpCounter,
   applyRecoveryState,
+  attachPasskeyUnlock,
   attachRecoveryKit,
   createVault,
   DecryptionError,
@@ -32,6 +33,11 @@ import {
   removeRecoveryKit,
   restoreItem,
   rewrapVault,
+  detachPasskeyUnlock,
+  fromBase64,
+  unlockVaultWithPasskey,
+  passkeyUnlockOf,
+  PASSKEY_UNLOCK_KINDS,
   sealVault,
   SyncHttpError,
   unlockVault,
@@ -51,7 +57,15 @@ import {
 import { AppError, fail } from '@authx/ui/i18n/errors.js';
 import { platform, syncEnabled } from './platform.js';
 import { createSerialiser } from './serial.js';
-import { bringBack, keptArchives, replaceAccountKey, replacementDue } from './keys.js';
+import {
+  bringBack,
+  cancelStartOver,
+  confirmRecoveryKey,
+  keptArchives,
+  replaceAccountKey,
+  replacementDue,
+  startOverWaiting,
+} from './keys.js';
 import {
   accountAuthHash,
   assertKitIsAccounts,
@@ -63,6 +77,9 @@ import {
   isSignedIn,
   listDevices,
   markSignedOutElsewhere,
+  endedByRemoval,
+  removedNotice,
+  dismissRemovedNotice,
   prepareSignUp,
   proveAccountPassword,
   publishRecovery,
@@ -89,15 +106,22 @@ import {
   providerOffer,
   requestPairing,
   setTabOutcome,
+  finishProviderStep,
+  providerStepTicket,
   startProviderSignIn,
   takeTabFlow,
+  type ProviderStart,
   takeTabOutcome,
   ticketFrom,
 } from './provider.js';
+import { passkeyChallenge, signInWithAccountPasskey } from './passkey.js';
+import { ownerSecondStep, secondStepChallenge } from './second-step.js';
 import { tokenStore } from './tokens.js';
 import type {
   Envelope,
   Mutation,
+  OwnerSecondStep,
+  PasskeyAsks,
   ProtectionChoice,
   ProviderStartResult,
   Request,
@@ -256,7 +280,14 @@ async function status(): Promise<VaultStatus> {
   if (file.protection.mode === 'device' && !(await platform().deviceKey.get())) {
     return { state: 'unrecoverable', hasRecovery };
   }
-  return { state: 'locked', hasRecovery };
+  // What each passkey that opens it is asked: both safe to show, since only
+  // the passkey's answer opens anything.
+  const passkeys: PasskeyAsks = {};
+  for (const kind of PASSKEY_UNLOCK_KINDS) {
+    const unlock = passkeyUnlockOf(file, kind);
+    if (unlock) passkeys[kind] = { credentialId: unlock.credentialId, prfInput: unlock.prfInput };
+  }
+  return { state: 'locked', hasRecovery, ...(Object.keys(passkeys).length ? { passkeys } : {}) };
 }
 
 /** Seals and stores `data`, for a caller holding the write queue. */
@@ -320,6 +351,10 @@ function unlockedStatus(unlocked: UnlockedVault): VaultStatus {
     // this device published or adopted.
     accountRecovery:
       isSignedIn(data) && file.recovery !== null && file.recovery.createdAt === data.sync.recoveryAt,
+    passkeys: {
+      platform: passkeyUnlockOf(file, 'platform') !== null,
+      securityKey: passkeyUnlockOf(file, 'securityKey') !== null,
+    },
   };
 }
 
@@ -374,10 +409,25 @@ async function scheduleSync(): Promise<void> {
  * a vault that believes it is signed in with no session behind it. For a
  * caller already holding the write queue.
  */
-async function endSessionInTurn(unlocked: UnlockedVault): Promise<void> {
+async function endSessionInTurn(unlocked: UnlockedVault, error?: unknown): Promise<SessionEnd> {
   await platform().timers.clear(SYNC_ALARM);
-  if (isSignedIn(unlocked.data)) await persist(await markSignedOutElsewhere(unlocked.data));
+  if (!isSignedIn(unlocked.data)) return 'error.signedOutElsewhere';
+  // Removed by the account's owner, and this device could check it: the
+  // account's codes come off. Anything less — no proof, one that fails — is
+  // an ordinary end, and keeps them.
+  if (error instanceof SyncHttpError && error.code === 'device_removed') {
+    const removed = await endedByRemoval(unlocked, error.proof);
+    if (removed) {
+      await persist(removed);
+      return 'error.removedFromAccount';
+    }
+  }
+  await persist(await markSignedOutElsewhere(unlocked.data));
+  return 'error.signedOutElsewhere';
 }
+
+/** What a page is told when this device's session is over. */
+type SessionEnd = 'error.signedOutElsewhere' | 'error.removedFromAccount';
 
 /**
  * Runs an account call outside the write queue — listing or removing devices —
@@ -389,11 +439,12 @@ async function withSession<T>(run: () => Promise<T>): Promise<T> {
     return await run();
   } catch (error) {
     if (sessionEnded(error)) {
+      let ended: SessionEnd = 'error.signedOutElsewhere';
       await serial(async () => {
         const unlocked = await getUnlocked();
-        if (unlocked) await endSessionInTurn(unlocked);
+        if (unlocked) ended = await endSessionInTurn(unlocked, error);
       });
-      fail('error.signedOutElsewhere');
+      fail(ended);
     }
     throw error;
   }
@@ -409,7 +460,7 @@ function sessionEnded(error: unknown): boolean {
   if (!(error instanceof SyncHttpError)) return false;
   // Only the session's own 401. A 401 for a wrong proof — the password of
   // before a start-over, say — is that answer, not a reason to sign out.
-  if (error.status === 401) return error.code === 'unauthorized';
+  if (error.status === 401) return error.code === 'unauthorized' || error.code === 'device_removed';
   return error.status === 403 && error.message === KEY_REPLACED;
 }
 
@@ -443,10 +494,7 @@ async function cycleInTurn(unlocked: UnlockedVault) {
   try {
     outcome = await runSync(unlocked);
   } catch (error) {
-    if (sessionEnded(error)) {
-      await endSessionInTurn(unlocked);
-      fail('error.signedOutElsewhere');
-    }
+    if (sessionEnded(error)) fail(await endSessionInTurn(unlocked, error));
     throw error;
   }
 
@@ -505,10 +553,18 @@ async function firstSync(): Promise<{ sync: SyncSummary | null; syncError: strin
  * this browser: signed in, or with an account to create or one to join.
  */
 async function completeProviderSignIn(provider: SignInProvider, ticket: ProviderTicket): Promise<ProviderStartResult> {
+  return providerStarted((unlocked) => startProviderSignIn(unlocked, provider, ticket));
+}
+
+/**
+ * Runs a step of a provider sign-in in the write queue — redeeming its ticket,
+ * or finishing its second step — and says where it left this browser.
+ */
+async function providerStarted(step: (unlocked: UnlockedVault) => Promise<ProviderStart>): Promise<ProviderStartResult> {
   const outcome = await serial(async () => {
     const unlocked = await requireUnlocked();
     if (isSignedIn(unlocked.data)) fail('error.alreadySignedIn');
-    const started = await startProviderSignIn(unlocked, provider, ticket);
+    const started = await step(unlocked);
     if (started.kind === 'signedIn') {
       await saveVaultFile(started.file);
       keep({ ...unlocked, file: started.file, data: started.data });
@@ -517,11 +573,11 @@ async function completeProviderSignIn(provider: SignInProvider, ticket: Provider
     }
     return started;
   });
-  if (outcome.kind !== 'signedIn') {
-    broadcastChange();
-    return { kind: outcome.kind, email: outcome.email };
-  }
-  return { kind: 'signedIn', status: await status(), ...(await firstSync()) };
+  if (outcome.kind === 'signedIn') return { kind: 'signedIn', status: await status(), ...(await firstSync()) };
+  broadcastChange();
+  if (outcome.kind === 'secondStep') return { kind: 'secondStep', passkeys: outcome.passkeys };
+  if (outcome.kind === 'password') return outcome;
+  return { kind: outcome.kind, email: outcome.email };
 }
 
 /**
@@ -549,6 +605,7 @@ async function joinedResult(): Promise<SignInResult> {
 async function changeAccountKit(
   current: UnlockedVault,
   proof: OwnerProof,
+  secondStep: OwnerSecondStep | undefined,
   change: (
     unlocked: UnlockedVault,
     issuedAt: number,
@@ -560,7 +617,7 @@ async function changeAccountKit(
   const issuedAt = Math.max(Date.now(), (unlocked.data.sync.recoveryAt ?? 0) + 1);
   const { file, recoveryKey } = await change(unlocked, issuedAt);
 
-  await publishRecovery(unlocked.dataKey, proof, file.recovery, recoveryKey, issuedAt);
+  await publishRecovery(unlocked.dataKey, proof, file.recovery, recoveryKey, issuedAt, await ownerSecondStep(secondStep));
 
   const data = { ...unlocked.data, sync: { ...unlocked.data.sync, recoveryAt: issuedAt } };
   const sealed = await sealVault(file, unlocked.dataKey, data);
@@ -662,6 +719,62 @@ export async function handle(request: VaultRequest): Promise<unknown> {
       return opened;
     }
 
+    // The passkey's answer opens the vault as the password does, but it is not
+    // the password: a key the account asked to replace waits for that.
+    case 'vault/unlockWithPasskey':
+      return serial(async () => {
+        const file = await loadVaultFile();
+        if (!file) fail('error.noVault');
+        let unlocked: UnlockedVault;
+        try {
+          unlocked = await unlockVaultWithPasskey(file, request.kind, fromBase64(request.prf));
+        } catch (error) {
+          if (error instanceof DecryptionError) fail('error.passkeyUnlock.failed');
+          throw error;
+        }
+        return openSession(unlocked);
+      });
+
+    // A new way in needs the owner, as every change of who can open the vault
+    // does: the password, checked in the same turn that writes the file. The
+    // other kind's way in is left as it is.
+    case 'vault/enablePasskeyUnlock':
+      return serial(async () => {
+        const unlocked = await getUnlocked();
+        if (!unlocked) fail('error.vaultLocked');
+        if (unlocked.file.protection.mode !== 'passphrase') fail('error.notPassphraseVault');
+        if (!(await verifyPassword(unlocked.file, request.password))) fail('error.wrongMasterPassword');
+        // Another tab may have turned this kind on meanwhile; its passkey goes
+        // back, as a turned-off one does, for the page to forget.
+        const replaced = passkeyUnlockOf(unlocked.file, request.kind)?.credentialId ?? null;
+        const file = await attachPasskeyUnlock(unlocked.file, request.kind, unlocked.dataKey, {
+          credentialId: request.credentialId,
+          prfInput: request.prfInput,
+          prf: fromBase64(request.prf),
+        });
+        // Proven before it is kept: an answer that does not open what it
+        // wraps would leave a way in that is no way in.
+        await unlockVaultWithPasskey(file, request.kind, fromBase64(request.prf));
+        await saveVaultFile(file);
+        keep({ ...unlocked, file });
+        broadcastChange();
+        return replaced && replaced !== request.credentialId ? { credentialId: replaced } : null;
+      });
+
+    // Taking a way in away needs nobody's leave. The passkey's id goes back,
+    // for the page to tell the device it is no longer used.
+    case 'vault/disablePasskeyUnlock':
+      return serial(async () => {
+        const unlocked = await getUnlocked();
+        if (!unlocked) fail('error.vaultLocked');
+        const credentialId = passkeyUnlockOf(unlocked.file, request.kind)?.credentialId ?? null;
+        const file = detachPasskeyUnlock(unlocked.file, request.kind);
+        await saveVaultFile(file);
+        keep({ ...unlocked, file });
+        broadcastChange();
+        return credentialId ? { credentialId } : null;
+      });
+
     // Read-only: the stored file is opened with the password and thrown away.
     // Nothing is written and no session changes, so it needs no turn in the
     // serialiser.
@@ -745,7 +858,7 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         // if it cannot, no key is shown that would only half work. It takes the
         // account password — a kit is a way to reset the account.
         if (isSignedIn(unlocked.data)) {
-          const recoveryKey = await changeAccountKit(unlocked, proof!, issueKit);
+          const recoveryKey = await changeAccountKit(unlocked, proof!, request.secondStep, issueKit);
           return { recoveryKey: recoveryKey! };
         }
 
@@ -768,7 +881,7 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         // Removed from the account too, and so from every other device: the
         // usual reason to remove a kit is that the sheet has gone missing.
         if (isSignedIn(unlocked.data)) {
-          await changeAccountKit(unlocked, proof!, async (synced) => ({
+          await changeAccountKit(unlocked, proof!, request.secondStep, async (synced) => ({
             file: removeRecoveryKit(synced.file),
             recoveryKey: null,
           }));
@@ -871,7 +984,8 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         // password away from gone. A failure here costs the account nothing —
         // Settings keeps asking until a key exists.
         try {
-          recoveryKey = await changeAccountKit(signedUp, { authHash: result.authHash }, issueKit);
+          // A new account has no second step yet.
+          recoveryKey = await changeAccountKit(signedUp, { authHash: result.authHash }, undefined, issueKit);
         } catch {
           recoveryKey = null;
         }
@@ -881,9 +995,11 @@ export async function handle(request: VaultRequest): Promise<unknown> {
     }
 
     case 'account/signIn': {
-      await serial(async () => {
+      const asked = await serial(async () => {
         const unlocked = await requireUnlocked();
-        const result = await signIn(unlocked, request.email, request.password);
+        const result = await signIn(unlocked, request.email, request.password, request.secondStep);
+        // Nothing changed yet: the page asks for the second step and comes back.
+        if ('secondStep' in result) return result;
         await saveVaultFile(result.file);
         keep({ file: result.file, dataKey: result.dataKey, data: result.data });
         // The data key changed. A password-protected vault keeps it in session
@@ -893,10 +1009,32 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         // every open page would otherwise still show a signed-out vault.
         broadcastChange();
         await scheduleSync();
+        return null;
       });
+      if (asked) return asked;
       const first = await firstSync();
       return { status: await status(), ...first };
     }
+
+    case 'account/secondStepChallenge': {
+      if (isSignedIn((await requireUnlocked()).data)) fail('error.alreadySignedIn');
+      const ticket = request.ticket ?? (await providerStepTicket());
+      return secondStepChallenge(ticket);
+    }
+
+    case 'account/passkeyChallenge':
+      if (isSignedIn((await requireUnlocked()).data)) fail('error.alreadySignedIn');
+      return passkeyChallenge();
+
+    case 'account/passkeySignIn':
+      await serial(async () => {
+        const unlocked = await requireUnlocked();
+        if (isSignedIn(unlocked.data)) fail('error.alreadySignedIn');
+        // The vault keeps opening with the device key, which now opens the
+        // account's key: like any join, in the turn that read the vault.
+        await adoptInTurn(await signInWithAccountPasskey(unlocked, request.touch));
+      });
+      return joinedResult();
 
     case 'account/recover': {
       await serial(async () => {
@@ -947,7 +1085,9 @@ export async function handle(request: VaultRequest): Promise<unknown> {
           } catch (error) {
             // Signed out elsewhere already: the vault keeps everything, and
             // that is what the page should say.
-            if (error instanceof AppError && error.key === 'error.signedOutElsewhere') throw error;
+            if (error instanceof AppError && (error.key === 'error.signedOutElsewhere' || error.key === 'error.removedFromAccount')) {
+              throw error;
+            }
             fail('error.signOutUnsynced');
           }
         }
@@ -960,9 +1100,16 @@ export async function handle(request: VaultRequest): Promise<unknown> {
       await requireUnlocked();
       return withSession(listDevices);
 
-    case 'account/revokeDevice':
-      await requireUnlocked();
-      return withSession(() => revokeDevice(request.id));
+    case 'account/revokeDevice': {
+      const unlocked = await requireUnlocked();
+      return withSession(() => revokeDevice(unlocked, request.id));
+    }
+
+    case 'account/removedNotice':
+      return removedNotice();
+
+    case 'account/dismissRemovedNotice':
+      return dismissRemovedNotice();
 
     case 'account/delete': {
       const proof = await accountProofIfSignedIn(request.password);
@@ -976,7 +1123,7 @@ export async function handle(request: VaultRequest): Promise<unknown> {
     }
 
     case 'provider/offered':
-      return syncEnabled() ? providerOffer() : { providers: [], inTab: false };
+      return syncEnabled() ? providerOffer() : { providers: [], inTab: false, passkeys: false };
 
     case 'provider/pending': {
       const unlocked = await getUnlocked();
@@ -1011,6 +1158,9 @@ export async function handle(request: VaultRequest): Promise<unknown> {
       });
       return { status: await status(), recoveryKey, ...(await firstSync()) };
     }
+
+    case 'provider/secondStep':
+      return providerStarted((unlocked) => finishProviderStep(unlocked, request.answer));
 
     case 'provider/cancel':
       await serial(async () => {
@@ -1069,6 +1219,26 @@ export async function handle(request: VaultRequest): Promise<unknown> {
 
     case 'account/archives':
       return withSession(() => keptArchives());
+
+    case 'account/confirmRecoveryKey':
+      return withSession(() =>
+        mutateVault(async (unlocked) => {
+          if (!isSignedIn(unlocked.data)) fail('error.notSignedIn');
+          return { data: await confirmRecoveryKey(unlocked.data, unlocked.dataKey, request.recoveryKey), result: undefined };
+        }),
+      );
+
+    case 'account/startOverWaiting': {
+      const unlocked = await requireUnlocked();
+      if (!isSignedIn(unlocked.data)) return null;
+      return withSession(() => startOverWaiting(unlocked.data, request.fresh === true));
+    }
+
+    case 'account/cancelStartOver': {
+      const unlocked = await requireUnlocked();
+      if (!isSignedIn(unlocked.data)) fail('error.notSignedIn');
+      return withSession(() => cancelStartOver(unlocked.data));
+    }
 
     case 'account/bringBack':
       return withSession(() =>
@@ -1140,8 +1310,9 @@ export async function finishTabSignIn(answer: URLSearchParams): Promise<boolean>
   if (!flow) return false;
   try {
     const result = await completeProviderSignIn(flow.provider, ticketFrom(answer, flow.provider, flow.verifier));
-    // A new account or a join is what `provider/pending` already says.
-    if (result.kind === 'signedIn') await setTabOutcome(result);
+    // A new account, a join or a second step is what `provider/pending`
+    // already says; an account that signs in with its password is not.
+    if (result.kind === 'signedIn' || result.kind === 'password') await setTabOutcome(result);
   } catch (error) {
     // Backing out at the provider is a choice, not something to report.
     if (!(error instanceof AppError && error.key === 'error.signinCancelled')) {

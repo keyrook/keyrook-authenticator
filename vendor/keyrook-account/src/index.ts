@@ -25,14 +25,17 @@ export * from './keys/product.js';
 export * from './keys/root.js';
 export * from './keys/box.js';
 export * from './keys/pin.js';
+// Proof a device was removed by a holder of the product's key
+export * from './keys/removal.js';
 
 // The flows every product runs on those keys
 export * from './flows/product-key.js';
 export * from './flows/recovery.js';
 export * from './flows/start-over.js';
 export * from './flows/console.js';
+export * from './flows/passkey.js';
 
 // Utilities worth exposing to app code
 export { crockfordDecode, crockfordEncode, group } from './util/crockford.js';
-export { toBase64, fromBase64, toHex, fromHex, utf8, fromUtf8 } from './util/bytes.js';
+export { toBase64, toBase64Url, fromBase64, toHex, fromHex, utf8, fromUtf8 } from './util/bytes.js';
 export { newId, randomBytes } from './util/id.js';

@@ -11,6 +11,7 @@ import {
   type VaultData,
   type VaultItem,
 } from '@authx/core';
+import { host } from '../host.js';
 import { send } from '../lib/protocol.js';
 import { Button, Callout, Field, Spinner, cx } from '../components/primitives.js';
 import { BrandMark } from '../components/BrandMark.js';
@@ -20,18 +21,14 @@ import { DESTINATIONS, type Destination, type Method } from './destinations.js';
 import { Section } from './Section.js';
 import { errorText } from '../i18n/error-text.js';
 import { useT } from '../i18n/react.js';
+import { useBack } from '../lib/back.js';
 import { localise } from '../i18n/error-text.js';
 import { translate } from '../i18n/runtime.js';
 import { titleOf } from '../i18n/titles.js';
 import type { MessageKey } from '../i18n/locales/en.js';
 
-export function download(filename: string, contents: string | Blob, mime: string) {
-  const url = URL.createObjectURL(typeof contents === 'string' ? new Blob([contents], { type: mime }) : contents);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.click();
-  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+function download(filename: string, contents: string, mime: string): Promise<void> {
+  return host().saveFile(filename, new Blob([contents], { type: mime }));
 }
 
 const stamp = () => new Date().toISOString().slice(0, 10);
@@ -158,7 +155,7 @@ export function EncryptedBackup({ chosen, data }: { chosen: VaultItem[]; data: V
     setError(null);
     try {
       const backup = await exportEncryptedBackup(chosen, data.groups, password);
-      download(`keyrook-${stamp()}.authx`, JSON.stringify(backup, null, 2), 'application/json');
+      await download(`keyrook-${stamp()}.authx`, JSON.stringify(backup, null, 2), 'application/json');
       setPassword('');
       setConfirm('');
     } catch (cause) {
@@ -248,13 +245,13 @@ export function MoveToAnotherApp({
 
   function saveFile(format: 'aegis' | 'bitwarden' | 'text') {
     touch();
-    if (format === 'aegis') {
-      download(`keyrook-aegis-${stamp()}.json`, exportAegisJson(chosen, data.groups), 'application/json');
-    } else if (format === 'bitwarden') {
-      download(`keyrook-bitwarden-${stamp()}.json`, exportBitwardenJson(chosen, data.groups), 'application/json');
-    } else {
-      download(`keyrook-${stamp()}.txt`, exportPlainUris(chosen), 'text/plain');
-    }
+    const saved =
+      format === 'aegis'
+        ? download(`keyrook-aegis-${stamp()}.json`, exportAegisJson(chosen, data.groups), 'application/json')
+        : format === 'bitwarden'
+          ? download(`keyrook-bitwarden-${stamp()}.json`, exportBitwardenJson(chosen, data.groups), 'application/json')
+          : download(`keyrook-${stamp()}.txt`, exportPlainUris(chosen), 'text/plain');
+    saved.catch((cause: unknown) => setError(errorText(cause)));
   }
 
   async function unlock() {
@@ -452,6 +449,7 @@ function DestinationPanel({
 
 /** A full-screen layer over the settings page, closed by its button or Escape. */
 function Overlay({ children, onClose, label }: { children: ReactNode; onClose: () => void; label: string }) {
+  useBack(true, onClose);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
@@ -622,6 +620,11 @@ function OneByOne({
             )}
           </div>
         </div>
+        {item.type === 'steam' && !destination.makesSteam && (
+          <div className="mt-4 w-full">
+            <Callout tone="warning">{t('export.steamRefused', { app: appName(destination) })}</Callout>
+          </div>
+        )}
         <div className="mt-4 rounded-2xl border border-neutral-200 bg-white p-3 dark:border-neutral-700">
           <QrCode text={buildOtpUri(item)} size={300} label={t('share.qrLabel', { account: titleOf(item) })} />
         </div>
@@ -683,7 +686,7 @@ function PrintSheet({ chosen, onClose }: { chosen: VaultItem[]; onClose: () => v
             </p>
           </div>
           <div className="flex shrink-0 gap-2 print:hidden">
-            <Button variant="primary" onClick={() => window.print()}>
+            <Button variant="primary" onClick={() => host().print()}>
               {t('export.print.print')}
             </Button>
             <Button onClick={onClose}>{t('common.close')}</Button>

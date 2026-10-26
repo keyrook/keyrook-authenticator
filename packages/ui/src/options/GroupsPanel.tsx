@@ -60,7 +60,8 @@ export function GroupsPanel({ data, mutate }: { data: VaultData; mutate: Mutate 
                 key={group.id}
                 className="flex items-center gap-3 border-b border-neutral-100 px-3 py-2.5 last:border-b-0 dark:border-neutral-900"
               >
-                <div className="flex shrink-0 flex-col">
+                {/* Side by side in an app's window, where each is a finger wide. */}
+                <div className="flex shrink-0 flex-col app:flex-row">
                   {([-1, 1] as const).map((direction) => (
                     <button
                       key={direction}

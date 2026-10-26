@@ -4,6 +4,8 @@ import {
   send,
   type ProviderOffer,
   type ProviderStartResult,
+  type ProviderToPassword,
+  type SecondStepAsked,
   type SignInResult,
   type SyncSummary,
 } from '../lib/protocol.js';
@@ -13,19 +15,24 @@ import { Button, Callout, Field, Spinner, cx } from '../components/primitives.js
 import { ACCOUNT_PAGE_URL, PRIVACY_URL, SECURITY_MODEL_URL } from '../lib/links.js';
 import { SourceLink } from '../components/SourceLink.js';
 import { AuthCard, Footnote, FormShell, Mark, TextLink, useSubmit } from './auth-ui.js';
-import { JoinAccount, OrDivider, ProviderButtons, ProviderNewAccount, providerLabel } from './ProviderSignIn.js';
+import { AddOnAccountPage, JoinAccount, OrDivider, ProviderButtons, ProviderNewAccount, providerLabel } from './ProviderSignIn.js';
+import type { MessageKey } from '../i18n/locales/en.js';
+import { offersPasskey, PasskeyButton, type PasskeyFallback } from './PasskeySignIn.js';
+import { SecondStepForm } from './SecondStep.js';
 import { useT, type Translator } from '../i18n/react.js';
 import { localise } from '../i18n/error-text.js';
 
 export { AuthCard } from './auth-ui.js';
 
-type Step = 'intro' | 'create' | 'signIn' | 'recover' | 'providerNew' | 'join';
+type Step = 'intro' | 'create' | 'signIn' | 'recover' | 'providerNew' | 'join' | 'secondStep';
 
 /** A Google or GitHub sign-in that has got as far as the provider. */
 interface ProviderFlow {
   provider: SignInProvider;
   email: string;
   asked: boolean;
+  /** At the second step: the account has passkeys, and one may answer it. */
+  passkeys?: boolean;
 }
 
 /**
@@ -40,7 +47,7 @@ const BENEFITS = ['intro.benefit1', 'intro.benefit2', 'intro.benefit3'] as const
  * official server offers. Drawing the email-only card first and swapping it
  * for this one a moment later looked like two different screens.
  */
-const EXPECTED_OFFER: ProviderOffer = { providers: ['google', 'github'], inTab: true };
+const EXPECTED_OFFER: ProviderOffer = { providers: ['google', 'github'], inTab: true, passkeys: true };
 
 /**
  * Creating an account, signing in, and recovering one — for a vault that is
@@ -58,6 +65,8 @@ export function SyncAuth({
   onSignedUp,
   onSignedIn,
   providerError,
+  providerErrorKey,
+  providerToPassword,
   initialStep,
   introFooter,
 }: {
@@ -69,19 +78,31 @@ export function SyncAuth({
   onSignedUp: (recoveryKey: string | null) => void;
   /** Joined an account, by password or by recovery key. */
   onSignedIn: (result: SignInResult, how: 'signIn' | 'recover') => void;
-  /** Where to open, when the popup sent someone straight to a form. */
-  initialStep?: 'signIn' | 'create' | undefined;
+  /**
+   * Where to open, when the popup sent someone straight to a form — or to a
+   * passkey, asked for at once when Chrome already lets it be.
+   */
+  initialStep?: 'signIn' | 'create' | 'passkey' | undefined;
   /** Why a sign-in made in this tab did not work, said on coming back. */
   providerError?: string | null | undefined;
+  /** And as its message key, for what a page says under it. */
+  providerErrorKey?: MessageKey | undefined;
+  /** A sign-in made in this tab reached an account with a password, which opens it here. */
+  providerToPassword?: ProviderToPassword | null | undefined;
   /** Shown under the card on the first step only. */
   introFooter?: ReactNode;
 }) {
+  const t = useT();
   // Someone who was signed out by the server wants back in, not a sales pitch.
   // A provider account has no form to go back to: its button is on the intro.
   const [step, setStep] = useState<Step>(
-    signedOutElsewhere && !signedOutProvider ? 'signIn' : (initialStep ?? 'intro'),
+    providerToPassword || (signedOutElsewhere && !signedOutProvider)
+      ? 'signIn'
+      : initialStep === 'passkey'
+        ? 'intro'
+        : (initialStep ?? 'intro'),
   );
-  const [email, setEmail] = useState(signedOutElsewhere ?? '');
+  const [email, setEmail] = useState(providerToPassword?.email ?? signedOutElsewhere ?? '');
   // Null until the service worker says, which is at once after the first
   // time; an empty list hides the buttons.
   const [offer, setOffer] = useState<ProviderOffer | null>(null);
@@ -89,29 +110,69 @@ export function SyncAuth({
   // Hidden until it is known whether a sign-in is half done: the intro shown
   // for an instant and then replaced reads as a glitch.
   const [resumed, setResumed] = useState(false);
+  // Sent here by the popup's passkey button: asked once, when the card shows.
+  const [autoPasskey, setAutoPasskey] = useState(initialStep === 'passkey');
+  // A passkey that signed in to an account it cannot open here, said on the
+  // password form it sent the person to.
+  const [passkeyNotice, setPasskeyNotice] = useState<string | null>(
+    providerToPassword ? toPasswordNotice(providerToPassword, t) : null,
+  );
 
   useEffect(() => {
     void send({ type: 'provider/offered' })
       .then(setOffer)
-      .catch(() => setOffer({ providers: [], inTab: false }));
+      .catch(() => setOffer({ providers: [], inTab: false, passkeys: false }));
     // A sign-in this browser started and has not finished — the tab just came
     // back from the provider, or was closed while waiting for approval —
     // picks up where it was.
     void send({ type: 'provider/pending' })
       .then((pending) => {
         if (!pending) return;
-        setFlow({ provider: pending.provider, email: pending.email, asked: pending.asked });
-        setStep(pending.kind === 'signup' ? 'providerNew' : 'join');
+        setFlow({ provider: pending.provider, email: pending.email, asked: pending.asked, passkeys: pending.passkeys === true });
+        setStep(pending.kind === 'signup' ? 'providerNew' : pending.kind === 'secondStep' ? 'secondStep' : 'join');
       })
       .catch(() => undefined)
       .finally(() => setResumed(true));
   }, []);
 
-  const go = (next: Step) => setStep(next);
+  const go = (next: Step) => {
+    if (next !== 'signIn') setPasskeyNotice(null);
+    setStep(next);
+  };
+
+  const fallBack = ({ email: address, message }: PasskeyFallback) => {
+    if (address) setEmail(address);
+    setPasskeyNotice(message);
+    go('signIn');
+  };
+
+  // Beside Google and GitHub, wherever they are offered to sign in — but not
+  // to create an account: a passkey is added to one that exists, on its page.
+  const passkey = offersPasskey(offer ?? EXPECTED_OFFER, protectionMode) ? (
+    <PasskeyButton
+      onSignedIn={(result) => onSignedIn(result, 'signIn')}
+      onFallback={fallBack}
+      autoStart={autoPasskey && offer !== null && resumed}
+      onAutoStarted={() => setAutoPasskey(false)}
+    />
+  ) : null;
 
   function started(provider: SignInProvider, result: ProviderStartResult) {
     if (result.kind === 'signedIn') {
       onSignedIn(result, 'signIn');
+      return;
+    }
+    if (result.kind === 'secondStep') {
+      setFlow({ provider, email: '', asked: false, passkeys: result.passkeys });
+      go('secondStep');
+      return;
+    }
+    if (result.kind === 'password') {
+      // Who is signing in is proved; the password opens the key, on its form.
+      setFlow(null);
+      setEmail(result.email);
+      go('signIn');
+      setPasskeyNotice(toPasswordNotice(result, t));
       return;
     }
     setFlow({ provider, email: result.email, asked: false });
@@ -129,7 +190,9 @@ export function SyncAuth({
         {step === 'intro' && (
           <Intro
             offer={offer}
+            passkey={passkey}
             error={providerError ?? null}
+            errorKey={providerErrorKey}
             signedOutElsewhere={signedOutProvider ? signedOutElsewhere : null}
             signedOutProvider={signedOutProvider}
             onProvider={started}
@@ -143,6 +206,16 @@ export function SyncAuth({
             email={flow.email}
             onCreated={(recoveryKey) => onSignedUp(recoveryKey)}
             onCancel={() => {
+              void send({ type: 'provider/cancel' }).catch(() => undefined);
+              restart();
+            }}
+          />
+        )}
+        {step === 'secondStep' && flow && (
+          <SecondStepForm
+            passkeys={flow.passkeys === true}
+            onAnswer={async (answer) => started(flow.provider, await send({ type: 'provider/secondStep', answer }))}
+            onBack={() => {
               void send({ type: 'provider/cancel' }).catch(() => undefined);
               restart();
             }}
@@ -178,6 +251,8 @@ export function SyncAuth({
             email={email}
             onEmail={setEmail}
             signedOutElsewhere={signedOutElsewhere}
+            passkey={passkey}
+            notice={passkeyNotice}
             onBack={() => go('intro')}
             onCreate={() => go('create')}
             onForgot={() => go('recover')}
@@ -200,7 +275,9 @@ export function SyncAuth({
 
 function Intro({
   offer,
+  passkey,
   error,
+  errorKey,
   signedOutElsewhere,
   signedOutProvider,
   onProvider,
@@ -208,7 +285,10 @@ function Intro({
   onSignIn,
 }: {
   offer: ProviderOffer | null;
+  /** "Continue with a passkey", where one can be asked. */
+  passkey: ReactNode;
   error: string | null;
+  errorKey: MessageKey | undefined;
   signedOutElsewhere: string | null;
   signedOutProvider: SignInProvider | undefined;
   onProvider: (provider: SignInProvider, result: ProviderStartResult) => void;
@@ -244,14 +324,22 @@ function Intro({
         </ul>
       )}
 
-      {error && <Callout tone="danger">{error}</Callout>}
+      {error && (
+        <Callout tone="danger">
+          {error}
+          <AddOnAccountPage errorKey={errorKey} />
+        </Callout>
+      )}
 
       {/* Google and GitHub first: no password to invent, and no email code to
           wait for. The email forms stay for anyone who would rather. */}
       <div className={offer ? undefined : 'invisible'} aria-hidden={offer ? undefined : true}>
-        {shown.providers.length > 0 ? (
+        {shown.providers.length > 0 || passkey ? (
           <div className="flex flex-col gap-4">
-            <ProviderButtons offer={shown} onStarted={onProvider} />
+            <div className="flex flex-col gap-2">
+              {shown.providers.length > 0 && <ProviderButtons offer={shown} onStarted={onProvider} />}
+              {passkey}
+            </div>
             <OrDivider>{t('intro.orEmail')}</OrDivider>
             <div className="grid grid-cols-2 gap-2">
               <Button className="w-full" onClick={onCreate}>
@@ -287,19 +375,26 @@ function Intro({
 /**
  * Google and GitHub above an email form too: someone who chose "Create
  * account" is looking for how to make one, and these are two of the ways.
+ * Above the sign-in form, a passkey is another.
  */
 function ProvidersAbove({
   offer,
   onProvider,
+  passkey = null,
 }: {
   offer: ProviderOffer | null;
   onProvider: (provider: SignInProvider, result: ProviderStartResult) => void;
+  passkey?: ReactNode;
 }) {
   const t = useT();
-  if (!offer || offer.providers.length === 0) return null;
+  const providers = offer !== null && offer.providers.length > 0;
+  if (!providers && !passkey) return null;
   return (
     <div className="flex flex-col gap-4">
-      <ProviderButtons offer={offer} onStarted={onProvider} />
+      <div className="flex flex-col gap-2">
+        {providers && <ProviderButtons offer={offer} onStarted={onProvider} />}
+        {passkey}
+      </div>
       <OrDivider>{t('intro.orEmail')}</OrDivider>
     </div>
   );
@@ -403,7 +498,9 @@ function CreateForm({
           inputMode="numeric"
           autoComplete="one-time-code"
           autoFocus
-          maxLength={6}
+          // Seven: the email writes the code as "482 913", and a field of six
+          // would cut a pasted one to "482 91" before the space is taken out.
+          maxLength={7}
           placeholder="000000"
           value={code}
           // Pasted codes often arrive with a space or a dash in them.
@@ -518,6 +615,11 @@ function CreateForm({
   );
 }
 
+/** Said on the password form a Google or GitHub sign-in sent the person to. */
+function toPasswordNotice(to: ProviderToPassword, t: Translator): string {
+  return t('signin.providerHasPassword', { provider: providerLabel(to.provider), email: to.email });
+}
+
 function SignInForm({
   protectionMode,
   offer,
@@ -525,6 +627,8 @@ function SignInForm({
   email,
   onEmail,
   signedOutElsewhere,
+  passkey,
+  notice,
   onBack,
   onCreate,
   onForgot,
@@ -536,6 +640,9 @@ function SignInForm({
   email: string;
   onEmail: (email: string) => void;
   signedOutElsewhere: string | null;
+  passkey: ReactNode;
+  /** Why a passkey sent the person here instead of signing them in. */
+  notice: string | null;
   onBack: () => void;
   onCreate: () => void;
   onForgot: () => void;
@@ -545,6 +652,23 @@ function SignInForm({
   const [password, setPassword] = useState('');
   const { busy, error, run } = useSubmit();
   const ready = email.includes('@') && password.length > 0;
+  // The account asked for its second step: the password stays here for the
+  // answer, since only it opens the key.
+  const [asked, setAsked] = useState<SecondStepAsked['secondStep'] | null>(null);
+
+  if (asked) {
+    return (
+      <SecondStepForm
+        passkeys={asked.passkeys}
+        ticket={asked.ticket}
+        onAnswer={async (answer) => {
+          const result = await send({ type: 'account/signIn', email, password, secondStep: { ticket: asked.ticket, answer } });
+          if (!('secondStep' in result)) onSignedIn(result);
+        }}
+        onBack={() => setAsked(null)}
+      />
+    );
+  }
 
   return (
     <FormShell
@@ -554,7 +678,9 @@ function SignInForm({
       onSubmit={() =>
         void run(async () => {
           if (!ready) return;
-          onSignedIn(await send({ type: 'account/signIn', email, password }));
+          const result = await send({ type: 'account/signIn', email, password });
+          if ('secondStep' in result) setAsked(result.secondStep);
+          else onSignedIn(result);
         })
       }
     >
@@ -563,8 +689,9 @@ function SignInForm({
           {t('signin.signedOut', { email: signedOutElsewhere })}
         </Callout>
       )}
+      {notice && <Callout tone="warning">{notice}</Callout>}
 
-      <ProvidersAbove offer={offer} onProvider={onProvider} />
+      <ProvidersAbove offer={offer} onProvider={onProvider} passkey={passkey} />
       <div className="flex flex-col gap-4">
         <EmailField email={email} onEmail={onEmail} autoFocus={!email} />
         <PasswordField

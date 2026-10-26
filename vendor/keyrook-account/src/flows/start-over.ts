@@ -33,9 +33,14 @@ import { deriveRecoveryAuthHash } from '../sync/recovery.js';
 import type { AccountServer, ProductKey } from './product-key.js';
 
 /**
- * Starts the account over with the code emailed by `requestStartOverCode`: a
- * new root, this product's new key, a new recovery key and, on an account
- * with a password, a new password. Every other session ends.
+ * Asks to start the account over with the code emailed by
+ * `requestStartOverCode`: a new root, this product's new key, a new recovery
+ * key and, on an account with a password, a new password. It takes effect at
+ * `executesAt`, a week on, unless a device still signed in cancels it; until
+ * then the account is as it was, and no session is issued. Show the recovery
+ * key now: it is the one that works afterwards. From `executesAt`, sign in
+ * with the new password (or Google or GitHub); this product's key is then in
+ * its box, opened as at any sign-in.
  */
 export async function startAccountOver(
   server: AccountServer,
@@ -49,9 +54,7 @@ export async function startAccountOver(
     deviceName: string;
     kdf?: AccountKdfParams;
   },
-  /** The product's own adapter for the new session: its token store, its fetcher. */
-  connect: (session: LoginResponse) => HttpSyncAdapter,
-): Promise<{ session: LoginResponse; productKey: ProductKey; recoveryKey: string; password?: { kdf: AccountKdfParams; keys: AccountKeys } }> {
+): Promise<{ executesAt: number; recoveryKey: string }> {
   assertProductName(input.product);
   const begun = await beginStartOver(server.baseUrl, { email: input.email, code: input.code }, server.fetcher);
   const { accountId } = begun;
@@ -67,10 +70,10 @@ export async function startAccountOver(
   const root = await newAccountRoot();
   const key = await generateDataKey();
   const recoveryKey = generateRecoveryKey();
-  const now = Date.now();
-  const session = await startOver(
+  const { executesAt } = await startOver(
     server.baseUrl,
     {
+      schedule: true,
       email: input.email,
       ticket: begun.ticket,
       ...(password ? { authHash: password.keys.authHash, kdf: password.kdf } : {}),
@@ -84,7 +87,7 @@ export async function startAccountOver(
           recoveryAuthHash: await deriveRecoveryAuthHash(recoveryKey),
         },
         box: await sealProductBox(key, root.publicKey, accountId, input.product),
-        pin: await sealRootPin(key, { root: root.publicKey, sheetVerifiedAt: now }, accountId, input.product),
+        pin: await sealRootPin(key, { root: root.publicKey, sheetVerifiedAt: Date.now() }, accountId, input.product),
         keyCheck: await deriveProductKeyCheck(input.product, key),
       },
       deviceId: input.deviceId,
@@ -92,27 +95,7 @@ export async function startAccountOver(
     },
     server.fetcher,
   );
-  if (session.account.id !== accountId) throw new Error('The server answered for another account.');
-  // The generations count on from those put aside, which only the server
-  // knows; what it holds has to be what this device just made.
-  const held = await connect(session).accountKeys();
-  if (held.accountId !== accountId || held.root?.publicKey !== root.publicKey || !held.box) {
-    throw new Error('The server answered for another account.');
-  }
-  return {
-    session,
-    productKey: {
-      accountId,
-      product: input.product,
-      key,
-      keyGeneration: held.box.keyGeneration,
-      root: root.publicKey,
-      rootGeneration: held.root.generation,
-      sheetVerifiedAt: now,
-    },
-    recoveryKey,
-    ...(password ? { password } : {}),
-  };
+  return { executesAt, recoveryKey };
 }
 
 /**

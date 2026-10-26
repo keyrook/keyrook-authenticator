@@ -7,6 +7,7 @@ import {
   type VaultStatus,
 } from '../lib/protocol.js';
 import { errorText } from '../i18n/error-text.js';
+import { host } from '../host.js';
 
 /** Vault status plus the only sanctioned way to write to it. */
 export function useVault() {
@@ -137,7 +138,7 @@ export function useCopy(resetAfterMs = 1400) {
 
   const copy = useCallback(
     async (id: string, text: string) => {
-      await navigator.clipboard.writeText(text);
+      await host().copy(text);
       setCopiedId(id);
       if (timer.current) window.clearTimeout(timer.current);
       timer.current = window.setTimeout(() => setCopiedId(null), resetAfterMs);
@@ -148,12 +149,26 @@ export function useCopy(resetAfterMs = 1400) {
   return { copiedId, copy };
 }
 
-/** Tell the service worker the user is still here, so auto-lock keeps deferring. */
+/**
+ * Tell the vault service the user is still here, so auto-lock keeps deferring
+ * — while the page can be seen, and not otherwise. A Settings tab left behind
+ * another one, or a phone app sent to the background, is a page nobody is
+ * using, and kept the vault open for as long as it stayed open. Coming back
+ * into sight counts as use at once, or a short delay would lock the vault
+ * under the person who just returned to it.
+ */
 export function useActivityPing(active: boolean): void {
   useEffect(() => {
     if (!active) return;
-    void send({ type: 'activity/ping' });
-    const id = window.setInterval(() => void send({ type: 'activity/ping' }), 60_000);
-    return () => window.clearInterval(id);
+    const ping = () => {
+      if (document.visibilityState === 'visible') void send({ type: 'activity/ping' });
+    };
+    ping();
+    const id = window.setInterval(ping, 60_000);
+    document.addEventListener('visibilitychange', ping);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', ping);
+    };
   }, [active]);
 }
