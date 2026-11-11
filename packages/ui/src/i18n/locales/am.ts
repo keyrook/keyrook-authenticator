@@ -20,6 +20,8 @@ export const am: Dictionary = {
   'error.noAccountSheet': 'ይህ መለያ ገና የመልሶ ማግኛ ቁልፍ የለውም። በመለያ ገጹ ላይ አንድ ይፍጠሩ።',
   'error.recoveryKeyWrong': 'ይህ የመልሶ ማግኛ ቁልፍ የዚህ መለያ አይደለም።',
   'error.noRecoveryKit': 'ይህ ካዝና የመልሶ ማግኛ ቁልፍ የለውም።',
+  'error.accountData.withheld':
+    'Firefox Keyrook Authenticator ወደ Keyrook መለያ ምንም ነገር እንዲልክ አልፈቀደም፣ ስለዚህ ምንም አልተላከም። Firefox ሲጠይቅ ይፍቀዱ፣ ወይም በabout:addons ላይ።',
   'error.syncUnavailable': 'በዚህ ስሪት ማመሳሰል አይገኝም።',
   'error.notSignedIn': 'አልገቡም።',
   'error.alreadySignedIn': 'አስቀድመው ገብተዋል።',
@@ -44,6 +46,7 @@ export const am: Dictionary = {
   'error.noActiveTab': 'ንቁ ትር የለም።',
   'error.autofillNotHere': 'ራስ-ሙላ የሚሠራው በተራ ድረ-ገጾች ላይ ብቻ ነው።',
   'error.autofillBlocked': 'Chrome ቅጥያው ይህን ገጽ እንዲያነብ አልፈቀደም። ብቅ-ባዩን ሊሞሉት ከሚፈልጉት ገጽ ይክፈቱ።',
+  'error.autofillBlocked.firefox': 'Firefox ቅጥያው ይህን ገጽ እንዲያነብ አልፈቀደም። ብቅ-ባዩን ሊሞሉት ከሚፈልጉት ገጽ ይክፈቱ።',
   'error.signinCancelled': 'መግባት ተሰርዟል።',
   'error.signinStateMismatch': 'መግባቱ እንደሄደው አልተመለሰም። እንደገና ይሞክሩ።',
   'error.signinUnfinished': 'መግባቱ አልተጠናቀቀም። እንደገና ይሞክሩ።',
@@ -292,6 +295,7 @@ export const am: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator ጠቅሞዎታል?</b> በ{store} ላይ የሚሰጡት ደረጃ ሌሎች እንዲያገኙት ይረዳል።',
   'rate.store.chrome': 'Chrome ድር መደብር',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'አሁን አይደለም',
   'rate.rate': 'ደረጃ ስጥ',
 
@@ -306,6 +310,7 @@ export const am: Dictionary = {
   'add.camera.title': 'በካሜራ ቃኝ',
   'add.camera.description': 'በስልክ ላይ ላለ ኮድ — የGoogle Authenticator ኤክስፖርትን ጨምሮ።',
   'add.camera.elsewhere': 'Chrome ካሜራውን እንዲጠይቅ ቅንብሮችን አንድ ጊዜ ይከፍታል። ከዚያ በኋላ እዚሁ በቀጥታ ይሠራል።',
+  'add.camera.elsewhere.firefox': 'Firefox ካሜራውን እንዲጠይቅ ቅንብሮችን አንድ ጊዜ ይከፍታል። ከዚያ በኋላ እዚሁ በቀጥታ ይሠራል።',
   'add.upload.title': 'የQR ኮድ ምስል ስቀል',
   'add.upload.description': 'ቀደም ብለው ያስቀመጡት ቅጽበታዊ ገጽ እይታ ወይም ፎቶ።',
   'add.manual.title': 'የማዋቀሪያ ቁልፉን በእጅ አስገባ',
@@ -317,6 +322,8 @@ export const am: Dictionary = {
   'common.done': 'ተጠናቋል',
   'add.noNativeReader':
     'በዚህ ኮምፒውተር ላይ ያለው Chrome አብሮ የተሠራ የQR አንባቢ የለውም፤ ስለዚህ ትልቅ ኮድ — እንደ Google Authenticator ኤክስፖርት — ብዙ ጊዜ በካሜራ ሊቃኝ አይችልም። ካልሠራ በስልኩ ላይ ቅጽበታዊ ገጽ እይታ ያንሡና “የQR ኮድ ምስል ስቀል”ን ይጠቀሙ።',
+  'add.noNativeReader.firefox':
+    'በዚህ ኮምፒውተር ላይ ያለው Firefox አብሮ የተሠራ የQR አንባቢ የለውም፤ ስለዚህ ትልቅ ኮድ — እንደ Google Authenticator ኤክስፖርት — ብዙ ጊዜ በካሜራ ሊቃኝ አይችልም። ካልሠራ በስልኩ ላይ ቅጽበታዊ ገጽ እይታ ያንሡና “የQR ኮድ ምስል ስቀል”ን ይጠቀሙ።',
   'add.openScannerInSettings': 'ቃኚውን በቅንብሮች ውስጥ ክፈት',
   'add.noneFound': 'ምንም መለያ አልተገኘም።',
   'add.noQrOnPage': 'በገጹ በሚታየው ክፍል ላይ QR ኮድ የለም። እንዲታይ ያሸብልሉና እንደገና ይሞክሩ።',
@@ -360,6 +367,7 @@ export const am: Dictionary = {
     'QR ኮዱን በክፈፉ ውስጥ ያቆዩ። ከGoogle Authenticator እየመጡ ነው? በስልኩ ላይ የኤክስፖርት ማያውን ከፍተው ካሜራውን ወደ እሱ ያዙሩ — ብዙ ኮዶች ካሉ አንዱን ከሌላው በኋላ ያሳዩ።',
   'camera.privacy': 'ምስሉ በዚህ መሣሪያ ላይ ተነብቦ ይጣላል። ምንም አይቀረጽም ወይም አይሰቀልም።',
   'camera.blocked': 'Chrome ካሜራውን አግዷል። ለዚህ ገጽ ይፍቀዱ፣ ወይም መለያውን በሌላ መንገድ ያክሉ።',
+  'camera.blocked.firefox': 'Firefox ካሜራውን አግዷል። ለዚህ ገጽ ይፍቀዱ፣ ወይም መለያውን በሌላ መንገድ ያክሉ።',
   'camera.none': 'በዚህ ኮምፒውተር ላይ ካሜራ አልተገኘም።',
   'camera.busy': 'ካሜራው በሌላ ፕሮግራም እየተጠቀመ ነው።',
 
@@ -463,6 +471,8 @@ export const am: Dictionary = {
   'about.fact.access.title': 'ወደ ጣቢያዎች ሰፊ መዳረሻ የለም',
   'about.fact.access.body':
     'ይህ ቅጥያ ምንም የጣቢያ ፈቃድ አይጠይቅም። ከገጽ QR ኮድ ማንበብ ወይም በገጽ ላይ ኮድ መሙላት activeTabን ይጠቀማል — Chrome ቅጥያውን ላሄዱበት ትር ብቻ የሚሰጠው ፈቃድ።',
+  'about.fact.access.body.firefox':
+    'ይህ ቅጥያ ምንም የጣቢያ ፈቃድ አይጠይቅም። ከገጽ QR ኮድ ማንበብ ወይም በገጽ ላይ ኮድ መሙላት activeTabን ይጠቀማል — Firefox ቅጥያውን ላሄዱበት ትር ብቻ የሚሰጠው ፈቃድ።',
   'about.fact.standards.title': 'ደረጃዎች እንጂ መታሰር አይደለም',
   'about.fact.standards.body': 'RFC 6238 TOTP እና RFC 4226 HOTP፣ ከotpauth:// ማስመጣትና ኤክስፖርት ጋር። በማንኛውም ጊዜ ወደ ሌላ መተግበሪያ ሄደው ሁሉንም ይዘው መሄድ ይችላሉ።',
   'about.version': 'ስሪት {version}',
@@ -483,6 +493,7 @@ export const am: Dictionary = {
   'about.logos.body':
     '{count} አገልግሎቶች እውነተኛ አርማ አላቸው። ምስሎቹ ከ<simple>Simple Icons</simple> (CC0 1.0)፣ LobeHub Icons፣ SVG Logos፣ CoreUI Brands፣ Arcticons እና <fa>Font Awesome Free</fa> (አዶዎች፣ CC BY 4.0) ናቸው። ሁሉም የምርት ስሞችና አርማዎች የባለቤቶቻቸው ናቸው፤ የመለያውን አገልግሎት ለመለየት ብቻ ያገለግላሉ። በእነዚህ ስብስቦች ውስጥ አርማ የሌለው አገልግሎት ፊደል ያለበት ሰድር ያገኛል።',
   'about.shortcut.change': 'በchrome://extensions/shortcuts ላይ ይቀይሩት።',
+  'about.shortcut.change.firefox': 'በabout:addons ላይ ይቀይሩት።',
   'accounts.title': 'መለያዎች',
   'accounts.description': 'በዚህ ካዝና ውስጥ የተቀመጠው ሁሉ። ኮዶች የሚፈጠሩት በዚህ መሣሪያ ላይ ነው እንጂ በአገልጋይ ላይ ፈጽሞ አይደለም።',
   'accounts.empty': 'እስካሁን መለያዎች የሉም። ለመጀመር አንድ ያክሉ።',
@@ -533,6 +544,8 @@ export const am: Dictionary = {
   'import.stopAndReview': 'አቁምና {count}ን ገምግም',
   'import.noNativeReader':
     'በዚህ ኮምፒውተር ላይ ያለው Chrome አብሮ የተሠራ የQR አንባቢ የለውም፤ ስለዚህ ትልቅ ኮድ — እንደ Google Authenticator ኤክስፖርት — ብዙ ጊዜ በካሜራ ሊቃኝ አይችልም። ካልሠራ በስልኩ ላይ የእያንዳንዱን ኮድ ቅጽበታዊ ገጽ እይታ ያንሡና ሁሉንም በ“ፋይሎችን ምረጥ” ይምረጡ።',
+  'import.noNativeReader.firefox':
+    'በዚህ ኮምፒውተር ላይ ያለው Firefox አብሮ የተሠራ የQR አንባቢ የለውም፤ ስለዚህ ትልቅ ኮድ — እንደ Google Authenticator ኤክስፖርት — ብዙ ጊዜ በካሜራ ሊቃኝ አይችልም። ካልሠራ በስልኩ ላይ የእያንዳንዱን ኮድ ቅጽበታዊ ገጽ እይታ ያንሡና ሁሉንም በ“ፋይሎችን ምረጥ” ይምረጡ።',
   'import.encrypted': 'ይህ ምትኬ የተመሰጠረ ነው። የተሠራበትን የይለፍ ቃል ያስገቡ።',
   'import.backupPassword': 'የምትኬ የይለፍ ቃል',
   'import.open': 'ምትኬውን ክፈት',
@@ -748,10 +761,16 @@ export const am: Dictionary = {
   },
   'account.signOutNote': 'መውጣት ኮዶችዎን ከዚህ አሳሽ ያስወግዳል። በKeyrook መለያዎ ውስጥ ይቀራሉ — መልሰው ለማምጣት እንደገና ይግቡ።',
   'accountPage.title': 'የእርስዎ Keyrook መለያ',
-  'accountPage.body': 'የይለፍ ቃል፣ የመልሶ ማግኛ ቁልፍ፣ እንደ አዲስ መጀመርና መሰረዝ በመለያ ገጹ ላይ ናቸው፣ ለሁሉም የKeyrook መተግበሪያዎች በአንድ ጊዜ።',
-  'accountPage.bodyNoRoot': 'የይለፍ ቃሉና መሰረዙ በመለያ ገጹ ላይ ናቸው። የመልሶ ማግኛ ቁልፉ ሌላ የKeyrook መተግበሪያ መለያውን እስኪጠቀም ድረስ እዚህ፣ በደህንነት ስር ይፈጠራል።',
-  'accountPage.bodyProvider': 'የመልሶ ማግኛ ቁልፍ፣ እንደ አዲስ መጀመርና መሰረዝ በመለያ ገጹ ላይ ናቸው፣ ለሁሉም የKeyrook መተግበሪያዎች በአንድ ጊዜ።',
-  'accountPage.bodyNoRootProvider': 'መሰረዙ በመለያ ገጹ ላይ ነው። የመልሶ ማግኛ ቁልፉ ሌላ የKeyrook መተግበሪያ መለያውን እስኪጠቀም ድረስ እዚህ፣ በደህንነት ስር ይፈጠራል።',
+  'accountPage.body': 'አድራሻ፣ የይለፍ ቃል፣ የመልሶ ማግኛ ቁልፍ፣ እንደ አዲስ መጀመርና መሰረዝ በመለያ ገጹ ላይ ናቸው፣ ለሁሉም የKeyrook መተግበሪያዎች በአንድ ጊዜ።',
+  'accountPage.bodyNoRoot': 'አድራሻው፣ የይለፍ ቃሉና መሰረዙ በመለያ ገጹ ላይ ናቸው። የመልሶ ማግኛ ቁልፉ ሌላ የKeyrook መተግበሪያ መለያውን እስኪጠቀም ድረስ እዚህ፣ በደህንነት ስር ይፈጠራል።',
+  'accountPage.bodyProvider': 'አድራሻ፣ የመልሶ ማግኛ ቁልፍ፣ እንደ አዲስ መጀመርና መሰረዝ በመለያ ገጹ ላይ ናቸው፣ ለሁሉም የKeyrook መተግበሪያዎች በአንድ ጊዜ።',
+  'accountPage.bodyNoRootProvider': 'አድራሻውና መሰረዙ በመለያ ገጹ ላይ ናቸው። የመልሶ ማግኛ ቁልፉ ሌላ የKeyrook መተግበሪያ መለያውን እስኪጠቀም ድረስ እዚህ፣ በደህንነት ስር ይፈጠራል።',
+  'accountPage.address': 'የኢሜይል አድራሻ',
+  'accountPage.changeAddress': 'አድራሻ ቀይር',
+  'accountPage.activity': 'የቅርብ ጊዜ እንቅስቃሴ',
+  'accountPage.activityBody': 'ባለፉት 90 ቀናት ወደ መለያዎ የተደረጉ መግቢያዎችና ለውጦች፣ ከመሣሪያው፣ ከመተግበሪያውና ከአገሩ ጋር፣ በመለያ ገጹ ላይ።',
+  'accountPage.data': 'የመለያ ውሂብ',
+  'accountPage.dataBody': 'የKeyrook አገልጋይ ስለ መለያዎ የያዘውን ከመለያ ገጹ ያውርዱ። ኮዶችዎ በውስጡ የሉም፤ አገልጋዩ የሚይዛቸው ተመስጥረው ብቻ ነው። በምትኬ ስር ይላኩዋቸው።',
   'sheetCheck.lead': 'ኮዶችዎን መመለስ እንደሚችል ይህ መተግበሪያ እንዲያውቅ ያስቀመጡትን የመልሶ ማግኛ ቁልፍ አንድ ጊዜ ይተይቡ። የሚረጋገጠው በዚህ መሣሪያ ላይ ነው፤ ወደየትም አይላክም።',
   'sheetCheck.submit': 'አረጋግጥ',
   'sheetCheck.lost': 'ጠፍቶብዎታል ወይስ ኖሮዎት አያውቅም? በመለያ ገጹ ላይ አዲስ ይፍጠሩ።',
@@ -797,12 +816,7 @@ export const am: Dictionary = {
   'password.change': 'የይለፍ ቃል ቀይር…',
   'password.formTitle': 'የመለያውን የይለፍ ቃል ይቀይሩ',
   'devices.title': 'የገቡ መሣሪያዎች',
-  'devices.description':
-    'ከእንግዲህ የማይጠቀሙበትን ወይም የሌለዎትን መሣሪያ ያስወጡ። የተዘመነ Keyrook Authenticator የሚያሄድ ከሆነ፣ በሚቀጥለው ጊዜ ሲገናኝ የዚህን መለያ ኮዶች ከራሱ ያስወግዳል፣ ፈጽሞ ያልላከውን ብቻ ይይዛል። እስከዚያው፣ ወይም ዳግመኛ ካልተገናኘ፣ የነበረውን በተመሳሳይ የይለፍ ቃል እንደተቆለፈ ይይዛል።',
-  'devices.descriptionProvider':
-    'ከእንግዲህ የማይጠቀሙበትን ወይም የሌለዎትን መሣሪያ ያስወጡ። የተዘመነ Keyrook Authenticator የሚያሄድ ከሆነ፣ በሚቀጥለው ጊዜ ሲገናኝ የዚህን መለያ ኮዶች ከራሱ ያስወግዳል፣ ፈጽሞ ያልላከውን ብቻ ይይዛል። እስከዚያው፣ ወይም ዳግመኛ ካልተገናኘ፣ የነበረውን ካዝናው በዚያ መሣሪያ ላይ በተቆለፈበት መንገድ እንደተቆለፈ ይይዛል።',
-  'devices.this': 'ይህ መሣሪያ',
-  'devices.when': '{created} ገብቷል · ለመጨረሻ ጊዜ ንቁ የነበረው {seen}',
+  'devices.onAccountPage': 'ወደ መለያዎ የገቡትን ሁሉንም መሣሪያዎች በመለያ ገጹ ላይ ይመልከቱ፣ እዚያም አንዱን ያስወጡ ወይም ያስወግዱ።',
   'removed.kept': 'እዚህ የታከሉ ወይም የተቀየሩ ግን ወደ መለያው ያልደረሱ ኮዶች አሁንም እዚህ አሉ።',
   'delete.row': 'መለያ ሰርዝ',
   'delete.rowDescription': 'እያንዳንዱን የተመሰጠረ ቅጂ ከአገልጋዩ ያስወግዳል። ይህ መሣሪያ ካዝናውን እንዳለ ይይዛል፤ ሌሎች መሣሪያዎች ማመሳሰል ያቆማሉ።',
@@ -945,6 +959,7 @@ export const am: Dictionary = {
   'backup.choice.import.title': 'አስመጣ',
   'backup.choice.import.body': 'ከምትኬ፣ ከሌላ መተግበሪያ ኤክስፖርት፣ ወይም ከotpauth:// አገናኞች።',
   'backup.choice.move.body': 'የማዛወሪያ ኮዶች፣ የሚታተም ገጽ ወይም የሚነበብ ፋይል። ያልተመሰጠረ።',
+  'backup.accountData': 'ኮዶችዎን መላክ የሚችለው Keyrook Authenticator ብቻ ነው፤ አገልጋዩ የሚይዛቸው ተመስጥረው ነው። አገልጋዩ ስለ መለያዎ የሚይዘው፣ ያለ ኮዶችና ቁልፎች፣ ከመለያ ገጹ ይወርዳል።',
   'security.description': 'ይህ ካዝና እንዴት እንደሚከፈት፣ እና ይህን አሳሽ ቢያጡ መመለሻዎ።',
   'security.deviceKeyHint': 'የሚተየብ ነገር የለም። በዚህ ኮምፒውተር ላይ በእርስዎ ስም የሚሠራ ተንኮል-አዘል ሶፍትዌርን አያቆምም።',
   'security.passwordHint': 'ካዝናው በተቆለፈ ቁጥር ይጠየቃል።',
@@ -1005,10 +1020,6 @@ export const am: Dictionary = {
   'about.fact.keys.body.phone':
     'መለያዎችዎ በውሂብ ቁልፍ የተመሰጠሩ ሲሆን እሱ ራሱ በሌላ ቁልፍ ተጠቅልሏል። ዋና የይለፍ ቃል ካለ የሚጠቀልለው ቁልፍ ከ600,000 ዙር PBKDF2 ይገኛል፤ ካዝናው ተከፍቶ እስካለ ድረስ ብቻ በማህደረ ትውስታ ውስጥ ይኖራል። ያለ የይለፍ ቃል ደግሞ በስልኩ የራሱ የቁልፍ ማከማቻ የታሸገ ቁልፍ ነው፤ ስለዚህ የመተግበሪያው ፋይሎች ቅጂ ካዝናውን ሊከፍት አይችልም።',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'ትልቅ ኮድ — እንደ Google Authenticator ኤክስፖርት — ብዙ ጊዜ እዚህ በካሜራ ሊቃኝ አይችልም። ካልሠራ በስልኩ የካሜራ መተግበሪያ ፎቶ አንሡና “የQR ኮድ ምስል ስቀል”ን ይጠቀሙ።',
-  'import.noNativeReader.phone':
-    'ትልቅ ኮድ — እንደ Google Authenticator ኤክስፖርት — ብዙ ጊዜ እዚህ በካሜራ ሊቃኝ አይችልም። ካልሠራ በስልኩ የካሜራ መተግበሪያ የእያንዳንዱን ኮድ ፎቶ አንሡና ሁሉንም በ“ፋይሎችን ምረጥ” ይምረጡ።',
   'error.signOutUnsynced.phone':
     'በዚህ ስልክ ላይ ያሉ አንዳንድ ለውጦች ገና ወደ መለያዎ አልደረሱም፤ አሁን መውጣት ያጠፋቸዋል። ከበይነመረብ ጋር ይገናኙ እና እንደገና ይሞክሩ።',
   'account.signOutNote.phone': 'መውጣት ኮዶችዎን ከዚህ ስልክ ያስወግዳል። በKeyrook መለያዎ ውስጥ ይቀራሉ — መልሰው ለማምጣት እንደገና ይግቡ።',

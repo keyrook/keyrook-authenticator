@@ -20,6 +20,8 @@ export const nl: Dictionary = {
   'error.noAccountSheet': 'Dit account heeft nog geen herstelsleutel. Maak er een op de accountpagina.',
   'error.recoveryKeyWrong': 'Die herstelsleutel hoort niet bij dit account.',
   'error.noRecoveryKit': 'Deze kluis heeft geen herstelsleutel.',
+  'error.accountData.withheld':
+    'Firefox heeft Keyrook Authenticator niet toegestaan iets naar een Keyrook-account te sturen, dus er is niets verstuurd. Sta het toe als Firefox erom vraagt, of via about:addons.',
   'error.syncUnavailable': 'Synchronisatie is niet beschikbaar in deze versie.',
   'error.notSignedIn': 'Niet ingelogd.',
   'error.alreadySignedIn': 'Al ingelogd.',
@@ -48,6 +50,8 @@ export const nl: Dictionary = {
   'error.autofillNotHere': 'Automatisch invullen werkt alleen op gewone webpagina’s.',
   'error.autofillBlocked':
     'Chrome liet de extensie deze pagina niet lezen. Open de pop-up vanaf de pagina die je wilt invullen.',
+  'error.autofillBlocked.firefox':
+    'Firefox liet de extensie deze pagina niet lezen. Open de pop-up vanaf de pagina die je wilt invullen.',
   'error.signinCancelled': 'Inloggen is geannuleerd.',
   'error.signinStateMismatch': 'Deze inlogpoging kwam niet terug zoals ze vertrok. Probeer het opnieuw.',
   'error.signinUnfinished': 'Inloggen is niet afgerond. Probeer het opnieuw.',
@@ -320,6 +324,7 @@ export const nl: Dictionary = {
   'rate.body': '<b>Vind je Keyrook Authenticator nuttig?</b> Via een beoordeling in {store} vinden anderen het.',
   'rate.store.chrome': 'de Chrome Web Store',
   'rate.store.edge': 'Edge-invoegtoepassingen',
+  'rate.store.firefox': 'Firefox-invoegtoepassingen',
   'rate.notNow': 'Niet nu',
   'rate.rate': 'Beoordelen',
 
@@ -337,6 +342,8 @@ export const nl: Dictionary = {
   'add.camera.description': 'Voor een code op je telefoon, ook een export van Google Authenticator.',
   'add.camera.elsewhere':
     'Opent één keer Instellingen zodat Chrome om de camera kan vragen. Daarna werkt het hier.',
+  'add.camera.elsewhere.firefox':
+    'Opent één keer Instellingen zodat Firefox om de camera kan vragen. Daarna werkt het hier.',
   'add.upload.title': 'QR-afbeelding uploaden',
   'add.upload.description': 'Een schermafbeelding of foto die je eerder hebt opgeslagen.',
   'add.manual.title': 'Instelsleutel handmatig invoeren',
@@ -348,6 +355,8 @@ export const nl: Dictionary = {
   'common.done': 'Klaar',
   'add.noNativeReader':
     'Chrome heeft op deze computer geen ingebouwde QR-lezer, dus een grote code, zoals een export van Google Authenticator, scant vaak niet met een camera. Lukt het niet, maak dan een schermafbeelding op je telefoon en gebruik „QR-afbeelding uploaden”.',
+  'add.noNativeReader.firefox':
+    'Firefox heeft op deze computer geen ingebouwde QR-lezer, dus een grote code, zoals een export van Google Authenticator, scant vaak niet met een camera. Lukt het niet, maak dan een schermafbeelding op je telefoon en gebruik „QR-afbeelding uploaden”.',
   'add.openScannerInSettings': 'Scanner openen in Instellingen',
   'add.noneFound': 'Geen accounts gevonden.',
   'add.noQrOnPage':
@@ -401,6 +410,8 @@ export const nl: Dictionary = {
     'Het beeld wordt op dit apparaat gelezen en weggegooid. Er wordt niets opgenomen en niets geüpload.',
   'camera.blocked':
     'Chrome heeft de toegang tot de camera geblokkeerd. Sta die toe voor deze pagina, of voeg een account op een andere manier toe.',
+  'camera.blocked.firefox':
+    'Firefox heeft de toegang tot de camera geblokkeerd. Sta die toe voor deze pagina, of voeg een account op een andere manier toe.',
   'camera.none': 'Geen camera gevonden op deze computer.',
   'camera.busy': 'De camera wordt door een ander programma gebruikt.',
 
@@ -519,6 +530,8 @@ export const nl: Dictionary = {
   'about.fact.access.title': 'Geen algemene toegang tot websites',
   'about.fact.access.body':
     'De extensie vraagt geen hostrechten. Een QR-code van een pagina lezen of er een code in invullen gaat via activeTab: een recht dat Chrome alleen geeft voor het tabblad waarop je de extensie hebt geopend.',
+  'about.fact.access.body.firefox':
+    'De extensie vraagt geen hostrechten. Een QR-code van een pagina lezen of er een code in invullen gaat via activeTab: een recht dat Firefox alleen geeft voor het tabblad waarop je de extensie hebt geopend.',
   'about.fact.standards.title': 'Standaarden, geen lock-in',
   'about.fact.standards.body':
     'RFC 6238 TOTP en RFC 4226 HOTP, met otpauth://-import en -export. Je kunt op elk moment naar een andere app overstappen en alles meenemen.',
@@ -541,6 +554,7 @@ export const nl: Dictionary = {
   'about.logos.body':
     '{count} diensten hebben een echt logo. Afbeeldingen van <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons en <fa>Font Awesome Free</fa> (pictogrammen, CC BY 4.0). Alle productnamen en logo’s zijn van hun eigenaren en dienen alleen om de dienst van een account te herkennen. Een dienst zonder logo in deze sets krijgt een tegel met een letter.',
   'about.shortcut.change': 'Wijzig hem via chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Wijzig hem via about:addons.',
   // --- Instellingen: accounts ---------------------------------------------------
   'accounts.title': 'Accounts',
   'accounts.description':
@@ -595,6 +609,8 @@ export const nl: Dictionary = {
   'import.stopAndReview': 'Stoppen en {count} bekijken',
   'import.noNativeReader':
     'Chrome heeft op deze computer geen ingebouwde QR-lezer, dus een grote code, zoals een export van Google Authenticator, scant vaak niet met een camera. Lukt het niet, maak dan van elke code een schermafbeelding op je telefoon en kies ze allemaal met „Bestanden kiezen”.',
+  'import.noNativeReader.firefox':
+    'Firefox heeft op deze computer geen ingebouwde QR-lezer, dus een grote code, zoals een export van Google Authenticator, scant vaak niet met een camera. Lukt het niet, maak dan van elke code een schermafbeelding op je telefoon en kies ze allemaal met „Bestanden kiezen”.',
   'import.encrypted': 'Deze back-up is versleuteld. Voer het wachtwoord in waarmee hij is gemaakt.',
   'import.backupPassword': 'Back-upwachtwoord',
   'import.open': 'Back-up openen',
@@ -850,10 +866,16 @@ export const nl: Dictionary = {
   'account.signOutNote':
     'Uitloggen haalt je codes van deze browser. Ze blijven in je Keyrook-account: log opnieuw in om ze terug te halen.',
   'accountPage.title': 'Je Keyrook-account',
-  'accountPage.body': 'Het wachtwoord, de herstelsleutel, opnieuw beginnen en verwijderen staan op de accountpagina, voor alle Keyrook-apps tegelijk.',
-  'accountPage.bodyNoRoot': 'Het wachtwoord en verwijderen staan op de accountpagina. De herstelsleutel maak je hier, onder Beveiliging, tot een andere Keyrook-app het account gebruikt.',
-  'accountPage.bodyProvider': 'De herstelsleutel, opnieuw beginnen en verwijderen staan op de accountpagina, voor alle Keyrook-apps tegelijk.',
-  'accountPage.bodyNoRootProvider': 'Verwijderen staat op de accountpagina. De herstelsleutel maak je hier, onder Beveiliging, tot een andere Keyrook-app het account gebruikt.',
+  'accountPage.body': 'Het adres, het wachtwoord, de herstelsleutel, opnieuw beginnen en verwijderen staan op de accountpagina, voor alle Keyrook-apps tegelijk.',
+  'accountPage.bodyNoRoot': 'Het adres, het wachtwoord en verwijderen staan op de accountpagina. De herstelsleutel maak je hier, onder Beveiliging, tot een andere Keyrook-app het account gebruikt.',
+  'accountPage.bodyProvider': 'Het adres, de herstelsleutel, opnieuw beginnen en verwijderen staan op de accountpagina, voor alle Keyrook-apps tegelijk.',
+  'accountPage.bodyNoRootProvider': 'Het adres en verwijderen staan op de accountpagina. De herstelsleutel maak je hier, onder Beveiliging, tot een andere Keyrook-app het account gebruikt.',
+  'accountPage.address': 'E-mailadres',
+  'accountPage.changeAddress': 'Adres wijzigen',
+  'accountPage.activity': 'Recente activiteit',
+  'accountPage.activityBody': 'Inloggen en wijzigingen op je account van de afgelopen 90 dagen, met het apparaat, de app en het land, op de accountpagina.',
+  'accountPage.data': 'Accountgegevens',
+  'accountPage.dataBody': 'Download op de accountpagina wat de server van Keyrook over je account bewaart. Je codes zitten er niet in: de server bewaart ze alleen versleuteld. Exporteer ze onder Back-up.',
   'sheetCheck.lead': 'Typ de herstelsleutel die je hebt bewaard één keer in, zodat deze app weet dat hij je codes kan terughalen. Hij wordt op dit apparaat gecontroleerd en nergens heen gestuurd.',
   'sheetCheck.submit': 'Controleren',
   'sheetCheck.lost': 'Kwijt, of nooit gehad? Maak een nieuwe op de accountpagina.',
@@ -902,12 +924,8 @@ export const nl: Dictionary = {
   'password.change': 'Wachtwoord wijzigen…',
   'password.formTitle': 'Het wachtwoord van je account wijzigen',
   'devices.title': 'Ingelogde apparaten',
-  'devices.description':
-    'Log een apparaat uit dat je niet meer gebruikt of niet meer hebt. Draait er een bijgewerkte Keyrook Authenticator op, dan haalt het de codes van dit account bij de volgende verbinding zelf weg en houdt het alleen wat het nooit heeft verstuurd. Tot die tijd, of als het nooit meer verbinding maakt, houdt het wat het had, achter hetzelfde wachtwoord.',
-  'devices.descriptionProvider':
-    'Log een apparaat uit dat je niet meer gebruikt of niet meer hebt. Draait er een bijgewerkte Keyrook Authenticator op, dan haalt het de codes van dit account bij de volgende verbinding zelf weg en houdt het alleen wat het nooit heeft verstuurd. Tot die tijd, of als het nooit meer verbinding maakt, houdt het wat het had, vergrendeld zoals de kluis op dat apparaat vergrendeld is.',
-  'devices.this': 'Dit apparaat',
-  'devices.when': 'Ingelogd op {created} · laatst actief {seen}',
+  'devices.onAccountPage':
+    'Alle apparaten die op je account zijn ingelogd zie je op de accountpagina, waar je ze ook kunt uitloggen of verwijderen.',
   'removed.kept': 'Codes die hier zijn toegevoegd of gewijzigd en het account nog niet hadden bereikt, staan er nog.',
   'delete.row': 'Je account verwijderen',
   'delete.rowDescription':
@@ -1077,6 +1095,7 @@ export const nl: Dictionary = {
   'backup.choice.import.body': 'Uit een back-up, de export van een andere app of otpauth://-links.',
   'backup.choice.move.body':
     'Overdrachtscodes, een pagina om te printen of een leesbaar bestand. Niet versleuteld.',
+  'backup.accountData': 'Alleen Keyrook Authenticator kan je codes exporteren: de server bewaart ze versleuteld. Wat de server over je account bewaart, zonder codes of sleutels, download je op de accountpagina.',
   'security.description': 'Hoe deze kluis opent, en hoe je er weer in komt als deze browser verloren gaat.',
   'security.deviceKeyHint': 'Niets te typen. Houdt geen malware tegen die als jou op deze computer draait.',
   'security.passwordHint': 'Gevraagd zodra de kluis vergrendeld is.',
@@ -1148,10 +1167,6 @@ export const nl: Dictionary = {
   'about.fact.keys.body.phone':
     'Je accounts zijn versleuteld met een gegevenssleutel die zelf weer is ingepakt. Met een hoofdwachtwoord komt de inpaksleutel uit PBKDF2 met 600.000 rondes en bestaat hij alleen in het geheugen zolang de kluis ontgrendeld is. Zonder is het een sleutel verzegeld door de eigen sleutelopslag van de telefoon, dus een kopie van de bestanden van de app kan de kluis niet openen.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Een grote code, zoals een export van Google Authenticator, scant hier vaak niet met de camera. Lukt het niet, maak er dan een foto van met de camera-app van je telefoon en gebruik „QR-afbeelding uploaden”.',
-  'import.noNativeReader.phone':
-    'Een grote code, zoals een export van Google Authenticator, scant hier vaak niet met de camera. Lukt het niet, maak dan van elke code een foto met de camera-app van je telefoon en kies ze allemaal met „Bestanden kiezen”.',
   'error.signOutUnsynced.phone':
     'Sommige wijzigingen op deze telefoon zijn nog niet in je account aangekomen, en door nu uit te loggen raak je ze kwijt. Maak verbinding met internet en probeer het opnieuw.',
   'account.signOutNote.phone':

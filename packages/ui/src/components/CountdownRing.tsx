@@ -54,9 +54,11 @@ export function CountdownRing({
           )}
         />
       </svg>
+      {/* A phone's text may be scaled up to twice its size, and the ring is
+          not: the seconds would spill out of it, so the ring says it alone. */}
       <span
         className={cx(
-          'absolute inset-0 grid place-items-center text-[10px] font-semibold tabular-nums',
+          'absolute inset-0 grid place-items-center text-[10px] font-semibold tabular-nums app:hidden',
           urgent ? 'text-yellow-800 dark:text-yellow-300' : 'text-neutral-600 dark:text-neutral-400',
         )}
       >

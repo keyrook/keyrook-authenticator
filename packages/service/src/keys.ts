@@ -130,7 +130,8 @@ export async function openAccountKey(
 const CHECKED_AT = 'authx.keysCheckedAt';
 const DUE = 'authx.keyReplaceDue';
 const WAITING = 'authx.startOverWaiting';
-/** How often a signed-in device asks whether its key must be replaced, or a start over waits. */
+const ADDRESS = 'authx.accountAddress';
+/** How often a signed-in device asks whether its key must be replaced, a start over waits, or the address moved. */
 const CHECK_EVERY_MS = 60 * 60 * 1000;
 
 /** The last answer about a start over, for the account signed in as `email` then. */
@@ -138,6 +139,13 @@ interface Waiting {
   email: string | null;
   at: number;
   pending: PendingStartOver | null;
+}
+
+/** The account's address as the server last said it, asked while this vault had the address `of`. */
+interface Address {
+  at: number;
+  of: string | null;
+  email: string | null;
 }
 
 /** What the server holds for the account, with what it says is waiting kept for the pages. */
@@ -148,7 +156,37 @@ async function askAccount(data: VaultData): Promise<AccountKeysResponse> {
   // does not say.
   const waiting: Waiting = { email: data.account.email, at: Date.now(), pending: held.pendingStartOver ?? null };
   await platform().memory.set(WAITING, waiting);
+  // Nor, before migration 12, the address.
+  const address: Address = { at: Date.now(), of: data.account.email, email: typeof held.email === 'string' ? held.email : null };
+  await platform().memory.set(ADDRESS, address);
   return held;
+}
+
+/** An address, as far as one can be told apart from anything else a server might send: RFC 5321's length, one @, nothing invisible. */
+const isAddress = (email: string) => email.length <= 254 && /^[^\s@\p{C}]+@[^\s@\p{C}]+$/u.test(email);
+
+/**
+ * The account's address, when the server says it is no longer the one this
+ * vault has: it was moved on the account page (keyrook-account's U2), which
+ * keeps every session. Asked at most hourly, unless `fresh`.
+ *
+ * Not only for showing: the KDF's parameters are asked for by address, and
+ * the old one opens nothing once it moved, so a vault keeping it would have
+ * the right password refused. Believing the server here gives it nothing it
+ * lacks — it answers that prelogin either way — and what is not an address is
+ * left alone.
+ */
+export async function movedAddress(data: VaultData, fresh = false): Promise<string | null> {
+  const current = data.account.email;
+  if (!current) return null;
+  const known = (await platform().memory.get(ADDRESS)) as Address | undefined;
+  // An answer given while this vault had another address may be another
+  // account's: signed out, then in elsewhere, within the hour.
+  const remembered = !fresh && known?.of === current && Date.now() - known.at < CHECK_EVERY_MS;
+  const said = remembered ? known.email : ((await askAccount(data)).email ?? null);
+  if (typeof said !== 'string' || !isAddress(said)) return null;
+  // As the person typed it at sign-in, it may differ in case alone.
+  return said.toLowerCase() === current.trim().toLowerCase() ? null : said;
 }
 
 /** Remembers, for this browser session, that the account asked for a new key. */

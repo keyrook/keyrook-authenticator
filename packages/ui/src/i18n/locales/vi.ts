@@ -20,6 +20,8 @@ export const vi: Dictionary = {
   'error.noAccountSheet': 'Tài khoản này chưa có khoá khôi phục. Hãy tạo ở trang tài khoản.',
   'error.recoveryKeyWrong': 'Khoá khôi phục đó không khớp với tài khoản này.',
   'error.noRecoveryKit': 'Kho này không có khoá khôi phục.',
+  'error.accountData.withheld':
+    'Firefox chưa cho Keyrook Authenticator gửi gì tới tài khoản Keyrook, nên chưa có gì được gửi đi. Hãy cho phép khi Firefox hỏi, hoặc tại about:addons.',
   'error.syncUnavailable': 'Bản này không có tính năng đồng bộ.',
   'error.notSignedIn': 'Chưa đăng nhập.',
   'error.alreadySignedIn': 'Đã đăng nhập rồi.',
@@ -46,6 +48,8 @@ export const vi: Dictionary = {
   'error.autofillNotHere': 'Tự điền chỉ hoạt động trên trang web thông thường.',
   'error.autofillBlocked':
     'Chrome không cho tiện ích đọc trang này. Hãy mở cửa sổ tiện ích ngay trên trang bạn muốn điền.',
+  'error.autofillBlocked.firefox':
+    'Firefox không cho tiện ích đọc trang này. Hãy mở cửa sổ tiện ích ngay trên trang bạn muốn điền.',
   'error.signinCancelled': 'Đã huỷ đăng nhập.',
   'error.signinStateMismatch': 'Lượt đăng nhập đó quay về không đúng như lúc đi. Hãy thử lại.',
   'error.signinUnfinished': 'Đăng nhập chưa hoàn tất. Hãy thử lại.',
@@ -306,6 +310,7 @@ export const vi: Dictionary = {
   'rate.body': '<b>Thấy Keyrook Authenticator có ích?</b> Một lượt đánh giá trên {store} là cách người khác tìm thấy nó.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Để sau',
   'rate.rate': 'Đánh giá',
 
@@ -323,6 +328,8 @@ export const vi: Dictionary = {
   'add.camera.description': 'Cho mã đang hiện trên điện thoại — kể cả dữ liệu xuất từ Google Authenticator.',
   'add.camera.elsewhere':
     'Mở Cài đặt một lần để Chrome xin quyền dùng camera. Sau đó quét ngay tại đây được.',
+  'add.camera.elsewhere.firefox':
+    'Mở Cài đặt một lần để Firefox xin quyền dùng camera. Sau đó quét ngay tại đây được.',
   'add.upload.title': 'Tải lên ảnh QR',
   'add.upload.description': 'Ảnh chụp màn hình hoặc ảnh bạn đã lưu trước đó.',
   'add.manual.title': 'Nhập khoá thiết lập thủ công',
@@ -334,6 +341,8 @@ export const vi: Dictionary = {
   'common.done': 'Xong',
   'add.noNativeReader':
     'Chrome trên máy này không có trình đọc QR sẵn, nên mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera. Nếu không quét được, hãy chụp màn hình trên điện thoại rồi dùng Tải lên ảnh QR.',
+  'add.noNativeReader.firefox':
+    'Firefox trên máy này không có trình đọc QR sẵn, nên mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera. Nếu không quét được, hãy chụp màn hình trên điện thoại rồi dùng Tải lên ảnh QR.',
   'add.openScannerInSettings': 'Mở trình quét trong Cài đặt',
   'add.noneFound': 'Không tìm thấy tài khoản nào.',
   'add.noQrOnPage': 'Không thấy mã QR ở phần đang hiện của trang. Cuộn tới chỗ có mã rồi thử lại.',
@@ -380,6 +389,8 @@ export const vi: Dictionary = {
     'Hình ảnh được đọc ngay trên thiết bị này rồi bỏ đi. Không ghi lại, không tải lên đâu cả.',
   'camera.blocked':
     'Chrome đã chặn quyền dùng camera. Hãy cho phép trên trang này, hoặc dùng cách thêm tài khoản khác.',
+  'camera.blocked.firefox':
+    'Firefox đã chặn quyền dùng camera. Hãy cho phép trên trang này, hoặc dùng cách thêm tài khoản khác.',
   'camera.none': 'Không tìm thấy camera trên máy này.',
   'camera.busy': 'Camera đang được chương trình khác sử dụng.',
 
@@ -497,6 +508,8 @@ export const vi: Dictionary = {
   'about.fact.access.title': 'Không xin quyền trên mọi trang web',
   'about.fact.access.body':
     'Tiện ích không xin quyền truy cập trang web nào. Đọc mã QR trên trang, hay điền mã vào đó, đều dùng activeTab — quyền Chrome chỉ cấp cho đúng tab bạn vừa mở tiện ích.',
+  'about.fact.access.body.firefox':
+    'Tiện ích không xin quyền truy cập trang web nào. Đọc mã QR trên trang, hay điền mã vào đó, đều dùng activeTab — quyền Firefox chỉ cấp cho đúng tab bạn vừa mở tiện ích.',
   'about.fact.standards.title': 'Theo chuẩn, không trói buộc',
   'about.fact.standards.body':
     'TOTP theo RFC 6238 và HOTP theo RFC 4226, nhập và xuất otpauth://. Bạn có thể chuyển sang ứng dụng khác bất cứ lúc nào và mang theo mọi thứ.',
@@ -519,6 +532,7 @@ export const vi: Dictionary = {
   'about.logos.body':
     '{count} dịch vụ có logo thật. Hình từ <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons và <fa>Font Awesome Free</fa> (biểu tượng, CC BY 4.0). Mọi tên sản phẩm và logo thuộc về chủ sở hữu, chỉ dùng để nhận ra dịch vụ của tài khoản. Dịch vụ không có logo trong các bộ đó sẽ hiện ô chữ cái.',
   'about.shortcut.change': 'Đổi tại chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Đổi tại about:addons.',
   // --- Cài đặt: tài khoản -------------------------------------------------------
   'accounts.title': 'Mã 2FA',
   'accounts.description':
@@ -572,6 +586,8 @@ export const vi: Dictionary = {
   'import.stopAndReview': 'Dừng và xem lại {count}',
   'import.noNativeReader':
     'Chrome trên máy này không có trình đọc QR sẵn, nên mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera. Nếu không quét được, hãy chụp từng mã trên điện thoại rồi chọn tất cả bằng Chọn tệp.',
+  'import.noNativeReader.firefox':
+    'Firefox trên máy này không có trình đọc QR sẵn, nên mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera. Nếu không quét được, hãy chụp từng mã trên điện thoại rồi chọn tất cả bằng Chọn tệp.',
   'import.encrypted': 'Bản sao lưu này đã được mã hoá. Nhập mật khẩu đã dùng khi tạo nó.',
   'import.backupPassword': 'Mật khẩu bản sao lưu',
   'import.open': 'Mở bản sao lưu',
@@ -819,10 +835,16 @@ export const vi: Dictionary = {
   'account.signOutNote':
     'Đăng xuất sẽ xoá các mã khỏi trình duyệt này. Mã vẫn còn trong tài khoản Keyrook của bạn — đăng nhập lại là có lại.',
   'accountPage.title': 'Tài khoản Keyrook của bạn',
-  'accountPage.body': 'Mật khẩu, khoá khôi phục, bắt đầu lại và xoá tài khoản đều nằm ở trang tài khoản, dùng chung cho mọi app Keyrook.',
-  'accountPage.bodyNoRoot': 'Mật khẩu và xoá tài khoản nằm ở trang tài khoản. Khoá khôi phục được tạo ở đây, trong mục Bảo mật, cho đến khi một app Keyrook khác dùng tài khoản.',
-  'accountPage.bodyProvider': 'Khoá khôi phục, bắt đầu lại và xoá tài khoản đều nằm ở trang tài khoản, dùng chung cho mọi app Keyrook.',
-  'accountPage.bodyNoRootProvider': 'Xoá tài khoản nằm ở trang tài khoản. Khoá khôi phục được tạo ở đây, trong mục Bảo mật, cho đến khi một app Keyrook khác dùng tài khoản.',
+  'accountPage.body': 'Địa chỉ email, mật khẩu, khoá khôi phục, bắt đầu lại và xoá tài khoản đều nằm ở trang tài khoản, dùng chung cho mọi app Keyrook.',
+  'accountPage.bodyNoRoot': 'Địa chỉ email, mật khẩu và xoá tài khoản nằm ở trang tài khoản. Khoá khôi phục được tạo ở đây, trong mục Bảo mật, cho đến khi một app Keyrook khác dùng tài khoản.',
+  'accountPage.bodyProvider': 'Địa chỉ email, khoá khôi phục, bắt đầu lại và xoá tài khoản đều nằm ở trang tài khoản, dùng chung cho mọi app Keyrook.',
+  'accountPage.bodyNoRootProvider': 'Địa chỉ email và xoá tài khoản nằm ở trang tài khoản. Khoá khôi phục được tạo ở đây, trong mục Bảo mật, cho đến khi một app Keyrook khác dùng tài khoản.',
+  'accountPage.address': 'Địa chỉ email',
+  'accountPage.changeAddress': 'Đổi địa chỉ',
+  'accountPage.activity': 'Hoạt động gần đây',
+  'accountPage.activityBody': 'Các lần đăng nhập và thay đổi trên tài khoản của bạn trong 90 ngày qua, kèm thiết bị, app và quốc gia, trên trang tài khoản.',
+  'accountPage.data': 'Dữ liệu tài khoản',
+  'accountPage.dataBody': 'Tải về từ trang tài khoản những gì máy chủ Keyrook lưu về tài khoản của bạn. Mã của bạn không có trong đó: máy chủ chỉ giữ chúng ở dạng đã mã hoá. Hãy xuất chúng trong mục Sao lưu.',
   'sheetCheck.lead': 'Gõ khoá khôi phục bạn đã lưu một lần, để app này biết khoá đó lấy lại được mã của bạn. Khoá được kiểm tra ngay trên máy này và không gửi đi đâu cả.',
   'sheetCheck.submit': 'Kiểm tra',
   'sheetCheck.lost': 'Bị mất, hay chưa từng có? Hãy tạo khoá mới ở trang tài khoản.',
@@ -871,12 +893,8 @@ export const vi: Dictionary = {
   'password.change': 'Đổi mật khẩu…',
   'password.formTitle': 'Đổi mật khẩu tài khoản',
   'devices.title': 'Thiết bị đã đăng nhập',
-  'devices.description':
-    'Đăng xuất thiết bị bạn không dùng nữa hoặc không còn giữ. Nếu nó chạy Keyrook Authenticator bản mới, lần kết nối tới nó sẽ tự xoá các mã của tài khoản này, chỉ giữ lại những gì chưa từng gửi lên. Cho đến lúc đó, hoặc nếu nó không bao giờ kết nối lại, nó vẫn giữ những gì đã có, khoá bằng mật khẩu cũ.',
-  'devices.descriptionProvider':
-    'Đăng xuất thiết bị bạn không dùng nữa hoặc không còn giữ. Nếu nó chạy Keyrook Authenticator bản mới, lần kết nối tới nó sẽ tự xoá các mã của tài khoản này, chỉ giữ lại những gì chưa từng gửi lên. Cho đến lúc đó, hoặc nếu nó không bao giờ kết nối lại, nó vẫn giữ những gì đã có, khoá theo cách kho trên thiết bị đó đang khoá.',
-  'devices.this': 'Thiết bị này',
-  'devices.when': 'Đăng nhập {created} · hoạt động lần cuối {seen}',
+  'devices.onAccountPage':
+    'Xem mọi thiết bị đã đăng nhập vào tài khoản của bạn, và đăng xuất hay gỡ một thiết bị, trên trang tài khoản.',
   'removed.kept': 'Những mã được thêm hoặc sửa ở đây mà chưa kịp lên tài khoản vẫn còn ở đây.',
   'delete.row': 'Xoá tài khoản của bạn',
   'delete.rowDescription':
@@ -1047,6 +1065,7 @@ export const vi: Dictionary = {
   'backup.choice.import.title': 'Nhập',
   'backup.choice.import.body': 'Từ bản sao lưu, dữ liệu xuất của ứng dụng khác, hoặc liên kết otpauth://.',
   'backup.choice.move.body': 'Mã chuyển dữ liệu, trang để in, hoặc tệp đọc được. Không mã hoá.',
+  'backup.accountData': 'Chỉ Keyrook Authenticator mới xuất được mã của bạn: máy chủ giữ chúng ở dạng đã mã hoá. Những gì máy chủ lưu về tài khoản của bạn, không có mã hay khoá nào, được tải về từ trang tài khoản.',
   'security.description': 'Cách kho này được mở, và lối quay lại nếu mất trình duyệt này.',
   'security.deviceKeyHint': 'Không cần gõ gì. Không chống được mã độc chạy dưới tài khoản của bạn trên máy này.',
   'security.passwordHint': 'Được hỏi mỗi khi kho đã khoá.',
@@ -1115,10 +1134,6 @@ export const vi: Dictionary = {
   'about.fact.keys.body.phone':
     'Tài khoản của bạn được mã hoá bằng một khoá dữ liệu, và khoá này lại được bọc thêm một lớp. Với mật khẩu chính, khoá bọc được dẫn xuất bằng PBKDF2 600.000 vòng và chỉ nằm trong bộ nhớ khi đang mở. Không có mật khẩu, đó là khoá được niêm phong bởi kho khoá của chính điện thoại, nên một bản sao tệp của ứng dụng không mở được kho.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera ở đây. Nếu không quét được, hãy chụp ảnh nó bằng ứng dụng camera của điện thoại rồi dùng Tải lên ảnh QR.',
-  'import.noNativeReader.phone':
-    'Mã lớn — như dữ liệu xuất từ Google Authenticator — thường không quét được bằng camera ở đây. Nếu không quét được, hãy chụp ảnh từng mã bằng ứng dụng camera của điện thoại rồi chọn tất cả bằng Chọn tệp.',
   'error.signOutUnsynced.phone':
     'Một số thay đổi trên điện thoại này chưa lên tới tài khoản của bạn, đăng xuất bây giờ sẽ làm mất chúng. Hãy kết nối mạng rồi thử lại.',
   'account.signOutNote.phone':

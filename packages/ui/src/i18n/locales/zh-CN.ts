@@ -19,6 +19,8 @@ export const zhCN: Dictionary = {
   'error.noAccountSheet': '此账户还没有恢复密钥。请在账户页面上创建一个。',
   'error.recoveryKeyWrong': '该恢复密钥与此账户不匹配。',
   'error.noRecoveryKit': '此保险库没有恢复密钥。',
+  'error.accountData.withheld':
+    'Firefox 没有允许 Keyrook Authenticator 向 Keyrook 账户发送任何内容，因此什么都没有发送。请在 Firefox 询问时允许，或在 about:addons 中允许。',
   'error.syncUnavailable': '此版本不提供同步功能。',
   'error.notSignedIn': '未登录。',
   'error.alreadySignedIn': '已经登录。',
@@ -40,6 +42,7 @@ export const zhCN: Dictionary = {
   'error.noActiveTab': '没有活动的标签页。',
   'error.autofillNotHere': '自动填写只适用于普通网页。',
   'error.autofillBlocked': 'Chrome 不允许扩展程序读取此页面。请在要填写的页面上打开弹出窗口。',
+  'error.autofillBlocked.firefox': 'Firefox 不允许扩展程序读取此页面。请在要填写的页面上打开弹出窗口。',
   'error.signinCancelled': '登录已取消。',
   'error.signinStateMismatch': '这次登录返回时与发出时不一致。请重试。',
   'error.signinUnfinished': '登录未完成。请重试。',
@@ -279,6 +282,7 @@ export const zhCN: Dictionary = {
   'rate.body': '<b>觉得 Keyrook Authenticator 有用吗？</b>在 {store} 上评分，能让更多人找到它。',
   'rate.store.chrome': 'Chrome 应用商店',
   'rate.store.edge': 'Edge 加载项',
+  'rate.store.firefox': 'Firefox 加载项',
   'rate.notNow': '以后再说',
   'rate.rate': '去评分',
 
@@ -293,6 +297,7 @@ export const zhCN: Dictionary = {
   'add.camera.title': '用摄像头扫描',
   'add.camera.description': '用于手机上显示的二维码——包括 Google Authenticator 的导出。',
   'add.camera.elsewhere': '会打开一次“设置”，让 Chrome 请求使用摄像头。之后就能直接在这里使用。',
+  'add.camera.elsewhere.firefox': '会打开一次“设置”，让 Firefox 请求使用摄像头。之后就能直接在这里使用。',
   'add.upload.title': '上传二维码图片',
   'add.upload.description': '你之前保存的截图或照片。',
   'add.manual.title': '手动输入设置密钥',
@@ -304,6 +309,8 @@ export const zhCN: Dictionary = {
   'common.done': '完成',
   'add.noNativeReader':
     '这台电脑上的 Chrome 没有内置二维码识别，所以大型二维码——比如 Google Authenticator 的导出——往往无法用摄像头扫描。如果扫不了，请在手机上截图，然后改用“上传二维码图片”。',
+  'add.noNativeReader.firefox':
+    '这台电脑上的 Firefox 没有内置二维码识别，所以大型二维码——比如 Google Authenticator 的导出——往往无法用摄像头扫描。如果扫不了，请在手机上截图，然后改用“上传二维码图片”。',
   'add.openScannerInSettings': '在设置中打开扫描器',
   'add.noneFound': '没有找到账户。',
   'add.noQrOnPage': '页面的可见部分没有二维码。请把它滚动到视野中再试。',
@@ -344,6 +351,7 @@ export const zhCN: Dictionary = {
     '让二维码处于框内。要从 Google Authenticator 导入？在手机上打开它的导出界面，把摄像头对准它——如果有多个二维码，请依次显示。',
   'camera.privacy': '画面在此设备上读取后即丢弃。不录制，也不上传。',
   'camera.blocked': 'Chrome 阻止了摄像头访问。请为此页面允许，或使用其他方式添加账户。',
+  'camera.blocked.firefox': 'Firefox 阻止了摄像头访问。请为此页面允许，或使用其他方式添加账户。',
   'camera.none': '这台电脑上没有找到摄像头。',
   'camera.busy': '摄像头正被其他程序使用。',
 
@@ -443,6 +451,8 @@ export const zhCN: Dictionary = {
   'about.fact.access.title': '没有对网站的全面访问权限',
   'about.fact.access.body':
     '扩展程序不请求任何主机权限。从页面读取二维码或向页面填写验证码，使用的是 activeTab——Chrome 只为你调用扩展程序的那个标签页授予的权限。',
+  'about.fact.access.body.firefox':
+    '扩展程序不请求任何主机权限。从页面读取二维码或向页面填写验证码，使用的是 activeTab——Firefox 只为你调用扩展程序的那个标签页授予的权限。',
   'about.fact.standards.title': '遵循标准，不锁定用户',
   'about.fact.standards.body':
     'RFC 6238 TOTP 和 RFC 4226 HOTP，支持 otpauth:// 导入和导出。你随时可以换用其他应用，并带走所有内容。',
@@ -463,6 +473,7 @@ export const zhCN: Dictionary = {
   'about.logos.body':
     '有 {count} 个服务拥有真实标志。图标来自 <simple>Simple Icons</simple>（CC0 1.0）、LobeHub Icons、SVG Logos、CoreUI Brands、Arcticons 和 <fa>Font Awesome Free</fa>（图标，CC BY 4.0）。所有产品名称和标志归其所有者所有，仅用于标识账户所属的服务。在这些图标集中都没有标志的服务会显示一个字母图块。',
   'about.shortcut.change': '可在 chrome://extensions/shortcuts 中更改。',
+  'about.shortcut.change.firefox': '可在 about:addons 中更改。',
   'accounts.title': '账户',
   'accounts.description': '此保险库中存储的所有内容。验证码在此设备上生成，从不由服务器生成。',
   'accounts.empty': '还没有账户。添加一个开始使用。',
@@ -511,6 +522,8 @@ export const zhCN: Dictionary = {
   'import.stopAndReview': '停止并查看 {count} 个',
   'import.noNativeReader':
     '这台电脑上的 Chrome 没有内置二维码识别，所以大型二维码——比如 Google Authenticator 的导出——往往无法用摄像头扫描。如果扫不了，请在手机上逐个截图，然后用“选择文件”一次选中全部。',
+  'import.noNativeReader.firefox':
+    '这台电脑上的 Firefox 没有内置二维码识别，所以大型二维码——比如 Google Authenticator 的导出——往往无法用摄像头扫描。如果扫不了，请在手机上逐个截图，然后用“选择文件”一次选中全部。',
   'import.encrypted': '此备份已加密。请输入创建时使用的密码。',
   'import.backupPassword': '备份密码',
   'import.open': '打开备份',
@@ -715,10 +728,16 @@ export const zhCN: Dictionary = {
   'summary.rejected': { other: '{count} 条记录无法解密，已忽略。如果反复出现，说明存储的副本有问题。' },
   'account.signOutNote': '退出登录会从此浏览器中移除你的验证码。它们仍保存在你的 Keyrook 账户中——重新登录即可找回。',
   'accountPage.title': '你的 Keyrook 账户',
-  'accountPage.body': '密码、恢复密钥、重新开始和删除账户都在账户页面上，所有 Keyrook 应用一并生效。',
-  'accountPage.bodyNoRoot': '密码和删除账户都在账户页面上。在其他 Keyrook 应用使用此账户之前，恢复密钥在这里的“安全”中创建。',
-  'accountPage.bodyProvider': '恢复密钥、重新开始和删除账户都在账户页面上，所有 Keyrook 应用一并生效。',
-  'accountPage.bodyNoRootProvider': '删除账户在账户页面上。在其他 Keyrook 应用使用此账户之前，恢复密钥在这里的“安全”中创建。',
+  'accountPage.body': '电子邮件地址、密码、恢复密钥、重新开始和删除账户都在账户页面上，所有 Keyrook 应用一并生效。',
+  'accountPage.bodyNoRoot': '电子邮件地址、密码和删除账户都在账户页面上。在其他 Keyrook 应用使用此账户之前，恢复密钥在这里的“安全”中创建。',
+  'accountPage.bodyProvider': '电子邮件地址、恢复密钥、重新开始和删除账户都在账户页面上，所有 Keyrook 应用一并生效。',
+  'accountPage.bodyNoRootProvider': '电子邮件地址和删除账户都在账户页面上。在其他 Keyrook 应用使用此账户之前，恢复密钥在这里的“安全”中创建。',
+  'accountPage.address': '电子邮件地址',
+  'accountPage.changeAddress': '更改地址',
+  'accountPage.activity': '近期活动',
+  'accountPage.activityBody': '在账户页面查看过去 90 天里账户的登录和更改，附带设备、应用和国家/地区。',
+  'accountPage.data': '账户数据',
+  'accountPage.dataBody': '从账户页面下载 Keyrook 服务器保存的关于你账户的信息。其中没有你的验证码：服务器只保存加密后的验证码。验证码请在“备份”中导出。',
   'sheetCheck.lead': '请输入一次你保存的恢复密钥，让本应用知道它能找回你的验证码。密钥在本设备上检查，不会发送到任何地方。',
   'sheetCheck.submit': '检查',
   'sheetCheck.lost': '丢了，或者从来没有？请在账户页面上新建一个。',
@@ -764,12 +783,7 @@ export const zhCN: Dictionary = {
   'password.change': '更改密码…',
   'password.formTitle': '更改账户密码',
   'devices.title': '已登录的设备',
-  'devices.description':
-    '让不再使用或已经丢失的设备退出登录。如果它运行的是最新版 Keyrook Authenticator，下次联网时会自行删除这个账户的验证码，只保留从未发送过的内容。在此之前，或者它再也不联网，它会保留已有的内容，用同一个密码锁定。',
-  'devices.descriptionProvider':
-    '让不再使用或已经丢失的设备退出登录。如果它运行的是最新版 Keyrook Authenticator，下次联网时会自行删除这个账户的验证码，只保留从未发送过的内容。在此之前，或者它再也不联网，它会保留已有的内容，锁定方式与该设备上的保险库相同。',
-  'devices.this': '此设备',
-  'devices.when': '登录于 {created} · 最近活动 {seen}',
+  'devices.onAccountPage': '在账户页面查看登录到你账户的所有设备，并让其中任一设备退出登录或将其移除。',
   'removed.kept': '在这里添加或修改、但尚未送达账户的验证码仍保留在这里。',
   'delete.row': '删除你的账户',
   'delete.rowDescription': '移除服务器上保存的所有加密副本。此设备的保险库保持原样；其他设备停止同步。',
@@ -901,6 +915,7 @@ export const zhCN: Dictionary = {
   'backup.choice.import.title': '导入',
   'backup.choice.import.body': '来自备份、其他应用的导出或 otpauth:// 链接。',
   'backup.choice.move.body': '转移二维码、打印页面或可读文件。不加密。',
+  'backup.accountData': '只有 Keyrook Authenticator 能导出你的验证码：服务器保存的是加密后的验证码。服务器保存的关于你账户的信息（不含验证码和密钥）可从账户页面下载。',
   'security.description': '此保险库如何打开，以及这个浏览器丢失时的退路。',
   'security.deviceKeyHint': '无需输入。无法阻止以你的身份在这台电脑上运行的恶意软件。',
   'security.passwordHint': '保险库锁定后都会要求输入。',
@@ -956,10 +971,6 @@ export const zhCN: Dictionary = {
   'about.fact.keys.body.phone':
     '你的账户由一把数据密钥加密，而数据密钥本身又被封装。使用主密码时，封装密钥由 PBKDF2 经 600,000 轮派生，只在解锁期间存在于内存中。不使用主密码时，它是由手机自身的密钥库封存的密钥，因此复制应用的文件也打不开保险库。',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    '大型二维码——比如 Google Authenticator 的导出——在这里往往无法用摄像头扫描。如果扫不了，请用手机的相机应用拍下它，然后改用“上传二维码图片”。',
-  'import.noNativeReader.phone':
-    '大型二维码——比如 Google Authenticator 的导出——在这里往往无法用摄像头扫描。如果扫不了，请用手机的相机应用逐个拍下，然后用“选择文件”一次选中全部。',
   'error.signOutUnsynced.phone': '此手机上的部分更改尚未同步到你的账户，现在退出登录会丢失它们。请连接互联网后重试。',
   'account.signOutNote.phone': '退出登录会从此手机中移除你的验证码。它们仍保存在你的 Keyrook 账户中——重新登录即可找回。',
   'secondStepTip.suggest.phone':

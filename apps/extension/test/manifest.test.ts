@@ -16,13 +16,17 @@ const REPO = resolve(ROOT, '../..');
 type Manifest = Record<string, unknown> & { optional_host_permissions?: string[]; host_permissions?: string[] };
 let buildManifest: (options: Record<string, unknown>) => Manifest;
 let accountRpFor: (syncApiUrl: string) => string;
+let accountPageFor: (syncApiUrl: string) => string;
 let PRODUCTION_SYNC_API_URL: string;
+let STAGING_SYNC_API_URL: string;
 // Inside the repository, as everything a test writes is.
 let scratch: string;
 
 beforeAll(async () => {
   ({ buildManifest } = await import(pathToFileURL(resolve(ROOT, 'scripts/manifest.mjs')).href));
-  ({ accountRpFor, PRODUCTION_SYNC_API_URL } = await import(pathToFileURL(resolve(ROOT, 'scripts/release.mjs')).href));
+  ({ accountRpFor, accountPageFor, PRODUCTION_SYNC_API_URL, STAGING_SYNC_API_URL } = await import(
+    pathToFileURL(resolve(ROOT, 'scripts/release.mjs')).href
+  ));
   mkdirSync(resolve(REPO, '.tmp'), { recursive: true });
   scratch = mkdtempSync(join(REPO, '.tmp', 'manifest-'));
 });
@@ -51,12 +55,31 @@ function checkRelease(manifest: Manifest): string | null {
 }
 
 describe('the account page’s passkeys, in the manifest', () => {
-  it('belong to the account page for the official server, to localhost for the kit, and to nobody else', () => {
+  it('belong to the account page for the official server and for staging, to localhost for the kit, and to nobody else', () => {
     expect(accountRpFor(PRODUCTION_SYNC_API_URL)).toBe('account.keyrook.com');
+    expect(accountRpFor(STAGING_SYNC_API_URL)).toBe('account-staging.keyrook.com');
     expect(accountRpFor('http://localhost:8799')).toBe('localhost');
     expect(accountRpFor('http://127.0.0.1:8799')).toBe('localhost');
     expect(accountRpFor('https://sync.example.com')).toBe('');
     expect(accountRpFor('')).toBe('');
+  });
+
+  it('staging means its whole origin, not an address that looks like it', () => {
+    for (const lookalike of [
+      'http://api-staging.keyrook.com',
+      'https://api-staging.keyrook.com:8443',
+      'https://api-staging.keyrook.com.example.com',
+      'https://api-staging.example.com',
+    ]) {
+      expect(accountRpFor(lookalike)).toBe('');
+    }
+  });
+
+  it('only staging’s build links a page of its own: the rest link the official one, and no bundle names staging’s', () => {
+    expect(accountPageFor(STAGING_SYNC_API_URL)).toBe('https://account-staging.keyrook.com');
+    for (const server of [PRODUCTION_SYNC_API_URL, 'http://localhost:8799', 'https://sync.example.com', '']) {
+      expect(accountPageFor(server)).toBe('');
+    }
   });
 
   it('a release asks for the account page only when asked, and for no host at install', () => {
@@ -76,6 +99,20 @@ describe('the account page’s passkeys, in the manifest', () => {
     const manifest = built('http://localhost:8799');
     expect(manifest.host_permissions).toEqual(['https://localhost/*']);
     expect(checkRelease(manifest)).toMatch(/host_permissions declared/);
+  });
+
+  it('check-release refuses a build against staging, whichever part of the manifest shows it', () => {
+    const staging = built(STAGING_SYNC_API_URL);
+    const release = built(PRODUCTION_SYNC_API_URL);
+    const refusal = checkRelease(staging);
+    expect(refusal).toMatch(/connect-src is/);
+    expect(refusal).toMatch(/externally_connectable is/);
+    expect(refusal).toMatch(/optional_host_permissions is/);
+    // One at a time, so no check stands behind another: a zip that kept any
+    // single staging value still goes no further.
+    expect(checkRelease({ ...release, content_security_policy: staging.content_security_policy })).toMatch(/connect-src is/);
+    expect(checkRelease({ ...release, externally_connectable: staging.externally_connectable })).toMatch(/externally_connectable is/);
+    expect(checkRelease({ ...release, optional_host_permissions: staging.optional_host_permissions })).toMatch(/optional_host_permissions is/);
   });
 
   it('check-release refuses a wider optional host, a second one, or none', () => {

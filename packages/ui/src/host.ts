@@ -25,6 +25,17 @@ export interface Host {
   preferences: Preferences;
   /** Whether this build has a sync server. Without one, no page offers an account. */
   readonly syncEnabled: boolean;
+  /**
+   * Asks the person's leave to send anything to the account, where the
+   * platform asks — Firefox's data consent — and says whether it was given;
+   * at once, with no prompt, once it has been. Called first in the click that
+   * starts a sign-in, a sign-up or a sync, before anything awaits: Firefox
+   * shows its prompt only while the click is being handled. Absent: nothing to
+   * ask. The vault service sends nothing without it either.
+   */
+  readonly allowAccountData?: (() => Promise<boolean>) | undefined;
+  /** The account's page, for a server with one of its own. Absent: the official page (lib/links.ts). */
+  readonly accountPageUrl?: string | undefined;
   /** The version running, as About shows it. */
   readonly version: string;
   /**
@@ -47,6 +58,12 @@ export interface Host {
    * browser holds", or "a key this phone keeps" (i18n/device.ts).
    */
   readonly device: 'browser' | 'phone';
+  /**
+   * The browser, where a sentence names it or tells the person where to click
+   * in it (i18n/device.ts). Absent, Chrome's words, which Edge and Opera,
+   * built on the same browser, have always read.
+   */
+  readonly browser?: 'firefox' | undefined;
   /**
    * Hands over a file the person asked for — a backup, an export, a QR
    * picture, the recovery sheet — to wherever this platform keeps them: the
@@ -80,6 +97,17 @@ export interface Host {
    * vault/passkey-unlock.ts). Absent where the platform cannot make one.
    */
   readonly passkeyUnlock?: PasskeyUnlockHost | undefined;
+  /**
+   * A QR reader the app brings itself, read before the browser's own: a
+   * phone's WebView has one only through Google Play services, which takes
+   * the app down (apps/mobile). Absent, the browser's reader or jsQR.
+   */
+  readonly qrReader?: QrReader | undefined;
+}
+
+/** Reads the QR codes in a picture or a camera's current frame; none, an empty list. */
+export interface QrReader {
+  detect(source: HTMLImageElement | HTMLVideoElement): Promise<{ rawValue: string }[]>;
 }
 
 /**
@@ -135,7 +163,7 @@ export interface Preferences {
 
 export interface StoreListing {
   /** Which store, named in the person's language by `storeName`. */
-  store: 'chrome' | 'edge' | 'play';
+  store: 'chrome' | 'edge' | 'firefox' | 'play';
   url: string;
 }
 

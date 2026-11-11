@@ -19,6 +19,8 @@ export const ro: Dictionary = {
   'error.noAccountSheet': 'Acest cont nu are încă o cheie de recuperare. Creați una pe pagina contului.',
   'error.recoveryKeyWrong': 'Cheia de recuperare nu se potrivește cu acest cont.',
   'error.noRecoveryKit': 'Acest seif nu are o cheie de recuperare.',
+  'error.accountData.withheld':
+    'Firefox nu a permis ca Keyrook Authenticator să trimită ceva către un cont Keyrook, așa că nu s-a trimis nimic. Permiteți atunci când Firefox întreabă sau din about:addons.',
   'error.syncUnavailable': 'Sincronizarea nu este disponibilă în această versiune.',
   'error.notSignedIn': 'Nu sunteți conectat.',
   'error.alreadySignedIn': 'Sunteți deja conectat.',
@@ -44,6 +46,7 @@ export const ro: Dictionary = {
   'error.noActiveTab': 'Nicio filă activă.',
   'error.autofillNotHere': 'Completarea automată funcționează doar pe pagini web obișnuite.',
   'error.autofillBlocked': 'Chrome nu a permis extensiei să citească pagina. Deschideți fereastra extensiei din pagina pe care vreți s-o completați.',
+  'error.autofillBlocked.firefox': 'Firefox nu a permis extensiei să citească pagina. Deschideți fereastra extensiei din pagina pe care vreți s-o completați.',
   'error.signinCancelled': 'Conectarea a fost anulată.',
   'error.signinStateMismatch': 'Conectarea nu s-a întors așa cum a plecat. Încercați din nou.',
   'error.signinUnfinished': 'Conectarea nu s-a încheiat. Încercați din nou.',
@@ -297,6 +300,7 @@ export const ro: Dictionary = {
   'rate.body': '<b>Vă este util Keyrook Authenticator?</b> O evaluare în {store} îi ajută pe alții să-l găsească.',
   'rate.store.chrome': 'Magazinul web Chrome',
   'rate.store.edge': 'Suplimentele Edge',
+  'rate.store.firefox': 'Suplimentele Firefox',
   'rate.notNow': 'Nu acum',
   'rate.rate': 'Evaluați',
 
@@ -311,6 +315,7 @@ export const ro: Dictionary = {
   'add.camera.title': 'Scanați cu camera',
   'add.camera.description': 'Pentru un cod de pe telefon — inclusiv un export Google Authenticator.',
   'add.camera.elsewhere': 'Deschide Setările o dată, ca Chrome să poată cere camera. După aceea funcționează direct aici.',
+  'add.camera.elsewhere.firefox': 'Deschide Setările o dată, ca Firefox să poată cere camera. După aceea funcționează direct aici.',
   'add.upload.title': 'Încărcați o imagine QR',
   'add.upload.description': 'O captură de ecran sau o fotografie salvată anterior.',
   'add.manual.title': 'Introduceți manual o cheie de configurare',
@@ -322,6 +327,8 @@ export const ro: Dictionary = {
   'common.done': 'Gata',
   'add.noNativeReader':
     'Chrome de pe acest computer nu are un cititor QR integrat, așa că un cod mare — ca un export Google Authenticator — adesea nu se scanează cu camera. Dacă nu merge, faceți o captură pe telefon și folosiți Încărcați o imagine QR.',
+  'add.noNativeReader.firefox':
+    'Firefox de pe acest computer nu are un cititor QR integrat, așa că un cod mare — ca un export Google Authenticator — adesea nu se scanează cu camera. Dacă nu merge, faceți o captură pe telefon și folosiți Încărcați o imagine QR.',
   'add.openScannerInSettings': 'Deschideți scanerul în Setări',
   'add.noneFound': 'Nu s-au găsit conturi.',
   'add.noQrOnPage': 'Nu există cod QR în partea vizibilă a paginii. Derulați până se vede și încercați din nou.',
@@ -366,6 +373,7 @@ export const ro: Dictionary = {
     'Țineți codul QR în cadru. Importați din Google Authenticator? Deschideți ecranul de export pe telefon și îndreptați camera spre el — dacă sunt mai multe coduri, arătați-le pe rând.',
   'camera.privacy': 'Imaginea este citită pe acest dispozitiv și apoi aruncată. Nu se înregistrează și nu se încarcă nimic.',
   'camera.blocked': 'Chrome a blocat accesul la cameră. Permiteți-l pentru această pagină sau folosiți altă metodă de adăugare.',
+  'camera.blocked.firefox': 'Firefox a blocat accesul la cameră. Permiteți-l pentru această pagină sau folosiți altă metodă de adăugare.',
   'camera.none': 'Nu s-a găsit nicio cameră pe acest computer.',
   'camera.busy': 'Camera este folosită de alt program.',
 
@@ -471,6 +479,8 @@ export const ro: Dictionary = {
   'about.fact.access.title': 'Fără acces general la site-uri',
   'about.fact.access.body':
     'Extensia nu cere permisiuni de gazdă. Citirea unui cod QR de pe o pagină sau completarea unui cod în ea folosesc activeTab — o permisiune pe care Chrome o dă doar pentru fila în care ați apelat extensia.',
+  'about.fact.access.body.firefox':
+    'Extensia nu cere permisiuni de gazdă. Citirea unui cod QR de pe o pagină sau completarea unui cod în ea folosesc activeTab — o permisiune pe care Firefox o dă doar pentru fila în care ați apelat extensia.',
   'about.fact.standards.title': 'Standarde, nu captivitate',
   'about.fact.standards.body': 'TOTP RFC 6238 și HOTP RFC 4226, cu import și export otpauth://. Puteți trece oricând la altă aplicație și să luați totul cu dvs.',
   'about.version': 'Versiunea {version}',
@@ -491,6 +501,7 @@ export const ro: Dictionary = {
   'about.logos.body':
     '{count} de servicii au o marcă reală. Grafică din <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons și <fa>Font Awesome Free</fa> (pictograme, CC BY 4.0). Toate denumirile de produse și logo-urile aparțin proprietarilor și sunt folosite doar pentru a identifica serviciul căruia îi aparține un cont. Un serviciu fără marcă în aceste colecții primește o dală cu literă.',
   'about.shortcut.change': 'Se schimbă la chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Se schimbă la about:addons.',
   'accounts.title': 'Conturi',
   'accounts.description': 'Tot ce este în acest seif. Codurile se generează pe acest dispozitiv, niciodată de un server.',
   'accounts.empty': 'Încă niciun cont. Adăugați unul ca să începeți.',
@@ -544,6 +555,8 @@ export const ro: Dictionary = {
   'import.stopAndReview': 'Opriți și verificați {count}',
   'import.noNativeReader':
     'Chrome de pe acest computer nu are un cititor QR integrat, așa că un cod mare — ca un export Google Authenticator — adesea nu se scanează cu camera. Dacă nu merge, faceți o captură a fiecărui cod pe telefon și alegeți-le pe toate cu Alegeți fișiere.',
+  'import.noNativeReader.firefox':
+    'Firefox de pe acest computer nu are un cititor QR integrat, așa că un cod mare — ca un export Google Authenticator — adesea nu se scanează cu camera. Dacă nu merge, faceți o captură a fiecărui cod pe telefon și alegeți-le pe toate cu Alegeți fișiere.',
   'import.encrypted': 'Această copie de rezervă este criptată. Introduceți parola cu care a fost creată.',
   'import.backupPassword': 'Parola copiei de rezervă',
   'import.open': 'Deschideți copia de rezervă',
@@ -767,10 +780,16 @@ export const ro: Dictionary = {
   },
   'account.signOutNote': 'Deconectarea elimină codurile din acest browser. Ele rămân în contul dvs. Keyrook — conectați-vă din nou ca să le readuceți.',
   'accountPage.title': 'Contul dvs. Keyrook',
-  'accountPage.body': 'Parola, cheia de recuperare, luarea de la capăt și ștergerea sunt pe pagina contului, pentru toate aplicațiile Keyrook deodată.',
-  'accountPage.bodyNoRoot': 'Parola și ștergerea sunt pe pagina contului. Cheia de recuperare se creează aici, în Securitate, până când o altă aplicație Keyrook folosește contul.',
-  'accountPage.bodyProvider': 'Cheia de recuperare, luarea de la capăt și ștergerea sunt pe pagina contului, pentru toate aplicațiile Keyrook deodată.',
-  'accountPage.bodyNoRootProvider': 'Ștergerea este pe pagina contului. Cheia de recuperare se creează aici, în Securitate, până când o altă aplicație Keyrook folosește contul.',
+  'accountPage.body': 'Adresa, parola, cheia de recuperare, luarea de la capăt și ștergerea sunt pe pagina contului, pentru toate aplicațiile Keyrook deodată.',
+  'accountPage.bodyNoRoot': 'Adresa, parola și ștergerea sunt pe pagina contului. Cheia de recuperare se creează aici, în Securitate, până când o altă aplicație Keyrook folosește contul.',
+  'accountPage.bodyProvider': 'Adresa, cheia de recuperare, luarea de la capăt și ștergerea sunt pe pagina contului, pentru toate aplicațiile Keyrook deodată.',
+  'accountPage.bodyNoRootProvider': 'Adresa și ștergerea sunt pe pagina contului. Cheia de recuperare se creează aici, în Securitate, până când o altă aplicație Keyrook folosește contul.',
+  'accountPage.address': 'Adresă de e-mail',
+  'accountPage.changeAddress': 'Schimbați adresa',
+  'accountPage.activity': 'Activitate recentă',
+  'accountPage.activityBody': 'Conectările și modificările contului dvs. din ultimele 90 de zile, cu dispozitivul, aplicația și țara, pe pagina contului.',
+  'accountPage.data': 'Datele contului',
+  'accountPage.dataBody': 'Descărcați de pe pagina contului ce păstrează serverul Keyrook despre contul dvs. Codurile dvs. nu sunt incluse: serverul le păstrează doar criptate. Exportați-le din Copie de rezervă.',
   'sheetCheck.lead': 'Introduceți o dată cheia de recuperare pe care ați salvat-o, ca această aplicație să știe că vă poate readuce codurile. Este verificată pe acest dispozitiv și nu este trimisă nicăieri.',
   'sheetCheck.submit': 'Verificați',
   'sheetCheck.lost': 'Ați pierdut-o sau n-ați avut niciodată? Creați una nouă pe pagina contului.',
@@ -816,12 +835,8 @@ export const ro: Dictionary = {
   'password.change': 'Schimbați parola…',
   'password.formTitle': 'Schimbați parola contului',
   'devices.title': 'Dispozitive conectate',
-  'devices.description':
-    'Deconectați un dispozitiv pe care nu-l mai folosiți sau nu-l mai aveți. Dacă rulează un Keyrook Authenticator actualizat, la următoarea conectare își elimină singur codurile acestui cont și păstrează doar ce n-a trimis niciodată. Până atunci, sau dacă nu se mai conectează niciodată, păstrează ce avea, sub aceeași parolă.',
-  'devices.descriptionProvider':
-    'Deconectați un dispozitiv pe care nu-l mai folosiți sau nu-l mai aveți. Dacă rulează un Keyrook Authenticator actualizat, la următoarea conectare își elimină singur codurile acestui cont și păstrează doar ce n-a trimis niciodată. Până atunci, sau dacă nu se mai conectează niciodată, păstrează ce avea, blocat așa cum e blocat seiful pe acel dispozitiv.',
-  'devices.this': 'Acest dispozitiv',
-  'devices.when': 'Conectat {created} · activ ultima dată {seen}',
+  'devices.onAccountPage':
+    'Toate dispozitivele conectate la cont se văd pe pagina contului, unde le puteți și deconecta sau elimina.',
   'removed.kept': 'Codurile adăugate sau modificate aici care nu ajunseseră în cont sunt încă aici.',
   'delete.row': 'Ștergeți contul',
   'delete.rowDescription': 'Elimină toate copiile criptate de pe server. Acest dispozitiv își păstrează seiful neschimbat; celelalte nu se mai sincronizează.',
@@ -967,6 +982,7 @@ export const ro: Dictionary = {
   'backup.choice.import.title': 'Import',
   'backup.choice.import.body': 'Dintr-o copie de rezervă, exportul altei aplicații sau linkuri otpauth://.',
   'backup.choice.move.body': 'Coduri de transfer, o pagină de tipărit sau un fișier lizibil. Necriptat.',
+  'backup.accountData': 'Doar Keyrook Authenticator vă poate exporta codurile: serverul le păstrează criptate. Ce păstrează serverul despre contul dvs., fără coduri sau chei, se descarcă de pe pagina contului.',
   'security.description': 'Cum se deschide seiful și drumul înapoi dacă pierdeți acest browser.',
   'security.deviceKeyHint': 'Nimic de tastat. Nu oprește programele malware care rulează în numele dvs. pe acest computer.',
   'security.passwordHint': 'Se cere de fiecare dată după ce seiful s-a blocat.',
@@ -1034,10 +1050,6 @@ export const ro: Dictionary = {
   'about.fact.keys.body.phone':
     'Conturile sunt criptate cu o cheie de date care este la rândul ei învelită. Cu parolă principală, cheia de învelire provine din PBKDF2 cu 600.000 de runde și există doar în memorie cât seiful e deblocat. Fără parolă, este o cheie sigilată de depozitul de chei al telefonului însuși, așa că o copie a fișierelor aplicației nu poate deschide seiful.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Un cod mare — ca un export Google Authenticator — adesea nu se scanează aici cu camera. Dacă nu merge, fotografiați-l cu aplicația de cameră a telefonului și folosiți Încărcați o imagine QR.',
-  'import.noNativeReader.phone':
-    'Un cod mare — ca un export Google Authenticator — adesea nu se scanează aici cu camera. Dacă nu merge, fotografiați fiecare cod cu aplicația de cameră a telefonului și alegeți-le pe toate cu Alegeți fișiere.',
   'error.signOutUnsynced.phone':
     'Unele modificări de pe acest telefon nu au ajuns încă în contul dvs., iar deconectarea acum le-ar pierde. Conectați-vă la internet și încercați din nou.',
   'account.signOutNote.phone':

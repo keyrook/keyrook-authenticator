@@ -9,12 +9,11 @@
  */
 export const DEV_RUNTIME_ID = 'authx-dev-harness';
 
-/** What Chrome reports as the origin of a page belonging to an extension. */
-export const DEV_RUNTIME_ORIGIN = `chrome-extension://${DEV_RUNTIME_ID}`;
-
 /**
- * The sender the stub hands to every listener, exported as one object so the
- * test pins what is actually delivered rather than a pair that merely happens
- * to sit next to it.
+ * The sender the stub hands to every listener: the harness's own pages, at the
+ * origin they are served from. That is what a browser reports for a page of
+ * the extension's own, and what `chrome.runtime.getURL('')` gives there — the
+ * stub's included — so the background's check compares the two as it does in
+ * a real browser.
  */
-export const DEV_SENDER = { id: DEV_RUNTIME_ID, origin: DEV_RUNTIME_ORIGIN };
+export const devSender = (pageOrigin: string) => ({ id: DEV_RUNTIME_ID, origin: pageOrigin });

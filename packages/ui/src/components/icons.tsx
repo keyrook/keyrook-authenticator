@@ -50,6 +50,17 @@ export const SettingsIcon = icon('settings');
 export const LockIcon = icon('lock');
 export const CopyIcon = icon('copy');
 export const CheckIcon = icon('check');
+export const EditIcon = icon('edit');
+export const SyncIcon = icon('sync');
+export const SignOutIcon = icon('sign-out');
+export const ExternalIcon = icon('external');
+export const DevicesIcon = icon('devices');
+export const UserIcon = icon('user');
+/** The account's email address. */
+export const MailIcon = icon('mail');
+/** What happened to the account lately. */
+export const HistoryIcon = icon('history');
+export const AppearanceIcon = icon('appearance');
 export const TrashIcon = icon('trash');
 export const QrIcon = icon('qr');
 /** Typing a setup key by hand. */

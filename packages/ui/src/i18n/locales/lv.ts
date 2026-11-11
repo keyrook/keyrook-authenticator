@@ -20,6 +20,8 @@ export const lv: Dictionary = {
   'error.noAccountSheet': 'Šim kontam vēl nav atkopšanas atslēgas. Izveidojiet to konta lapā.',
   'error.recoveryKeyWrong': 'Šī atkopšanas atslēga neatbilst šim kontam.',
   'error.noRecoveryKit': 'Šai glabātavai nav atkopšanas atslēgas.',
+  'error.accountData.withheld':
+    'Firefox nav ļāvis Keyrook Authenticator neko sūtīt uz Keyrook kontu, tāpēc nekas netika nosūtīts. Atļaujiet to, kad Firefox jautās, vai lapā about:addons.',
   'error.syncUnavailable': 'Šajā versijā sinhronizācija nav pieejama.',
   'error.notSignedIn': 'Pierakstīšanās nav veikta.',
   'error.alreadySignedIn': 'Pierakstīšanās jau ir veikta.',
@@ -44,6 +46,7 @@ export const lv: Dictionary = {
   'error.noActiveTab': 'Nav aktīvas cilnes.',
   'error.autofillNotHere': 'Automātiskā aizpilde darbojas tikai parastās tīmekļa lapās.',
   'error.autofillBlocked': 'Chrome neļāva paplašinājumam nolasīt šo lapu. Atveriet uznirstošo logu no lapas, kuru vēlaties aizpildīt.',
+  'error.autofillBlocked.firefox': 'Firefox neļāva paplašinājumam nolasīt šo lapu. Atveriet uznirstošo logu no lapas, kuru vēlaties aizpildīt.',
   'error.signinCancelled': 'Pierakstīšanās atcelta.',
   'error.signinStateMismatch': 'Pierakstīšanās neatgriezās tāda, kāda aizgāja. Mēģiniet vēlreiz.',
   'error.signinUnfinished': 'Pierakstīšanās netika pabeigta. Mēģiniet vēlreiz.',
@@ -296,6 +299,7 @@ export const lv: Dictionary = {
   'rate.body': '<b>Vai Keyrook Authenticator jums noder?</b> Vērtējums {store} palīdz citiem to atrast.',
   'rate.store.chrome': 'Chrome interneta veikalā',
   'rate.store.edge': 'Edge papildinājumu veikalā',
+  'rate.store.firefox': 'Firefox papildinājumu veikalā',
   'rate.notNow': 'Ne tagad',
   'rate.rate': 'Novērtēt',
 
@@ -310,6 +314,7 @@ export const lv: Dictionary = {
   'add.camera.title': 'Skenēt ar kameru',
   'add.camera.description': 'Kodam tālrunī — arī Google Authenticator eksportam.',
   'add.camera.elsewhere': 'Vienreiz atver Iestatījumus, lai Chrome varētu lūgt kameru. Pēc tam darbojas tieši šeit.',
+  'add.camera.elsewhere.firefox': 'Vienreiz atver Iestatījumus, lai Firefox varētu lūgt kameru. Pēc tam darbojas tieši šeit.',
   'add.upload.title': 'Augšupielādēt QR koda attēlu',
   'add.upload.description': 'Iepriekš saglabāts ekrānuzņēmums vai fotogrāfija.',
   'add.manual.title': 'Ievadīt iestatīšanas atslēgu manuāli',
@@ -321,6 +326,8 @@ export const lv: Dictionary = {
   'common.done': 'Gatavs',
   'add.noNativeReader':
     'Chrome šajā datorā nav iebūvēta QR lasītāja, tāpēc lielu kodu — piemēram, Google Authenticator eksportu — ar kameru bieži nevar noskenēt. Ja neizdodas, tālrunī uzņemiet ekrānuzņēmumu un izmantojiet Augšupielādēt QR koda attēlu.',
+  'add.noNativeReader.firefox':
+    'Firefox šajā datorā nav iebūvēta QR lasītāja, tāpēc lielu kodu — piemēram, Google Authenticator eksportu — ar kameru bieži nevar noskenēt. Ja neizdodas, tālrunī uzņemiet ekrānuzņēmumu un izmantojiet Augšupielādēt QR koda attēlu.',
   'add.openScannerInSettings': 'Atvērt skeneri Iestatījumos',
   'add.noneFound': 'Konti netika atrasti.',
   'add.noQrOnPage': 'Lapas redzamajā daļā nav QR koda. Ritiniet to redzamā vietā un mēģiniet vēlreiz.',
@@ -381,6 +388,7 @@ export const lv: Dictionary = {
     'Turiet QR kodu rāmī. Pārejat no Google Authenticator? Atveriet tālrunī tā eksporta ekrānu un pavērsiet uz to kameru — ja kodu ir vairāki, rādiet tos pa vienam.',
   'camera.privacy': 'Attēls tiek nolasīts šajā ierīcē un izmests. Nekas netiek ierakstīts vai augšupielādēts.',
   'camera.blocked': 'Chrome bloķēja kameru. Atļaujiet to šai lapai vai pievienojiet kontu citādi.',
+  'camera.blocked.firefox': 'Firefox bloķēja kameru. Atļaujiet to šai lapai vai pievienojiet kontu citādi.',
   'camera.none': 'Šajā datorā kamera netika atrasta.',
   'camera.busy': 'Kameru izmanto cita programma.',
 
@@ -485,6 +493,8 @@ export const lv: Dictionary = {
   'about.fact.access.title': 'Nav plašas piekļuves vietnēm',
   'about.fact.access.body':
     'Šis paplašinājums neprasa nekādas vietņu atļaujas. QR koda nolasīšana no lapas vai koda ievadīšana tajā izmanto activeTab — atļauju, ko Chrome dod tikai cilnei, kurā palaidāt paplašinājumu.',
+  'about.fact.access.body.firefox':
+    'Šis paplašinājums neprasa nekādas vietņu atļaujas. QR koda nolasīšana no lapas vai koda ievadīšana tajā izmanto activeTab — atļauju, ko Firefox dod tikai cilnei, kurā palaidāt paplašinājumu.',
   'about.fact.standards.title': 'Standarti, nevis ieslodzījums',
   'about.fact.standards.body': 'RFC 6238 TOTP un RFC 4226 HOTP ar otpauth:// importu un eksportu. Jebkurā brīdī varat pāriet uz citu lietotni un paņemt visu līdzi.',
   'about.version': 'Versija {version}',
@@ -505,6 +515,7 @@ export const lv: Dictionary = {
   'about.logos.body':
     '{count} pakalpojumiem ir īsta zīme. Grafika no <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons un <fa>Font Awesome Free</fa> (ikonas, CC BY 4.0). Visi produktu nosaukumi un logotipi pieder to īpašniekiem un tiek izmantoti tikai, lai atpazītu konta pakalpojumu. Pakalpojums bez zīmes šajās kolekcijās saņem flīzi ar burtu.',
   'about.shortcut.change': 'Mainiet to vietnē chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Mainiet to vietnē about:addons.',
   'accounts.title': 'Konti',
   'accounts.description': 'Viss, kas saglabāts šajā glabātavā. Kodi tiek ģenerēti šajā ierīcē, nekad serverī.',
   'accounts.empty': 'Vēl nav kontu. Pievienojiet vienu, lai sāktu.',
@@ -556,6 +567,8 @@ export const lv: Dictionary = {
   'import.stopAndReview': 'Apturēt un pārskatīt {count}',
   'import.noNativeReader':
     'Chrome šajā datorā nav iebūvēta QR lasītāja, tāpēc lielu kodu — piemēram, Google Authenticator eksportu — ar kameru bieži nevar noskenēt. Ja neizdodas, tālrunī uzņemiet katra koda ekrānuzņēmumu un izvēlieties tos visus ar Izvēlēties failus.',
+  'import.noNativeReader.firefox':
+    'Firefox šajā datorā nav iebūvēta QR lasītāja, tāpēc lielu kodu — piemēram, Google Authenticator eksportu — ar kameru bieži nevar noskenēt. Ja neizdodas, tālrunī uzņemiet katra koda ekrānuzņēmumu un izvēlieties tos visus ar Izvēlēties failus.',
   'import.encrypted': 'Šī rezerves kopija ir šifrēta. Ievadiet paroli, ar kuru tā tika izveidota.',
   'import.backupPassword': 'Rezerves kopijas parole',
   'import.open': 'Atvērt rezerves kopiju',
@@ -782,10 +795,16 @@ export const lv: Dictionary = {
   },
   'account.signOutNote': 'Izrakstoties jūsu kodi tiek noņemti no šī pārlūka. Tie paliek jūsu Keyrook kontā — pierakstieties vēlreiz, lai tos atgūtu.',
   'accountPage.title': 'Jūsu Keyrook konts',
-  'accountPage.body': 'Parole, atkopšanas atslēga, sākšana no jauna un dzēšana atrodas konta lapā, visām Keyrook lietotnēm vienlaikus.',
-  'accountPage.bodyNoRoot': 'Parole un dzēšana atrodas konta lapā. Atkopšanas atslēgu izveido šeit, sadaļā Drošība, līdz kontu sāk izmantot cita Keyrook lietotne.',
-  'accountPage.bodyProvider': 'Atkopšanas atslēga, sākšana no jauna un dzēšana atrodas konta lapā, visām Keyrook lietotnēm vienlaikus.',
-  'accountPage.bodyNoRootProvider': 'Dzēšana atrodas konta lapā. Atkopšanas atslēgu izveido šeit, sadaļā Drošība, līdz kontu sāk izmantot cita Keyrook lietotne.',
+  'accountPage.body': 'Adrese, parole, atkopšanas atslēga, sākšana no jauna un dzēšana atrodas konta lapā, visām Keyrook lietotnēm vienlaikus.',
+  'accountPage.bodyNoRoot': 'Adrese, parole un dzēšana atrodas konta lapā. Atkopšanas atslēgu izveido šeit, sadaļā Drošība, līdz kontu sāk izmantot cita Keyrook lietotne.',
+  'accountPage.bodyProvider': 'Adrese, atkopšanas atslēga, sākšana no jauna un dzēšana atrodas konta lapā, visām Keyrook lietotnēm vienlaikus.',
+  'accountPage.bodyNoRootProvider': 'Adrese un dzēšana atrodas konta lapā. Atkopšanas atslēgu izveido šeit, sadaļā Drošība, līdz kontu sāk izmantot cita Keyrook lietotne.',
+  'accountPage.address': 'E-pasta adrese',
+  'accountPage.changeAddress': 'Mainīt adresi',
+  'accountPage.activity': 'Nesenās darbības',
+  'accountPage.activityBody': 'Jūsu konta pierakstīšanās un izmaiņas pēdējo 90 dienu laikā, ar ierīci, lietotni un valsti, konta lapā.',
+  'accountPage.data': 'Konta dati',
+  'accountPage.dataBody': 'Lejupielādējiet no konta lapas to, ko Keyrook serveris glabā par jūsu kontu. Jūsu kodu tur nav: serveris tos glabā tikai šifrētus. Eksportējiet tos sadaļā Rezerves kopija.',
   'sheetCheck.lead': 'Vienreiz ievadiet saglabāto atkopšanas atslēgu, lai šī lietotne zinātu, ka var atgūt jūsu kodus. Tā tiek pārbaudīta šajā ierīcē un netiek nekur sūtīta.',
   'sheetCheck.submit': 'Pārbaudīt',
   'sheetCheck.lost': 'Pazaudēta vai nekad nav bijusi? Izveidojiet jaunu konta lapā.',
@@ -831,12 +850,8 @@ export const lv: Dictionary = {
   'password.change': 'Mainīt paroli…',
   'password.formTitle': 'Konta paroles maiņa',
   'devices.title': 'Pierakstītās ierīces',
-  'devices.description':
-    'Izrakstiet ierīci, ko vairs nelietojat vai kas jums vairs nepieder. Ja tajā darbojas atjaunināts Keyrook Authenticator, nākamreiz savienojoties tā pati noņems šī konta kodus un paturēs tikai to, ko nekad nav nosūtījusi. Līdz tam, vai ja tā vairs nekad nesavienosies, tā paturēs to, kas tai bija, bloķētu ar to pašu paroli.',
-  'devices.descriptionProvider':
-    'Izrakstiet ierīci, ko vairs nelietojat vai kas jums vairs nepieder. Ja tajā darbojas atjaunināts Keyrook Authenticator, nākamreiz savienojoties tā pati noņems šī konta kodus un paturēs tikai to, ko nekad nav nosūtījusi. Līdz tam, vai ja tā vairs nekad nesavienosies, tā paturēs to, kas tai bija, bloķētu tā, kā tajā ierīcē ir bloķēta glabātava.',
-  'devices.this': 'Šī ierīce',
-  'devices.when': 'Pierakstīta {created} · pēdējo reizi aktīva {seen}',
+  'devices.onAccountPage':
+    'Visas jūsu kontā pierakstītās ierīces redzat konta lapā, kur tās var arī izrakstīt vai noņemt.',
   'removed.kept': 'Šeit pievienotie vai mainītie kodi, kas nebija nonākuši kontā, joprojām ir šeit.',
   'delete.row': 'Dzēst kontu',
   'delete.rowDescription': 'Noņem katru šifrēto kopiju no servera. Šī ierīce glabātavu patur, kāda tā ir; citas ierīces pārstāj sinhronizēties.',
@@ -985,6 +1000,7 @@ export const lv: Dictionary = {
   'backup.choice.import.title': 'Imports',
   'backup.choice.import.body': 'No rezerves kopijas, citas lietotnes eksporta vai otpauth:// saitēm.',
   'backup.choice.move.body': 'Pārsūtīšanas kodi, drukājama lapa vai lasāms fails. Nešifrēts.',
+  'backup.accountData': 'Jūsu kodus var eksportēt tikai Keyrook Authenticator: serveris tos glabā šifrētus. To, ko serveris glabā par jūsu kontu, bez kodiem un atslēgām, lejupielādē no konta lapas.',
   'security.description': 'Kā šī glabātava atveras un jūsu ceļš atpakaļ, ja pazaudējat šo pārlūku.',
   'security.deviceKeyHint': 'Nekas nav jāraksta. Neaptur ļaunprogrammatūru, kas šajā datorā darbojas jūsu vārdā.',
   'security.passwordHint': 'Tiek prasīta katru reizi, kad glabātava bloķējas.',
@@ -1051,10 +1067,6 @@ export const lv: Dictionary = {
   'about.fact.keys.body.phone':
     'Jūsu konti ir šifrēti ar datu atslēgu, kas pati ietīta citā atslēgā. Ar galveno paroli ietinošā atslēga tiek atvasināta ar PBKDF2 600 000 ciklos un pastāv atmiņā tikai, kamēr glabātava ir atbloķēta. Bez paroles tā ir atslēga, ko aizzīmogojusi paša tālruņa atslēgu krātuve, tāpēc lietotnes failu kopija glabātavu neatvērs.',
   'rate.store.play': 'Google Play veikalā',
-  'add.noNativeReader.phone':
-    'Lielu kodu — piemēram, Google Authenticator eksportu — šeit ar kameru bieži nevar noskenēt. Ja neizdodas, nofotografējiet to ar tālruņa kameras lietotni un izmantojiet Augšupielādēt QR koda attēlu.',
-  'import.noNativeReader.phone':
-    'Lielu kodu — piemēram, Google Authenticator eksportu — šeit ar kameru bieži nevar noskenēt. Ja neizdodas, nofotografējiet katru kodu ar tālruņa kameras lietotni un izvēlieties tos visus ar Izvēlēties failus.',
   'error.signOutUnsynced.phone':
     'Dažas šī tālruņa izmaiņas vēl nav nonākušas jūsu kontā, un izrakstīšanās tagad tās zaudētu. Izveidojiet savienojumu ar internetu un mēģiniet vēlreiz.',
   'account.signOutNote.phone':

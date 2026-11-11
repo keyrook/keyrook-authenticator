@@ -20,6 +20,8 @@ export const zhTW: Dictionary = {
   'error.noAccountSheet': '這個帳戶還沒有復原金鑰。請在帳戶頁面上建立一組。',
   'error.recoveryKeyWrong': '這把復原金鑰不屬於這個帳號。',
   'error.noRecoveryKit': '這個保管庫沒有復原金鑰。',
+  'error.accountData.withheld':
+    'Firefox 沒有允許 Keyrook Authenticator 向 Keyrook 帳號傳送任何內容，因此什麼都沒有傳送。請在 Firefox 詢問時允許，或在 about:addons 中允許。',
   'error.syncUnavailable': '這個版本無法使用同步。',
   'error.notSignedIn': '尚未登入。',
   'error.alreadySignedIn': '已經登入。',
@@ -47,6 +49,8 @@ export const zhTW: Dictionary = {
   'error.autofillNotHere': '自動填入只能在一般網頁上使用。',
   'error.autofillBlocked':
     'Chrome 不允許擴充功能讀取這個網頁。請從要填入的網頁開啟彈出式視窗。',
+  'error.autofillBlocked.firefox':
+    'Firefox 不允許擴充功能讀取這個網頁。請從要填入的網頁開啟彈出式視窗。',
   'error.signinCancelled': '已取消登入。',
   'error.signinStateMismatch': '這次登入回來的狀態和出發時不同。請再試一次。',
   'error.signinUnfinished': '登入沒有完成。請再試一次。',
@@ -311,6 +315,7 @@ export const zhTW: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator 對你有幫助嗎？</b>你在 {store} 的評分，能讓更多人找到它。',
   'rate.store.chrome': 'Chrome 線上應用程式商店',
   'rate.store.edge': 'Edge 附加元件',
+  'rate.store.firefox': 'Firefox 附加元件',
   'rate.notNow': '以後再說',
   'rate.rate': '去評分',
 
@@ -328,6 +333,8 @@ export const zhTW: Dictionary = {
   'add.camera.description': '用於手機上顯示的 QR 碼，包括 Google Authenticator 的匯出內容。',
   'add.camera.elsewhere':
     '會開啟一次「設定」，讓 Chrome 詢問相機使用權限。之後就能直接在這裡使用。',
+  'add.camera.elsewhere.firefox':
+    '會開啟一次「設定」，讓 Firefox 詢問相機使用權限。之後就能直接在這裡使用。',
   'add.upload.title': '上傳 QR 碼圖片',
   'add.upload.description': '先前儲存的螢幕截圖或照片。',
   'add.manual.title': '手動輸入設定金鑰',
@@ -339,6 +346,8 @@ export const zhTW: Dictionary = {
   'common.done': '完成',
   'add.noNativeReader':
     '這台電腦上的 Chrome 沒有內建 QR 碼讀取器，所以像 Google Authenticator 匯出內容這類大型 QR 碼，常常無法用相機掃描。如果掃不到，請在手機上截圖，改用「上傳 QR 碼圖片」。',
+  'add.noNativeReader.firefox':
+    '這台電腦上的 Firefox 沒有內建 QR 碼讀取器，所以像 Google Authenticator 匯出內容這類大型 QR 碼，常常無法用相機掃描。如果掃不到，請在手機上截圖，改用「上傳 QR 碼圖片」。',
   'add.openScannerInSettings': '在設定中開啟掃描器',
   'add.noneFound': '找不到帳號。',
   'add.noQrOnPage':
@@ -388,6 +397,8 @@ export const zhTW: Dictionary = {
     '畫面只在這部裝置上讀取，讀完即丟棄。不會錄製，也不會上傳任何東西。',
   'camera.blocked':
     'Chrome 封鎖了相機存取權。請允許這個網頁使用相機，或改用其他方式新增帳號。',
+  'camera.blocked.firefox':
+    'Firefox 封鎖了相機存取權。請允許這個網頁使用相機，或改用其他方式新增帳號。',
   'camera.none': '這台電腦上找不到相機。',
   'camera.busy': '相機正被其他程式使用。',
 
@@ -505,6 +516,8 @@ export const zhTW: Dictionary = {
   'about.fact.access.title': '不會全面存取網站',
   'about.fact.access.body':
     '這個擴充功能不要求任何主機權限。從網頁讀取 QR 碼，或把驗證碼填入網頁，都透過 activeTab 進行，Chrome 只會為你啟動擴充功能的那個分頁授予這項權限。',
+  'about.fact.access.body.firefox':
+    '這個擴充功能不要求任何主機權限。從網頁讀取 QR 碼，或把驗證碼填入網頁，都透過 activeTab 進行，Firefox 只會為你啟動擴充功能的那個分頁授予這項權限。',
   'about.fact.standards.title': '採用標準，不綁住你',
   'about.fact.standards.body':
     '支援 RFC 6238 TOTP 和 RFC 4226 HOTP，並可用 otpauth:// 匯入和匯出。你隨時可以帶著所有資料換到其他應用程式。',
@@ -527,6 +540,7 @@ export const zhTW: Dictionary = {
   'about.logos.body':
     '有 {count} 個服務擁有真正的標誌。圖像來自 <simple>Simple Icons</simple>（CC0 1.0）、LobeHub Icons、SVG Logos、CoreUI Brands、Arcticons 和 <fa>Font Awesome Free</fa>（圖示，CC BY 4.0）。所有產品名稱和標誌皆屬其所有者，只用來辨識帳號所屬的服務。在這些圖示集中都沒有標誌的服務，會顯示文字圖塊。',
   'about.shortcut.change': '可在 chrome://extensions/shortcuts 變更。',
+  'about.shortcut.change.firefox': '可在 about:addons 變更。',
   // --- 設定：帳號 ---------------------------------------------------------------
   'accounts.title': '帳號',
   'accounts.description':
@@ -580,6 +594,8 @@ export const zhTW: Dictionary = {
   'import.stopAndReview': '停止並檢查 {count} 個',
   'import.noNativeReader':
     '這台電腦上的 Chrome 沒有內建 QR 碼讀取器，所以像 Google Authenticator 匯出內容這類大型 QR 碼，常常無法用相機掃描。如果掃不到，請在手機上為每個 QR 碼截圖，再用「選擇檔案」一次全部選取。',
+  'import.noNativeReader.firefox':
+    '這台電腦上的 Firefox 沒有內建 QR 碼讀取器，所以像 Google Authenticator 匯出內容這類大型 QR 碼，常常無法用相機掃描。如果掃不到，請在手機上為每個 QR 碼截圖，再用「選擇檔案」一次全部選取。',
   'import.encrypted': '這份備份已加密。請輸入建立時使用的密碼。',
   'import.backupPassword': '備份密碼',
   'import.open': '開啟備份',
@@ -826,10 +842,16 @@ export const zhTW: Dictionary = {
   'account.signOutNote':
     '登出會從這個瀏覽器移除你的驗證碼。它們仍保存在你的 Keyrook 帳號中，重新登入即可找回。',
   'accountPage.title': '你的 Keyrook 帳戶',
-  'accountPage.body': '密碼、復原金鑰、重新開始和刪除帳戶都在帳戶頁面上，所有 Keyrook 應用程式一併生效。',
-  'accountPage.bodyNoRoot': '密碼和刪除帳戶都在帳戶頁面上。在其他 Keyrook 應用程式使用這個帳戶之前，復原金鑰在這裡的「安全性」中建立。',
-  'accountPage.bodyProvider': '復原金鑰、重新開始和刪除帳戶都在帳戶頁面上，所有 Keyrook 應用程式一併生效。',
-  'accountPage.bodyNoRootProvider': '刪除帳戶在帳戶頁面上。在其他 Keyrook 應用程式使用這個帳戶之前，復原金鑰在這裡的「安全性」中建立。',
+  'accountPage.body': '電子郵件地址、密碼、復原金鑰、重新開始和刪除帳戶都在帳戶頁面上，所有 Keyrook 應用程式一併生效。',
+  'accountPage.bodyNoRoot': '電子郵件地址、密碼和刪除帳戶都在帳戶頁面上。在其他 Keyrook 應用程式使用這個帳戶之前，復原金鑰在這裡的「安全性」中建立。',
+  'accountPage.bodyProvider': '電子郵件地址、復原金鑰、重新開始和刪除帳戶都在帳戶頁面上，所有 Keyrook 應用程式一併生效。',
+  'accountPage.bodyNoRootProvider': '電子郵件地址和刪除帳戶都在帳戶頁面上。在其他 Keyrook 應用程式使用這個帳戶之前，復原金鑰在這裡的「安全性」中建立。',
+  'accountPage.address': '電子郵件地址',
+  'accountPage.changeAddress': '變更地址',
+  'accountPage.activity': '近期活動',
+  'accountPage.activityBody': '在帳戶頁面查看過去 90 天內帳戶的登入和變更，並附上裝置、應用程式和國家/地區。',
+  'accountPage.data': '帳戶資料',
+  'accountPage.dataBody': '從帳戶頁面下載 Keyrook 伺服器保存的帳戶相關資料。其中沒有你的驗證碼：伺服器只保存加密過的驗證碼。驗證碼請在「備份」中匯出。',
   'sheetCheck.lead': '請輸入一次你保存的復原金鑰，讓這個應用程式知道它能找回你的驗證碼。金鑰在這部裝置上檢查，不會傳送到任何地方。',
   'sheetCheck.submit': '檢查',
   'sheetCheck.lost': '弄丟了，或從來沒有？請在帳戶頁面上建立新的。',
@@ -878,12 +900,7 @@ export const zhTW: Dictionary = {
   'password.change': '變更密碼…',
   'password.formTitle': '變更帳號密碼',
   'devices.title': '已登入的裝置',
-  'devices.description':
-    '登出你不再使用或已不在手邊的裝置。如果它執行的是最新版 Keyrook Authenticator，下次連線時會自行刪除這個帳號的驗證碼，只保留從未送出的內容。在那之前，或者它再也不連線，它會保留原有的內容，仍以相同密碼保護。',
-  'devices.descriptionProvider':
-    '登出你不再使用或已不在手邊的裝置。如果它執行的是最新版 Keyrook Authenticator，下次連線時會自行刪除這個帳號的驗證碼，只保留從未送出的內容。在那之前，或者它再也不連線，它會保留原有的內容，保護方式與該裝置上的保管庫相同。',
-  'devices.this': '這部裝置',
-  'devices.when': '{created} 登入 · 上次使用 {seen}',
+  'devices.onAccountPage': '在帳戶頁面查看登入你帳戶的所有裝置，並登出或移除其中任何一台。',
   'removed.kept': '在這裡新增或修改、但尚未送到帳號的驗證碼仍保留在這裡。',
   'delete.row': '刪除你的帳號',
   'delete.rowDescription':
@@ -1044,6 +1061,7 @@ export const zhTW: Dictionary = {
   'backup.choice.import.title': '匯入',
   'backup.choice.import.body': '從備份、其他 App 的匯出內容或 otpauth:// 連結。',
   'backup.choice.move.body': '轉移碼、可列印的頁面或可讀取的檔案。未加密。',
+  'backup.accountData': '只有 Keyrook Authenticator 能匯出你的驗證碼：伺服器保存的是加密過的驗證碼。伺服器保存的帳戶相關資料（不含驗證碼和金鑰）可從帳戶頁面下載。',
   'security.description': '這個保險庫如何開啟，以及遺失這個瀏覽器時如何重新進入。',
   'security.deviceKeyHint': '無需輸入。無法阻擋在這台電腦上以你身分執行的惡意程式。',
   'security.passwordHint': '每當保險庫鎖定後都需要輸入。',
@@ -1096,10 +1114,6 @@ export const zhTW: Dictionary = {
   'about.fact.keys.body.phone':
     '你的帳號以資料金鑰加密，而資料金鑰本身也經過包裝。使用主密碼時，包裝金鑰來自 PBKDF2（600,000 次），只在解鎖期間存在於記憶體中。不使用主密碼時，它是由手機本身的金鑰庫封存的金鑰，因此複製應用程式的檔案也無法開啟保管庫。',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    '像 Google Authenticator 匯出內容這類大型 QR 碼，在這裡常常無法用相機掃描。如果掃不到，請用手機的相機 App 拍下它，改用「上傳 QR 碼圖片」。',
-  'import.noNativeReader.phone':
-    '像 Google Authenticator 匯出內容這類大型 QR 碼，在這裡常常無法用相機掃描。如果掃不到，請用手機的相機 App 為每個 QR 碼拍照，再用「選擇檔案」一次全部選取。',
   'error.signOutUnsynced.phone': '這支手機上的部分變更尚未同步到你的帳號，現在登出會讓它們遺失。請連上網際網路後再試一次。',
   'account.signOutNote.phone': '登出會從這支手機移除你的驗證碼。它們仍保存在你的 Keyrook 帳號中，重新登入即可找回。',
   'secondStepTip.suggest.phone':

@@ -141,6 +141,32 @@ only the store listings' extension ids, so a copy you load unpacked cannot sign
 in; build with `VITE_SYNC_API_URL=` (empty) for one with the account features
 switched off.
 
+### Firefox
+
+```bash
+npm ci
+npm run zip:firefox -w @authx/extension
+```
+
+This writes `apps/extension/dist-firefox/` and the archive uploaded to
+addons.mozilla.org, `release/keyrook-authenticator-firefox-<version>.zip`.
+Load it in Firefox 140 or later at **about:debugging → This Firefox → Load
+Temporary Add-on**, choosing `apps/extension/dist-firefox/manifest.json`. It
+carries the add-on's id, so a copy loaded this way signs in as the listed one
+does.
+
+**For addons.mozilla.org's reviewers.** The uploaded archive is built from
+this tree by the two commands above and nothing else: no network access but
+`npm ci`, no file from outside the tree, and no tool beyond Node, npm and
+`zip` (Info-ZIP; `apt install zip` if it is missing). Ubuntu 24.04 on ARM64
+with Node 24 and npm 11 builds the same files as the upload, which is made
+with Node 22: CI rebuilds it that way on every push and compares the two
+file by file ("Firefox zip as addons.mozilla.org rebuilds it" in
+`.github/workflows/ci.yml`). The bundles are made by Vite, with Rollup and
+esbuild, from the TypeScript in `apps/extension/src` and `packages/`;
+`vendor/keyrook-account` and `vendor/keyrook-brand` are Keyrook's own
+packages, here as source.
+
 ## Checking a store release against this source
 
 Builds are deterministic: two builds of the same commit, from the same
@@ -154,6 +180,12 @@ lockfile, produce byte-identical files. To check what a store gave you:
 
 Expect differences only in the `_metadata/` folder and in `manifest.json` fields
 the store adds itself, such as `update_url`.
+
+For Firefox, build with `npm run zip:firefox -w @authx/extension` and compare
+`apps/extension/dist-firefox` with the installed `.xpi`, which is a zip: it is
+in your Firefox profile's `extensions/` folder, named
+`authenticator@keyrook.com.xpi` (about:support → Profile Folder). Expect
+differences only in `META-INF/`, Mozilla's signature.
 
 ## Reporting a vulnerability
 

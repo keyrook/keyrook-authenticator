@@ -186,6 +186,21 @@
     margin-block: -14px;
   }
 
+  /*
+   * A thumb that rests or drags selects nothing, and a tap does not flash the
+   * WebView's blue box: an app's screen is not a page to read off. What is
+   * typed stays selectable, and codes and keys have their copy buttons.
+   */
+  [data-window='app'] body {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  [data-window='app'] :is(input, textarea, [contenteditable='true']) {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
   [data-window='app'] [role='switch']::after {
     content: '';
     position: absolute;
@@ -358,5 +373,45 @@
   }
   [data-window='app'] .text-sm {
     font-size: 15.5px;
+  }
+
+  /*
+   * A phone's own text size, on top. Android enlarges a page's text — up to
+   * 1.7 times — and not the boxes drawn around it, so a choice of a fixed
+   * height let its second line spill out of its pill, and a button that never
+   * wrapped ran past the screen's edge. In an app's window a control is as
+   * tall as its words, and a button's words wrap.
+   */
+  [data-window='app'] :is(button, [role='radio']):is(.h-7, .h-8, .h-9, .h-10, .h-11) {
+    height: auto;
+  }
+  [data-window='app'] .kr-press {
+    white-space: normal;
+    padding-block: 6px;
+    /* A phone's buttons are pills, as its own apps' are. */
+    border-radius: 9999px;
+  }
+
+  /*
+   * A phone's screen is for doing, not for reading. What only explains — a
+   * page's introduction, a setting's paragraph, the ways to add an account
+   * spelled out — made every screen a page of text in large type, and is
+   * left to the extension's larger window. What warns stays (`keep`).
+   */
+  [data-window='app'] .kr-explain {
+    display: none;
+  }
+
+  /*
+   * 44px is a floor, not a size to squeeze a control down to: in a column of
+   * a fixed height — a sheet's list of ways to add an account — a flex item
+   * may shrink to its min-height, and the 44px set above took the place of
+   * the one that keeps it as tall as its text, so each choice's words ran
+   * over the next one's.
+   */
+  [data-window='app']
+    :is(.flex-col, .flex-col-reverse)
+    > :is(button:not([role='switch']), summary, select, input:not([type='checkbox'], [type='radio'], [type='file'])) {
+    flex-shrink: 0;
   }
 }

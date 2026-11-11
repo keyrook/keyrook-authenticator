@@ -108,7 +108,9 @@ export function AccountsPanel({
             {shown.map((item) => (
               <li
                 key={item.id}
-                className="flex items-center gap-3.5 border-b border-neutral-100 px-4 py-3 last:border-b-0 dark:border-neutral-900"
+                // A phone's large text left a name five letters wide beside
+                // three buttons: there they go under it instead.
+                className="flex items-center gap-3.5 border-b border-neutral-100 px-4 py-3 last:border-b-0 app:flex-wrap app:gap-y-1 dark:border-neutral-900"
               >
                 <BrandMark
                   issuer={item.issuer}
@@ -117,7 +119,7 @@ export function AccountsPanel({
                   icon={item.icon}
                   size={30}
                 />
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 app:min-w-[55%]">
                   <p dir="auto" className="truncate text-[13px] font-medium rtl:text-right">
                     {titleOf(item)}
                   </p>
@@ -147,7 +149,7 @@ export function AccountsPanel({
                   </span>
                 )}
 
-                <div className="flex shrink-0 items-center gap-1.5">
+                <div className="flex shrink-0 items-center gap-1.5 app:ms-auto">
                   <Button
                     size="sm"
                     variant="ghost"
@@ -290,7 +292,7 @@ const MODAL_HEIGHT = {
   fit: 'max-h-[calc(100vh-3rem)] overflow-y-auto',
 } as const;
 
-function Modal({
+export function Modal({
   children,
   onClose,
   size = 'sheet',
@@ -324,7 +326,7 @@ function Modal({
   );
 }
 
-function ItemEditor({
+export function ItemEditor({
   item,
   groups,
   onSave,

@@ -1,19 +1,23 @@
 # Privacy Policy — Keyrook Authenticator
 
-_Last updated: 26 October 2026_
+_Last updated: 11 November 2026_
 
 ## The short version
 
 Keyrook Authenticator works without an account, and then nothing leaves your
-computer. Sync between your browsers is optional. If you turn it on, your
-two-factor accounts are encrypted on your device before they are uploaded, with
-a key the server never receives: we store them, but we cannot read them. We
-keep your email address and what is needed to run the account, use it for
-nothing else, and sell nothing. You can sign in with a password, or with Google
-or GitHub, which tell us who you are and nothing more.
+computer or your phone. Sync between your browsers and phones is optional. If
+you turn it on, your two-factor accounts are encrypted on your device before
+they are uploaded, with a key the server never receives: we store them, but we
+cannot read them. We keep your email address and what is needed to run the
+account, use it for nothing else, and sell nothing. You can sign in with a
+password, or with Google or GitHub, which tell us who you are and nothing more.
 
-Keyrook Authenticator is made by BRICK IT ALL LLC ("we"). Sync is available from
-version 0.2.0.
+Keyrook Authenticator is made by BRICK IT ALL LLC ("we"). It is an extension
+for Chrome and Edge, where sync is available from version 0.2.0, and for
+Firefox, from version 0.5.0, and an app for Android phones, from its first
+version. Everything here applies to all of them; what is different on a phone
+is said under "On an Android phone", and what is different in Firefox under
+"In Firefox".
 
 ## Without an account
 
@@ -61,6 +65,33 @@ none of it is sent anywhere.
 Nothing seen this way is stored or transmitted. Screenshots of the page, camera
 frames and the pictures you choose are decoded in memory and discarded — none of
 them is recorded, kept or uploaded, with or without an account.
+
+### On an Android phone
+
+The app keeps the same things, encrypted the same way, in its own storage on
+the phone, which other apps cannot read. What differs:
+
+- **The key that opens a vault without a password** is kept sealed by a key in
+  the phone's Android Keystore, which never leaves it — on most phones, its
+  secure hardware. Uninstalling the app deletes both.
+- **Android's own backup.** If backup is on, Android may copy the app's
+  encrypted files to your Google account or to a new phone, as it does for most
+  apps. The device key never goes with them, so a vault copied that way opens
+  only with its master password, or by signing in to your Keyrook account
+  again.
+- **The camera, only when you ask it to scan.** Android asks for your
+  permission the first time. The app reads each frame on the phone and turns
+  the camera off when the scan ends.
+- **Pictures and files you pick** in the phone's own picker are read on the
+  phone. The app is shown nothing else: not your other apps, your photos,
+  your contacts or your location. It asks for no permission but the camera,
+  and Android's ordinary one to use the internet, which only sync needs.
+- **What you copy and what is on screen.** A code you copy is marked as
+  sensitive, so the clipboard's preview hides it, and the app's screens are
+  kept out of screenshots, screen recordings and the recent-apps view.
+- **A file you save or share** — a backup, an export — goes through the
+  phone's share sheet to the place you choose. The copy the app made for it is
+  removed before the next one, and whenever the app starts.
 
 ## With an account (optional sync)
 
@@ -127,7 +158,8 @@ own privacy policy at account.keyrook.com/privacy/.
   its place a proof made from your recovery key, never the key itself; between
   the two steps we hold for five minutes which device and app the sign-in is
   for. It is off unless you turn it on, and we keep nothing for it until then.
-- **Your signed-in devices** — a name such as "Chrome on Mac", when each signed
+- **Your signed-in devices** — a name such as "Chrome on Mac" or "Keyrook
+  Authenticator on Android", which Keyrook app it is, when each signed
   in and was last used, and a hash of its session tokens, so you can see the
   list and sign a device out.
 - **Devices you remove** (from 26 October 2026). When you remove a device from
@@ -139,10 +171,17 @@ own privacy policy at account.keyrook.com/privacy/.
   on that device checks the proof with its own key and then takes your
   account's codes off it, keeping only those added there that never reached
   your account. A device that never connects again keeps what it had.
-- **A new browser asking to join.** A browser signed in with Google or GitHub
+- **Recent activity** (from 27 October 2026). For each sign-in, and each
+  change to how your account is reached or opened (a password, a passkey, a
+  way to sign in, your recovery key, two-step sign-in, a device removed, your
+  address, a start over): what it was, when, the app and the device's name,
+  how a sign-in was made, and the country the request came from, as our
+  network provider reports it. Never the network address. You see it on
+  account.keyrook.com, under Recent activity.
+- **A new browser or phone asking to join.** One signed in with Google or GitHub
   gets your entries only when one already signed in approves it. Until then we
   hold its name and a one-time public key; once you approve, your data key
-  encrypted for that browser alone, which we cannot open. The request is deleted
+  encrypted for it alone, which we cannot open. The request is deleted
   when it is used or declined, and stops working after ten minutes.
 - **What an account kept when it started over.** An account whose password and
   recovery key are both lost can start over with its email address alone. What
@@ -160,6 +199,22 @@ own privacy policy at account.keyrook.com/privacy/.
   password. The key itself never leaves your device. Only so that you can be
   reminded to look for it; we decide nothing by it.
 
+### In Firefox
+
+Firefox asks you before Keyrook Authenticator sends anything to your account,
+and nothing is allowed when you install it. The first time you sign in, create
+an account, recover it or sync, Firefox shows you what the account needs, in
+its own words: authentication information (the proof made from your password,
+or Google's or GitHub's answer), personally identifying information (your
+email address), and technical information (the device's name, such as
+"Firefox on Mac", and the extension's version). Until you allow it, nothing is
+sent to us — not even a question about which ways to sign in are offered. You
+can take it back at any time in Firefox, at about:addons → Keyrook
+Authenticator → Permissions and data. From then on nothing more is sent: the
+browser stays signed in, keeps what you change, and asks again when you press
+Sync now. What we keep once you allow it is what this section lists, as on any
+other browser.
+
 ### What the service sees in passing
 
 - **Your IP address**, which every connection carries. To limit abuse — someone
@@ -169,7 +224,9 @@ own privacy policy at account.keyrook.com/privacy/.
 - **Signing in with Google or GitHub** happens on their site, under their
   privacy policy, and they learn that you signed in to Keyrook. The
   extension takes you to their sign-in page and back, or opens it in the
-  browser's own sign-in window to confirm a change to your account.
+  browser's own sign-in window to confirm a change to your account; in
+  Firefox, always in that window. The Android app opens it in the phone's
+  browser, which hands the answer back to the app.
 - Requests pass through a network provider that protects the service and sees
   connection details such as your IP address. It and the server write routine
   access logs (IP address, time, the address requested); we keep no archive of
@@ -188,7 +245,9 @@ notice when Google or GitHub is added to the account or removed, and when a
 password is added; with two-step sign-in, a notice when it is turned on or off,
 and when the recovery key is used in place of a code; from 26 October 2026,
 a notice when a device is removed from your account with a proof that lets its
-app take your data off it; and a reminder a week before what it kept from
+app take your data off it; from 27 October 2026, a notice of each new sign-in,
+naming the app, the device, how and the country, so that one you do not know
+does not go unseen; and a reminder a week before what it kept from
 before starting over is deleted. No newsletters, no
 marketing.
 
@@ -196,7 +255,7 @@ marketing.
 
 - **A hosting provider** runs the server and its database.
 - **A network provider** carries and protects the connections between your
-  browser and the server.
+  browser or phone and the server.
 - **An email delivery service** sends the emails above.
 - **An email provider** holds an off-site copy of each daily database backup.
   The backup is encrypted, and the key to open it is not stored with it.
@@ -216,6 +275,7 @@ which companies they are, write to us.
   started over, then deleted. A week before, we email the address to say so.
 - **A start over asked for**: until it takes effect a week later, or is
   cancelled.
+- **Recent activity**: 90 days, and at once when you delete the account.
 - **Your passkeys**: until you remove one, delete the account, or it starts
   over.
 - **Two-step sign-in**: until you turn it off, delete the account, or it
@@ -249,7 +309,7 @@ reads your two-factor accounts, because nobody can.
 - No analytics, telemetry, crash reporting or usage statistics.
 - No advertising, and no advertising identifiers.
 - No remotely hosted code. Everything that runs is in the package the browser
-  installed, enforced by the extension's Content Security Policy.
+  or Google Play installed, enforced by its Content Security Policy.
 - No service logos fetched from the internet: they are built in, so no website
   learns which accounts you keep.
 
@@ -273,13 +333,14 @@ has the link can use its codes, and it cannot be taken back.
 ## Your choices and rights
 
 - **Use it without an account.** Every feature but sync works without one.
-- **See and take your data.** Your entries are in the extension, readable by
+- **See and take your data.** Your entries are in the extension and the app, readable by
   you, and Backup & import exports them. For what we hold about your account,
   write to us.
 - **Delete it.** Delete the account at any time on its page,
-  account.keyrook.com, which Settings → Sync opens. Settings → Security →
-  Delete this vault removes the vault from a device; removing the extension
-  also removes its storage.
+  account.keyrook.com, which Settings → Sync opens: see "Deleting your
+  Keyrook account" below. Settings → Security → Delete this vault removes the
+  vault from a device; removing the extension, or uninstalling the app, also
+  removes its storage.
 - **Correct it or ask about it.** Write to us; we answer within 30 days.
 
 By creating an account you agree to this processing for the purposes above; you
@@ -289,11 +350,30 @@ wrongly, you may also complain to the data protection authority where you live.
 Keyrook Authenticator is not directed at children under 13, and we do not knowingly
 hold data about them.
 
+## Deleting your Keyrook account
+
+You can delete your Keyrook account, and everything our server holds for it,
+at any time, from any browser, without the app:
+
+- **Open account.keyrook.com and sign in**, with your password, or with Google
+  or GitHub. In Keyrook Authenticator, Settings → Sync → Delete your account
+  (on a phone) or Open the account page (in the extension) takes you there.
+- **Choose Your data, then Delete account.** Type the account's email address
+  and confirm with your password, or by signing in with Google or GitHub once
+  more.
+
+It is deleted at once: your email address, your encrypted entries, your
+devices, your passkeys and your recovery data, including what any other
+Keyrook app synced to the same account. Our encrypted backups of the database
+expire within 14 days on the server and 60 days off-site. The codes on your
+devices stay there, each until you delete its vault. If you can no longer sign
+in, write to us from the account's address.
+
 ## Changes
 
 When this policy changes, the date at the top changes with it. A change in what
-we collect or who processes it is also named in the extension's release notes
-before it takes effect.
+we collect or who processes it is also named in the release notes before it
+takes effect.
 
 ## Contact
 

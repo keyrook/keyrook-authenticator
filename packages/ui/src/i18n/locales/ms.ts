@@ -19,6 +19,8 @@ export const ms: Dictionary = {
   'error.noAccountSheet': 'Akaun ini belum ada kunci pemulihan. Buat satu di halaman akaun.',
   'error.recoveryKeyWrong': 'Kunci pemulihan itu tidak sepadan dengan akaun ini.',
   'error.noRecoveryKit': 'Peti besi ini tiada kunci pemulihan.',
+  'error.accountData.withheld':
+    'Firefox tidak membenarkan Keyrook Authenticator menghantar apa-apa ke akaun Keyrook, jadi tiada apa-apa dihantar. Benarkan apabila Firefox bertanya, atau di about:addons.',
   'error.syncUnavailable': 'Penyegerakan tidak tersedia dalam binaan ini.',
   'error.notSignedIn': 'Anda belum log masuk.',
   'error.alreadySignedIn': 'Anda sudah log masuk.',
@@ -43,6 +45,7 @@ export const ms: Dictionary = {
   'error.noActiveTab': 'Tiada tab aktif.',
   'error.autofillNotHere': 'Isi automatik hanya berfungsi pada halaman web biasa.',
   'error.autofillBlocked': 'Chrome tidak membenarkan sambungan membaca halaman ini. Buka tetingkap timbul dari halaman yang ingin diisi.',
+  'error.autofillBlocked.firefox': 'Firefox tidak membenarkan sambungan membaca halaman ini. Buka tetingkap timbul dari halaman yang ingin diisi.',
   'error.signinCancelled': 'Log masuk dibatalkan.',
   'error.signinStateMismatch': 'Log masuk tidak kembali seperti semasa ia dihantar. Cuba lagi.',
   'error.signinUnfinished': 'Log masuk tidak selesai. Cuba lagi.',
@@ -285,6 +288,7 @@ export const ms: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator berguna untuk anda?</b> Penilaian di {store} membantu orang lain menemuinya.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Bukan sekarang',
   'rate.rate': 'Beri penilaian',
 
@@ -299,6 +303,7 @@ export const ms: Dictionary = {
   'add.camera.title': 'Imbas dengan kamera',
   'add.camera.description': 'Untuk kod pada telefon — termasuk eksport Google Authenticator.',
   'add.camera.elsewhere': 'Membuka Tetapan sekali supaya Chrome boleh meminta kamera. Selepas itu ia berfungsi terus di sini.',
+  'add.camera.elsewhere.firefox': 'Membuka Tetapan sekali supaya Firefox boleh meminta kamera. Selepas itu ia berfungsi terus di sini.',
   'add.upload.title': 'Muat naik imej kod QR',
   'add.upload.description': 'Tangkapan skrin atau foto yang anda simpan sebelum ini.',
   'add.manual.title': 'Masukkan kunci persediaan secara manual',
@@ -310,6 +315,8 @@ export const ms: Dictionary = {
   'common.done': 'Selesai',
   'add.noNativeReader':
     'Chrome pada komputer ini tiada pembaca QR terbina dalam, jadi kod besar — seperti eksport Google Authenticator — selalunya tidak dapat diimbas dengan kamera. Jika tidak berjaya, ambil tangkapan skrin pada telefon dan gunakan Muat naik imej kod QR.',
+  'add.noNativeReader.firefox':
+    'Firefox pada komputer ini tiada pembaca QR terbina dalam, jadi kod besar — seperti eksport Google Authenticator — selalunya tidak dapat diimbas dengan kamera. Jika tidak berjaya, ambil tangkapan skrin pada telefon dan gunakan Muat naik imej kod QR.',
   'add.openScannerInSettings': 'Buka pengimbas dalam Tetapan',
   'add.noneFound': 'Tiada akaun ditemui.',
   'add.noQrOnPage': 'Tiada kod QR pada bahagian halaman yang kelihatan. Tatal sehingga ia kelihatan dan cuba lagi.',
@@ -350,6 +357,7 @@ export const ms: Dictionary = {
     'Letakkan kod QR di dalam bingkai. Berpindah dari Google Authenticator? Buka skrin eksportnya pada telefon dan halakan kamera ke arahnya — jika ada beberapa kod, tunjukkan satu demi satu.',
   'camera.privacy': 'Imej dibaca pada peranti ini dan dibuang. Tiada apa-apa dirakam atau dimuat naik.',
   'camera.blocked': 'Chrome menyekat kamera. Benarkan untuk halaman ini, atau tambah akaun dengan cara lain.',
+  'camera.blocked.firefox': 'Firefox menyekat kamera. Benarkan untuk halaman ini, atau tambah akaun dengan cara lain.',
   'camera.none': 'Tiada kamera ditemui pada komputer ini.',
   'camera.busy': 'Kamera sedang digunakan oleh program lain.',
 
@@ -450,6 +458,8 @@ export const ms: Dictionary = {
   'about.fact.access.title': 'Tiada akses meluas ke laman web',
   'about.fact.access.body':
     'Sambungan ini tidak meminta kebenaran laman. Membaca kod QR daripada halaman atau mengisi kod ke dalamnya menggunakan activeTab — kebenaran yang diberikan oleh Chrome hanya untuk tab tempat anda melancarkan sambungan.',
+  'about.fact.access.body.firefox':
+    'Sambungan ini tidak meminta kebenaran laman. Membaca kod QR daripada halaman atau mengisi kod ke dalamnya menggunakan activeTab — kebenaran yang diberikan oleh Firefox hanya untuk tab tempat anda melancarkan sambungan.',
   'about.fact.standards.title': 'Piawaian, bukan kurungan',
   'about.fact.standards.body': 'TOTP RFC 6238 dan HOTP RFC 4226, dengan import dan eksport otpauth://. Anda boleh berpindah ke aplikasi lain bila-bila masa dan membawa segalanya bersama.',
   'about.version': 'Versi {version}',
@@ -470,6 +480,7 @@ export const ms: Dictionary = {
   'about.logos.body':
     '{count} perkhidmatan mempunyai logo sebenar. Grafik daripada <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons dan <fa>Font Awesome Free</fa> (ikon, CC BY 4.0). Semua nama produk dan logo adalah milik pemiliknya dan digunakan hanya untuk mengenal pasti perkhidmatan akaun. Perkhidmatan tanpa logo dalam koleksi tersebut mendapat jubin huruf.',
   'about.shortcut.change': 'Tukarkannya di chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Tukarkannya di about:addons.',
   'accounts.title': 'Akaun',
   'accounts.description': 'Semua yang disimpan dalam peti besi ini. Kod dijana pada peranti ini, tidak pernah di pelayan.',
   'accounts.empty': 'Belum ada akaun. Tambah satu untuk bermula.',
@@ -519,6 +530,8 @@ export const ms: Dictionary = {
   'import.stopAndReview': 'Berhenti dan semak {count}',
   'import.noNativeReader':
     'Chrome pada komputer ini tiada pembaca QR terbina dalam, jadi kod besar — seperti eksport Google Authenticator — selalunya tidak dapat diimbas dengan kamera. Jika tidak berjaya, ambil tangkapan skrin setiap kod pada telefon dan pilih semuanya dengan Pilih fail.',
+  'import.noNativeReader.firefox':
+    'Firefox pada komputer ini tiada pembaca QR terbina dalam, jadi kod besar — seperti eksport Google Authenticator — selalunya tidak dapat diimbas dengan kamera. Jika tidak berjaya, ambil tangkapan skrin setiap kod pada telefon dan pilih semuanya dengan Pilih fail.',
   'import.encrypted': 'Sandaran ini disulitkan. Masukkan kata laluan yang digunakan semasa membuatnya.',
   'import.backupPassword': 'Kata laluan sandaran',
   'import.open': 'Buka sandaran',
@@ -725,10 +738,16 @@ export const ms: Dictionary = {
   'summary.rejected': { other: ' {count} rekod tidak dapat dinyahsulit dan dilangkau. Jika ini berterusan, ada yang tidak kena dengan salinan yang disimpan.' },
   'account.signOutNote': 'Log keluar membuang kod anda daripada pelayar ini. Kod kekal dalam akaun Keyrook anda — log masuk semula untuk mendapatkannya kembali.',
   'accountPage.title': 'Akaun Keyrook anda',
-  'accountPage.body': 'Kata laluan, kunci pemulihan, memulakan semula dan memadam akaun ada di halaman akaun, untuk semua apl Keyrook sekali gus.',
-  'accountPage.bodyNoRoot': 'Kata laluan dan pemadaman akaun ada di halaman akaun. Kunci pemulihan dibuat di sini, di bawah Keselamatan, sehingga apl Keyrook lain menggunakan akaun ini.',
-  'accountPage.bodyProvider': 'Kunci pemulihan, memulakan semula dan memadam akaun ada di halaman akaun, untuk semua apl Keyrook sekali gus.',
-  'accountPage.bodyNoRootProvider': 'Pemadaman akaun ada di halaman akaun. Kunci pemulihan dibuat di sini, di bawah Keselamatan, sehingga apl Keyrook lain menggunakan akaun ini.',
+  'accountPage.body': 'Alamat, kata laluan, kunci pemulihan, memulakan semula dan memadam akaun ada di halaman akaun, untuk semua apl Keyrook sekali gus.',
+  'accountPage.bodyNoRoot': 'Alamat, kata laluan dan pemadaman akaun ada di halaman akaun. Kunci pemulihan dibuat di sini, di bawah Keselamatan, sehingga apl Keyrook lain menggunakan akaun ini.',
+  'accountPage.bodyProvider': 'Alamat, kunci pemulihan, memulakan semula dan memadam akaun ada di halaman akaun, untuk semua apl Keyrook sekali gus.',
+  'accountPage.bodyNoRootProvider': 'Alamat dan pemadaman akaun ada di halaman akaun. Kunci pemulihan dibuat di sini, di bawah Keselamatan, sehingga apl Keyrook lain menggunakan akaun ini.',
+  'accountPage.address': 'Alamat e-mel',
+  'accountPage.changeAddress': 'Tukar alamat',
+  'accountPage.activity': 'Aktiviti terkini',
+  'accountPage.activityBody': 'Log masuk dan perubahan pada akaun anda dalam 90 hari lalu, berserta peranti, apl dan negara, di halaman akaun.',
+  'accountPage.data': 'Data akaun',
+  'accountPage.dataBody': 'Muat turun dari halaman akaun apa yang disimpan oleh pelayan Keyrook tentang akaun anda. Kod anda tiada di dalamnya: pelayan hanya menyimpannya dalam bentuk tersulit. Eksport kod di bawah Sandaran.',
   'sheetCheck.lead': 'Taip sekali kunci pemulihan yang anda simpan, supaya apl ini tahu ia boleh mengembalikan kod anda. Ia disemak pada peranti ini dan tidak dihantar ke mana-mana.',
   'sheetCheck.submit': 'Semak',
   'sheetCheck.lost': 'Hilang, atau tidak pernah ada? Buat yang baharu di halaman akaun.',
@@ -774,12 +793,8 @@ export const ms: Dictionary = {
   'password.change': 'Tukar kata laluan…',
   'password.formTitle': 'Tukar kata laluan akaun',
   'devices.title': 'Peranti yang log masuk',
-  'devices.description':
-    'Log keluar peranti yang tidak lagi anda gunakan atau miliki. Jika ia menjalankan Keyrook Authenticator yang terkini, kali seterusnya ia bersambung ia akan membuang sendiri kod akaun ini, dan hanya menyimpan apa yang tidak pernah dihantarnya. Sehingga itu, atau jika ia tidak bersambung lagi, ia menyimpan apa yang ada padanya, dikunci dengan kata laluan yang sama.',
-  'devices.descriptionProvider':
-    'Log keluar peranti yang tidak lagi anda gunakan atau miliki. Jika ia menjalankan Keyrook Authenticator yang terkini, kali seterusnya ia bersambung ia akan membuang sendiri kod akaun ini, dan hanya menyimpan apa yang tidak pernah dihantarnya. Sehingga itu, atau jika ia tidak bersambung lagi, ia menyimpan apa yang ada padanya, dikunci sebagaimana peti besinya dikunci pada peranti itu.',
-  'devices.this': 'Peranti ini',
-  'devices.when': 'Log masuk {created} · terakhir aktif {seen}',
+  'devices.onAccountPage':
+    'Lihat semua peranti yang log masuk ke akaun anda, dan log keluar atau alih keluar mana-mana satu, di halaman akaun.',
   'removed.kept': 'Kod yang ditambah atau diubah di sini dan belum sampai ke akaun masih ada di sini.',
   'delete.row': 'Padam akaun',
   'delete.rowDescription': 'Membuang setiap salinan bersulit daripada pelayan. Peranti ini menyimpan peti besi seperti sedia ada; peranti lain berhenti menyegerak.',
@@ -916,6 +931,7 @@ export const ms: Dictionary = {
   'backup.choice.import.title': 'Import',
   'backup.choice.import.body': 'Daripada sandaran, eksport aplikasi lain, atau pautan otpauth://.',
   'backup.choice.move.body': 'Kod pemindahan, halaman cetak atau fail yang boleh dibaca. Tidak disulitkan.',
+  'backup.accountData': 'Hanya Keyrook Authenticator yang boleh mengeksport kod anda: pelayan menyimpannya dalam bentuk tersulit. Apa yang disimpan pelayan tentang akaun anda, tanpa kod atau kunci, dimuat turun dari halaman akaun.',
   'security.description': 'Cara peti besi ini dibuka, dan jalan pulang anda jika kehilangan pelayar ini.',
   'security.deviceKeyHint': 'Tiada apa-apa untuk ditaip. Tidak menghalang perisian hasad yang berjalan sebagai anda pada komputer ini.',
   'security.passwordHint': 'Diminta setiap kali peti besi dikunci.',
@@ -984,10 +1000,6 @@ export const ms: Dictionary = {
   'about.fact.keys.body.phone':
     'Akaun anda disulitkan dengan kunci data, yang dibalut pula oleh kunci lain. Dengan kata laluan induk, kunci pembalut itu diterbitkan dengan PBKDF2 sebanyak 600,000 pusingan dan hanya wujud dalam memori semasa peti besi dibuka. Tanpa kata laluan, ia ialah kunci yang dimeterai oleh stor kunci telefon itu sendiri, jadi salinan fail aplikasi tidak dapat membuka peti besi.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Kod besar — seperti eksport Google Authenticator — selalunya tidak dapat diimbas dengan kamera di sini. Jika tidak berjaya, ambil gambarnya dengan apl kamera telefon dan gunakan Muat naik imej kod QR.',
-  'import.noNativeReader.phone':
-    'Kod besar — seperti eksport Google Authenticator — selalunya tidak dapat diimbas dengan kamera di sini. Jika tidak berjaya, ambil gambar setiap kod dengan apl kamera telefon dan pilih semuanya dengan Pilih fail.',
   'error.signOutUnsynced.phone':
     'Beberapa perubahan pada telefon ini belum sampai ke akaun anda, dan log keluar sekarang akan menghilangkannya. Sambung ke internet dan cuba lagi.',
   'account.signOutNote.phone':

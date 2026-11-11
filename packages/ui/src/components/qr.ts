@@ -1,4 +1,5 @@
 import jsQR from 'jsqr';
+import { host, type QrReader } from '../host.js';
 import { AppError } from '../i18n/errors.js';
 
 /**
@@ -8,15 +9,12 @@ import { AppError } from '../i18n/errors.js';
  */
 
 /** The slice of the Shape Detection API used here. TypeScript's DOM lib does not declare it. */
-interface NativeReader {
-  detect(source: ImageBitmapSource): Promise<{ rawValue: string }[]>;
-}
 interface NativeReaderClass {
-  new (options: { formats: string[] }): NativeReader;
+  new (options: { formats: string[] }): QrReader;
   getSupportedFormats(): Promise<string[]>;
 }
 
-let native: Promise<NativeReader | null> | undefined;
+let native: Promise<QrReader | null> | undefined;
 
 /**
  * Chrome's own QR reader, where it has one.
@@ -32,10 +30,13 @@ let native: Promise<NativeReader | null> | undefined;
  *
  * Chrome ships the native reader on macOS, ChromeOS and Android, not on
  * Windows or Linux, and only in a secure context — which an extension page
- * always is. Elsewhere jsQR remains the reader.
+ * always is. Elsewhere jsQR remains the reader. An app that brings a reader
+ * of its own (`Host.qrReader`, the phone's) has it used first, the same way.
  */
-function nativeReader(): Promise<NativeReader | null> {
+function nativeReader(): Promise<QrReader | null> {
   native ??= (async () => {
+    const own = host().qrReader;
+    if (own) return own;
     const Reader = (globalThis as { BarcodeDetector?: NativeReaderClass }).BarcodeDetector;
     if (!Reader) return null;
     try {
@@ -59,7 +60,7 @@ export async function hasNativeReader(): Promise<boolean> {
 }
 
 /** The native reader's answer, or null — for "no reader" as much as for "no code". */
-async function readNatively(source: ImageBitmapSource): Promise<string | null> {
+async function readNatively(source: HTMLImageElement | HTMLVideoElement): Promise<string | null> {
   const reader = await nativeReader();
   if (!reader) return null;
   try {

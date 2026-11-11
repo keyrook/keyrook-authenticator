@@ -266,46 +266,97 @@ function Settings({
     // back to it, and the list with the way back to the codes when there are
     // codes under it. Inside a tab the arrow is the phone's back: it leaves
     // whatever was opened last — a page of the tab before the tab itself.
+    // The bar names where one is, as a phone app's does; the page's own
+    // heading would only say it again under it.
     const back = tab !== null ? goBack : onClose;
+    const title = tab === null ? t('vault.settings') : t(TABS.find(({ id }) => id === tab)!.label);
+    const lockedBy =
+      protection === 'passphrase'
+        ? t(signedIn ? 'protect.state.accountPassword' : 'protect.state.master')
+        : t('protect.state.device');
+    const status: Partial<Record<TabId, string>> = {
+      accounts: t('options.count', { count }),
+      security: attention('security') ?? lockedBy,
+      general: t(`security.theme.${data.settings.theme}`),
+    };
+    const lastSync = data.sync.lastSyncAt;
     return (
       <div className="min-h-screen bg-neutral-50 app:min-h-(--app-height) dark:bg-neutral-950">
-        <header className="sticky top-0 z-10 flex min-h-12 items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-3 py-2 dark:border-neutral-900 dark:bg-neutral-950">
+        <header className="sticky top-0 z-10 flex min-h-16 items-center gap-1 bg-neutral-50 px-2 dark:bg-neutral-950">
           {back && (
             <button
               type="button"
               onClick={back}
               aria-label={t('common.back')}
-              className="rounded-lg p-1.5 text-base text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-900"
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-[24px] text-neutral-700 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-900"
             >
               <ArrowLeftIcon />
             </button>
           )}
-          <p className={cx('text-[15px] font-semibold', !back && 'px-1.5')}>{t('vault.settings')}</p>
+          <h1 className={cx('min-w-0 truncate text-[20px] font-medium', !back && 'px-2')}>{title}</h1>
         </header>
 
         {tab === null ? (
-          <div className="flex flex-col gap-6 py-6">
-            {identity}
-            <nav className="mx-3 overflow-hidden rounded-2xl border border-neutral-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900/60">
-              {shownTabs().map(({ id, label, Icon }) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => go(id)}
-                  aria-description={attention(id)}
-                  className="flex w-full items-center gap-3 border-b border-neutral-100 px-4 py-3.5 text-start text-[14.5px] font-medium last:border-b-0 hover:bg-neutral-50 dark:border-neutral-800/80 dark:hover:bg-neutral-900"
-                >
-                  <Icon className="h-[18px] w-[18px] shrink-0 text-neutral-400 dark:text-neutral-500" />
-                  <span className="min-w-0 flex-1">{t(label)}</span>
-                  {attention(id) && dot}
-                  <ChevronIcon className="h-4 w-4 shrink-0 text-neutral-400" />
-                </button>
+          <div className="flex flex-col gap-3 px-4 pt-2 pb-8">
+            {host().syncEnabled && (
+              <SettingsCard>
+                <SettingsItem
+                  onClick={() => go('sync')}
+                  lead={
+                    signedIn ? (
+                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-500 text-[20px] font-medium text-white uppercase">
+                        {data.account.email!.slice(0, 1)}
+                      </span>
+                    ) : (
+                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-50 text-[22px] text-brand-600 dark:bg-brand-500/15 dark:text-brand-300">
+                        <CloudLockIcon />
+                      </span>
+                    )
+                  }
+                  title={signedIn ? data.account.email! : t('vault.signInToSync')}
+                  status={
+                    signedIn ? (
+                      <span className="flex items-center gap-1.5">
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-green-500" aria-hidden="true" />
+                        {lastSync
+                          ? t('account.lastSynced', { time: new Date(lastSync).toLocaleTimeString(t.locale, { hour: '2-digit', minute: '2-digit' }) })
+                          : t('account.notSynced')}
+                      </span>
+                    ) : undefined
+                  }
+                />
+              </SettingsCard>
+            )}
+            <nav className="flex flex-col gap-3">
+              {[['accounts', 'backup', 'security'], ['general']].map((group) => (
+                <SettingsCard key={group[0]}>
+                  {shownTabs()
+                    .filter(({ id }) => group.includes(id))
+                    .map(({ id, label, Icon }) => (
+                      <SettingsItem
+                        key={id}
+                        onClick={() => go(id)}
+                        description={attention(id)}
+                        lead={
+                          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-neutral-100 text-[24px] text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
+                            <Icon />
+                          </span>
+                        }
+                        title={t(label)}
+                        status={status[id]}
+                        warn={Boolean(attention(id))}
+                      />
+                    ))}
+                </SettingsCard>
               ))}
             </nav>
-            {trust}
+            <p className="flex items-center justify-center gap-1.5 pt-3 text-[12px] text-neutral-500 dark:text-neutral-400">
+              <ShieldIcon className="h-4 w-4 text-green-700 dark:text-green-300" />
+              {t('common.encryptedHere')}
+            </p>
           </div>
         ) : (
-          <main key={visit} className="min-w-0 px-4 pb-16 pt-6">
+          <main key={visit} className="min-w-0 px-4 pb-16 pt-2">
             <BackInHeader.Provider value={true}>{panel}</BackInHeader.Provider>
           </main>
         )}
@@ -363,5 +414,55 @@ function Shell({ children }: { children: React.ReactNode }) {
       <Logo className="h-9 w-9 opacity-90" />
       {children}
     </div>
+  );
+}
+
+/** One card of a phone's Settings list. */
+function SettingsCard({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="overflow-hidden rounded-[20px] bg-white ring-1 ring-neutral-200/70 dark:bg-neutral-900 dark:ring-0">{children}</div>
+  );
+}
+
+/** A page of Settings, with what it holds or how it stands said under its name. */
+function SettingsItem({
+  lead,
+  title,
+  status,
+  description,
+  warn = false,
+  onClick,
+}: {
+  lead: React.ReactNode;
+  title: string;
+  status?: React.ReactNode;
+  description?: string | undefined;
+  warn?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-description={description}
+      className="flex w-full items-center gap-4 border-b border-neutral-100 px-4 py-3 text-start last:border-b-0 active:bg-neutral-100 dark:border-neutral-800 dark:active:bg-neutral-800"
+    >
+      {lead}
+      <span className="min-w-0 flex-1">
+        {/* Two lines, not one cut short: a phone's text may be twice the size. */}
+        <span className="line-clamp-2 text-[14.5px] [overflow-wrap:anywhere] text-neutral-900 dark:text-neutral-100">{title}</span>
+        {status && (
+          <span
+            className={cx(
+              'line-clamp-2 text-[12.5px]',
+              warn ? 'text-yellow-800 dark:text-yellow-300' : 'text-neutral-500 dark:text-neutral-400',
+            )}
+          >
+            {status}
+          </span>
+        )}
+      </span>
+      <ChevronIcon className="h-5 w-5 shrink-0 text-neutral-400 dark:text-neutral-500" />
+    </button>
   );
 }

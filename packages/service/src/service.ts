@@ -42,6 +42,7 @@ import {
   SyncHttpError,
   unlockVault,
   unlockWithRecoveryKey,
+  updateAccount,
   updateGroup,
   updateItem,
   updateSettings,
@@ -62,6 +63,7 @@ import {
   cancelStartOver,
   confirmRecoveryKey,
   keptArchives,
+  movedAddress,
   replaceAccountKey,
   replacementDue,
   startOverWaiting,
@@ -89,6 +91,7 @@ import {
   signIn,
   signOut,
   signUp,
+  withheldCause,
 } from './sync.js';
 import {
   acceptPairing,
@@ -100,6 +103,7 @@ import {
   openPairings,
   ownerProof,
   pendingView,
+  settleOwnerProof,
   pollPairing,
   beginTabFlow,
   providerFlow,
@@ -486,7 +490,28 @@ async function syncInTurn(unlocked: UnlockedVault) {
     const replaced = await replaceKeyInTurn(done.unlocked, deviceKeyring(await platform().deviceKey.getOrCreate()));
     done = await cycleInTurn(replaced);
   }
-  return done;
+  return { ...done, unlocked: await followAddressInTurn(done.unlocked) };
+}
+
+/**
+ * Takes the account's new address once the server says it moved
+ * (`movedAddress`). Never fails what it follows: within the hour it is asked
+ * again.
+ */
+async function followAddressInTurn(unlocked: UnlockedVault): Promise<UnlockedVault> {
+  const moved = await movedAddress(unlocked.data).catch(() => null);
+  return moved ? persist(updateAccount(unlocked.data, { email: moved })) : unlocked;
+}
+
+/**
+ * The vault's data as the account is reached now, for proving the password:
+ * an address moved within the hour has not reached the vault yet, and the old
+ * one would have the right password refused. Taken for the proof alone; the
+ * vault takes it in its next cycle.
+ */
+async function reachedNow(data: VaultData): Promise<VaultData> {
+  const moved = await movedAddress(data, true).catch(() => null);
+  return moved ? updateAccount(data, { email: moved }) : data;
 }
 
 async function cycleInTurn(unlocked: UnlockedVault) {
@@ -638,8 +663,28 @@ async function accountProofIfSignedIn(password: string | undefined): Promise<Own
   if (!isSignedIn(unlocked.data)) return null;
   return ownerProof(unlocked.data, async () => {
     if (!password) fail('error.enterAccountPassword');
-    return accountAuthHash(unlocked.data, password);
+    return accountAuthHash(await reachedNow(unlocked.data), password);
   });
+}
+
+/**
+ * Makes a change on the owner's proof (`accountProofIfSignedIn`), and settles
+ * a Google or GitHub sign-in in it: asked again for the code alone, the same
+ * one is sent, with no second trip to the provider. Every change on that
+ * proof goes through here: one that did not would leave a sign-in the server
+ * refused kept, and send it again.
+ */
+async function onOwnerProof<T>(password: string | undefined, change: (proof: OwnerProof | null) => Promise<T>): Promise<T> {
+  const proof = await accountProofIfSignedIn(password);
+  let result: T;
+  try {
+    result = await change(proof);
+  } catch (error) {
+    await settleOwnerProof(proof, error);
+    throw error;
+  }
+  await settleOwnerProof(proof);
+  return result;
 }
 
 /** Issues a kit whose `createdAt` is the account state's `issuedAt`. */
@@ -663,6 +708,16 @@ async function relockWith(unlocked: UnlockedVault, password: string): Promise<vo
 // --- Request routing --------------------------------------------------------
 
 export async function handle(request: VaultRequest): Promise<unknown> {
+  try {
+    return await answer(request);
+  } catch (error) {
+    // Firefox would not let a request leave: that is what to tell the person,
+    // not that the server could not be reached (sync.ts, serverFetch).
+    throw withheldCause(error) ?? error;
+  }
+}
+
+async function answer(request: VaultRequest): Promise<unknown> {
   switch (request.type) {
     case 'vault/status':
       return status();
@@ -825,10 +880,14 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         if (unlocked.file.protection.mode === 'passphrase') {
           // A new password here is a new account password. The account first:
           // if the server refuses, nothing has changed here either.
-          await changeAccountPassword(unlocked, request.currentPassword!, request.next.password);
+          await changeAccountPassword(
+            { ...unlocked, data: await reachedNow(unlocked.data) },
+            request.currentPassword!,
+            request.next.password,
+          );
         } else {
           // Starting to lock a device-key vault: only with the account password.
-          await proveAccountPassword(unlocked.data, request.next.password);
+          await proveAccountPassword(await reachedNow(unlocked.data), request.next.password);
         }
       }
 
@@ -846,11 +905,10 @@ export async function handle(request: VaultRequest): Promise<unknown> {
       return undefined;
       });
 
-    case 'vault/createRecoveryKit': {
+    case 'vault/createRecoveryKit':
       // Proved before the turn, not in it: a provider's sign-in window can be
       // open for minutes, and the vault must not wait on it.
-      const proof = await accountProofIfSignedIn(request.password);
-      return serial(async () => {
+      return onOwnerProof(request.password, (proof) => serial(async () => {
         const unlocked = await getUnlocked();
         if (!unlocked) fail('error.vaultLocked');
 
@@ -869,12 +927,10 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         keep({ ...unlocked, file });
         broadcastChange();
         return { recoveryKey };
-      });
-    }
+      }));
 
-    case 'vault/removeRecoveryKit': {
-      const proof = await accountProofIfSignedIn(request.password);
-      return serial(async () => {
+    case 'vault/removeRecoveryKit':
+      return onOwnerProof(request.password, (proof) => serial(async () => {
         const unlocked = await getUnlocked();
         if (!unlocked) fail('error.vaultLocked');
 
@@ -893,8 +949,7 @@ export async function handle(request: VaultRequest): Promise<unknown> {
         keep({ ...unlocked, file });
         broadcastChange();
         return undefined;
-      });
-    }
+      }));
 
     case 'vault/recover':
       return serial(async () => {
@@ -1111,16 +1166,16 @@ export async function handle(request: VaultRequest): Promise<unknown> {
     case 'account/dismissRemovedNotice':
       return dismissRemovedNotice();
 
-    case 'account/delete': {
-      const proof = await accountProofIfSignedIn(request.password);
-      return withSession(() =>
-        mutateVault(async (unlocked) => {
-          const data = await deleteAccount(unlocked.data, proof!);
-          await platform().timers.clear(SYNC_ALARM);
-          return { data, result: undefined };
-        }),
+    case 'account/delete':
+      return onOwnerProof(request.password, (proof) =>
+        withSession(() =>
+          mutateVault(async (unlocked) => {
+            const data = await deleteAccount(unlocked.data, proof!);
+            await platform().timers.clear(SYNC_ALARM);
+            return { data, result: undefined };
+          }),
+        ),
       );
-    }
 
     case 'provider/offered':
       return syncEnabled() ? providerOffer() : { providers: [], inTab: false, passkeys: false };
@@ -1231,7 +1286,16 @@ export async function handle(request: VaultRequest): Promise<unknown> {
     case 'account/startOverWaiting': {
       const unlocked = await requireUnlocked();
       if (!isSignedIn(unlocked.data)) return null;
-      return withSession(() => startOverWaiting(unlocked.data, request.fresh === true));
+      const pending = await withSession(() => startOverWaiting(unlocked.data, request.fresh === true));
+      // The Sync page asks as it opens, and shows the address: one moved on
+      // the account page is shown from then, not from the next cycle.
+      if (request.fresh === true) {
+        await serial(async () => {
+          const current = await getUnlocked();
+          if (current && isSignedIn(current.data)) await followAddressInTurn(current);
+        });
+      }
+      return pending;
     }
 
     case 'account/cancelStartOver': {

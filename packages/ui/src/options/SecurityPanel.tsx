@@ -114,17 +114,22 @@ export function SecurityPanel({
             )
           }
         />
-        <Row
-          label={t('security.blur')}
-          description={t('security.blurDescription')}
-          control={
-            <Toggle
-              label={t('security.blurToggle')}
-              checked={settings.hideCodes}
-              onChange={(value) => void mutate({ op: 'settings/update', patch: { hideCodes: value } })}
-            />
-          }
-        />
+        {/* Codes blurred until a pointer is over them: a phone has no pointer
+            to show them with, and its release build lets no screenshot or
+            screen share see the app at all. */}
+        {host().device !== 'phone' && (
+          <Row
+            label={t('security.blur')}
+            description={t('security.blurDescription')}
+            control={
+              <Toggle
+                label={t('security.blurToggle')}
+                checked={settings.hideCodes}
+                onChange={(value) => void mutate({ op: 'settings/update', patch: { hideCodes: value } })}
+              />
+            }
+          />
+        )}
       </Section>
 
       {!recoveryFirst && recovery}
@@ -364,6 +369,8 @@ function ProtectionRow({ mode, signedIn }: { mode: ProtectionMode; signedIn: boo
 
   return (
     <Row
+      // What opens this vault, and so who can: said on a phone too.
+      keep
       label={
         <span className="flex items-center">
           <StateDot good={mode === 'passphrase'} />
@@ -376,7 +383,7 @@ function ProtectionRow({ mode, signedIn }: { mode: ProtectionMode; signedIn: boo
         <>
           {mode === 'passphrase' ? t('security.passwordHint') : t('security.deviceKeyHint')}
           {signedIn && intent === 'idle' && (
-            <> {mode === 'passphrase' ? t('protect.note.passphrase') : t('protect.note.device')}</>
+            <span className="kr-explain"> {mode === 'passphrase' ? t('protect.note.passphrase') : t('protect.note.device')}</span>
           )}
         </>
       }

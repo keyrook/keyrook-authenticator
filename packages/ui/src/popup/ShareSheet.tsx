@@ -12,16 +12,17 @@ export function ShareSheet({ item, onClose }: { item: VaultItem; onClose: () => 
   useBack(true, onClose);
   return (
     <div className="absolute inset-0 z-10 flex flex-col bg-white animate-slide-up dark:bg-neutral-950">
-      <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 dark:border-neutral-900">
+      {/* On a phone, the bar every page of the app has: the way back, and where one is. */}
+      <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 app:min-h-16 app:gap-1 app:border-0 app:px-2 app:py-0 dark:border-neutral-900">
         <button
           type="button"
           onClick={onClose}
           aria-label={t('common.back')}
-          className="rounded-lg p-1.5 text-base text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-900"
+          className="rounded-lg p-1.5 text-base text-neutral-600 hover:bg-neutral-100 app:grid app:place-items-center app:rounded-full app:p-0 app:text-[22px] app:text-neutral-700 dark:hover:bg-neutral-900 dark:app:text-neutral-200"
         >
           <ArrowLeftIcon />
         </button>
-        <h1 className="text-[15px] font-semibold">{t('row.share')}</h1>
+        <h1 className="text-[15px] font-semibold app:text-[20px]! app:font-medium">{t('row.share')}</h1>
       </header>
       <div className="flex-1 overflow-y-auto px-4 py-4 scrollarea">
         <div className="mb-4 flex items-center gap-3">

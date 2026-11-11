@@ -1,6 +1,8 @@
 import { useContext, useState, type ReactNode } from 'react';
 import { ArrowLeftIcon } from '../components/icons.js';
+import { host } from '../host.js';
 import { errorText } from '../i18n/error-text.js';
+import { AppError } from '../i18n/errors.js';
 import { translate } from '../i18n/runtime.js';
 import { useBack } from '../lib/back.js';
 import { BackInHeader } from './Section.js';
@@ -13,7 +15,7 @@ import { BackInHeader } from './Section.js';
 /** A narrow, centred card: one column, one decision at a time. */
 export function AuthCard({ children }: { children: ReactNode }) {
   return (
-    <div className="animate-fade-in mx-auto w-full max-w-[400px] rounded-2xl border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
+    <div className="animate-fade-in mx-auto w-full max-w-[400px] rounded-2xl border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-950 app:border-0 app:bg-transparent app:p-1 app:shadow-none dark:app:bg-transparent">
       {children}
     </div>
   );
@@ -102,6 +104,18 @@ export function FormShell({
       {children}
     </form>
   );
+}
+
+/**
+ * Firefox's leave to send anything to the account (`Host.allowAccountData`),
+ * asked in the click that starts a sign-in, a sign-up or a sync. It must come
+ * before anything else the click awaits: after an await Firefox no longer
+ * counts the click, and refuses to show its prompt. Refused, it throws what
+ * the vault service would say, and nothing has been sent.
+ */
+export async function askToSend(): Promise<void> {
+  const ask = host().allowAccountData;
+  if (ask && !(await ask())) throw new AppError('error.accountData.withheld');
 }
 
 /** Runs a submit with a busy flag and an error, the same way on every form. */

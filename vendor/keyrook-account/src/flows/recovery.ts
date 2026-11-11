@@ -4,7 +4,9 @@
  * it opens against what the server reports before wrapping anything new.
  */
 import { generateDataKey, wrapDataKey } from '../crypto/aead.js';
+import type { SealedBox } from '../crypto/aead.js';
 import { sealProductBox } from '../keys/box.js';
+import { openMemberKeyWithProduct, sealMemberKeyToRoot, sealMemberKeyUnderProduct, type MemberKey } from '../keys/org/member.js';
 import { sealRootPin } from '../keys/pin.js';
 import { AUTHENTICATOR, deriveProductKeyCheck } from '../keys/product.js';
 import {
@@ -233,6 +235,10 @@ export async function replaceRecoveryKey(
  * `newRecoveryKey`: one `generateRecoveryKey` made that the person has already
  * saved and typed back; without it one is made here, and is the only key to
  * the new root the moment this returns.
+ *
+ * Each family's member key this product holds is sealed again to the new
+ * root in the same step, and, with a new product key, under that key once the
+ * root is replaced.
  */
 export async function replaceAccountRoot(
   api: HttpSyncAdapter,
@@ -258,6 +264,18 @@ export async function replaceAccountRoot(
   if (input.method === 'password' && !wrapKeys) throw new Error('A password account’s root must be wrapped under the password.');
   const key = input.newProductKey ? await generateDataKey() : input.productKey.key;
   const now = Date.now();
+  const held = await api.accountKeys();
+  if (held.accountId !== accountId) throw new Error('The server answered for another account.');
+  const members: { orgId: string; member: MemberKey }[] = [];
+  for (const entry of held.memberKeyBoxes ?? []) {
+    try {
+      members.push({ orgId: entry.orgId, member: await openMemberKeyWithProduct(entry.box as unknown as SealedBox, input.productKey.key, entry.orgId, accountId, product) });
+    } catch {
+      throw new Error('Your key for your family does not open with this app’s key. Nothing was changed.');
+    }
+  }
+  const memberRootBoxes = [];
+  for (const { orgId, member } of members) memberRootBoxes.push({ orgId, box: { ...(await sealMemberKeyToRoot(member, root.publicKey, orgId, accountId)) } });
 
   const replaced = await api.rotateRoot({
     publicKey: root.publicKey,
@@ -269,6 +287,7 @@ export async function replaceAccountRoot(
     pin: await sealRootPin(key, { root: root.publicKey, sheetVerifiedAt: now }, accountId, product),
     keyCheck: await deriveProductKeyCheck(product, key),
     ...(input.newProductKey ? { previousKeyCheck: await deriveProductKeyCheck(product, input.productKey.key) } : {}),
+    memberRootBoxes,
     ...('keys' in input.proof ? { authHash: input.proof.keys.authHash } : {}),
     ...('reauth' in input.proof ? { reauth: input.proof.reauth } : {}),
     ...(input.secondStep && !('code' in input.proof) ? { secondStep: input.secondStep } : {}),
@@ -278,6 +297,12 @@ export async function replaceAccountRoot(
   });
   if (replaced.accountId !== accountId || replaced.root?.publicKey !== root.publicKey) {
     throw new Error('The server answered for another account.');
+  }
+  // The old product key opens the member key's box under it no more.
+  if (input.newProductKey) {
+    for (const { orgId, member } of members) {
+      await api.putOrgProductBox(orgId, product, { box: { ...(await sealMemberKeyUnderProduct(member, key, orgId, accountId, product)) } });
+    }
   }
   return {
     productKey: {

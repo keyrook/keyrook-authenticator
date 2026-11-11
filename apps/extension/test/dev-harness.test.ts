@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { DEV_RUNTIME_ID, DEV_SENDER } from '../dev/identity.js';
+import { DEV_RUNTIME_ID, devSender } from '../dev/identity.js';
 import { isTrustedSender } from '../src/lib/messaging.js';
 
 /**
@@ -16,15 +16,18 @@ import { isTrustedSender } from '../src/lib/messaging.js';
  * not, and `sender.test.ts` is where that gets caught.
  */
 describe('the dev harness identity', () => {
+  // Where `npm run dev` serves the harness, and so what `getURL('')` gives there.
+  const PAGE = 'http://localhost:5173';
+
   test('satisfies the same check the background applies to real senders', () => {
-    expect(isTrustedSender(DEV_SENDER, DEV_RUNTIME_ID)).toBe(true);
+    expect(isTrustedSender(devSender(PAGE), DEV_RUNTIME_ID, PAGE)).toBe(true);
   });
 
   test('is refused if it goes back to claiming an id alone', () => {
-    expect(isTrustedSender({ id: DEV_RUNTIME_ID }, DEV_RUNTIME_ID)).toBe(false);
+    expect(isTrustedSender({ id: DEV_RUNTIME_ID }, DEV_RUNTIME_ID, PAGE)).toBe(false);
   });
 
   test('does not accidentally trust some other extension', () => {
-    expect(isTrustedSender(DEV_SENDER, 'anything-else')).toBe(false);
+    expect(isTrustedSender(devSender(PAGE), 'anything-else', PAGE)).toBe(false);
   });
 });

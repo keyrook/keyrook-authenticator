@@ -1,5 +1,6 @@
-# Type-check, unit tests, the extension in a real Chromium, and the store zip
-# with its permission check — on every push and pull request.
+# Type-check, unit tests, the extension in a real Chromium, and the store zips
+# with their permission checks, Firefox's rebuilt as addons.mozilla.org
+# rebuilds it — on every push and pull request.
 name: CI
 
 on:
@@ -75,8 +76,47 @@ jobs:
       # and the official sync server only — what a store reviewer checks
       # first, checked here first.
       - run: node scripts/check-release.mjs
+
+      # Firefox's, from the same tree into its own folder: the same rules with
+      # what Firefox does differently, then Mozilla's own linter, which
+      # addons.mozilla.org runs on every upload.
+      - run: npm run zip:firefox -w @authx/extension
+      - run: node scripts/check-release.mjs --browser firefox
+      - run: node scripts/lint-firefox.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: keyrook-authenticator-${{ github.sha }}
           path: release/*.zip
           retention-days: 30
+
+  firefox-reproducible:
+    name: Firefox zip as addons.mozilla.org rebuilds it
+    # addons.mozilla.org's reviewers rebuild the source on Ubuntu 24.04 on
+    # ARM64 with Node 24, and refuse an upload that differs from what they get
+    # in any file. The upload is made with Node 22: the two must hold the same
+    # files. Each native tool in the build — esbuild, Rollup, Lightning CSS,
+    # Tailwind's engine — runs from a binary for the platform, which is where
+    # a difference would come from.
+    runs-on: ubuntu-24.04-arm
+    needs: [release-build]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run zip:firefox -w @authx/extension
+      - uses: actions/download-artifact@v4
+        with:
+          name: keyrook-authenticator-${{ github.sha }}
+          path: x64
+      - run: |
+          mkdir -p .compare/x64 .compare/arm64
+          unzip -q x64/keyrook-authenticator-firefox-*.zip -d .compare/x64
+          unzip -q release/keyrook-authenticator-firefox-*.zip -d .compare/arm64
+          diff -r .compare/x64 .compare/arm64
+          if cmp -s x64/keyrook-authenticator-firefox-*.zip release/keyrook-authenticator-firefox-*.zip; then
+            echo "The same archive, byte for byte."
+          else
+            echo "The same files; the archives differ only in how zip packed them."
+          fi

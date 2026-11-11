@@ -69,7 +69,7 @@ import { platform, syncEnabled } from './platform.js';
 import { sessionStart, tokenStore } from './tokens.js';
 import type { RemovedNotice, SecondStepAnswer, SecondStepAsked, SyncSummary } from '@authx/ui/lib/protocol.js';
 import { finishSignInStep } from './second-step.js';
-import { fail } from '@authx/ui/i18n/errors.js';
+import { AppError, fail } from '@authx/ui/i18n/errors.js';
 
 /** The product every request is made for, and whose records and key are this app's. */
 export const PRODUCT = AUTHENTICATOR;
@@ -80,8 +80,32 @@ export const PRODUCT = AUTHENTICATOR;
  * in its place.
  */
 export function serverFetch(): Fetcher {
-  const { fetch: own, clientName = PRODUCT, clientVersion } = platform();
-  return namedClient(own ?? ((input, init) => fetch(input, init)), `${clientName}/${clientVersion}`);
+  const { fetch: own, clientName = PRODUCT, clientVersion, accountDataAllowed } = platform();
+  const named = namedClient(own ?? ((input, init) => fetch(input, init)), `${clientName}/${clientVersion}`);
+  if (!accountDataAllowed) return named;
+  // Every request, not only the first: Firefox's consent can be taken back in
+  // about:addons while the vault is signed in, and the next sync must then
+  // send nothing. The account client reports a refusal here as a failure to
+  // reach the server, keeping this as its cause; `handle` says it as it is.
+  return async (input, init) => {
+    if (!(await accountDataAllowed())) fail('error.accountData.withheld');
+    return named(input, init);
+  };
+}
+
+/**
+ * The refusal above, out from under the account client's "could not reach
+ * the server" that wraps whatever its fetcher throws; null for anything else.
+ */
+export function withheldCause(error: unknown): AppError | null {
+  const cause = error instanceof Error ? error.cause : undefined;
+  return cause instanceof AppError && cause.key === 'error.accountData.withheld' ? cause : null;
+}
+
+/** Whether anything may be sent to the account now; always, where the platform does not ask. */
+export async function accountDataAllowed(): Promise<boolean> {
+  const ask = platform().accountDataAllowed;
+  return !ask || (await ask());
 }
 
 export function adapter(): HttpSyncAdapter {

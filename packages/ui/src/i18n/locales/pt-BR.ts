@@ -20,6 +20,8 @@ export const ptBR: Dictionary = {
   'error.noAccountSheet': 'Esta conta ainda não tem chave de recuperação. Crie uma na página da conta.',
   'error.recoveryKeyWrong': 'Essa chave de recuperação não é desta conta.',
   'error.noRecoveryKit': 'Este cofre não tem chave de recuperação.',
+  'error.accountData.withheld':
+    'O Firefox não deixou o Keyrook Authenticator enviar nada para uma conta no Keyrook, então nada foi enviado. Permita quando o Firefox perguntar, ou em about:addons.',
   'error.syncUnavailable': 'A sincronização não está disponível nesta versão.',
   'error.notSignedIn': 'Você não está conectado.',
   'error.alreadySignedIn': 'Você já está conectado.',
@@ -46,6 +48,8 @@ export const ptBR: Dictionary = {
   'error.autofillNotHere': 'O preenchimento automático só funciona em páginas da web comuns.',
   'error.autofillBlocked':
     'O Chrome não deixou a extensão ler esta página. Abra a janela da extensão na página que você quer preencher.',
+  'error.autofillBlocked.firefox':
+    'O Firefox não deixou a extensão ler esta página. Abra a janela da extensão na página que você quer preencher.',
   'error.signinCancelled': 'O login foi cancelado.',
   'error.signinStateMismatch': 'Esse login não voltou do jeito que saiu. Tente de novo.',
   'error.signinUnfinished': 'O login não terminou. Tente de novo.',
@@ -313,6 +317,7 @@ export const ptBR: Dictionary = {
   'rate.body': '<b>O Keyrook Authenticator está sendo útil?</b> Uma avaliação na {store} é como outras pessoas o encontram.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Agora não',
   'rate.rate': 'Avaliar',
 
@@ -330,6 +335,8 @@ export const ptBR: Dictionary = {
   'add.camera.description': 'Para um código no seu celular — inclusive uma exportação do Google Authenticator.',
   'add.camera.elsewhere':
     'Abre as Configurações uma vez para o Chrome pedir acesso à câmera. Depois disso funciona aqui mesmo.',
+  'add.camera.elsewhere.firefox':
+    'Abre as Configurações uma vez para o Firefox pedir acesso à câmera. Depois disso funciona aqui mesmo.',
   'add.upload.title': 'Enviar uma imagem de QR',
   'add.upload.description': 'Uma captura de tela ou foto que você salvou antes.',
   'add.manual.title': 'Digitar uma chave de configuração',
@@ -341,6 +348,8 @@ export const ptBR: Dictionary = {
   'common.done': 'Concluído',
   'add.noNativeReader':
     'O Chrome deste computador não tem leitor de QR embutido, então um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera. Se o seu não for, tire uma captura no celular e use Enviar uma imagem de QR.',
+  'add.noNativeReader.firefox':
+    'O Firefox deste computador não tem leitor de QR embutido, então um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera. Se o seu não for, tire uma captura no celular e use Enviar uma imagem de QR.',
   'add.openScannerInSettings': 'Abrir o leitor nas Configurações',
   'add.noneFound': 'Nenhuma conta encontrada.',
   'add.noQrOnPage': 'Nenhum QR code na parte visível da página. Role até ele e tente de novo.',
@@ -393,6 +402,8 @@ export const ptBR: Dictionary = {
     'A imagem é lida neste dispositivo e descartada. Nada é gravado e nada é enviado.',
   'camera.blocked':
     'O Chrome bloqueou o acesso à câmera. Permita para esta página ou use outra forma de adicionar uma conta.',
+  'camera.blocked.firefox':
+    'O Firefox bloqueou o acesso à câmera. Permita para esta página ou use outra forma de adicionar uma conta.',
   'camera.none': 'Nenhuma câmera encontrada neste computador.',
   'camera.busy': 'A câmera está sendo usada por outro programa.',
 
@@ -511,6 +522,8 @@ export const ptBR: Dictionary = {
   'about.fact.access.title': 'Sem acesso amplo aos sites',
   'about.fact.access.body':
     'A extensão não pede permissões de host. Ler um QR code de uma página, ou preencher um código nela, usa o activeTab — uma permissão que o Chrome dá só para a aba em que você abriu a extensão.',
+  'about.fact.access.body.firefox':
+    'A extensão não pede permissões de host. Ler um QR code de uma página, ou preencher um código nela, usa o activeTab — uma permissão que o Firefox dá só para a aba em que você abriu a extensão.',
   'about.fact.standards.title': 'Padrões, sem aprisionamento',
   'about.fact.standards.body':
     'TOTP da RFC 6238 e HOTP da RFC 4226, com importação e exportação otpauth://. Você pode mudar para outro app quando quiser e levar tudo junto.',
@@ -533,6 +546,7 @@ export const ptBR: Dictionary = {
   'about.logos.body':
     '{count} serviços têm uma marca real. Arte do <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons e <fa>Font Awesome Free</fa> (ícones, CC BY 4.0). Todos os nomes de produtos e logotipos pertencem aos seus donos e são usados só para identificar o serviço de cada conta. Um serviço sem marca nesses conjuntos recebe um bloco com a inicial.',
   'about.shortcut.change': 'Altere em chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Altere em about:addons.',
   // --- Configurações: contas ----------------------------------------------------
   'accounts.title': 'Contas',
   'accounts.description':
@@ -587,6 +601,8 @@ export const ptBR: Dictionary = {
   'import.stopAndReview': 'Parar e revisar {count}',
   'import.noNativeReader':
     'O Chrome deste computador não tem leitor de QR embutido, então um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera. Se o seu não for, tire uma captura de cada código no celular e escolha todas em Escolher arquivos.',
+  'import.noNativeReader.firefox':
+    'O Firefox deste computador não tem leitor de QR embutido, então um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera. Se o seu não for, tire uma captura de cada código no celular e escolha todas em Escolher arquivos.',
   'import.encrypted': 'Este backup é criptografado. Digite a senha com que ele foi criado.',
   'import.backupPassword': 'Senha do backup',
   'import.open': 'Abrir backup',
@@ -842,10 +858,16 @@ export const ptBR: Dictionary = {
   'account.signOutNote':
     'Sair remove seus códigos deste navegador. Eles continuam na sua conta no Keyrook — entre de novo para trazê-los de volta.',
   'accountPage.title': 'Sua conta Keyrook',
-  'accountPage.body': 'A senha, a chave de recuperação, recomeçar do zero e excluir ficam na página da conta, para todos os apps Keyrook de uma vez.',
-  'accountPage.bodyNoRoot': 'A senha e excluir ficam na página da conta. A chave de recuperação é criada aqui, em Segurança, até outro app Keyrook usar a conta.',
-  'accountPage.bodyProvider': 'A chave de recuperação, recomeçar do zero e excluir ficam na página da conta, para todos os apps Keyrook de uma vez.',
-  'accountPage.bodyNoRootProvider': 'Excluir fica na página da conta. A chave de recuperação é criada aqui, em Segurança, até outro app Keyrook usar a conta.',
+  'accountPage.body': 'O endereço, a senha, a chave de recuperação, recomeçar do zero e excluir ficam na página da conta, para todos os apps Keyrook de uma vez.',
+  'accountPage.bodyNoRoot': 'O endereço, a senha e excluir ficam na página da conta. A chave de recuperação é criada aqui, em Segurança, até outro app Keyrook usar a conta.',
+  'accountPage.bodyProvider': 'O endereço, a chave de recuperação, recomeçar do zero e excluir ficam na página da conta, para todos os apps Keyrook de uma vez.',
+  'accountPage.bodyNoRootProvider': 'O endereço e excluir ficam na página da conta. A chave de recuperação é criada aqui, em Segurança, até outro app Keyrook usar a conta.',
+  'accountPage.address': 'Endereço de e-mail',
+  'accountPage.changeAddress': 'Alterar endereço',
+  'accountPage.activity': 'Atividade recente',
+  'accountPage.activityBody': 'Entradas e alterações na sua conta nos últimos 90 dias, com o dispositivo, o app e o país, na página da conta.',
+  'accountPage.data': 'Dados da conta',
+  'accountPage.dataBody': 'Baixe na página da conta o que o servidor da Keyrook guarda sobre a sua conta. Seus códigos não estão nele: o servidor só os guarda criptografados. Exporte-os em Backup.',
   'sheetCheck.lead': 'Digite uma vez a chave de recuperação que você guardou, para este app saber que ela recupera seus códigos. Ela é verificada neste dispositivo e não é enviada a lugar nenhum.',
   'sheetCheck.submit': 'Verificar',
   'sheetCheck.lost': 'Perdeu, ou nunca teve uma? Crie uma nova na página da conta.',
@@ -894,12 +916,8 @@ export const ptBR: Dictionary = {
   'password.change': 'Alterar senha…',
   'password.formTitle': 'Alterar a senha da conta',
   'devices.title': 'Dispositivos conectados',
-  'devices.description':
-    'Desconecte um dispositivo que você não usa ou não tem mais. Se ele usa um Keyrook Authenticator atualizado, na próxima conexão ele mesmo tira os códigos desta conta e guarda só o que nunca enviou. Até lá, ou se nunca mais se conectar, ele mantém o que tinha, protegido pela mesma senha.',
-  'devices.descriptionProvider':
-    'Desconecte um dispositivo que você não usa ou não tem mais. Se ele usa um Keyrook Authenticator atualizado, na próxima conexão ele mesmo tira os códigos desta conta e guarda só o que nunca enviou. Até lá, ou se nunca mais se conectar, ele mantém o que tinha, bloqueado do jeito que o cofre está bloqueado nele.',
-  'devices.this': 'Este dispositivo',
-  'devices.when': 'Conectado em {created} · ativo pela última vez em {seen}',
+  'devices.onAccountPage':
+    'Veja todos os dispositivos conectados à sua conta, e desconecte ou remova algum deles, na página da conta.',
   'removed.kept': 'Os códigos adicionados ou alterados aqui que não tinham chegado à conta continuam aqui.',
   'delete.row': 'Excluir sua conta',
   'delete.rowDescription':
@@ -1072,6 +1090,7 @@ export const ptBR: Dictionary = {
   'backup.choice.import.title': 'Importar',
   'backup.choice.import.body': 'De um backup, da exportação de outro app ou de links otpauth://.',
   'backup.choice.move.body': 'Códigos de transferência, uma folha para imprimir ou um arquivo legível. Sem criptografia.',
+  'backup.accountData': 'Só o Keyrook Authenticator pode exportar seus códigos: o servidor os guarda criptografados. O que o servidor guarda sobre a sua conta, sem códigos nem chaves, é baixado na página da conta.',
   'security.description': 'Como este cofre abre, e o caminho de volta se você perder este navegador.',
   'security.deviceKeyHint': 'Nada para digitar. Não impede malware rodando como você neste computador.',
   'security.passwordHint': 'Pedida sempre que o cofre for bloqueado.',
@@ -1141,10 +1160,6 @@ export const ptBR: Dictionary = {
   'about.fact.keys.body.phone':
     'Suas contas são criptografadas com uma chave de dados que, por sua vez, é protegida por outra. Com senha mestra, essa chave de proteção vem do PBKDF2 com 600.000 rodadas e só existe na memória enquanto o cofre está aberto. Sem senha, é uma chave lacrada pelo próprio armazenamento de chaves do celular, então uma cópia dos arquivos do app não abre o cofre.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera aqui. Se o seu não for, tire uma foto dele com o app de câmera do celular e use Enviar uma imagem de QR.',
-  'import.noNativeReader.phone':
-    'Um código grande — como uma exportação do Google Authenticator — muitas vezes não é lido pela câmera aqui. Se o seu não for, tire uma foto de cada código com o app de câmera do celular e escolha todas em Escolher arquivos.',
   'error.signOutUnsynced.phone':
     'Algumas alterações deste celular ainda não chegaram à sua conta, e sair agora faria você perdê-las. Conecte-se à internet e tente de novo.',
   'account.signOutNote.phone':

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   isValidBase32,
   itemForShortcutFill,
+  liveGroups,
   itemMatchesHost,
   liveItems,
   shouldWarnBeforeFilling,
@@ -21,6 +22,7 @@ import { RatePrompt } from './RatePrompt.js';
 import { RemovedFromAccount } from '../components/RemovedFromAccount.js';
 import { StartOverWaiting } from '../components/StartOverWaiting.js';
 import { ShareSheet } from './ShareSheet.js';
+import { ItemEditor, Modal } from '../options/AccountsPanel.js';
 import { SignInSheet } from './SignInSheet.js';
 import { FILL_COMMAND } from '../lib/commands.js';
 import { Keys, useShortcuts } from '../components/shortcuts.js';
@@ -58,6 +60,7 @@ export function VaultScreen({
     if (startWithSignIn && !host().overPage) void host().openSettings(ACCOUNT_FRAGMENT);
   }, []);
   const [sharing, setSharing] = useState<VaultItem | null>(null);
+  const [editing, setEditing] = useState<VaultItem | null>(null);
   const [tab, setTab] = useState<TabContext | null>(null);
   const [fields, setFields] = useState<FieldDetection | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -174,7 +177,213 @@ export function VaultScreen({
         void mutate({ op: 'items/update', id: item.id, patch: { favorite: !item.favorite } }),
       onAdvanceCounter: () => void mutate({ op: 'items/advanceCounter', id: item.id }),
       onShare: () => setSharing(item),
+      onEdit: () => setEditing(item),
+      onDelete: () => void mutate({ op: 'items/delete', id: item.id }),
     };
+  }
+
+  // What the list holds — notices, then the accounts — whichever way it is laid out.
+  const body = (
+    <>
+      {notice && (
+        <div className="mb-2 px-1 app:px-4">
+          <Callout tone="warning">{notice}</Callout>
+        </div>
+      )}
+
+      {/* Where the codes were, until it is closed. */}
+      {!syncedAs && (
+        <div className="mb-2 px-1 empty:hidden app:px-4">
+          <RemovedFromAccount />
+        </div>
+      )}
+
+      {/* Asked of the server at most hourly: the popup opens all day. */}
+      {syncedAs && (
+        <div className="mb-2 px-1 empty:hidden app:px-4">
+          <StartOverWaiting />
+        </div>
+      )}
+
+      {joinRequests > 0 && (
+        <div className="mb-2 px-1 app:px-4">
+          <Callout tone="info">
+            <p className="font-medium">
+              {t('vault.joinRequests', { count: joinRequests })}
+            </p>
+            <p className="mt-0.5">{t('vault.joinRequestsHint')}</p>
+            <button
+              type="button"
+              onClick={() => void host().openSettings(ACCOUNT_FRAGMENT)}
+              className="mt-1.5 font-medium underline underline-offset-2"
+            >
+              {t('vault.reviewInSettings')}
+            </button>
+          </Callout>
+        </div>
+      )}
+
+      {all.length === 0 ? (
+        <EmptyState onAdd={() => setAdding(true)} onSignIn={canSignIn ? signIn : undefined} />
+      ) : filtered.length === 0 ? (
+        <p className="px-3 py-10 text-center text-[13px] text-neutral-400">
+          {t('vault.noMatch', { query })}
+        </p>
+      ) : (
+        <>
+          {!query && suggested.length > 0 && (
+            <section className="mb-1">
+              <SectionLabel>
+                {t('vault.forHost', { host: tab?.hostname ?? '' })}
+                {canFill && (
+                  <span className="ms-1.5 inline-block rounded-full bg-brand-100 px-1.5 py-0.5 text-[11px] font-medium text-brand-700 first-letter:uppercase dark:bg-brand-500/15 dark:text-brand-300">
+                    {t('vault.fieldDetected')}
+                  </span>
+                )}
+              </SectionLabel>
+              <ul>
+                {suggested.map((item) => (
+                  <AccountRow key={item.id} {...rowProps(item)} />
+                ))}
+              </ul>
+              {shortcutWouldFill && (
+                <p className="px-3 pt-0.5 pb-1.5 text-[11.5px] text-neutral-400 dark:text-neutral-500">
+                  {t.rich('vault.shortcutHint', { keys: <Keys shortcut={fillKeys} /> })}
+                </p>
+              )}
+            </section>
+          )}
+
+          {sections.map((section) => (
+            <section key={section.id ?? 'ungrouped'}>
+              {/* One unnamed heap of accounts needs no heading — and no empty
+                  one either: emptying the text left the label's padding,
+                  which printed as a blank band above the first account. */}
+              {section.name &&
+                !(sections.length === 1 && suggested.length === 0 && section.id === null) && (
+                  <SectionLabel>
+                    {section.color && (
+                      <span
+                        className="me-1.5 inline-block h-1.5 w-1.5 rounded-full"
+                        style={{ background: section.color }}
+                      />
+                    )}
+                    {section.name}
+                  </SectionLabel>
+                )}
+              <ul>
+                {section.items.map((item) => (
+                  <AccountRow key={item.id} {...rowProps(item)} />
+                ))}
+              </ul>
+            </section>
+          ))}
+        </>
+      )}
+    </>
+  );
+
+  async function lock() {
+    await send({ type: 'vault/lock' });
+    await refresh();
+  }
+
+  const addSheet = adding && (
+    <AddSheet
+      hostname={tab?.hostname ?? null}
+      onAdd={(items) => mutate({ op: 'items/add', items })}
+      onClose={() => setAdding(false)}
+      existing={data.items}
+      {...(host().overPage
+        ? {
+            // Settings, opened at the scanner rather than on a list the user
+            // then has to navigate. Opening it moves focus, which closes the
+            // popup anyway; closing it here just does so without the flicker.
+            onCameraElsewhere: () => {
+              void host().openSettings(SCAN_FRAGMENT);
+              window.close();
+            },
+          }
+        : // A window of the app's own asks for the camera itself, and has no page to read.
+          { camera: true, pageScan: false })}
+    />
+  );
+
+  /*
+   * A phone's codes screen, laid out as phone apps lay theirs: one rounded bar
+   * to search, with Settings at its end; the list edge to edge; adding in the
+   * corner, under the thumb. The popup's header, status line and footer were
+   * a 380px window's, and on a phone with large text they took a third of
+   * the screen from the codes.
+   */
+  if (host().device === 'phone') {
+    return (
+      <div className="relative flex h-(--app-height) flex-col">
+        <header className="px-4 pt-2 pb-1">
+          <div className="flex items-center gap-1 rounded-full bg-neutral-100 ps-4 pe-1 dark:bg-neutral-900">
+            <Logo className="h-6 w-6 shrink-0" compact />
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={t('vault.search')}
+              aria-label={t('vault.search')}
+              className="h-13 min-w-0 flex-1 bg-transparent ps-2 text-neutral-900 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-100 dark:placeholder:text-neutral-400"
+            />
+            {protection === 'passphrase' && (
+              <BarButton label={t('vault.lock')} onClick={() => void lock()}>
+                <LockIcon />
+              </BarButton>
+            )}
+            <BarButton label={t('vault.settings')} onClick={() => void host().openSettings()}>
+              <SettingsIcon />
+            </BarButton>
+          </div>
+        </header>
+
+        <div className="flex-1 overflow-y-auto pt-1 pb-28 scrollarea">{body}</div>
+
+        {askRating && !query && all.length > 0 && joinRequests === 0 && <RatePrompt onClose={() => setAskRating(false)} />}
+
+        {/* An empty list has its own button to add the first account. */}
+        {all.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setAdding(true)}
+            aria-label={t('vault.add')}
+            title={t('vault.add')}
+            className="absolute end-5 bottom-6 z-10 grid h-15 w-15 place-items-center rounded-(--kr-radius-sketch-small) bg-brand-500 text-[26px] text-white shadow-floating transition-transform active:translate-x-px active:translate-y-px"
+          >
+            <PlusIcon />
+          </button>
+        )}
+
+        {copiedId && (
+          <div
+            role="status"
+            className="pointer-events-none absolute start-5 bottom-8 z-10 rounded-xl bg-neutral-900 px-4 py-3 text-[13.5px] font-medium text-white shadow-raised animate-fade-in dark:bg-neutral-100 dark:text-neutral-900"
+          >
+            {t('row.copied')}
+          </div>
+        )}
+
+        {sharing && <ShareSheet item={sharing} onClose={() => setSharing(null)} />}
+        {addSheet}
+        {editing && (
+          <Modal size="form" onClose={() => setEditing(null)}>
+            <ItemEditor
+              item={editing}
+              groups={liveGroups(data)}
+              onSave={async (patch) => {
+                await mutate({ op: 'items/update', id: editing.id, patch });
+                setEditing(null);
+              }}
+              onCancel={() => setEditing(null)}
+            />
+          </Modal>
+        )}
+      </div>
+    );
   }
 
   return (
@@ -202,10 +411,7 @@ export function VaultScreen({
         {protection === 'passphrase' && (
           <IconButton
             label={t('vault.lock')}
-            onClick={async () => {
-              await send({ type: 'vault/lock' });
-              await refresh();
-            }}
+            onClick={() => void lock()}
           >
             <LockIcon />
           </IconButton>
@@ -259,101 +465,7 @@ export function VaultScreen({
       )}
 
       <div className="flex-1 overflow-y-auto px-2 py-2 scrollarea">
-        {notice && (
-          <div className="mb-2 px-1">
-            <Callout tone="warning">{notice}</Callout>
-          </div>
-        )}
-
-        {/* Where the codes were, until it is closed. */}
-        {!syncedAs && (
-          <div className="mb-2 px-1 empty:hidden">
-            <RemovedFromAccount />
-          </div>
-        )}
-
-        {/* Asked of the server at most hourly: the popup opens all day. */}
-        {syncedAs && (
-          <div className="mb-2 px-1 empty:hidden">
-            <StartOverWaiting />
-          </div>
-        )}
-
-        {joinRequests > 0 && (
-          <div className="mb-2 px-1">
-            <Callout tone="info">
-              <p className="font-medium">
-                {t('vault.joinRequests', { count: joinRequests })}
-              </p>
-              <p className="mt-0.5">{t('vault.joinRequestsHint')}</p>
-              <button
-                type="button"
-                onClick={() => void host().openSettings(ACCOUNT_FRAGMENT)}
-                className="mt-1.5 font-medium underline underline-offset-2"
-              >
-                {t('vault.reviewInSettings')}
-              </button>
-            </Callout>
-          </div>
-        )}
-
-        {all.length === 0 ? (
-          <EmptyState onAdd={() => setAdding(true)} onSignIn={canSignIn ? signIn : undefined} />
-        ) : filtered.length === 0 ? (
-          <p className="px-3 py-10 text-center text-[13px] text-neutral-400">
-            {t('vault.noMatch', { query })}
-          </p>
-        ) : (
-          <>
-            {!query && suggested.length > 0 && (
-              <section className="mb-1">
-                <SectionLabel>
-                  {t('vault.forHost', { host: tab?.hostname ?? '' })}
-                  {canFill && (
-                    <span className="ms-1.5 inline-block rounded-full bg-brand-100 px-1.5 py-0.5 text-[11px] font-medium text-brand-700 first-letter:uppercase dark:bg-brand-500/15 dark:text-brand-300">
-                      {t('vault.fieldDetected')}
-                    </span>
-                  )}
-                </SectionLabel>
-                <ul>
-                  {suggested.map((item) => (
-                    <AccountRow key={item.id} {...rowProps(item)} />
-                  ))}
-                </ul>
-                {shortcutWouldFill && (
-                  <p className="px-3 pt-0.5 pb-1.5 text-[11.5px] text-neutral-400 dark:text-neutral-500">
-                    {t.rich('vault.shortcutHint', { keys: <Keys shortcut={fillKeys} /> })}
-                  </p>
-                )}
-              </section>
-            )}
-
-            {sections.map((section) => (
-              <section key={section.id ?? 'ungrouped'}>
-                {/* One unnamed heap of accounts needs no heading — and no empty
-                    one either: emptying the text left the label's padding,
-                    which printed as a blank band above the first account. */}
-                {section.name &&
-                  !(sections.length === 1 && suggested.length === 0 && section.id === null) && (
-                    <SectionLabel>
-                      {section.color && (
-                        <span
-                          className="me-1.5 inline-block h-1.5 w-1.5 rounded-full"
-                          style={{ background: section.color }}
-                        />
-                      )}
-                      {section.name}
-                    </SectionLabel>
-                  )}
-                <ul>
-                  {section.items.map((item) => (
-                    <AccountRow key={item.id} {...rowProps(item)} />
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </>
-        )}
+        {body}
       </div>
 
       {askRating && !query && all.length > 0 && joinRequests === 0 && <RatePrompt onClose={() => setAskRating(false)} />}
@@ -391,26 +503,7 @@ export function VaultScreen({
 
       {signingIn && <SignInSheet protection={protection} onClose={() => setSigningIn(false)} />}
 
-      {adding && (
-        <AddSheet
-          hostname={tab?.hostname ?? null}
-          onAdd={(items) => mutate({ op: 'items/add', items })}
-          onClose={() => setAdding(false)}
-          existing={data.items}
-          {...(host().overPage
-            ? {
-                // Settings, opened at the scanner rather than on a list the user
-                // then has to navigate. Opening it moves focus, which closes the
-                // popup anyway; closing it here just does so without the flicker.
-                onCameraElsewhere: () => {
-                  void host().openSettings(SCAN_FRAGMENT);
-                  window.close();
-                },
-              }
-            : // A window of the app's own asks for the camera itself, and has no page to read.
-              { camera: true, pageScan: false })}
-        />
-      )}
+      {addSheet}
     </div>
   );
 }
@@ -419,9 +512,23 @@ export function VaultScreen({
 // and a heading in capitals in the rest reads as shouting.
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="flex items-center px-3 pt-2 pb-1 text-[12px] font-semibold text-neutral-600 dark:text-neutral-400">
+    <h2 className="flex items-center px-3 pt-2 pb-1 text-[12px] font-semibold text-neutral-600 app:px-5 app:pt-4 dark:text-neutral-400">
       {children}
     </h2>
+  );
+}
+
+function BarButton({ label, onClick, children }: { label: string; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className="grid shrink-0 place-items-center rounded-full text-[22px] text-neutral-600 active:bg-neutral-200 dark:text-neutral-300 dark:active:bg-neutral-800"
+    >
+      {children}
+    </button>
   );
 }
 
@@ -452,6 +559,26 @@ function IconButton({
 
 function EmptyState({ onAdd, onSignIn }: { onAdd: () => void; onSignIn?: (() => void) | undefined }) {
   const t = useT();
+  // A phone's text may be half again as large: two buttons across its width,
+  // the plus inside the words so a wrapped label keeps it, and no paragraph.
+  if (host().device === 'phone')
+    return (
+      <div className="flex flex-col items-center gap-3 px-6 pt-20 pb-16 text-center">
+        <Logo className="h-14 w-14" />
+        <h2 className="mt-2 mb-4 text-[18px]! font-medium text-balance">{t('vault.empty.title')}</h2>
+        <Button variant="primary" onClick={onAdd} className="min-h-13 w-full rounded-full!">
+          <span>
+            <PlusIcon className="me-2 inline align-[-0.2em] text-[1.3em]" />
+            {t('vault.empty.add')}
+          </span>
+        </Button>
+        {onSignIn && (
+          <Button variant="ghost" onClick={onSignIn} className="min-h-13 w-full rounded-full! text-brand-600! dark:text-brand-300!">
+            {t('vault.signInToSync')}
+          </Button>
+        )}
+      </div>
+    );
   return (
     <div className="flex flex-col items-center gap-4 px-8 py-16 text-center">
       <Logo className="h-10 w-10 opacity-90" />

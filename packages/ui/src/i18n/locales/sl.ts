@@ -19,6 +19,8 @@ export const sl: Dictionary = {
   'error.noAccountSheet': 'Ta račun še nima obnovitvenega ključa. Ustvarite ga na strani računa.',
   'error.recoveryKeyWrong': 'Ta obnovitveni ključ ne ustreza temu računu.',
   'error.noRecoveryKit': 'Ta trezor nima obnovitvenega ključa.',
+  'error.accountData.withheld':
+    'Firefox ni dovolil, da Keyrook Authenticator karkoli pošlje v račun Keyrook, zato ni bilo nič poslano. Dovolite, ko vas Firefox vpraša, ali na about:addons.',
   'error.syncUnavailable': 'Sinhronizacija v tej različici ni na voljo.',
   'error.notSignedIn': 'Niste prijavljeni.',
   'error.alreadySignedIn': 'Že ste prijavljeni.',
@@ -43,6 +45,7 @@ export const sl: Dictionary = {
   'error.noActiveTab': 'Ni aktivnega zavihka.',
   'error.autofillNotHere': 'Samodejno izpolnjevanje deluje samo na običajnih spletnih straneh.',
   'error.autofillBlocked': 'Chrome razširitvi ni dovolil prebrati te strani. Pojavno okno odprite s strani, ki jo želite izpolniti.',
+  'error.autofillBlocked.firefox': 'Firefox razširitvi ni dovolil prebrati te strani. Pojavno okno odprite s strani, ki jo želite izpolniti.',
   'error.signinCancelled': 'Prijava je bila preklicana.',
   'error.signinStateMismatch': 'Prijava se ni vrnila takšna, kot je odšla. Poskusite znova.',
   'error.signinUnfinished': 'Prijava ni bila dokončana. Poskusite znova.',
@@ -298,6 +301,7 @@ export const sl: Dictionary = {
   'rate.body': '<b>Vam je Keyrook Authenticator v pomoč?</b> Ocena v {store} pomaga drugim, da ga najdejo.',
   'rate.store.chrome': 'Spletni trgovini Chrome',
   'rate.store.edge': 'Dodatkih za Edge',
+  'rate.store.firefox': 'Dodatkih za Firefox',
   'rate.notNow': 'Ne zdaj',
   'rate.rate': 'Oceni',
 
@@ -312,6 +316,7 @@ export const sl: Dictionary = {
   'add.camera.title': 'Skeniraj s kamero',
   'add.camera.description': 'Za kodo na telefonu — tudi izvoz iz Google Authenticatorja.',
   'add.camera.elsewhere': 'Enkrat odpre Nastavitve, da lahko Chrome zaprosi za kamero. Potem deluje kar tukaj.',
+  'add.camera.elsewhere.firefox': 'Enkrat odpre Nastavitve, da lahko Firefox zaprosi za kamero. Potem deluje kar tukaj.',
   'add.upload.title': 'Naloži sliko kode QR',
   'add.upload.description': 'Posnetek zaslona ali fotografija, ki ste jo shranili prej.',
   'add.manual.title': 'Ročno vnesi ključ za nastavitev',
@@ -323,6 +328,8 @@ export const sl: Dictionary = {
   'common.done': 'Končano',
   'add.noNativeReader':
     'Chrome na tem računalniku nima vgrajenega bralnika kod QR, zato velike kode — na primer izvoza iz Google Authenticatorja — s kamero pogosto ni mogoče skenirati. Če ne gre, na telefonu naredite posnetek zaslona in uporabite Naloži sliko kode QR.',
+  'add.noNativeReader.firefox':
+    'Firefox na tem računalniku nima vgrajenega bralnika kod QR, zato velike kode — na primer izvoza iz Google Authenticatorja — s kamero pogosto ni mogoče skenirati. Če ne gre, na telefonu naredite posnetek zaslona in uporabite Naloži sliko kode QR.',
   'add.openScannerInSettings': 'Odpri skener v Nastavitvah',
   'add.noneFound': 'Najden ni bil noben račun.',
   'add.noQrOnPage': 'V vidnem delu strani ni kode QR. Pomaknite jo v pogled in poskusite znova.',
@@ -388,6 +395,7 @@ export const sl: Dictionary = {
     'Kodo QR držite znotraj okvirja. Prehajate z Google Authenticatorja? Na telefonu odprite zaslon za izvoz in nanj usmerite kamero — če je kod več, jih pokažite eno za drugo.',
   'camera.privacy': 'Slika se prebere na tej napravi in zavrže. Nič se ne snema in nič ne nalaga.',
   'camera.blocked': 'Chrome je blokiral kamero. Dovolite jo za to stran ali dodajte račun drugače.',
+  'camera.blocked.firefox': 'Firefox je blokiral kamero. Dovolite jo za to stran ali dodajte račun drugače.',
   'camera.none': 'Na tem računalniku ni bilo najdene kamere.',
   'camera.busy': 'Kamero uporablja drug program.',
 
@@ -493,6 +501,8 @@ export const sl: Dictionary = {
   'about.fact.access.title': 'Brez splošnega dostopa do spletnih mest',
   'about.fact.access.body':
     'Razširitev ne zahteva dovoljenj za spletna mesta. Branje kode QR s strani ali vnos kode vanjo uporablja activeTab — dovoljenje, ki ga Chrome da samo za zavihek, na katerem ste zagnali razširitev.',
+  'about.fact.access.body.firefox':
+    'Razširitev ne zahteva dovoljenj za spletna mesta. Branje kode QR s strani ali vnos kode vanjo uporablja activeTab — dovoljenje, ki ga Firefox da samo za zavihek, na katerem ste zagnali razširitev.',
   'about.fact.standards.title': 'Standardi, ne ujetost',
   'about.fact.standards.body': 'RFC 6238 TOTP in RFC 4226 HOTP z uvozom in izvozom otpauth://. Kadar koli lahko preidete v drugo aplikacijo in vse vzamete s seboj.',
   'about.version': 'Različica {version}',
@@ -513,6 +523,7 @@ export const sl: Dictionary = {
   'about.logos.body':
     '{count} storitev ima pravi znak. Grafike iz <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons in <fa>Font Awesome Free</fa> (ikone, CC BY 4.0). Vsa imena izdelkov in logotipi pripadajo svojim lastnikom in služijo samo prepoznavanju storitve, ki ji račun pripada. Storitev brez znaka v teh zbirkah dobi ploščico s črko.',
   'about.shortcut.change': 'Spremenite ga na chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Spremenite ga na about:addons.',
   'accounts.title': 'Računi',
   'accounts.description': 'Vse, kar je shranjeno v tem trezorju. Kode se ustvarjajo na tej napravi, nikoli na strežniku.',
   'accounts.empty': 'Še ni računov. Dodajte enega za začetek.',
@@ -565,6 +576,8 @@ export const sl: Dictionary = {
   'import.stopAndReview': 'Ustavi in preglej {count}',
   'import.noNativeReader':
     'Chrome na tem računalniku nima vgrajenega bralnika kod QR, zato velike kode — na primer izvoza iz Google Authenticatorja — s kamero pogosto ni mogoče skenirati. Če ne gre, na telefonu naredite posnetek vsake kode in jih izberite vse z Izberi datoteke.',
+  'import.noNativeReader.firefox':
+    'Firefox na tem računalniku nima vgrajenega bralnika kod QR, zato velike kode — na primer izvoza iz Google Authenticatorja — s kamero pogosto ni mogoče skenirati. Če ne gre, na telefonu naredite posnetek vsake kode in jih izberite vse z Izberi datoteke.',
   'import.encrypted': 'Ta varnostna kopija je šifrirana. Vnesite geslo, s katerim je bila ustvarjena.',
   'import.backupPassword': 'Geslo varnostne kopije',
   'import.open': 'Odpri varnostno kopijo',
@@ -796,10 +809,16 @@ export const sl: Dictionary = {
   },
   'account.signOutNote': 'Odjava odstrani vaše kode iz tega brskalnika. Ostanejo v vašem računu Keyrook — znova se prijavite, da jih vrnete.',
   'accountPage.title': 'Vaš račun Keyrook',
-  'accountPage.body': 'Geslo, obnovitveni ključ, nov začetek in brisanje so na strani računa, za vse aplikacije Keyrook hkrati.',
-  'accountPage.bodyNoRoot': 'Geslo in brisanje sta na strani računa. Obnovitveni ključ se ustvari tukaj, v Varnosti, dokler računa ne začne uporabljati druga aplikacija Keyrook.',
-  'accountPage.bodyProvider': 'Obnovitveni ključ, nov začetek in brisanje so na strani računa, za vse aplikacije Keyrook hkrati.',
-  'accountPage.bodyNoRootProvider': 'Brisanje je na strani računa. Obnovitveni ključ se ustvari tukaj, v Varnosti, dokler računa ne začne uporabljati druga aplikacija Keyrook.',
+  'accountPage.body': 'Naslov, geslo, obnovitveni ključ, nov začetek in brisanje so na strani računa, za vse aplikacije Keyrook hkrati.',
+  'accountPage.bodyNoRoot': 'Naslov, geslo in brisanje so na strani računa. Obnovitveni ključ se ustvari tukaj, v Varnosti, dokler računa ne začne uporabljati druga aplikacija Keyrook.',
+  'accountPage.bodyProvider': 'Naslov, obnovitveni ključ, nov začetek in brisanje so na strani računa, za vse aplikacije Keyrook hkrati.',
+  'accountPage.bodyNoRootProvider': 'Naslov in brisanje sta na strani računa. Obnovitveni ključ se ustvari tukaj, v Varnosti, dokler računa ne začne uporabljati druga aplikacija Keyrook.',
+  'accountPage.address': 'E-poštni naslov',
+  'accountPage.changeAddress': 'Spremeni naslov',
+  'accountPage.activity': 'Nedavna dejavnost',
+  'accountPage.activityBody': 'Prijave in spremembe vašega računa v zadnjih 90 dneh, z napravo, aplikacijo in državo, na strani računa.',
+  'accountPage.data': 'Podatki računa',
+  'accountPage.dataBody': 'S strani računa prenesite, kar strežnik Keyrook hrani o vašem računu. Vaših kod v tem ni: strežnik jih hrani le šifrirane. Izvozite jih v Varnostni kopiji.',
   'sheetCheck.lead': 'Enkrat vnesite shranjeni obnovitveni ključ, da bo ta aplikacija vedela, da lahko vrne vaše kode. Preveri se v tej napravi in se nikamor ne pošlje.',
   'sheetCheck.submit': 'Preveri',
   'sheetCheck.lost': 'Ste ga izgubili ali ga niste nikoli imeli? Ustvarite novega na strani računa.',
@@ -845,12 +864,8 @@ export const sl: Dictionary = {
   'password.change': 'Spremeni geslo …',
   'password.formTitle': 'Sprememba gesla računa',
   'devices.title': 'Prijavljene naprave',
-  'devices.description':
-    'Odjavite napravo, ki je ne uporabljate več ali je nimate več. Če na njej teče posodobljen Keyrook Authenticator, bo ob naslednji povezavi sama odstranila kode tega računa in obdržala le tisto, česar ni nikoli poslala. Do takrat, ali če se nikoli več ne poveže, obdrži, kar je imela, zaklenjeno z istim geslom.',
-  'devices.descriptionProvider':
-    'Odjavite napravo, ki je ne uporabljate več ali je nimate več. Če na njej teče posodobljen Keyrook Authenticator, bo ob naslednji povezavi sama odstranila kode tega računa in obdržala le tisto, česar ni nikoli poslala. Do takrat, ali če se nikoli več ne poveže, obdrži, kar je imela, zaklenjeno tako, kot je na njej zaklenjen trezor.',
-  'devices.this': 'Ta naprava',
-  'devices.when': 'Prijavljena {created} · nazadnje dejavna {seen}',
+  'devices.onAccountPage':
+    'Vse naprave, prijavljene v vaš račun, vidite na strani računa, kjer jih lahko tudi odjavite ali odstranite.',
   'removed.kept': 'Kode, dodane ali spremenjene tukaj, ki niso prišle do računa, so še vedno tukaj.',
   'delete.row': 'Izbriši račun',
   'delete.rowDescription': 'Odstrani vsako šifrirano kopijo s strežnika. Ta naprava obdrži trezor, kakršen je; druge naprave se nehajo sinhronizirati.',
@@ -1002,6 +1017,7 @@ export const sl: Dictionary = {
   'backup.choice.import.title': 'Uvoz',
   'backup.choice.import.body': 'Iz varnostne kopije, izvoza druge aplikacije ali povezav otpauth://.',
   'backup.choice.move.body': 'Kode za prenos, stran za tiskanje ali berljiva datoteka. Nešifrirano.',
+  'backup.accountData': 'Vaše kode lahko izvozi le Keyrook Authenticator: strežnik jih hrani šifrirane. Kar strežnik hrani o vašem računu, brez kod in ključev, prenesete s strani računa.',
   'security.description': 'Kako se ta trezor odpre in vaša pot nazaj, če izgubite ta brskalnik.',
   'security.deviceKeyHint': 'Nič za vtipkati. Ne ustavi zlonamerne programske opreme, ki na tem računalniku deluje v vašem imenu.',
   'security.passwordHint': 'Zahteva se vsakič, ko se trezor zaklene.',
@@ -1068,10 +1084,6 @@ export const sl: Dictionary = {
   'about.fact.keys.body.phone':
     'Vaši računi so šifrirani s podatkovnim ključem, ki je sam zavit v drug ključ. Z glavnim geslom ovojni ključ izhaja iz PBKDF2 s 600.000 krogi in obstaja samo v pomnilniku, dokler je trezor odklenjen. Brez gesla je to ključ, ki ga zapečati lastna shramba ključev telefona, zato kopija datotek aplikacije trezorja ne odpre.',
   'rate.store.play': 'trgovini Google Play',
-  'add.noNativeReader.phone':
-    'Velike kode — na primer izvoza iz Google Authenticatorja — s kamero tukaj pogosto ni mogoče skenirati. Če ne gre, jo fotografirajte z aplikacijo za kamero na telefonu in uporabite Naloži sliko kode QR.',
-  'import.noNativeReader.phone':
-    'Velike kode — na primer izvoza iz Google Authenticatorja — s kamero tukaj pogosto ni mogoče skenirati. Če ne gre, fotografirajte vsako kodo z aplikacijo za kamero na telefonu in jih izberite vse z Izberi datoteke.',
   'error.signOutUnsynced.phone':
     'Nekatere spremembe na tem telefonu še niso prišle do vašega računa in odjava bi jih zdaj izgubila. Povežite se z internetom in poskusite znova.',
   'account.signOutNote.phone':

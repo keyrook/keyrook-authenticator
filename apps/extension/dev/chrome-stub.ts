@@ -6,7 +6,7 @@
  * Development only — nothing here is part of the built extension.
  */
 import QRCode from 'qrcode';
-import { DEV_SENDER, DEV_RUNTIME_ID as RUNTIME_ID } from './identity.js';
+import { devSender, DEV_RUNTIME_ID as RUNTIME_ID } from './identity.js';
 
 /*
  * A message carries both an id and an origin because the background demands
@@ -21,6 +21,8 @@ import { DEV_SENDER, DEV_RUNTIME_ID as RUNTIME_ID } from './identity.js';
  * `test/dev-harness.test.ts` pins that the identity below satisfies it. All
  * this does is stop the fake API from lying about who is calling.
  */
+
+const DEV_SENDER = devSender(location.origin);
 
 type Listener = (
   message: unknown,

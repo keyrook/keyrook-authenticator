@@ -1,7 +1,8 @@
 import type { Host } from '@authx/ui/host.js';
 import { accountPasskeys } from './accountPasskeys.js';
 import { passkeyUnlock } from './passkeyUnlock.js';
-import { SYNC_ENABLED } from './config.js';
+import { ACCOUNT_PAGE_URL, IN_FIREFOX, SYNC_ENABLED } from './config.js';
+import { askAccountData } from './consent.js';
 import { storeListing } from './listing.js';
 import { VAULT_CHANGED, type VaultChangedEvent } from './messaging.js';
 
@@ -49,6 +50,7 @@ export const chromeHost: Host = {
   },
 
   syncEnabled: SYNC_ENABLED,
+  accountPageUrl: ACCOUNT_PAGE_URL || undefined,
 
   get version() {
     return chrome.runtime.getManifest().version;
@@ -69,6 +71,7 @@ export const chromeHost: Host = {
 
   overPage: true,
   device: 'browser',
+  browser: IN_FIREFOX ? 'firefox' : undefined,
 
   async saveFile(name, contents) {
     const url = URL.createObjectURL(contents);
@@ -91,6 +94,15 @@ export const chromeHost: Host = {
 
   storeListing: () => storeListing(),
 
-  accountPasskeys,
-  passkeyUnlock,
+  // Firefox asks before anything is sent to the account; Chrome does not.
+  allowAccountData: IN_FIREFOX && SYNC_ENABLED ? askAccountData : undefined,
+
+  // Neither on Firefox. Fingerprint and security-key unlock is a passkey
+  // whose RP ID is the extension's own, and Firefox lets an extension's page
+  // make one only for a site it holds a host permission for, never for
+  // itself. The account's passkeys could be asked only with a host permission
+  // for account.keyrook.com, and the server takes none from an origin Firefox
+  // makes on install (keyrook-account's docs/firefox.md, section 3).
+  accountPasskeys: IN_FIREFOX ? undefined : accountPasskeys,
+  passkeyUnlock: IN_FIREFOX ? undefined : passkeyUnlock,
 };

@@ -5,8 +5,8 @@
  * shared package means the extension, the future native apps and the server all
  * compile against one definition rather than three drifting copies.
  *
- * What the client guarantees whatever the server does is set out in
- * docs/security-model.md.
+ * Nothing here is trusted because the server sent it: what a device acts on,
+ * it checks itself.
  */
 import type { SealedBox } from '../crypto/aead.js';
 import type { RecoveryWrap } from './kit.js';
@@ -110,7 +110,7 @@ export interface LoginRequest {
   secondStep?: true;
 }
 
-// --- A second step at sign-in (docs/console.md, S21) -------------------------
+// --- A second step at sign-in ------------------------------------------------
 
 /**
  * The answer to a sign-in, with the password or Google or GitHub, on an
@@ -181,9 +181,9 @@ export interface LoginResponse {
      */
     providers?: SignInProvider[];
     /**
-     * The name the person gave the account, if any (docs/console.md, S22).
-     * The server's word, shown as text and never taken as a sign of who
-     * anyone is. A server from before says nothing.
+     * The name the person gave the account, if any. The server's word, shown
+     * as text and never taken as a sign of who anyone is. An older server says
+     * nothing.
      */
     name?: string | null;
   };
@@ -191,7 +191,7 @@ export interface LoginResponse {
 
 /**
  * `password`: the account password, as since 0.2. `provider`: Google or
- * GitHub, with no password at all; docs/provider-sign-in.md.
+ * GitHub, with no password at all.
  */
 export type AccountMethod = 'password' | 'provider';
 export type SignInProvider = 'google' | 'github';
@@ -205,7 +205,11 @@ export type SignInProvider = 'google' | 'github';
 //     (or #error=…&state=…)
 //
 // A phone app asks with `return=app&app=<app id>` in place of `ext`, and is
-// handed `<app id>:/oauth#ticket=…&state=…` (docs/phone-apps.md).
+// handed `<app id>:/oauth#ticket=…&state=…`. A Firefox extension sends its
+// add-on id as `ext` and is handed the answer at
+// `https://<SHA-1 of the id, hex>.extensions.allizom.org/oauth#…`, where
+// `identity.launchWebAuthFlow` waits; never by `return=message`, which no
+// Firefox extension can receive.
 //
 // The ticket is worth nothing without the verifier, which never leaves the
 // extension or the app.
@@ -498,9 +502,8 @@ export interface DeviceSummary {
   /**
    * The id the device chose and sends at sign-in, which a removal proof names
    * (`makeDeviceRemovalProof`). As the server reports it: a server that lies
-   * about it gets a proof the device it names refuses. A server from before
-   * migration 11 says nothing: no proof can name the device, and removing it
-   * only signs it out.
+   * about it gets a proof the device it names refuses. An older server says
+   * nothing: no proof can name the device, and removing it only signs it out.
    */
   deviceId?: string;
   name: string;
@@ -563,7 +566,7 @@ export interface ProfileResponse {
 export interface ConsoleSummary {
   accountId: string;
   email: string;
-  /** The name the person gave the account; null for none. A server from before migration 10 says nothing. */
+  /** The name the person gave the account; null for none. An older server says nothing. */
   name?: string | null;
   method: 'password' | 'provider';
   /** The Google or GitHub identities that sign in to this account. */
@@ -576,8 +579,27 @@ export interface ConsoleSummary {
   pendingStartOver: PendingStartOver | null;
   /** When the recovery key was issued and last confirmed to open the root, for reminding; null on an account without a root. */
   recoveryKey: { issuedAt: number | null; confirmedAt: number | null } | null;
-  /** Since when sign-in asks for a second step; null when it does not. A server from before migration 9 says nothing. */
+  /** Since when sign-in asks for a second step; null when it does not. An older server says nothing. */
   secondStep?: { since: number } | null;
+  /** Whether this server offers families; a server from before them says nothing, which is no. */
+  orgsOffered?: boolean;
+  /** Who else opened the account's root, newest first, until it is replaced (`RootSeen`). An older server says nothing. */
+  rootSeen?: RootSeen[];
+}
+
+/**
+ * Someone else opened the account's root: its emergency contact once it was
+ * handed over, or a family's organiser helping it back in. Until the root is
+ * replaced they could open it again, and every product's key with it, so the
+ * page and the apps ask for that. Gone once it is.
+ */
+export interface RootSeen {
+  how: 'emergency' | 'organiser';
+  /** Null when that account is gone. */
+  by: { email: string; name: string | null } | null;
+  /** Null when the family is gone. */
+  orgName: string | null;
+  at: number;
 }
 
 export interface ConsoleProduct {
@@ -592,6 +614,171 @@ export interface ConsoleProduct {
   recoveryKeyProtects: boolean;
   /** Signed-in devices of this product. */
   devices: number;
+}
+
+// --- GET /account/export ----------------------------------------------------
+
+/**
+ * What the server holds about the account, for the person to download. Like
+ * the overview, nothing sealed, wrapped or hashed is in it: those open nothing
+ * for the person, and each app exports what it holds, decrypted, on the
+ * device.
+ */
+export interface AccountExport {
+  /** When the server answered, by its clock. */
+  exportedAt: number;
+  account: { id: string; email: string; name: string | null; method: 'password' | 'provider'; createdAt: number };
+  /** The Google or GitHub identities that sign in, each with the address it reported. */
+  providers: { provider: string; email: string; since: number }[];
+  passkeys: { name: string; createdAt: number; lastUsedAt: number | null; synced: boolean; unlocks: boolean }[];
+  secondStep: { since: number } | null;
+  recoveryKey: { issuedAt: number | null; confirmedAt: number | null } | null;
+  /** Each product with a key or records here: when its key was sealed and last replaced, and how many entries it syncs. */
+  products: { product: string; keySince: number | null; keyChangedAt: number | null; entries: number }[];
+  devices: { name: string; product: string; createdAt: number; lastSeenAt: number }[];
+  /** Removals kept so a removed device hears of it, and until when. */
+  removedDevices: { product: string; deviceId: string; removedAt: number; keptUntil: number }[];
+  pendingStartOver: PendingStartOver | null;
+  /** What was kept when the account started over, and when each is deleted. */
+  archives: { archivedAt: number; expiresAt: number }[];
+  /** The address the account had before its last change, while it is kept. An older server says nothing. */
+  previousEmail?: { email: string; keptUntil: number } | null;
+  /** The last 90 days of sign-ins and changes, as the page shows them. An older server says nothing. */
+  activity?: SecurityEvent[];
+  /** The families the account is in, its place in each, and its emergency access. An older server says nothing. */
+  orgs?: ExportedOrg[];
+  /** Invitations still waiting: to the account's address, and those it sent. */
+  orgInvites?: {
+    received: { orgName: string; role: OrgRole; from: { email: string; name: string | null }; sentAt: number; expiresAt: number }[];
+    sent: { orgName: string; email: string; role: OrgRole; sentAt: number; expiresAt: number }[];
+  };
+  /** When it last left a family, while that is kept, and the day it may join another. */
+  leftFamily?: { leftAt: number; joinAnotherFrom: number } | null;
+  /** Who else opened the account's root since it was last replaced. */
+  rootSeen?: RootSeen[];
+}
+
+/** A family the account is in, as `GET /account/export` writes it: nothing in it is sealed, and nothing opens anything. */
+export interface ExportedOrg {
+  id: string;
+  kind: OrgKind;
+  name: string;
+  createdAt: number;
+  madeByYou: boolean;
+  role: OrgRole;
+  status: OrgMemberStatus;
+  /** Whether the join code was compared when it was confirmed. */
+  verified: boolean;
+  joinedAt: number;
+  confirmedAt: number | null;
+  /** Everyone else in it, as the Family view lists them. */
+  people: { email: string; name: string | null; role: OrgRole; status: OrgMemberStatus }[];
+  /** The shared collections it holds a key to, and how many entries each syncs. Their names are encrypted, and not here. */
+  collections: { product: string; createdAt: number; entries: number }[];
+  /** Its emergency access, with the times kept: as `grantor`, the contact it named; as `contact`, each who named it theirs. */
+  emergency: {
+    as: 'contact' | 'grantor';
+    person: { email: string; name: string | null };
+    waitDays: number;
+    requestedAt: number | null;
+    refusedAt: number | null;
+    releasedAt: number | null;
+  }[];
+  /**
+   * Recovery by an organiser: whether it is on for the family; since when the
+   * account's root is kept for its organisers, sealed; and whether the account,
+   * as an organiser, holds the recovery key. Never a box or a key.
+   */
+  recovery: { on: boolean; keptSince: number | null; holdsKey: boolean };
+  /** When the account page last pinned the family's members and keys, sealed; never the pin. */
+  pagePinnedAt: number | null;
+  /**
+   * The organiser's words that a code was compared (`ConfirmOrgMemberRequest.vouches`)
+   * that name the account: whose key, by which organiser, told to whom, and
+   * when; never the word. Absent from an older server.
+   */
+  vouches?: { about: { email: string; name: string | null }; by: { email: string; name: string | null }; to: { email: string; name: string | null }; at: number }[];
+}
+
+// --- GET /account/activity --------------------------------------------------
+
+/** What happened to the account. A server may add kinds; a client shows one it does not know plainly. */
+export type SecurityEventKind =
+  | 'account-created'
+  | 'sign-in'
+  | 'password-changed'
+  | 'password-added'
+  | 'recovery-key-changed'
+  | 'keys-replaced'
+  | 'provider-added'
+  | 'provider-removed'
+  | 'passkey-added'
+  | 'passkey-removed'
+  | 'second-step-on'
+  | 'second-step-off'
+  | 'second-step-recovery-used'
+  | 'device-removed'
+  | 'email-changed'
+  | 'start-over-asked'
+  | 'start-over-cancelled'
+  | 'started-over';
+
+/**
+ * How a session was started: the password; a passkey; Google or GitHub; the
+ * account page approved from a product; the recovery key, setting a new
+ * password; or the password, or Google or GitHub, then a second step.
+ */
+export type SignInVia =
+  | 'password'
+  | 'passkey'
+  | 'google'
+  | 'github'
+  | 'approval'
+  | 'recovery-key'
+  | 'password+second-step'
+  | 'provider+second-step'
+  /** Back in with a family organiser's help, setting a new password and replacing the keys. */
+  | 'family';
+
+export interface SecurityEvent {
+  at: number;
+  kind: SecurityEventKind;
+  /** The app it came from; `console` is the account page. Null for what the server did on its own, such as a start over taking effect. */
+  product: string | null;
+  deviceName: string | null;
+  /** For a sign-in or a new account: how. */
+  via: SignInVia | null;
+  /** Two letters, from the network provider; never the address itself. Null when not known. */
+  country: string | null;
+  /** A passkey's, device's or provider's name, where the kind names one. Never an email address. */
+  detail: string | null;
+}
+
+/** The last 90 days, newest first. */
+export interface ActivityResponse {
+  events: SecurityEvent[];
+}
+
+// --- POST /account/email/begin, POST /account/email -------------------------
+
+/**
+ * Moving the account to a new address, on the owner's proof as for any change
+ * to how the account is reached. A code goes to the new address; the answer is
+ * the same whether that address is free or not.
+ */
+export interface EmailChangeBeginRequest extends OwnerProofFields {
+  email: string;
+}
+
+/** The code the new address received, with the address it was sent to. */
+export interface EmailChangeRequest {
+  email: string;
+  code: string;
+}
+
+/** The account's address as kept now. */
+export interface EmailChangeResponse {
+  email: string;
 }
 
 // --- POST /account/password -------------------------------------------------
@@ -813,7 +1000,12 @@ export type SyncErrorCode =
    * the same way; what it does with it is its own. It says nothing a device
    * should act on without checking `proof` with its own key.
    */
-  | 'device_removed';
+  | 'device_removed'
+  /**
+   * A 404 for what this server does not offer yet, such as families: nothing
+   * to retry until it says otherwise.
+   */
+  | 'not_offered';
 
 export interface SyncErrorBody {
   error: SyncErrorCode;
@@ -868,10 +1060,23 @@ export interface AccountKeysResponse {
   /**
    * The name the person gave the account, as at sign-in (`account.name`), so
    * a product that rarely signs in again keeps up with one changed on the
-   * page. Shown as text, never a sign of who anyone is. A server from before
-   * migration 10 says nothing.
+   * page. Shown as text, never a sign of who anyone is. An older server says
+   * nothing.
    */
   name?: string | null;
+  /**
+   * The account's address now, for the same reason: it may have changed on
+   * the page since this product signed in. An older server says nothing.
+   */
+  email?: string;
+  /**
+   * The member key of each organisation the account is in, sealed under this
+   * product's key (`PUT /orgs/:org/me/boxes/:product`): what a device seals
+   * again to a new root when it replaces it. An older server says nothing.
+   */
+  memberKeyBoxes?: { orgId: string; box: OrgBox }[];
+  /** Who else opened the account's root, until it is replaced: this product asks for that too. An older server says nothing. */
+  rootSeen?: RootSeen[];
 }
 
 /**
@@ -1022,6 +1227,11 @@ export interface RotateRootRequest {
    * proof of the key it replaces.
    */
   previousKeyCheck?: string;
+  /**
+   * Each family's member key this product holds a box of, sealed again to the
+   * new root: exactly those, as `memberKeyBoxes` lists.
+   */
+  memberRootBoxes?: { orgId: string; box: OrgBox }[];
   /** Proof of the owner: the current password, */
   authHash?: string;
   /** or a fresh sign-in with the provider, */
@@ -1056,6 +1266,8 @@ export interface ConsoleKeysResponse {
   olderAuthenticator: 'active' | 'retired';
   /** The root wrapped under each passkey that unlocks it now; absent from a server without passkeys. */
   passkeyWraps?: { id: string; rootWrap: SealedBox }[];
+  /** The member key of each organisation the account is in, sealed to the root; absent from a server without families. */
+  memberRootBoxes?: { orgId: string; box: OrgBox }[];
 }
 
 /**
@@ -1100,6 +1312,8 @@ export interface ConsoleRotateRequest {
   products: { product: string; box: ProductBox; pin: SealedBox; keyCheck: string; keyGeneration: number }[];
   /** The recovery key leaked: every product must replace its own key when next opened. */
   leaked: boolean;
+  /** Each organisation's member key, sealed again to the new root: one for each the account is in. */
+  memberRootBoxes?: { orgId: string; box: OrgBox }[];
   authHash?: string;
   reauth?: ProviderTicket;
   /** On an account with a second step, beside the password or a provider sign-in (`SecondStepProof`). */
@@ -1214,4 +1428,523 @@ export interface ArchivedRecordsResponse {
 export interface DeleteArchiveRequest {
   rootCheck?: string;
   keyCheck?: string;
+}
+
+// --- /orgs: families ----------------------------------------------------------
+
+/**
+ * A box a device sealed: to a member's key, or under a key the server never
+ * holds. The server keeps it and hands it back as sent, and opens none; what
+ * a device takes from one it checks itself.
+ */
+export type OrgBox = Record<string, unknown>;
+
+export type OrgKind = 'family' | 'team' | 'business';
+/** An organiser (`owner`) or a member. A family has one or two organisers. */
+export type OrgRole = 'owner' | 'member';
+/** Accepted an invitation and waits for an organiser; or confirmed, and holds the organisation key. */
+export type OrgMemberStatus = 'accepted' | 'confirmed';
+
+/**
+ * Who is in the organisation, each with their member key, as its organisers'
+ * devices last wrote it, MAC'd under the organisation key. The server keeps
+ * only the newest, cannot check the MAC, and takes a version only one above
+ * the one it holds; each device pins the newest it has seen.
+ */
+export interface OrgRoster {
+  version: number;
+  generation: number;
+  body: Record<string, unknown>;
+  mac: string;
+}
+
+/** Someone joining: their member key's public half, its private half sealed to their root, and under an app's key. */
+export interface NewOrgMember {
+  key: string;
+  rootBox: OrgBox;
+  /** Under the key of the app asking, so its devices open it without the root. An app may seal only to its own. */
+  productBox?: { product: string; box: OrgBox };
+}
+
+/** `GET /orgs`: an account's organisations, and the invitations waiting at its address. */
+export interface OrgsResponse {
+  orgs: {
+    id: string;
+    kind: OrgKind;
+    name: string;
+    role: OrgRole;
+    status: OrgMemberStatus;
+    verified: boolean;
+  }[];
+  invitations: {
+    /** What the invited address declines it by (`DELETE /orgs/:org/invites/:id`). */
+    id: string;
+    orgId: string;
+    orgName: string;
+    kind: OrgKind;
+    role: OrgRole;
+    invitedBy: { name: string | null; email: string };
+    expiresAt: number;
+  }[];
+}
+
+/**
+ * `POST /orgs`: a family, made by its first organiser. The id is the
+ * device's own, as an account's is: the roster's MAC and every box bind it,
+ * so it is chosen before they are made.
+ */
+export interface CreateOrgRequest {
+  id: string;
+  kind: 'family';
+  name: string;
+  member: NewOrgMember;
+  /** Version 1, generation 1: the organiser alone. */
+  roster: OrgRoster;
+  /** The organisation key, sealed to the organiser's own member key. */
+  orgKeyBox: OrgBox;
+}
+
+/** A person in the organisation, as the server holds them. Who they are, and their key, is the roster's to say. */
+export interface OrgMember {
+  accountId: string;
+  email: string;
+  name: string | null;
+  role: OrgRole;
+  status: OrgMemberStatus;
+  verified: boolean;
+  memberKey: string;
+  joinedAt: number;
+  confirmedBy: string | null;
+  confirmedAt: number | null;
+}
+
+/** An invitation still waiting, as its organisers see it. */
+export interface OrgInvite {
+  id: string;
+  email: string;
+  role: OrgRole;
+  invitedBy: string;
+  createdAt: number;
+  expiresAt: number;
+}
+
+/**
+ * What a family's plan lets it do. The server's word, which it holds itself
+ * to: it decides what a person is offered, and nothing a device opens or
+ * trusts.
+ */
+export interface FamilyAllowance {
+  /** Live collections, every product's together. What is past it stays; only a new one is refused. */
+  collections: number;
+  /** Naming an emergency contact. One named already stays. */
+  emergencyAccess: boolean;
+  /** An organiser turning on recovery for the family. Once on, it stays. */
+  memberRecovery: boolean;
+}
+
+/** `GET /orgs/:org`: the organisation as one of its people sees it, with their own boxes. */
+export interface OrgDetail {
+  org: { id: string; kind: OrgKind; name: string; generation: number; rotationDue: boolean; createdAt: number };
+  allowance: FamilyAllowance;
+  roster: OrgRoster;
+  members: OrgMember[];
+  me: {
+    role: OrgRole;
+    status: OrgMemberStatus;
+    verified: boolean;
+    rootBox: OrgBox;
+    /** The page sees each app's; an app only its own. */
+    productBoxes: { product: string; box: OrgBox }[];
+    /** The page only: what it last pinned of the family, sealed under a key the root makes (`PUT /orgs/:org/me/page-pin`). */
+    pagePin?: OrgBox | null;
+    /** None until an organiser confirms them. */
+    orgKeyBoxes: { generation: number; senderId: string; box: OrgBox }[];
+    collectionKeyBoxes: { collectionId: string; generation: number; senderId: string; box: OrgBox }[];
+    /**
+     * Each organiser's word to the caller that a key is someone's, made when
+     * they compared it (`ConfirmOrgMemberRequest.vouches`): only the two of
+     * them could make one. Absent from an older server.
+     */
+    vouches?: { accountId: string; by: string; tag: string }[];
+  };
+  /** Organisers only. */
+  invites?: OrgInvite[];
+  /** Every collection to an organiser, who lets people in and out and rotates; to anyone else, those they hold a key of. */
+  collections: OrgCollection[];
+  /** Emergency access in a family: the contact the caller named, and those who named the caller. */
+  emergency: { given: OrgEmergency | null; received: OrgEmergency[] };
+  /** An organiser recovering a member. */
+  recovery: OrgRecovery;
+}
+
+/**
+ * Recovery by an organiser, as one of the family sees it. The recovery key's
+ * public half is in the roster; its private half goes to each organiser, and
+ * each member who turns it on seals their own root to it.
+ */
+export interface OrgRecovery {
+  /** An organiser turned it on, and nobody who held its key has gone since. */
+  on: boolean;
+  /** The recovery key's generation: the one in use while on, the last one made while off. */
+  generation: number;
+  /** The caller's root is sealed to the recovery key in use. */
+  mine: boolean;
+  /** Organisers only: their own box of the recovery key in use, and who sealed it. */
+  keyBox?: { senderId: string; box: OrgBox } | null;
+  /** Organisers only: who has their root sealed to it. */
+  members?: string[];
+  /** Organisers only: those asking for help now, each with their new browser's key. */
+  requests?: OrgRecoveryRequest[];
+}
+
+export interface OrgRecoveryRequest {
+  id: string;
+  accountId: string;
+  /** The new browser's key, for the code and the box: as the server says, until the codes match. */
+  browserKey: string;
+  createdAt: number;
+  expiresAt: number;
+  /** Who handed the root over, and when; null until someone does. */
+  handedBy: string | null;
+}
+
+/**
+ * Emergency access between two members of a family, as either sees it. The
+ * box itself is handed over only by `GET /orgs/:org/emergency/:grantor`,
+ * once the wait is over and nobody refused.
+ */
+export interface OrgEmergency {
+  grantorId: string;
+  granteeId: string;
+  /** When the contact asked; null until they do. */
+  requestedAt: number | null;
+  /** When the one who named them refused the latest request. */
+  refusedAt: number | null;
+  /** When the box may be handed over, if nobody refuses before: the request and the wait. */
+  opensAt: number | null;
+  /** When it was first handed over. */
+  releasedAt: number | null;
+}
+
+/** A shared collection: its name sealed under its own key, and whose keys it is under, never what is in it. */
+export interface OrgCollection {
+  id: string;
+  product: string;
+  generation: number;
+  /** Someone who held its key is gone: the next rotation gives it a new one. */
+  rotationDue: boolean;
+  /** Its name, under its key of `generation` (`keyrook.collection-name:v1:<org>:<collection>:<generation>`). */
+  nameBox: OrgBox;
+  /** The accounts holding its key of the generation in use. The server's word: a device seals to `holdersBox`, never to this. */
+  holders: string[];
+  /** Who holds it, under its key of `generation` (`keyrook.collection-holders:v1:<org>:<collection>:<generation>`). Absent from one made before there was any. */
+  holdersBox?: OrgBox;
+}
+
+/** `POST /orgs/:org/invites`: an address, mailed. No secret goes with it: the account that proves the address finds it. */
+export interface OrgInviteRequest {
+  email: string;
+  role: OrgRole;
+}
+
+/** `POST /orgs/:org/accept`: by the account at the invited address. */
+export interface AcceptOrgInviteRequest {
+  member: NewOrgMember;
+}
+
+/**
+ * `POST /orgs/:org/members/:account/confirm`: by an organiser, once the join
+ * code matched (`verified`), or without comparing it, which leaves the member
+ * unverified on every device until they do.
+ */
+export interface ConfirmOrgMemberRequest {
+  verified: boolean;
+  /** One version up, with the member's line. */
+  roster: OrgRoster;
+  /** The organisation key, sealed to the member's key, for the generation in use. */
+  orgKeyBox: OrgBox;
+  /** A key for each collection they are let into, of its generation in use. */
+  collectionKeyBoxes: { collectionId: string; generation: number; box: OrgBox; holdersBox?: OrgBox }[];
+  /** Invited as an organiser while recovery is on: the recovery key sealed to them, as `OrgRoleRequest` has. */
+  recoveryKeyBox?: OrgBox;
+  /**
+   * Only once the code matched: the organiser's word that the member's key is
+   * theirs, to each confirmed member the roster lists, the organiser too
+   * (`vouchFor`), so their devices take it without comparing a code again.
+   */
+  vouches?: { accountId: string; tag: string }[];
+}
+
+/**
+ * `POST /orgs/:org/members/:account/verify`: an organiser compared the code
+ * of someone already in the family. The roster one version up, marking them
+ * verified, and the organiser's word to everyone else, as `ConfirmOrgMemberRequest`.
+ */
+export interface VerifyOrgMemberRequest {
+  roster: OrgRoster;
+  vouches?: { accountId: string; tag: string }[];
+}
+
+/**
+ * `POST /orgs/:org/rotate`: by an organiser, from the page or an app, after
+ * someone left or was removed; by anyone confirmed, from the page alone, in a
+ * family a start over left with no organiser. The organisation key one
+ * generation up, sealed to every confirmed member left, the organiser too;
+ * the roster without the one who went, MAC'd under the new key; and a new key
+ * for each marked collection the organiser holds, to everyone still holding
+ * it, with its name sealed again under it. An app sends only its own
+ * product's. A marked collection not here stays marked, for anyone who
+ * holds it (`RotateCollectionRequest`).
+ * The keys are sealed to the members of the pinned roster, never to keys the
+ * server hands over.
+ */
+export interface RotateOrgRequest {
+  generation: number;
+  roster: OrgRoster;
+  orgKeyBoxes: { accountId: string; box: OrgBox }[];
+  collections: { collectionId: string; generation: number; nameBox: OrgBox; holdersBox?: OrgBox; keyBoxes: { accountId: string; box: OrgBox }[] }[];
+}
+
+/**
+ * `PUT /orgs/:org/role/:account`: an organiser makes another confirmed member
+ * an organiser, or steps down while another is left. The roster says who is
+ * which, so it moves one version up with it.
+ */
+export interface OrgRoleRequest {
+  role: OrgRole;
+  roster: OrgRoster;
+  /** While recovery is on, the recovery key sealed to the new organiser, from the one naming them. */
+  recoveryKeyBox?: OrgBox;
+}
+
+/**
+ * `PUT /orgs/:org/me/boxes/:product`: the caller's member key sealed under a
+ * product's key, so that product's devices open it without the root. An app
+ * puts only its own; the page any. It replaces the one there, as a product
+ * key replaced makes the old box unopenable.
+ */
+export interface OrgProductBoxRequest {
+  box: OrgBox;
+}
+
+/**
+ * `POST /orgs/:org/collections`: by an organiser. A new collection of one
+ * product at generation 1, its key sealed to each confirmed member let in.
+ * The id is the device's own, as a family's is: the name's seal binds it.
+ */
+export interface CreateCollectionRequest {
+  id: string;
+  product: string;
+  nameBox: OrgBox;
+  holdersBox?: OrgBox;
+  keyBoxes: { accountId: string; box: OrgBox }[];
+}
+
+/** `PUT /orgs/:org/collections/:id`: a new name, sealed under the key in use. */
+export interface RenameCollectionRequest {
+  generation: number;
+  nameBox: OrgBox;
+}
+
+/**
+ * `POST /orgs/:org/collections/:id/keys`: confirmed members let in. Each
+ * gets the key in use, and may get older generations too, to read records
+ * not yet sealed again under the new one.
+ */
+export interface CollectionKeysRequest {
+  keyBoxes: { accountId: string; generation: number; box: OrgBox }[];
+  /** Who holds it now, those let in too. */
+  holdersBox?: OrgBox;
+}
+
+/**
+ * `POST /orgs/:org/collections/:id/rotate`: the collection's key one
+ * generation up, sealed to exactly those who stay in it, with its name under
+ * the new key. Whoever held it and gets no box is let out, their boxes gone.
+ * By an organiser; or, while it is marked and once the family's key has
+ * changed, by anyone holding it, to exactly those holding it.
+ */
+export interface RotateCollectionRequest {
+  generation: number;
+  nameBox: OrgBox;
+  holdersBox?: OrgBox;
+  keyBoxes: { accountId: string; box: OrgBox }[];
+}
+
+/**
+ * A family's record: an account's record with the collection it belongs to,
+ * for ever, and the generation of the collection key it is sealed under.
+ * Both are in what the seal covers
+ * (`keyrook.org-record:v1:<org>:<collection>:<generation>:<id>:<rev>`).
+ */
+export interface OrgRecord extends RemoteRecord {
+  collectionId: string;
+  generation: number;
+}
+
+/**
+ * `GET /orgs/:org/sync?since=&collection=`: the records of the asking
+ * product's collections the caller holds the key of, by the family's own
+ * counter. `collection` pulls one collection alone, from zero when it is new
+ * to the device.
+ */
+export interface OrgPullResponse {
+  records: OrgRecord[];
+  serverRev: number;
+  hasMore: boolean;
+  /** The database's history, as for an account's records: a restore changes it. */
+  epoch: string;
+}
+
+/** `POST /orgs/:org/sync`: as `/sync`, each record written under its collection's key in use. */
+export interface OrgPushRequest {
+  records: OrgRecord[];
+}
+
+export interface OrgPushResponse {
+  accepted: { id: string; rev: number; serverRev: number }[];
+  /** Records the server refused because it holds a newer revision. */
+  conflicts: OrgRecord[];
+  serverRev: number;
+  /** Set when a push was trimmed by the family's ceiling on what it shares. The device keeps those. */
+  rejectedForLimit?: { id: string }[];
+}
+
+/**
+ * `PUT /orgs/:org/emergency`: the caller's root, sealed by their own device to
+ * a confirmed, verified member of the same family, in a box from their member
+ * key (`sealEmergencyBox`). It replaces any contact named before, and any
+ * request of theirs.
+ */
+export interface OrgEmergencyRequest {
+  grantee: string;
+  box: OrgBox;
+}
+
+/** `GET /orgs/:org/emergency/:grantor`: the box, once the wait is over and nobody refused. */
+export interface OrgEmergencyBox {
+  grantorId: string;
+  granteeId: string;
+  box: OrgBox;
+}
+
+/**
+ * `POST /orgs/:org/recovery`: an organiser turns recovery on. The next
+ * recovery key, sealed to every confirmed organiser, the caller too; the
+ * roster one version up, listing its public half.
+ */
+export interface OrgRecoveryOnRequest {
+  generation: number;
+  roster: OrgRoster;
+  keyBoxes: { accountId: string; box: OrgBox }[];
+}
+
+/** `DELETE /orgs/:org/recovery`: an organiser turns it off; the roster one version up, listing no recovery key. */
+export interface OrgRecoveryOffRequest {
+  roster: OrgRoster;
+}
+
+/** `PUT /orgs/:org/me/recovery`: the caller's root, sealed by their own device to the recovery key in use, from their member key. */
+export interface OrgRecoveryBoxRequest {
+  generation: number;
+  box: OrgBox;
+}
+
+/** `POST /orgs/:org/recovery/requests/:id/box`: the member's root sealed to the recovery key, for the organiser answering their request. The member is mailed. */
+export interface OrgRecoveryBoxResponse {
+  accountId: string;
+  generation: number;
+  box: OrgBox;
+}
+
+/** `POST /orgs/:org/recovery/requests/:id/handover`: the root, from the organiser's member key to the request's browser key. */
+export interface OrgRecoveryHandoverRequest {
+  box: OrgBox;
+}
+
+// --- /auth/family-recovery: a member asking their family's organiser --------
+
+export interface FamilyRecoveryCodeRequest {
+  email: string;
+}
+
+/**
+ * `POST /auth/family-recovery`: the code mailed to the address, and the key
+ * the new browser made for this request. Answered only for an account in a
+ * family whose organisers hold its root.
+ */
+export interface FamilyRecoveryAskRequest {
+  email: string;
+  code: string;
+  browserKey: string;
+  /** On an account with a second step: the code its authenticator app shows. Without it, nobody is asked. */
+  secondStep?: { code: string };
+}
+
+/**
+ * `POST /auth/family-recovery` on an account with a second step, asked
+ * without it: nothing was asked of anyone, and the emailed code stands for
+ * the request that brings the code (`secondStep`).
+ */
+export interface FamilyRecoveryStepRequired {
+  secondStep: true;
+}
+
+export interface FamilyRecoveryAskResponse {
+  id: string;
+  /** What the browser shows again for each step of this request: a secret, never in a URL. */
+  ticket: string;
+  accountId: string;
+  orgId: string;
+  orgName: string;
+  expiresAt: number;
+  /** Who can help, each with their member key as the server says, for the code each should see. */
+  organisers: { accountId: string; email: string; name: string | null; memberKey: string }[];
+}
+
+/** `POST /auth/family-recovery/:id`: where the request stands. */
+export interface FamilyRecoveryStatusRequest {
+  ticket: string;
+}
+
+export interface FamilyRecoveryStatusResponse {
+  expiresAt: number;
+  /** Once an organiser handed the root over: who, and the box. */
+  handover: { organiserId: string; box: OrgBox } | null;
+  /** Once handed over: what is sealed to the root now, to be sealed again to the next one. */
+  keys: FamilyRecoveryKeys | null;
+}
+
+export interface FamilyRecoveryKeys {
+  accountId: string;
+  /** A password account chooses a new password; one without wraps the new root under the recovery key alone. */
+  method: 'password' | 'provider';
+  root: { publicKey: string; generation: number };
+  /** Every product's box, as the account page sees them. */
+  products: { product: string; box: ProductBox; keyGeneration: number; rootGeneration: number }[];
+  /** The member key of each organisation the account is in, sealed to the root. */
+  memberRootBoxes: { orgId: string; box: OrgBox }[];
+  /** Keyrook Authenticator's older builds still open a wrap under the password. */
+  olderAuthenticator: 'active' | 'retired';
+}
+
+/**
+ * `POST /auth/family-recovery/:id/finish`: the root replaced at once, as the
+ * account page replaces it, with what proves the handed root is the
+ * account's (`previousRootCheck`), and a session for the page.
+ */
+export interface FamilyRecoveryFinishRequest {
+  ticket: string;
+  previousRootCheck: string;
+  publicKey: string;
+  rootCheck: string;
+  passwordWrap: SealedBox | null;
+  recoveryWrap: SealedBox;
+  recoveryAuthHash: string;
+  products: { product: string; box: ProductBox; pin: SealedBox; keyCheck: string; keyGeneration: number }[];
+  memberRootBoxes: { orgId: string; box: OrgBox }[];
+  /** A password account's new password. */
+  newPassword?: { authHash: string; kdf: AccountKdfParams };
+  deviceId: string;
+  deviceName: string;
 }

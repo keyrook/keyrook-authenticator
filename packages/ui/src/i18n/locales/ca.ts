@@ -19,6 +19,8 @@ export const ca: Dictionary = {
   'error.noAccountSheet': 'Aquest compte encara no té clau de recuperació. Creeu-ne una a la pàgina del compte.',
   'error.recoveryKeyWrong': 'Aquesta clau de recuperació no correspon a aquest compte.',
   'error.noRecoveryKit': 'Aquesta caixa forta no té clau de recuperació.',
+  'error.accountData.withheld':
+    'Firefox no ha permès que Keyrook Authenticator enviï res a un compte de Keyrook, així que no s’ha enviat res. Permeteu-ho quan Firefox us ho demani, o des d’about:addons.',
   'error.syncUnavailable': 'La sincronització no està disponible en aquesta versió.',
   'error.notSignedIn': 'No heu iniciat la sessió.',
   'error.alreadySignedIn': 'Ja heu iniciat la sessió.',
@@ -43,6 +45,7 @@ export const ca: Dictionary = {
   'error.noActiveTab': 'No hi ha cap pestanya activa.',
   'error.autofillNotHere': 'L’emplenament automàtic només funciona en pàgines web normals.',
   'error.autofillBlocked': 'Chrome no ha deixat que l’extensió llegeixi aquesta pàgina. Obriu la finestra emergent des de la pàgina que voleu emplenar.',
+  'error.autofillBlocked.firefox': 'Firefox no ha deixat que l’extensió llegeixi aquesta pàgina. Obriu la finestra emergent des de la pàgina que voleu emplenar.',
   'error.signinCancelled': 'S’ha cancel·lat l’inici de sessió.',
   'error.signinStateMismatch': 'L’inici de sessió no ha tornat tal com havia sortit. Torneu-ho a provar.',
   'error.signinUnfinished': 'L’inici de sessió no s’ha completat. Torneu-ho a provar.',
@@ -294,6 +297,7 @@ export const ca: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator us és útil?</b> Una valoració a {store} ajuda altres persones a trobar-lo.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Ara no',
   'rate.rate': 'Valora',
 
@@ -308,6 +312,7 @@ export const ca: Dictionary = {
   'add.camera.title': 'Escaneja amb la càmera',
   'add.camera.description': 'Per a un codi al telèfon, incloses les exportacions de Google Authenticator.',
   'add.camera.elsewhere': 'Obre Configuració una vegada perquè Chrome pugui demanar la càmera. Després funciona directament aquí.',
+  'add.camera.elsewhere.firefox': 'Obre Configuració una vegada perquè Firefox pugui demanar la càmera. Després funciona directament aquí.',
   'add.upload.title': 'Puja una imatge d’un codi QR',
   'add.upload.description': 'Una captura de pantalla o una foto que hàgiu desat abans.',
   'add.manual.title': 'Introdueix la clau de configuració a mà',
@@ -319,6 +324,8 @@ export const ca: Dictionary = {
   'common.done': 'Fet',
   'add.noNativeReader':
     'Chrome no té lector de QR integrat en aquest ordinador, així que sovint la càmera no pot escanejar un codi gran, com una exportació de Google Authenticator. Si no funciona, feu una captura de pantalla al telèfon i feu servir Puja una imatge d’un codi QR.',
+  'add.noNativeReader.firefox':
+    'Firefox no té lector de QR integrat en aquest ordinador, així que sovint la càmera no pot escanejar un codi gran, com una exportació de Google Authenticator. Si no funciona, feu una captura de pantalla al telèfon i feu servir Puja una imatge d’un codi QR.',
   'add.openScannerInSettings': 'Obre l’escàner a Configuració',
   'add.noneFound': 'No s’ha trobat cap compte.',
   'add.noQrOnPage': 'No hi ha cap codi QR a la part visible de la pàgina. Desplaceu-vos fins que sigui visible i torneu-ho a provar.',
@@ -362,6 +369,7 @@ export const ca: Dictionary = {
     'Manteniu el codi QR dins del requadre. Veniu de Google Authenticator? Obriu-ne la pantalla d’exportació al telèfon i apunteu-hi la càmera; si hi ha diversos codis, mostreu-los un rere l’altre.',
   'camera.privacy': 'La imatge es llegeix en aquest dispositiu i es descarta. No s’enregistra ni es puja res.',
   'camera.blocked': 'Chrome ha bloquejat la càmera. Permeteu-la per a aquesta pàgina o afegiu el compte d’una altra manera.',
+  'camera.blocked.firefox': 'Firefox ha bloquejat la càmera. Permeteu-la per a aquesta pàgina o afegiu el compte d’una altra manera.',
   'camera.none': 'No s’ha trobat cap càmera en aquest ordinador.',
   'camera.busy': 'Un altre programa està fent servir la càmera.',
 
@@ -465,6 +473,8 @@ export const ca: Dictionary = {
   'about.fact.access.title': 'Sense accés general als llocs web',
   'about.fact.access.body':
     'Aquesta extensió no demana permisos de llocs web. Llegir un codi QR d’una pàgina o introduir-hi un codi fa servir activeTab, un permís que Chrome dona només per a la pestanya on heu obert l’extensió.',
+  'about.fact.access.body.firefox':
+    'Aquesta extensió no demana permisos de llocs web. Llegir un codi QR d’una pàgina o introduir-hi un codi fa servir activeTab, un permís que Firefox dona només per a la pestanya on heu obert l’extensió.',
   'about.fact.standards.title': 'Estàndards, no captivitat',
   'about.fact.standards.body': 'TOTP RFC 6238 i HOTP RFC 4226, amb importació i exportació otpauth://. Podeu passar a una altra aplicació quan vulgueu i endur-vos-ho tot.',
   'about.version': 'Versió {version}',
@@ -485,6 +495,7 @@ export const ca: Dictionary = {
   'about.logos.body':
     '{count} serveis tenen una marca real. Gràfics de <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons i <fa>Font Awesome Free</fa> (icones, CC BY 4.0). Tots els noms de productes i logotips pertanyen als seus propietaris i només s’utilitzen per identificar el servei d’un compte. Un servei sense marca en aquestes col·leccions rep un mosaic amb una lletra.',
   'about.shortcut.change': 'Canvieu-la a chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Canvieu-la a about:addons.',
   'accounts.title': 'Comptes',
   'accounts.description': 'Tot el que hi ha desat en aquesta caixa forta. Els codis es generen en aquest dispositiu, mai al servidor.',
   'accounts.empty': 'Encara no hi ha comptes. Afegiu-ne un per començar.',
@@ -535,6 +546,8 @@ export const ca: Dictionary = {
   'import.stopAndReview': 'Atura i revisa {count}',
   'import.noNativeReader':
     'Chrome no té lector de QR integrat en aquest ordinador, així que sovint la càmera no pot escanejar un codi gran, com una exportació de Google Authenticator. Si no funciona, feu una captura de cada codi al telèfon i trieu-les totes amb Tria fitxers.',
+  'import.noNativeReader.firefox':
+    'Firefox no té lector de QR integrat en aquest ordinador, així que sovint la càmera no pot escanejar un codi gran, com una exportació de Google Authenticator. Si no funciona, feu una captura de cada codi al telèfon i trieu-les totes amb Tria fitxers.',
   'import.encrypted': 'Aquesta còpia de seguretat està xifrada. Introduïu la contrasenya amb què es va crear.',
   'import.backupPassword': 'Contrasenya de la còpia de seguretat',
   'import.open': 'Obre la còpia de seguretat',
@@ -750,10 +763,16 @@ export const ca: Dictionary = {
   },
   'account.signOutNote': 'Tancar la sessió elimina els vostres codis d’aquest navegador. Es queden al vostre compte de Keyrook: torneu a iniciar la sessió per recuperar-los.',
   'accountPage.title': 'El vostre compte de Keyrook',
-  'accountPage.body': 'La contrasenya, la clau de recuperació, començar de nou i suprimir el compte són a la pàgina del compte, per a totes les apps de Keyrook alhora.',
-  'accountPage.bodyNoRoot': 'La contrasenya i suprimir el compte són a la pàgina del compte. La clau de recuperació es crea aquí, a Seguretat, fins que una altra app de Keyrook faci servir el compte.',
-  'accountPage.bodyProvider': 'La clau de recuperació, començar de nou i suprimir el compte són a la pàgina del compte, per a totes les apps de Keyrook alhora.',
-  'accountPage.bodyNoRootProvider': 'Suprimir el compte és a la pàgina del compte. La clau de recuperació es crea aquí, a Seguretat, fins que una altra app de Keyrook faci servir el compte.',
+  'accountPage.body': 'L’adreça, la contrasenya, la clau de recuperació, començar de nou i suprimir el compte són a la pàgina del compte, per a totes les apps de Keyrook alhora.',
+  'accountPage.bodyNoRoot': 'L’adreça, la contrasenya i suprimir el compte són a la pàgina del compte. La clau de recuperació es crea aquí, a Seguretat, fins que una altra app de Keyrook faci servir el compte.',
+  'accountPage.bodyProvider': 'L’adreça, la clau de recuperació, començar de nou i suprimir el compte són a la pàgina del compte, per a totes les apps de Keyrook alhora.',
+  'accountPage.bodyNoRootProvider': 'L’adreça i suprimir el compte són a la pàgina del compte. La clau de recuperació es crea aquí, a Seguretat, fins que una altra app de Keyrook faci servir el compte.',
+  'accountPage.address': 'Adreça electrònica',
+  'accountPage.changeAddress': 'Canvia l’adreça',
+  'accountPage.activity': 'Activitat recent',
+  'accountPage.activityBody': 'Els inicis de sessió i els canvis al vostre compte dels últims 90 dies, amb el dispositiu, l’app i el país, a la pàgina del compte.',
+  'accountPage.data': 'Dades del compte',
+  'accountPage.dataBody': 'Baixeu des de la pàgina del compte el que el servidor de Keyrook guarda sobre el vostre compte. Els vostres codis no hi són: el servidor només els guarda xifrats. Exporteu-los a Còpia de seguretat.',
   'sheetCheck.lead': 'Escriviu una vegada la clau de recuperació que vau desar, perquè aquesta app sàpiga que pot recuperar els vostres codis. Es comprova en aquest dispositiu i no s’envia enlloc.',
   'sheetCheck.submit': 'Comprova-la',
   'sheetCheck.lost': 'L’heu perduda o no n’heu tingut mai cap? Creeu-ne una de nova a la pàgina del compte.',
@@ -799,12 +818,8 @@ export const ca: Dictionary = {
   'password.change': 'Canvia la contrasenya…',
   'password.formTitle': 'Canvieu la contrasenya del compte',
   'devices.title': 'Dispositius amb la sessió iniciada',
-  'devices.description':
-    'Tanqueu la sessió d’un dispositiu que ja no feu servir o que ja no teniu. Si hi funciona un Keyrook Authenticator actualitzat, la propera vegada que es connecti n’eliminarà els codis d’aquest compte i només conservarà el que no hagi enviat mai. Fins aleshores, o si no es torna a connectar mai, conserva el que tenia, bloquejat amb la mateixa contrasenya.',
-  'devices.descriptionProvider':
-    'Tanqueu la sessió d’un dispositiu que ja no feu servir o que ja no teniu. Si hi funciona un Keyrook Authenticator actualitzat, la propera vegada que es connecti n’eliminarà els codis d’aquest compte i només conservarà el que no hagi enviat mai. Fins aleshores, o si no es torna a connectar mai, conserva el que tenia, bloquejat tal com hi està bloquejada la caixa forta.',
-  'devices.this': 'Aquest dispositiu',
-  'devices.when': 'Sessió iniciada el {created} · darrera activitat {seen}',
+  'devices.onAccountPage':
+    'Consulteu tots els dispositius amb la sessió iniciada al vostre compte, i tanqueu-ne la sessió o suprimiu-ne un, a la pàgina del compte.',
   'removed.kept': 'Els codis afegits o canviats aquí que no havien arribat al compte encara hi són.',
   'delete.row': 'Suprimeix el compte',
   'delete.rowDescription': 'Elimina totes les còpies xifrades del servidor. Aquest dispositiu conserva la caixa forta tal com és; els altres deixen de sincronitzar-se.',
@@ -947,6 +962,7 @@ export const ca: Dictionary = {
   'backup.choice.import.title': 'Importa',
   'backup.choice.import.body': 'D’una còpia de seguretat, de l’exportació d’una altra aplicació o d’enllaços otpauth://.',
   'backup.choice.move.body': 'Codis de transferència, una pàgina per imprimir o un fitxer llegible. Sense xifrar.',
+  'backup.accountData': 'Només Keyrook Authenticator pot exportar els vostres codis: el servidor els guarda xifrats. El que el servidor guarda sobre el vostre compte, sense codis ni claus, es baixa des de la pàgina del compte.',
   'security.description': 'Com s’obre aquesta caixa forta i el vostre camí de tornada si perdeu aquest navegador.',
   'security.deviceKeyHint': 'Res a escriure. No atura el programari maliciós que s’executi com si fóssiu vosaltres en aquest ordinador.',
   'security.passwordHint': 'Es demana cada vegada que la caixa forta es bloqueja.',
@@ -1016,10 +1032,6 @@ export const ca: Dictionary = {
   'about.fact.keys.body.phone':
     'Els vostres comptes estan xifrats amb una clau de dades, que al seu torn està embolcallada amb una altra clau. Amb contrasenya mestra, la clau d’embolcall surt de PBKDF2 amb 600.000 iteracions i només existeix a la memòria mentre la caixa forta està desbloquejada. Sense contrasenya, és una clau segellada pel magatzem de claus del mateix telèfon, de manera que una còpia dels fitxers de l’aplicació no pot obrir la caixa forta.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Sovint la càmera no pot escanejar aquí un codi gran, com una exportació de Google Authenticator. Si no funciona, feu-ne una foto amb l’aplicació de càmera del telèfon i feu servir Puja una imatge d’un codi QR.',
-  'import.noNativeReader.phone':
-    'Sovint la càmera no pot escanejar aquí un codi gran, com una exportació de Google Authenticator. Si no funciona, feu una foto de cada codi amb l’aplicació de càmera del telèfon i trieu-les totes amb Tria fitxers.',
   'error.signOutUnsynced.phone':
     'Alguns canvis d’aquest telèfon encara no han arribat al vostre compte, i tancar la sessió ara els perdria. Connecteu-vos a internet i torneu-ho a provar.',
   'account.signOutNote.phone':

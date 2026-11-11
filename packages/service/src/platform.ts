@@ -45,10 +45,21 @@ export interface Platform {
   readonly clientId: string;
   /**
    * Where that sign-in comes back: to the extension, at its chromiumapp.org
-   * address or its own tab — the default — or to an app, at its own scheme
-   * (`<clientId>:/oauth`), which only a server that says so can do.
+   * address or its own tab — the default; to the extension by the browser's
+   * sign-in window alone — Firefox, which lets no web page message an
+   * extension, so the server's return page cannot reach a tab; or to an app,
+   * at its own scheme (`<clientId>:/oauth`), which only a server that says so
+   * can do.
    */
-  readonly signInReturn?: 'extension' | 'app';
+  readonly signInReturn?: 'extension' | 'window' | 'app';
+  /**
+   * Whether the person has let this build send anything to the account, where
+   * the platform asks: Firefox's data consent, which a listed add-on must ask
+   * before what it declares leaves the browser, and which can be taken back at
+   * any time in about:addons. Asked before every request; while it says no,
+   * nothing is sent. Absent: nothing to ask.
+   */
+  readonly accountDataAllowed?: (() => Promise<boolean>) | undefined;
   /**
    * What this build calls itself to the server, before its version:
    * `authenticator` unless it says otherwise. A phone app says

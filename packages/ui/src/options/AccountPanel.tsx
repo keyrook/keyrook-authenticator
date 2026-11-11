@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import {
   accountCodeItem,
   liveItems,
-  type DeviceSummary,
   type SignInProvider,
   type VaultData,
 } from '@authx/core';
@@ -10,10 +9,22 @@ import { host } from '../host.js';
 import { send, type KeptArchive, type ProviderToPassword, type SignInResult, type SyncSummary } from '../lib/protocol.js';
 import { accountPageUrl, type AccountPageView } from '../lib/links.js';
 import { Button, Callout, Field, Spinner } from '../components/primitives.js';
+import {
+  DevicesIcon,
+  DownloadIcon,
+  ExternalIcon,
+  HistoryIcon,
+  MailIcon,
+  SignOutIcon,
+  SyncIcon,
+  TrashIcon,
+  UserIcon,
+} from '../components/icons.js';
 import { RecoveryKeySheet } from './RecoveryKeySheet.js';
 import { PasswordField } from '../components/password.js';
 import { PageHeader, Row, Section } from './Section.js';
 import { FreshRecoveryKey, SignedInWelcome, SyncAuth, type BackupCount } from './SyncAuth.js';
+import { askToSend } from './auth-ui.js';
 import { PairingRequests, ProviderMark, providerLabel } from './ProviderSignIn.js';
 import { RemovedFromAccount } from '../components/RemovedFromAccount.js';
 import { StartOverWaiting } from '../components/StartOverWaiting.js';
@@ -102,6 +113,7 @@ export function AccountPanel({
         syncError={welcome.syncError}
         onRetry={async () => {
           try {
+            await askToSend();
             const sync = await send({ type: 'account/sync' });
             setWelcome({ ...welcome, sync, syncError: null });
           } catch (cause) {
@@ -183,7 +195,6 @@ export function AccountPanel({
       {signedIn ? (
         <>
           <KeptSection />
-          <DevicesSection provider={providerAccount} />
           <SecondStepSection data={data} />
           <AccountPageSection rooted={Boolean(data.account.keys)} provider={providerAccount} />
         </>
@@ -215,7 +226,7 @@ function LocalVaultFacts({ compact = false }: { compact?: boolean }) {
   // beneath a centred card reads as two unrelated pages.
   if (compact) {
     return (
-      <div className="mx-auto w-full max-w-[400px]">
+      <div className="kr-explain mx-auto w-full max-w-[400px]">
         <p className="mb-2 px-1 text-[12px] font-medium text-neutral-600 dark:text-neutral-400">
           {t('facts.withoutAccount')}
         </p>
@@ -276,12 +287,34 @@ function SignedIn({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5">
-          <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
-          <div>
-            <p className="text-[13px] font-medium">{data.account.email}</p>
+      {/* Wraps: in a narrow window, or on a phone set to large text, the
+          buttons were pushed past the card's edge, out of reach. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+        <div className="flex min-w-0 items-center gap-2.5 app:w-full app:gap-4">
+          {/* On a phone, whose account it is, as an app shows it: its initial. */}
+          <span className="hidden h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-500 text-[20px] font-medium text-white uppercase app:grid">
+            {data.account.email?.slice(0, 1)}
+          </span>
+          <span className="inline-block h-2 w-2 shrink-0 rounded-full bg-green-500 app:hidden" />
+          <div className="min-w-0">
+            <div className="flex min-w-0 items-baseline gap-2">
+              <p className="truncate text-[13px] font-medium app:text-[14.5px]" title={data.account.email ?? undefined}>
+                {data.account.email}
+              </p>
+              {/* Beside the address, where someone looks to change it. A
+                  phone lists it with the page's other views below instead,
+                  as an item a finger can hit. */}
+              <a
+                href={accountPageUrl('profile')}
+                target="_blank"
+                rel="noreferrer"
+                className="shrink-0 text-[12px] font-medium text-brand-600 hover:underline app:hidden dark:text-brand-400"
+              >
+                {t('accountPage.changeAddress')}
+              </a>
+            </div>
             <p className="mt-0.5 text-[12px] text-neutral-600 dark:text-neutral-400">
+              <span className="me-1.5 hidden h-2 w-2 rounded-full bg-green-500 align-middle app:inline-block" aria-hidden="true" />
               {provider && (
                 <>
                   <ProviderMark provider={provider} className="me-1 inline h-3 w-3 align-[-1px]" />
@@ -295,15 +328,29 @@ function SignedIn({
             </p>
           </div>
         </div>
-        <div className="flex gap-2">
+        {/* Side by side while both fit whole, one under the other once a
+            phone's text is too large for that. */}
+        <div className="flex flex-wrap gap-2 app:w-full">
           <Button
             disabled={busy}
-            onClick={() => run(async () => setSummary(await send({ type: 'account/sync' })))}
+            className="app:flex-1 app:basis-36 app:rounded-full app:whitespace-nowrap!"
+            // Firefox asks again here if its leave was taken back in about:addons.
+            onClick={() =>
+              run(async () => {
+                await askToSend();
+                setSummary(await send({ type: 'account/sync' }));
+              })
+            }
           >
-            {busy ? <Spinner /> : null} {t('account.syncNow')}
+            {busy ? <Spinner /> : <SyncIcon className="hidden app:inline" />} {t('account.syncNow')}
           </Button>
-          <Button variant="ghost" disabled={busy} onClick={() => run(() => send({ type: 'account/signOut' }))}>
-            {t('account.signOut')}
+          <Button
+            variant="ghost"
+            disabled={busy}
+            className="app:flex-1 app:basis-36 app:rounded-full app:whitespace-nowrap! app:text-red-600 app:ring-1 app:ring-neutral-300 dark:app:text-red-300 dark:app:ring-neutral-700"
+            onClick={() => run(() => send({ type: 'account/signOut' }))}
+          >
+            <SignOutIcon className="hidden app:inline" /> {t('account.signOut')}
           </Button>
         </div>
       </div>
@@ -360,98 +407,10 @@ function SignedIn({
         </Callout>
       )}
 
-      <p className="text-[12px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+      <p className="kr-explain text-[12px] leading-relaxed text-neutral-600 dark:text-neutral-400">
         {t('account.signOutNote')}
       </p>
     </div>
-  );
-}
-
-/**
- * Every device signed in to the account, and a way to sign one out from here —
- * the answer to a lost or sold laptop that is still signed in.
- */
-function DevicesSection({ provider }: { provider: boolean }) {
-  const t = useT();
-  const [devices, setDevices] = useState<DeviceSummary[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState<string | null>(null);
-
-  const load = useCallback(async () => {
-    try {
-      setDevices(await send({ type: 'account/devices' }));
-      setError(null);
-    } catch (cause) {
-      setError(errorText(cause));
-    }
-  }, []);
-
-  useEffect(() => {
-    void load();
-  }, [load]);
-
-  async function revoke(id: string) {
-    setBusy(id);
-    try {
-      await send({ type: 'account/revokeDevice', id });
-      await load();
-    } catch (cause) {
-      setError(errorText(cause));
-    } finally {
-      setBusy(null);
-    }
-  }
-
-  return (
-    <Section
-      title={t('devices.title')}
-      // A Google or GitHub account has no password for a signed-out device to
-      // stay behind: what it kept is only as locked as its own vault there.
-      description={t(provider ? 'devices.descriptionProvider' : 'devices.description')}
-    >
-      <div className="flex flex-col divide-y divide-neutral-100 dark:divide-neutral-900">
-        {error && (
-          <div className="p-4">
-            <Callout tone="danger">{error}</Callout>
-          </div>
-        )}
-        {!devices && !error && (
-          <div className="p-4">
-            <Spinner className="h-4 w-4 text-neutral-400" />
-          </div>
-        )}
-        {devices?.map((device) => (
-          <div key={device.id} className="flex items-center justify-between gap-4 px-4 py-3">
-            <div>
-              <p className="text-[13px] font-medium">
-                {device.name}
-                {device.current && (
-                  <span className="ms-2 rounded-md bg-green-50 px-1.5 py-0.5 text-[11px] font-medium text-green-700 dark:bg-green-500/10 dark:text-green-300">
-                    {t('devices.this')}
-                  </span>
-                )}
-              </p>
-              <p className="mt-0.5 text-[12px] text-neutral-600 dark:text-neutral-400">
-                {t('devices.when', {
-                  created: new Date(device.createdAt).toLocaleDateString(t.locale),
-                  seen: new Date(device.lastSeenAt).toLocaleString(t.locale),
-                })}
-              </p>
-            </div>
-            {!device.current && (
-              <Button
-                size="sm"
-                variant="ghost"
-                disabled={busy !== null}
-                onClick={() => void revoke(device.id)}
-              >
-                {busy === device.id ? <Spinner /> : null} {t('account.signOut')}
-              </Button>
-            )}
-          </div>
-        ))}
-      </div>
-    </Section>
   );
 }
 
@@ -467,26 +426,96 @@ export function sheetProtects(data: VaultData, accountRecovery: boolean): boolea
 }
 
 /**
- * The account itself — its password, its recovery key, starting it over,
+ * The account itself — its address, its password, its recovery key, its
+ * recent activity, a download of what the server holds, starting it over,
  * deleting it — is managed on the account page, for every Keyrook app at
- * once. This app keeps signing in, and what only it can do. An account
- * without a root is the exception: the page changes its password, if it has
- * one, and deletes it, and its recovery key is this app's, under Security.
+ * once. This app keeps signing in, and what only it can do; it links to the
+ * rest and never makes those requests itself. An account without a root is
+ * the exception: the page changes its password, if it has one, and deletes
+ * it, and its recovery key is this app's, under Security.
  */
 function AccountPageSection({ rooted, provider }: { rooted: boolean; provider: boolean }) {
   const t = useT();
+  if (host().device === 'phone') {
+    return (
+      <Section>
+        <AccountPageItem view="profile" icon={<MailIcon />}>
+          {t('accountPage.address')}
+        </AccountPageItem>
+        <AccountPageItem view="devices" icon={<DevicesIcon />}>
+          {t('devices.title')}
+        </AccountPageItem>
+        <AccountPageItem view="activity" icon={<HistoryIcon />}>
+          {t('accountPage.activity')}
+        </AccountPageItem>
+        <AccountPageItem view="data" icon={<DownloadIcon />}>
+          {t('accountPage.data')}
+        </AccountPageItem>
+        <AccountPageItem icon={<UserIcon />}>{t('accountPage.title')}</AccountPageItem>
+        {/* Google Play asks every app that makes accounts for a way to delete
+            one from inside it. The phone hides the sentence that says the
+            page does it, so the way is a row of its own: Your data, where the
+            page keeps deleting the account. */}
+        <AccountPageItem view="data" icon={<TrashIcon />}>
+          {t('delete.row')}
+        </AccountPageItem>
+      </Section>
+    );
+  }
   // A Google or GitHub account has no password to point to.
   const body = provider
     ? rooted ? t('accountPage.bodyProvider') : t('accountPage.bodyNoRootProvider')
     : rooted ? t('accountPage.body') : t('accountPage.bodyNoRoot');
+  // Every row's button has the same words, so each row names its group.
   return (
     <Section>
+      {/* Listed, signed out and removed there, for every Keyrook app at once:
+          a list of its own here was a second place to do the same thing. */}
+      <Row
+        label={t('devices.title')}
+        name={t('devices.title')}
+        description={t('devices.onAccountPage')}
+        control={<AccountPageLink view="devices">{t('accountPage.open')}</AccountPageLink>}
+      />
+      <Row
+        label={t('accountPage.activity')}
+        name={t('accountPage.activity')}
+        description={t('accountPage.activityBody')}
+        control={<AccountPageLink view="activity">{t('accountPage.open')}</AccountPageLink>}
+      />
+      {/* Not this app's export: the server's download holds no codes and no
+          keys, which is said here so nobody takes it for a backup. */}
+      <Row
+        label={t('accountPage.data')}
+        name={t('accountPage.data')}
+        description={t('accountPage.dataBody')}
+        control={<AccountPageLink view="data">{t('accountPage.open')}</AccountPageLink>}
+      />
       <Row
         label={t('accountPage.title')}
+        name={t('accountPage.title')}
         description={body}
         control={<AccountPageLink>{t('accountPage.open')}</AccountPageLink>}
       />
     </Section>
+  );
+}
+
+/** On a phone, a page of the account page as an item of the list, marked as leaving the app. */
+function AccountPageItem({ children, icon, view }: { children: ReactNode; icon: ReactNode; view?: AccountPageView }) {
+  return (
+    <a
+      href={accountPageUrl(view)}
+      target="_blank"
+      rel="noreferrer"
+      className="my-0 flex items-center gap-4 border-b border-neutral-100 px-4 py-3 last:border-b-0 active:bg-neutral-100 dark:border-neutral-800 dark:active:bg-neutral-800"
+    >
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-neutral-100 text-[20px] text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200">
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1 text-[14.5px]">{children}</span>
+      <ExternalIcon className="shrink-0 text-[20px] text-neutral-400 dark:text-neutral-500" />
+    </a>
   );
 }
 
@@ -496,7 +525,7 @@ export function AccountPageLink({ children, view }: { children: ReactNode; view?
       href={accountPageUrl(view)}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex h-8 shrink-0 items-center rounded-lg bg-neutral-100 px-3 text-[13px] font-medium text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
+      className="inline-flex min-h-8 shrink-0 items-center rounded-lg bg-neutral-100 px-3 py-1.5 text-[13px] font-medium app:min-h-11 text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
     >
       {children}
     </a>
@@ -523,10 +552,13 @@ function SecondStepSection({ data }: { data: VaultData }) {
   return (
     <Section title={t('secondStepTip.title')}>
       <div className="flex flex-col gap-3 p-4">
-        <p className="max-w-[68ch] text-[13px] leading-relaxed text-neutral-600 dark:text-neutral-300">
+        <p className="kr-explain max-w-[68ch] text-[13px] leading-relaxed text-neutral-600 dark:text-neutral-300">
           {kept ? t('secondStepTip.kept') : t('secondStepTip.suggest', { scan: t('add.page.title') })}
         </p>
-        <Callout tone="warning">{t('secondStepTip.warning')}</Callout>
+        {/* On a phone, said once the code is kept here and there is something to lose. */}
+        <div className={kept ? undefined : 'kr-explain'}>
+          <Callout tone="warning">{t('secondStepTip.warning')}</Callout>
+        </div>
         {!kept && (
           <div>
             <AccountPageLink view="signin">{t('secondStepTip.open')}</AccountPageLink>

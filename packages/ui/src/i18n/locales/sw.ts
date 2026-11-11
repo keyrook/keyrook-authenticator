@@ -19,6 +19,8 @@ export const sw: Dictionary = {
   'error.noAccountSheet': 'Akaunti hii bado haina ufunguo wa kurejesha. Unda mmoja kwenye ukurasa wa akaunti.',
   'error.recoveryKeyWrong': 'Ufunguo huo wa kurejesha si wa akaunti hii.',
   'error.noRecoveryKit': 'Hifadhi hii haina ufunguo wa kurejesha.',
+  'error.accountData.withheld':
+    'Firefox haijaruhusu Keyrook Authenticator kutuma chochote kwenye akaunti ya Keyrook, kwa hivyo hakuna kilichotumwa. Ruhusu Firefox inapouliza, au kwenye about:addons.',
   'error.syncUnavailable': 'Usawazishaji haupatikani katika toleo hili.',
   'error.notSignedIn': 'Hujaingia.',
   'error.alreadySignedIn': 'Tayari umeingia.',
@@ -43,6 +45,7 @@ export const sw: Dictionary = {
   'error.noActiveTab': 'Hakuna kichupo kinachotumika.',
   'error.autofillNotHere': 'Kujaza kiotomatiki hufanya kazi kwenye kurasa za kawaida za wavuti pekee.',
   'error.autofillBlocked': 'Chrome haikuruhusu kiendelezi kusoma ukurasa huu. Fungua dirisha ibukizi kutoka ukurasa unaotaka kujaza.',
+  'error.autofillBlocked.firefox': 'Firefox haikuruhusu kiendelezi kusoma ukurasa huu. Fungua dirisha ibukizi kutoka ukurasa unaotaka kujaza.',
   'error.signinCancelled': 'Kuingia kumeghairiwa.',
   'error.signinStateMismatch': 'Kuingia hakukurudi kama kulivyoenda. Jaribu tena.',
   'error.signinUnfinished': 'Kuingia hakukukamilika. Jaribu tena.',
@@ -292,6 +295,7 @@ export const sw: Dictionary = {
   'rate.body': '<b>Je, Keyrook Authenticator inakusaidia?</b> Ukadiriaji kwenye {store} unasaidia wengine kuipata.',
   'rate.store.chrome': 'Duka la Chrome kwenye Wavuti',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Si sasa',
   'rate.rate': 'Kadiria',
 
@@ -306,6 +310,7 @@ export const sw: Dictionary = {
   'add.camera.title': 'Changanua kwa kamera',
   'add.camera.description': 'Kwa msimbo ulio kwenye simu — ikiwemo uhamishaji kutoka Google Authenticator.',
   'add.camera.elsewhere': 'Hufungua Mipangilio mara moja ili Chrome iweze kuomba kamera. Baada ya hapo hufanya kazi moja kwa moja hapa.',
+  'add.camera.elsewhere.firefox': 'Hufungua Mipangilio mara moja ili Firefox iweze kuomba kamera. Baada ya hapo hufanya kazi moja kwa moja hapa.',
   'add.upload.title': 'Pakia picha ya msimbo wa QR',
   'add.upload.description': 'Picha ya skrini au picha uliyohifadhi awali.',
   'add.manual.title': 'Weka ufunguo wa kuweka mipangilio wewe mwenyewe',
@@ -317,6 +322,8 @@ export const sw: Dictionary = {
   'common.done': 'Imekamilika',
   'add.noNativeReader':
     'Chrome kwenye kompyuta hii haina kisomaji cha QR kilichojengwa ndani, kwa hivyo msimbo mkubwa — kama uhamishaji wa Google Authenticator — mara nyingi hauwezi kuchanganuliwa kwa kamera. Ikishindikana, piga picha ya skrini kwenye simu na utumie Pakia picha ya msimbo wa QR.',
+  'add.noNativeReader.firefox':
+    'Firefox kwenye kompyuta hii haina kisomaji cha QR kilichojengwa ndani, kwa hivyo msimbo mkubwa — kama uhamishaji wa Google Authenticator — mara nyingi hauwezi kuchanganuliwa kwa kamera. Ikishindikana, piga picha ya skrini kwenye simu na utumie Pakia picha ya msimbo wa QR.',
   'add.openScannerInSettings': 'Fungua kichanganuzi kwenye Mipangilio',
   'add.noneFound': 'Hakuna akaunti zilizopatikana.',
   'add.noQrOnPage': 'Hakuna msimbo wa QR kwenye sehemu inayoonekana ya ukurasa. Usogeze uonekane kisha ujaribu tena.',
@@ -360,6 +367,7 @@ export const sw: Dictionary = {
     'Weka msimbo wa QR ndani ya fremu. Unahama kutoka Google Authenticator? Fungua skrini yake ya uhamishaji kwenye simu na uelekeze kamera kwake — ikiwa ina misimbo kadhaa, ionyeshe mmoja baada ya mwingine.',
   'camera.privacy': 'Picha husomwa kwenye kifaa hiki na kutupwa. Hakuna kinachorekodiwa wala kupakiwa.',
   'camera.blocked': 'Chrome imezuia kamera. Iruhusu kwa ukurasa huu, au ongeza akaunti kwa njia nyingine.',
+  'camera.blocked.firefox': 'Firefox imezuia kamera. Iruhusu kwa ukurasa huu, au ongeza akaunti kwa njia nyingine.',
   'camera.none': 'Hakuna kamera iliyopatikana kwenye kompyuta hii.',
   'camera.busy': 'Kamera inatumiwa na programu nyingine.',
 
@@ -463,6 +471,8 @@ export const sw: Dictionary = {
   'about.fact.access.title': 'Hakuna ufikiaji mpana wa tovuti',
   'about.fact.access.body':
     'Kiendelezi hiki hakiombi ruhusa zozote za tovuti. Kusoma msimbo wa QR kutoka ukurasa au kujaza msimbo ndani yake hutumia activeTab — ruhusa ambayo Chrome hutoa kwa kichupo ulichoendeshea kiendelezi pekee.',
+  'about.fact.access.body.firefox':
+    'Kiendelezi hiki hakiombi ruhusa zozote za tovuti. Kusoma msimbo wa QR kutoka ukurasa au kujaza msimbo ndani yake hutumia activeTab — ruhusa ambayo Firefox hutoa kwa kichupo ulichoendeshea kiendelezi pekee.',
   'about.fact.standards.title': 'Viwango, si kufungiwa',
   'about.fact.standards.body': 'RFC 6238 TOTP na RFC 4226 HOTP, pamoja na kuingiza na kuhamisha otpauth://. Unaweza kuhamia programu nyingine wakati wowote na kuchukua kila kitu.',
   'about.version': 'Toleo {version}',
@@ -483,6 +493,7 @@ export const sw: Dictionary = {
   'about.logos.body':
     'Huduma {count} zina nembo halisi. Michoro kutoka <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons na <fa>Font Awesome Free</fa> (aikoni, CC BY 4.0). Majina yote ya bidhaa na nembo ni mali ya wamiliki wake na hutumika tu kutambua huduma ya akaunti. Huduma isiyo na nembo kwenye mikusanyiko hiyo hupata kigae chenye herufi.',
   'about.shortcut.change': 'Ibadilishe kwenye chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Ibadilishe kwenye about:addons.',
   'accounts.title': 'Akaunti',
   'accounts.description': 'Kila kitu kilichohifadhiwa kwenye hifadhi hii. Misimbo hutengenezwa kwenye kifaa hiki, kamwe si kwenye seva.',
   'accounts.empty': 'Bado hakuna akaunti. Ongeza moja ili uanze.',
@@ -533,6 +544,8 @@ export const sw: Dictionary = {
   'import.stopAndReview': 'Simama na ukague {count}',
   'import.noNativeReader':
     'Chrome kwenye kompyuta hii haina kisomaji cha QR kilichojengwa ndani, kwa hivyo msimbo mkubwa — kama uhamishaji wa Google Authenticator — mara nyingi hauwezi kuchanganuliwa kwa kamera. Ikishindikana, piga picha ya skrini ya kila msimbo kwenye simu na uzichague zote kwa Chagua faili.',
+  'import.noNativeReader.firefox':
+    'Firefox kwenye kompyuta hii haina kisomaji cha QR kilichojengwa ndani, kwa hivyo msimbo mkubwa — kama uhamishaji wa Google Authenticator — mara nyingi hauwezi kuchanganuliwa kwa kamera. Ikishindikana, piga picha ya skrini ya kila msimbo kwenye simu na uzichague zote kwa Chagua faili.',
   'import.encrypted': 'Nakala rudufu hii imesimbwa. Weka nenosiri lililotumika kuitengeneza.',
   'import.backupPassword': 'Nenosiri la nakala rudufu',
   'import.open': 'Fungua nakala rudufu',
@@ -748,10 +761,16 @@ export const sw: Dictionary = {
   },
   'account.signOutNote': 'Kutoka huondoa misimbo yako kwenye kivinjari hiki. Inabaki katika akaunti yako ya Keyrook — ingia tena ili uirudishe.',
   'accountPage.title': 'Akaunti yako ya Keyrook',
-  'accountPage.body': 'Nenosiri, ufunguo wa kurejesha, kuanza upya na kufuta viko kwenye ukurasa wa akaunti, kwa programu zote za Keyrook kwa pamoja.',
-  'accountPage.bodyNoRoot': 'Nenosiri na kufuta viko kwenye ukurasa wa akaunti. Ufunguo wa kurejesha huundwa hapa, chini ya Usalama, hadi programu nyingine ya Keyrook itakapotumia akaunti.',
-  'accountPage.bodyProvider': 'Ufunguo wa kurejesha, kuanza upya na kufuta viko kwenye ukurasa wa akaunti, kwa programu zote za Keyrook kwa pamoja.',
-  'accountPage.bodyNoRootProvider': 'Kufuta kuko kwenye ukurasa wa akaunti. Ufunguo wa kurejesha huundwa hapa, chini ya Usalama, hadi programu nyingine ya Keyrook itakapotumia akaunti.',
+  'accountPage.body': 'Anwani, nenosiri, ufunguo wa kurejesha, kuanza upya na kufuta viko kwenye ukurasa wa akaunti, kwa programu zote za Keyrook kwa pamoja.',
+  'accountPage.bodyNoRoot': 'Anwani, nenosiri na kufuta viko kwenye ukurasa wa akaunti. Ufunguo wa kurejesha huundwa hapa, chini ya Usalama, hadi programu nyingine ya Keyrook itakapotumia akaunti.',
+  'accountPage.bodyProvider': 'Anwani, ufunguo wa kurejesha, kuanza upya na kufuta viko kwenye ukurasa wa akaunti, kwa programu zote za Keyrook kwa pamoja.',
+  'accountPage.bodyNoRootProvider': 'Anwani na kufuta viko kwenye ukurasa wa akaunti. Ufunguo wa kurejesha huundwa hapa, chini ya Usalama, hadi programu nyingine ya Keyrook itakapotumia akaunti.',
+  'accountPage.address': 'Anwani ya barua pepe',
+  'accountPage.changeAddress': 'Badilisha anwani',
+  'accountPage.activity': 'Shughuli za karibuni',
+  'accountPage.activityBody': 'Kuingia na mabadiliko kwenye akaunti yako katika siku 90 zilizopita, pamoja na kifaa, programu na nchi, kwenye ukurasa wa akaunti.',
+  'accountPage.data': 'Data ya akaunti',
+  'accountPage.dataBody': 'Pakua kutoka kwenye ukurasa wa akaunti kile ambacho seva ya Keyrook inahifadhi kuhusu akaunti yako. Misimbo yako haimo: seva inaihifadhi ikiwa imesimbwa tu. Ihamishe chini ya Nakala rudufu.',
   'sheetCheck.lead': 'Andika mara moja ufunguo wa kurejesha uliouhifadhi, ili programu hii ijue kuwa inaweza kurudisha misimbo yako. Unakaguliwa kwenye kifaa hiki na hautumwi popote.',
   'sheetCheck.submit': 'Kagua',
   'sheetCheck.lost': 'Umeupoteza, au hukuwahi kuwa nao? Unda mpya kwenye ukurasa wa akaunti.',
@@ -797,12 +816,8 @@ export const sw: Dictionary = {
   'password.change': 'Badilisha nenosiri…',
   'password.formTitle': 'Badilisha nenosiri la akaunti',
   'devices.title': 'Vifaa vilivyoingia',
-  'devices.description':
-    'Toa kifaa ambacho hukitumii tena au huna tena. Ikiwa kinaendesha Keyrook Authenticator iliyosasishwa, wakati ujao kitakapounganishwa kitaondoa chenyewe misimbo ya akaunti hii, na kubaki na kile ambacho hakijawahi kutuma tu. Hadi wakati huo, au kisipounganishwa tena kamwe, kinabaki na kile kilichokuwa nacho, kimefungwa kwa nenosiri lile lile.',
-  'devices.descriptionProvider':
-    'Toa kifaa ambacho hukitumii tena au huna tena. Ikiwa kinaendesha Keyrook Authenticator iliyosasishwa, wakati ujao kitakapounganishwa kitaondoa chenyewe misimbo ya akaunti hii, na kubaki na kile ambacho hakijawahi kutuma tu. Hadi wakati huo, au kisipounganishwa tena kamwe, kinabaki na kile kilichokuwa nacho, kimefungwa kama hifadhi yake ilivyofungwa kwenye kifaa hicho.',
-  'devices.this': 'Kifaa hiki',
-  'devices.when': 'Kiliingia {created} · kilitumika mwisho {seen}',
+  'devices.onAccountPage':
+    'Ona kila kifaa kilichoingia kwenye akaunti yako, na ukitoe au ukiondoe, kwenye ukurasa wa akaunti.',
   'removed.kept': 'Misimbo iliyoongezwa au kubadilishwa hapa ambayo haikufika kwenye akaunti bado iko hapa.',
   'delete.row': 'Futa akaunti',
   'delete.rowDescription': 'Huondoa kila nakala iliyosimbwa kwenye seva. Kifaa hiki kinabaki na hifadhi kama ilivyo; vifaa vingine huacha kusawazisha.',
@@ -945,6 +960,7 @@ export const sw: Dictionary = {
   'backup.choice.import.title': 'Ingiza',
   'backup.choice.import.body': 'Kutoka nakala rudufu, uhamishaji wa programu nyingine, au viungo vya otpauth://.',
   'backup.choice.move.body': 'Misimbo ya uhamishaji, ukurasa wa kuchapisha au faili inayosomeka. Haijasimbwa.',
+  'backup.accountData': 'Ni Keyrook Authenticator pekee inayoweza kuhamisha misimbo yako: seva inaihifadhi ikiwa imesimbwa. Kile ambacho seva inahifadhi kuhusu akaunti yako, bila misimbo wala funguo, hupakuliwa kutoka kwenye ukurasa wa akaunti.',
   'security.description': 'Jinsi hifadhi hii inavyofunguka, na njia yako ya kurudi ukipoteza kivinjari hiki.',
   'security.deviceKeyHint': 'Hakuna cha kuandika. Haizuii programu hasidi inayoendeshwa kama wewe kwenye kompyuta hii.',
   'security.passwordHint': 'Huombwa kila hifadhi inapojifunga.',
@@ -1013,10 +1029,6 @@ export const sw: Dictionary = {
   'about.fact.keys.body.phone':
     'Akaunti zako zimesimbwa kwa ufunguo wa data, ambao wenyewe umefungwa ndani ya ufunguo mwingine. Ukiwa na nenosiri kuu, ufunguo unaofunga hutokana na PBKDF2 yenye mizunguko 600,000 na huwa kwenye kumbukumbu tu wakati hifadhi imefunguliwa. Bila nenosiri, ni ufunguo uliotiwa muhuri na hifadhi ya funguo ya simu yenyewe, kwa hivyo nakala ya faili za programu haiwezi kufungua hifadhi.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Msimbo mkubwa — kama uhamishaji wa Google Authenticator — mara nyingi hauwezi kuchanganuliwa kwa kamera hapa. Ikishindikana, upige picha kwa programu ya kamera ya simu na utumie Pakia picha ya msimbo wa QR.',
-  'import.noNativeReader.phone':
-    'Msimbo mkubwa — kama uhamishaji wa Google Authenticator — mara nyingi hauwezi kuchanganuliwa kwa kamera hapa. Ikishindikana, piga picha ya kila msimbo kwa programu ya kamera ya simu na uzichague zote kwa Chagua faili.',
   'error.signOutUnsynced.phone':
     'Baadhi ya mabadiliko kwenye simu hii bado hayajafika kwenye akaunti yako, na kutoka sasa kungeyapoteza. Unganisha kwenye intaneti kisha ujaribu tena.',
   'account.signOutNote.phone':

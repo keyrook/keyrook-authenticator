@@ -19,6 +19,8 @@ export const fi: Dictionary = {
   'error.noAccountSheet': 'Tällä tilillä ei ole vielä palautusavainta. Luo sellainen tilisivulla.',
   'error.recoveryKeyWrong': 'Palautusavain ei kuulu tähän tiliin.',
   'error.noRecoveryKit': 'Tällä holvilla ei ole palautusavainta.',
+  'error.accountData.withheld':
+    'Firefox ei ole antanut Keyrook Authenticatorin lähettää mitään Keyrook-tilille, joten mitään ei lähetetty. Salli se, kun Firefox kysyy, tai kohdassa about:addons.',
   'error.syncUnavailable': 'Synkronointi ei ole käytettävissä tässä versiossa.',
   'error.notSignedIn': 'Et ole kirjautunut.',
   'error.alreadySignedIn': 'Olet jo kirjautunut.',
@@ -44,6 +46,7 @@ export const fi: Dictionary = {
   'error.noActiveTab': 'Ei aktiivista välilehteä.',
   'error.autofillNotHere': 'Automaattinen täyttö toimii vain tavallisilla verkkosivuilla.',
   'error.autofillBlocked': 'Chrome ei antanut laajennuksen lukea tätä sivua. Avaa ponnahdusikkuna sivulta, jonka haluat täyttää.',
+  'error.autofillBlocked.firefox': 'Firefox ei antanut laajennuksen lukea tätä sivua. Avaa ponnahdusikkuna sivulta, jonka haluat täyttää.',
   'error.signinCancelled': 'Kirjautuminen peruttiin.',
   'error.signinStateMismatch': 'Kirjautuminen ei palannut samanlaisena kuin lähti. Yritä uudelleen.',
   'error.signinUnfinished': 'Kirjautuminen jäi kesken. Yritä uudelleen.',
@@ -292,6 +295,7 @@ export const fi: Dictionary = {
   'rate.body': '<b>Onko Keyrook Authenticatorista hyötyä?</b> Arvio kohteessa {store} auttaa muita löytämään sen.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Edge-lisäosat',
+  'rate.store.firefox': 'Firefox-lisäosat',
   'rate.notNow': 'Ei nyt',
   'rate.rate': 'Arvioi',
 
@@ -306,6 +310,7 @@ export const fi: Dictionary = {
   'add.camera.title': 'Skannaa kameralla',
   'add.camera.description': 'Puhelimessa näkyvälle koodille — myös Google Authenticatorin viennille.',
   'add.camera.elsewhere': 'Avaa Asetukset kerran, jotta Chrome voi pyytää kameran käyttöä. Sen jälkeen se toimii suoraan tässä.',
+  'add.camera.elsewhere.firefox': 'Avaa Asetukset kerran, jotta Firefox voi pyytää kameran käyttöä. Sen jälkeen se toimii suoraan tässä.',
   'add.upload.title': 'Lataa QR-kuva',
   'add.upload.description': 'Aiemmin tallentamasi kuvakaappaus tai valokuva.',
   'add.manual.title': 'Anna määritysavain käsin',
@@ -317,6 +322,8 @@ export const fi: Dictionary = {
   'common.done': 'Valmis',
   'add.noNativeReader':
     'Tämän tietokoneen Chromessa ei ole sisäänrakennettua QR-lukijaa, joten suurta koodia — kuten Google Authenticatorin vientiä — ei usein voi skannata kameralla. Jos se ei onnistu, ota kuvakaappaus puhelimella ja käytä toimintoa Lataa QR-kuva.',
+  'add.noNativeReader.firefox':
+    'Tämän tietokoneen Firefoxissa ei ole sisäänrakennettua QR-lukijaa, joten suurta koodia — kuten Google Authenticatorin vientiä — ei usein voi skannata kameralla. Jos se ei onnistu, ota kuvakaappaus puhelimella ja käytä toimintoa Lataa QR-kuva.',
   'add.openScannerInSettings': 'Avaa skanneri Asetuksissa',
   'add.noneFound': 'Tilejä ei löytynyt.',
   'add.noQrOnPage': 'Sivun näkyvässä osassa ei ole QR-koodia. Vieritä se näkyviin ja yritä uudelleen.',
@@ -360,6 +367,7 @@ export const fi: Dictionary = {
     'Pidä QR-koodi kehyksen sisällä. Siirrätkö Google Authenticatorista? Avaa puhelimessa vientinäkymä ja osoita kameralla siihen — jos koodeja on useita, näytä ne yksi kerrallaan.',
   'camera.privacy': 'Kuva luetaan tällä laitteella ja hävitetään. Mitään ei tallenneta eikä ladata.',
   'camera.blocked': 'Chrome esti kameran käytön. Salli se tälle sivulle tai lisää tili muulla tavalla.',
+  'camera.blocked.firefox': 'Firefox esti kameran käytön. Salli se tälle sivulle tai lisää tili muulla tavalla.',
   'camera.none': 'Tietokoneesta ei löytynyt kameraa.',
   'camera.busy': 'Toinen ohjelma käyttää kameraa.',
 
@@ -463,6 +471,8 @@ export const fi: Dictionary = {
   'about.fact.access.title': 'Ei yleistä pääsyä sivustoille',
   'about.fact.access.body':
     'Laajennus ei pyydä sivustokohtaisia käyttöoikeuksia. QR-koodin lukeminen sivulta tai koodin täyttäminen siihen käyttää activeTab-oikeutta — Chrome antaa sen vain välilehdelle, jolla avasit laajennuksen.',
+  'about.fact.access.body.firefox':
+    'Laajennus ei pyydä sivustokohtaisia käyttöoikeuksia. QR-koodin lukeminen sivulta tai koodin täyttäminen siihen käyttää activeTab-oikeutta — Firefox antaa sen vain välilehdelle, jolla avasit laajennuksen.',
   'about.fact.standards.title': 'Standardeja, ei lukkiutumista',
   'about.fact.standards.body': 'RFC 6238 TOTP ja RFC 4226 HOTP, otpauth://-tuonti ja -vienti. Voit siirtyä toiseen sovellukseen milloin tahansa ja viedä kaiken mukanasi.',
   'about.version': 'Versio {version}',
@@ -483,6 +493,7 @@ export const fi: Dictionary = {
   'about.logos.body':
     '{count} palvelulla on oikea merkki. Grafiikka: <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons ja <fa>Font Awesome Free</fa> (kuvakkeet, CC BY 4.0). Kaikki tuotenimet ja logot kuuluvat omistajilleen, ja niitä käytetään vain kertomaan, mihin palveluun tili kuuluu. Palvelu, jolle ei löydy merkkiä, saa kirjainruudun.',
   'about.shortcut.change': 'Vaihda se osoitteessa chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Vaihda se osoitteessa about:addons.',
   'accounts.title': 'Tilit',
   'accounts.description': 'Kaikki holviin tallennettu. Koodit luodaan tällä laitteella, ei koskaan palvelimella.',
   'accounts.empty': 'Ei vielä tilejä. Lisää yksi aloittaaksesi.',
@@ -533,6 +544,8 @@ export const fi: Dictionary = {
   'import.stopAndReview': 'Pysähdy ja tarkista {count}',
   'import.noNativeReader':
     'Tämän tietokoneen Chromessa ei ole sisäänrakennettua QR-lukijaa, joten suurta koodia — kuten Google Authenticatorin vientiä — ei usein voi skannata kameralla. Jos se ei onnistu, ota jokaisesta koodista kuvakaappaus puhelimella ja valitse ne kaikki toiminnolla Valitse tiedostot.',
+  'import.noNativeReader.firefox':
+    'Tämän tietokoneen Firefoxissa ei ole sisäänrakennettua QR-lukijaa, joten suurta koodia — kuten Google Authenticatorin vientiä — ei usein voi skannata kameralla. Jos se ei onnistu, ota jokaisesta koodista kuvakaappaus puhelimella ja valitse ne kaikki toiminnolla Valitse tiedostot.',
   'import.encrypted': 'Varmuuskopio on salattu. Anna salasana, jolla se luotiin.',
   'import.backupPassword': 'Varmuuskopion salasana',
   'import.open': 'Avaa varmuuskopio',
@@ -746,10 +759,16 @@ export const fi: Dictionary = {
   },
   'account.signOutNote': 'Uloskirjautuminen poistaa koodisi tästä selaimesta. Ne pysyvät Keyrook-tililläsi — kirjaudu uudelleen sisään, niin saat ne takaisin.',
   'accountPage.title': 'Keyrook-tilisi',
-  'accountPage.body': 'Salasana, palautusavain, alusta aloittaminen ja poistaminen ovat tilisivulla, kaikille Keyrook-sovelluksille kerralla.',
-  'accountPage.bodyNoRoot': 'Salasana ja poistaminen ovat tilisivulla. Palautusavain luodaan täällä, Suojaus-kohdassa, kunnes jokin toinen Keyrook-sovellus käyttää tiliä.',
-  'accountPage.bodyProvider': 'Palautusavain, alusta aloittaminen ja poistaminen ovat tilisivulla, kaikille Keyrook-sovelluksille kerralla.',
-  'accountPage.bodyNoRootProvider': 'Poistaminen on tilisivulla. Palautusavain luodaan täällä, Suojaus-kohdassa, kunnes jokin toinen Keyrook-sovellus käyttää tiliä.',
+  'accountPage.body': 'Osoite, salasana, palautusavain, alusta aloittaminen ja poistaminen ovat tilisivulla, kaikille Keyrook-sovelluksille kerralla.',
+  'accountPage.bodyNoRoot': 'Osoite, salasana ja poistaminen ovat tilisivulla. Palautusavain luodaan täällä, Suojaus-kohdassa, kunnes jokin toinen Keyrook-sovellus käyttää tiliä.',
+  'accountPage.bodyProvider': 'Osoite, palautusavain, alusta aloittaminen ja poistaminen ovat tilisivulla, kaikille Keyrook-sovelluksille kerralla.',
+  'accountPage.bodyNoRootProvider': 'Osoite ja poistaminen ovat tilisivulla. Palautusavain luodaan täällä, Suojaus-kohdassa, kunnes jokin toinen Keyrook-sovellus käyttää tiliä.',
+  'accountPage.address': 'Sähköpostiosoite',
+  'accountPage.changeAddress': 'Vaihda osoite',
+  'accountPage.activity': 'Viimeaikainen toiminta',
+  'accountPage.activityBody': 'Tilisi kirjautumiset ja muutokset viimeisten 90 päivän ajalta, laitteen, sovelluksen ja maan kanssa, tilisivulla.',
+  'accountPage.data': 'Tilin tiedot',
+  'accountPage.dataBody': 'Lataa tilisivulta, mitä Keyrookin palvelin säilyttää tilistäsi. Koodisi eivät ole siinä: palvelin säilyttää ne vain salattuina. Vie ne Varmuuskopio-kohdassa.',
   'sheetCheck.lead': 'Kirjoita tallentamasi palautusavain kerran, jotta tämä sovellus tietää voivansa palauttaa koodisi. Se tarkistetaan tällä laitteella eikä sitä lähetetä minnekään.',
   'sheetCheck.submit': 'Tarkista',
   'sheetCheck.lost': 'Hukkasitko sen, vai eikö sinulla ole koskaan ollut sellaista? Luo uusi tilisivulla.',
@@ -795,12 +814,8 @@ export const fi: Dictionary = {
   'password.change': 'Vaihda salasana…',
   'password.formTitle': 'Vaihda tilisi salasana',
   'devices.title': 'Kirjautuneet laitteet',
-  'devices.description':
-    'Kirjaa ulos laite, jota et enää käytä tai jota sinulla ei enää ole. Jos siinä on ajan tasalla oleva Keyrook Authenticator, se poistaa tämän tilin koodit itsestään seuraavalla yhteydellä ja säilyttää vain sen, mitä se ei koskaan lähettänyt. Siihen asti, tai jos se ei enää koskaan yhdistä, se säilyttää sen, mitä sillä oli, saman salasanan takana.',
-  'devices.descriptionProvider':
-    'Kirjaa ulos laite, jota et enää käytä tai jota sinulla ei enää ole. Jos siinä on ajan tasalla oleva Keyrook Authenticator, se poistaa tämän tilin koodit itsestään seuraavalla yhteydellä ja säilyttää vain sen, mitä se ei koskaan lähettänyt. Siihen asti, tai jos se ei enää koskaan yhdistä, se säilyttää sen, mitä sillä oli, lukittuna samalla tavalla kuin holvi on siinä laitteessa lukittu.',
-  'devices.this': 'Tämä laite',
-  'devices.when': 'Kirjautui {created} · viimeksi aktiivinen {seen}',
+  'devices.onAccountPage':
+    'Näet kaikki tiliisi kirjautuneet laitteet tilisivulla, ja voit kirjata niitä ulos tai poistaa niitä siellä.',
   'removed.kept': 'Täällä lisätyt tai muutetut koodit, jotka eivät ehtineet tilille, ovat yhä täällä.',
   'delete.row': 'Poista tilisi',
   'delete.rowDescription': 'Poistaa kaikki palvelimen salatut kopiot. Tämä laite säilyttää holvinsa ennallaan; muut laitteet lopettavat synkronoinnin.',
@@ -943,6 +958,7 @@ export const fi: Dictionary = {
   'backup.choice.import.title': 'Tuo',
   'backup.choice.import.body': 'Varmuuskopiosta, toisen sovelluksen viennistä tai otpauth://-linkeistä.',
   'backup.choice.move.body': 'Siirtokoodit, tulostettava sivu tai luettava tiedosto. Ei salattu.',
+  'backup.accountData': 'Vain Keyrook Authenticator voi viedä koodisi: palvelin säilyttää ne salattuina. Sen, mitä palvelin säilyttää tilistäsi, ilman koodeja tai avaimia, lataat tilisivulta.',
   'security.description': 'Miten holvi avautuu ja miten pääset takaisin, jos tämä selain katoaa.',
   'security.deviceKeyHint': 'Ei mitään kirjoitettavaa. Ei estä haittaohjelmia, jotka toimivat sinun nimissäsi tällä tietokoneella.',
   'security.passwordHint': 'Kysytään aina, kun holvi on lukittunut.',
@@ -1011,10 +1027,6 @@ export const fi: Dictionary = {
   'about.fact.keys.body.phone':
     'Tilisi salataan data-avaimella, joka on itse kääritty toiseen avaimeen. Pääsalasanalla kääreavain johdetaan PBKDF2:lla 600 000 kierroksella, ja se on muistissa vain holvin ollessa auki. Ilman salasanaa se on puhelimen oman avainvaraston sinetöimä avain, joten sovelluksen tiedostojen kopio ei avaa holvia.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Suurta koodia — kuten Google Authenticatorin vientiä — ei usein voi skannata täällä kameralla. Jos se ei onnistu, ota siitä kuva puhelimen kamerasovelluksella ja käytä toimintoa Lataa QR-kuva.',
-  'import.noNativeReader.phone':
-    'Suurta koodia — kuten Google Authenticatorin vientiä — ei usein voi skannata täällä kameralla. Jos se ei onnistu, ota jokaisesta koodista kuva puhelimen kamerasovelluksella ja valitse ne kaikki toiminnolla Valitse tiedostot.',
   'error.signOutUnsynced.phone':
     'Osa tämän puhelimen muutoksista ei ole vielä päätynyt tilillesi, ja uloskirjautuminen nyt hävittäisi ne. Yhdistä internetiin ja yritä uudelleen.',
   'account.signOutNote.phone':

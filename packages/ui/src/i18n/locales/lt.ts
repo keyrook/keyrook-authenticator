@@ -19,6 +19,8 @@ export const lt: Dictionary = {
   'error.noAccountSheet': 'Ši paskyra dar neturi atkūrimo rakto. Susikurkite jį paskyros puslapyje.',
   'error.recoveryKeyWrong': 'Šis atkūrimo raktas netinka šiai paskyrai.',
   'error.noRecoveryKit': 'Ši saugykla neturi atkūrimo rakto.',
+  'error.accountData.withheld':
+    'Firefox neleido Keyrook Authenticator nieko siųsti į Keyrook paskyrą, todėl niekas neišsiųsta. Leiskite, kai Firefox paklaus, arba about:addons.',
   'error.syncUnavailable': 'Šioje versijoje sinchronizavimas nepasiekiamas.',
   'error.notSignedIn': 'Neprisijungta.',
   'error.alreadySignedIn': 'Jau prisijungta.',
@@ -43,6 +45,7 @@ export const lt: Dictionary = {
   'error.noActiveTab': 'Nėra aktyvaus skirtuko.',
   'error.autofillNotHere': 'Automatinis pildymas veikia tik įprastuose tinklalapiuose.',
   'error.autofillBlocked': 'Chrome neleido plėtiniui perskaityti šio puslapio. Atidarykite iššokantį langą iš puslapio, kurį norite užpildyti.',
+  'error.autofillBlocked.firefox': 'Firefox neleido plėtiniui perskaityti šio puslapio. Atidarykite iššokantį langą iš puslapio, kurį norite užpildyti.',
   'error.signinCancelled': 'Prisijungimas atšauktas.',
   'error.signinStateMismatch': 'Prisijungimas grįžo ne toks, koks išėjo. Bandykite dar kartą.',
   'error.signinUnfinished': 'Prisijungimas nebaigtas. Bandykite dar kartą.',
@@ -295,6 +298,7 @@ export const lt: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator jums naudingas?</b> Įvertinimas {store} padeda kitiems jį rasti.',
   'rate.store.chrome': 'Chrome internetinėje parduotuvėje',
   'rate.store.edge': 'Edge priedų parduotuvėje',
+  'rate.store.firefox': 'Firefox priedų parduotuvėje',
   'rate.notNow': 'Ne dabar',
   'rate.rate': 'Įvertinti',
 
@@ -309,6 +313,7 @@ export const lt: Dictionary = {
   'add.camera.title': 'Nuskaityti kamera',
   'add.camera.description': 'Kodui telefone – įskaitant Google Authenticator eksportą.',
   'add.camera.elsewhere': 'Vieną kartą atidaro Nustatymus, kad Chrome galėtų paprašyti kameros. Vėliau veikia tiesiog čia.',
+  'add.camera.elsewhere.firefox': 'Vieną kartą atidaro Nustatymus, kad Firefox galėtų paprašyti kameros. Vėliau veikia tiesiog čia.',
   'add.upload.title': 'Įkelti QR kodo vaizdą',
   'add.upload.description': 'Anksčiau išsaugota ekrano kopija ar nuotrauka.',
   'add.manual.title': 'Įvesti sąrankos raktą rankiniu būdu',
@@ -320,6 +325,8 @@ export const lt: Dictionary = {
   'common.done': 'Atlikta',
   'add.noNativeReader':
     'Chrome šiame kompiuteryje neturi įtaisytos QR skaityklės, todėl didelio kodo – pavyzdžiui, Google Authenticator eksporto – kamera dažnai nenuskaito. Jei nepavyksta, telefone padarykite ekrano kopiją ir naudokite Įkelti QR kodo vaizdą.',
+  'add.noNativeReader.firefox':
+    'Firefox šiame kompiuteryje neturi įtaisytos QR skaityklės, todėl didelio kodo – pavyzdžiui, Google Authenticator eksporto – kamera dažnai nenuskaito. Jei nepavyksta, telefone padarykite ekrano kopiją ir naudokite Įkelti QR kodo vaizdą.',
   'add.openScannerInSettings': 'Atidaryti skaitytuvą Nustatymuose',
   'add.noneFound': 'Paskyrų nerasta.',
   'add.noQrOnPage': 'Matomoje puslapio dalyje QR kodo nėra. Paslinkite jį į matomą sritį ir bandykite dar kartą.',
@@ -380,6 +387,7 @@ export const lt: Dictionary = {
     'Laikykite QR kodą rėmelyje. Pereinate iš Google Authenticator? Telefone atidarykite jo eksporto ekraną ir nukreipkite į jį kamerą – jei kodų keli, rodykite juos vieną po kito.',
   'camera.privacy': 'Vaizdas perskaitomas šiame įrenginyje ir išmetamas. Niekas neįrašoma ir neįkeliama.',
   'camera.blocked': 'Chrome užblokavo kamerą. Leiskite ją šiam puslapiui arba pridėkite paskyrą kitaip.',
+  'camera.blocked.firefox': 'Firefox užblokavo kamerą. Leiskite ją šiam puslapiui arba pridėkite paskyrą kitaip.',
   'camera.none': 'Šiame kompiuteryje kameros nerasta.',
   'camera.busy': 'Kamerą naudoja kita programa.',
 
@@ -484,6 +492,8 @@ export const lt: Dictionary = {
   'about.fact.access.title': 'Jokios plačios prieigos prie svetainių',
   'about.fact.access.body':
     'Plėtinys neprašo jokių leidimų svetainėms. QR kodo nuskaitymas iš puslapio ar kodo įvedimas į jį naudoja activeTab – leidimą, kurį Chrome suteikia tik tam skirtukui, kuriame paleidote plėtinį.',
+  'about.fact.access.body.firefox':
+    'Plėtinys neprašo jokių leidimų svetainėms. QR kodo nuskaitymas iš puslapio ar kodo įvedimas į jį naudoja activeTab – leidimą, kurį Firefox suteikia tik tam skirtukui, kuriame paleidote plėtinį.',
   'about.fact.standards.title': 'Standartai, ne užrakinimas',
   'about.fact.standards.body': 'RFC 6238 TOTP ir RFC 4226 HOTP su otpauth:// importu ir eksportu. Bet kada galite pereiti į kitą programą ir pasiimti viską.',
   'about.version': 'Versija {version}',
@@ -504,6 +514,7 @@ export const lt: Dictionary = {
   'about.logos.body':
     '{count} paslaugų turi tikrą ženklą. Grafika iš <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons ir <fa>Font Awesome Free</fa> (piktogramos, CC BY 4.0). Visi produktų pavadinimai ir logotipai priklauso jų savininkams ir naudojami tik paskyros paslaugai atpažinti. Paslauga, neturinti ženklo tose kolekcijose, gauna plytelę su raide.',
   'about.shortcut.change': 'Pakeiskite ją chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Pakeiskite ją about:addons.',
   'accounts.title': 'Paskyros',
   'accounts.description': 'Viskas, kas saugoma šioje saugykloje. Kodai generuojami šiame įrenginyje, niekada serveryje.',
   'accounts.empty': 'Dar nėra paskyrų. Pridėkite vieną, kad pradėtumėte.',
@@ -555,6 +566,8 @@ export const lt: Dictionary = {
   'import.stopAndReview': 'Sustabdyti ir peržiūrėti {count}',
   'import.noNativeReader':
     'Chrome šiame kompiuteryje neturi įtaisytos QR skaityklės, todėl didelio kodo – pavyzdžiui, Google Authenticator eksporto – kamera dažnai nenuskaito. Jei nepavyksta, telefone padarykite kiekvieno kodo ekrano kopiją ir pasirinkite jas visas per Pasirinkti failus.',
+  'import.noNativeReader.firefox':
+    'Firefox šiame kompiuteryje neturi įtaisytos QR skaityklės, todėl didelio kodo – pavyzdžiui, Google Authenticator eksporto – kamera dažnai nenuskaito. Jei nepavyksta, telefone padarykite kiekvieno kodo ekrano kopiją ir pasirinkite jas visas per Pasirinkti failus.',
   'import.encrypted': 'Ši atsarginė kopija užšifruota. Įveskite slaptažodį, su kuriuo ji buvo sukurta.',
   'import.backupPassword': 'Atsarginės kopijos slaptažodis',
   'import.open': 'Atidaryti atsarginę kopiją',
@@ -781,10 +794,16 @@ export const lt: Dictionary = {
   },
   'account.signOutNote': 'Atsijungus jūsų kodai pašalinami iš šios naršyklės. Jie lieka jūsų Keyrook paskyroje – prisijunkite iš naujo, kad juos susigrąžintumėte.',
   'accountPage.title': 'Jūsų Keyrook paskyra',
-  'accountPage.body': 'Slaptažodis, atkūrimo raktas, pradėjimas iš naujo ir ištrynimas yra paskyros puslapyje, visoms Keyrook programoms iš karto.',
-  'accountPage.bodyNoRoot': 'Slaptažodis ir ištrynimas yra paskyros puslapyje. Atkūrimo raktas kuriamas čia, skiltyje Sauga, kol paskyros nepradeda naudoti kita Keyrook programa.',
-  'accountPage.bodyProvider': 'Atkūrimo raktas, pradėjimas iš naujo ir ištrynimas yra paskyros puslapyje, visoms Keyrook programoms iš karto.',
-  'accountPage.bodyNoRootProvider': 'Ištrynimas yra paskyros puslapyje. Atkūrimo raktas kuriamas čia, skiltyje Sauga, kol paskyros nepradeda naudoti kita Keyrook programa.',
+  'accountPage.body': 'Adresas, slaptažodis, atkūrimo raktas, pradėjimas iš naujo ir ištrynimas yra paskyros puslapyje, visoms Keyrook programoms iš karto.',
+  'accountPage.bodyNoRoot': 'Adresas, slaptažodis ir ištrynimas yra paskyros puslapyje. Atkūrimo raktas kuriamas čia, skiltyje Sauga, kol paskyros nepradeda naudoti kita Keyrook programa.',
+  'accountPage.bodyProvider': 'Adresas, atkūrimo raktas, pradėjimas iš naujo ir ištrynimas yra paskyros puslapyje, visoms Keyrook programoms iš karto.',
+  'accountPage.bodyNoRootProvider': 'Adresas ir ištrynimas yra paskyros puslapyje. Atkūrimo raktas kuriamas čia, skiltyje Sauga, kol paskyros nepradeda naudoti kita Keyrook programa.',
+  'accountPage.address': 'El. pašto adresas',
+  'accountPage.changeAddress': 'Keisti adresą',
+  'accountPage.activity': 'Naujausia veikla',
+  'accountPage.activityBody': 'Jūsų paskyros prisijungimai ir pakeitimai per pastarąsias 90 dienų, su įrenginiu, programa ir šalimi, paskyros puslapyje.',
+  'accountPage.data': 'Paskyros duomenys',
+  'accountPage.dataBody': 'Atsisiųskite iš paskyros puslapio, ką Keyrook serveris saugo apie jūsų paskyrą. Jūsų kodų ten nėra: serveris juos saugo tik užšifruotus. Eksportuokite juos skiltyje Atsarginė kopija.',
   'sheetCheck.lead': 'Vieną kartą įveskite išsaugotą atkūrimo raktą, kad ši programa žinotų, jog gali susigrąžinti jūsų kodus. Jis tikrinamas šiame įrenginyje ir niekur nesiunčiamas.',
   'sheetCheck.submit': 'Patikrinti',
   'sheetCheck.lost': 'Pametėte arba niekada neturėjote? Susikurkite naują paskyros puslapyje.',
@@ -830,12 +849,8 @@ export const lt: Dictionary = {
   'password.change': 'Keisti slaptažodį…',
   'password.formTitle': 'Paskyros slaptažodžio keitimas',
   'devices.title': 'Prisijungę įrenginiai',
-  'devices.description':
-    'Atjunkite įrenginį, kurio nebenaudojate ar nebeturite. Jei jame veikia naujausias Keyrook Authenticator, kitą kartą prisijungęs jis pats pašalins šios paskyros kodus ir pasiliks tik tai, ko niekada neišsiuntė. Iki tol, arba jei daugiau niekada neprisijungs, jis išlaikys tai, ką turėjo, užrakintą tuo pačiu slaptažodžiu.',
-  'devices.descriptionProvider':
-    'Atjunkite įrenginį, kurio nebenaudojate ar nebeturite. Jei jame veikia naujausias Keyrook Authenticator, kitą kartą prisijungęs jis pats pašalins šios paskyros kodus ir pasiliks tik tai, ko niekada neišsiuntė. Iki tol, arba jei daugiau niekada neprisijungs, jis išlaikys tai, ką turėjo, užrakintą taip, kaip tame įrenginyje užrakinta saugykla.',
-  'devices.this': 'Šis įrenginys',
-  'devices.when': 'Prisijungta {created} · paskutinį kartą aktyvus {seen}',
+  'devices.onAccountPage':
+    'Visus prie jūsų paskyros prisijungusius įrenginius matysite paskyros puslapyje – ten juos galėsite atjungti arba pašalinti.',
   'removed.kept': 'Čia pridėti ar pakeisti kodai, kurie nepasiekė paskyros, vis dar yra čia.',
   'delete.row': 'Ištrinti paskyrą',
   'delete.rowDescription': 'Pašalina kiekvieną šifruotą kopiją iš serverio. Šis įrenginys saugyklą išlaiko kaip yra; kiti įrenginiai nustoja sinchronizuotis.',
@@ -984,6 +999,7 @@ export const lt: Dictionary = {
   'backup.choice.import.title': 'Importas',
   'backup.choice.import.body': 'Iš atsarginės kopijos, kitos programos eksporto arba otpauth:// nuorodų.',
   'backup.choice.move.body': 'Perkėlimo kodai, puslapis spausdinti ar skaitomas failas. Nešifruota.',
+  'backup.accountData': 'Jūsų kodus gali eksportuoti tik Keyrook Authenticator: serveris juos saugo užšifruotus. Tai, ką serveris saugo apie jūsų paskyrą, be kodų ir raktų, atsisiunčiama iš paskyros puslapio.',
   'security.description': 'Kaip ši saugykla atsidaro ir jūsų kelias atgal, jei prarasite šią naršyklę.',
   'security.deviceKeyHint': 'Nieko nereikia įvesti. Nesustabdo kenkėjiškos programos, veikiančios jūsų vardu šiame kompiuteryje.',
   'security.passwordHint': 'Prašoma kaskart, kai saugykla užsirakina.',
@@ -1051,10 +1067,6 @@ export const lt: Dictionary = {
   'about.fact.keys.body.phone':
     'Jūsų paskyros užšifruotos duomenų raktu, kuris pats įvyniotas į kitą raktą. Su pagrindiniu slaptažodžiu vyniojantysis raktas išvedamas su PBKDF2 per 600 000 ciklų ir yra atmintyje tik tol, kol saugykla atrakinta. Be slaptažodžio tai raktas, užantspauduotas paties telefono raktų saugyklos, todėl programėlės failų kopija saugyklos neatidarys.',
   'rate.store.play': 'Google Play parduotuvėje',
-  'add.noNativeReader.phone':
-    'Didelio kodo – pavyzdžiui, Google Authenticator eksporto – kamera čia dažnai nenuskaito. Jei nepavyksta, nufotografuokite jį telefono kameros programėle ir naudokite Įkelti QR kodo vaizdą.',
-  'import.noNativeReader.phone':
-    'Didelio kodo – pavyzdžiui, Google Authenticator eksporto – kamera čia dažnai nenuskaito. Jei nepavyksta, nufotografuokite kiekvieną kodą telefono kameros programėle ir pasirinkite juos visus per Pasirinkti failus.',
   'error.signOutUnsynced.phone':
     'Kai kurie šio telefono pakeitimai dar nepasiekė jūsų paskyros, o atsijungus dabar jie būtų prarasti. Prisijunkite prie interneto ir bandykite dar kartą.',
   'account.signOutNote.phone':

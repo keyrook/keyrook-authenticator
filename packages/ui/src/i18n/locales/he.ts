@@ -19,6 +19,8 @@ export const he: Dictionary = {
   'error.noAccountSheet': 'לחשבון הזה עדיין אין מפתח שחזור. צרו אחד בדף החשבון.',
   'error.recoveryKeyWrong': 'מפתח השחזור הזה אינו תואם לחשבון הזה.',
   'error.noRecoveryKit': 'לכספת הזו אין מפתח שחזור.',
+  'error.accountData.withheld':
+    'Firefox לא התיר ל-Keyrook Authenticator לשלוח דבר לחשבון Keyrook, ולכן לא נשלח דבר. אשרו זאת כש-Firefox ישאל, או ב-about:addons.',
   'error.syncUnavailable': 'הסנכרון אינו זמין בגרסה הזו.',
   'error.notSignedIn': 'לא מחוברים.',
   'error.alreadySignedIn': 'כבר מחוברים.',
@@ -41,6 +43,7 @@ export const he: Dictionary = {
   'error.noActiveTab': 'אין כרטיסייה פעילה.',
   'error.autofillNotHere': 'מילוי אוטומטי עובד רק בדפי אינטרנט רגילים.',
   'error.autofillBlocked': 'Chrome לא אפשר לתוסף לקרוא את הדף הזה. פתחו את החלון הקופץ מהדף שברצונכם למלא.',
+  'error.autofillBlocked.firefox': 'Firefox לא אפשר לתוסף לקרוא את הדף הזה. פתחו את החלון הקופץ מהדף שברצונכם למלא.',
   'error.signinCancelled': 'ההתחברות בוטלה.',
   'error.signinStateMismatch': 'ההתחברות לא חזרה כפי שיצאה. נסו שוב.',
   'error.signinUnfinished': 'ההתחברות לא הושלמה. נסו שוב.',
@@ -292,6 +295,7 @@ export const he: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator עוזר לכם?</b> דירוג ב{store} עוזר לאחרים למצוא אותו.',
   'rate.store.chrome': 'חנות האינטרנט של Chrome',
   'rate.store.edge': 'תוספות Edge',
+  'rate.store.firefox': 'תוספות Firefox',
   'rate.notNow': 'לא עכשיו',
   'rate.rate': 'לדרג',
 
@@ -306,6 +310,7 @@ export const he: Dictionary = {
   'add.camera.title': 'סריקה במצלמה',
   'add.camera.description': 'לקוד שבטלפון — כולל ייצוא של Google Authenticator.',
   'add.camera.elsewhere': 'פותח את ההגדרות פעם אחת כדי ש-Chrome יוכל לבקש גישה למצלמה. אחר כך זה עובד ישירות כאן.',
+  'add.camera.elsewhere.firefox': 'פותח את ההגדרות פעם אחת כדי ש-Firefox יוכל לבקש גישה למצלמה. אחר כך זה עובד ישירות כאן.',
   'add.upload.title': 'העלאת תמונת QR',
   'add.upload.description': 'צילום מסך או תמונה ששמרתם קודם.',
   'add.manual.title': 'הזנה ידנית של מפתח הגדרה',
@@ -317,6 +322,8 @@ export const he: Dictionary = {
   'common.done': 'סיום',
   'add.noNativeReader':
     'ל-Chrome במחשב הזה אין קורא QR מובנה, ולכן קוד גדול — כמו ייצוא של Google Authenticator — לעיתים קרובות לא ייסרק במצלמה. אם הוא לא נסרק, צלמו מסך בטלפון והשתמשו בהעלאת תמונת QR.',
+  'add.noNativeReader.firefox':
+    'ל-Firefox במחשב הזה אין קורא QR מובנה, ולכן קוד גדול — כמו ייצוא של Google Authenticator — לעיתים קרובות לא ייסרק במצלמה. אם הוא לא נסרק, צלמו מסך בטלפון והשתמשו בהעלאת תמונת QR.',
   'add.openScannerInSettings': 'פתיחת הסורק בהגדרות',
   'add.noneFound': 'לא נמצאו חשבונות.',
   'add.noQrOnPage': 'לא נמצא קוד QR בחלק הגלוי של הדף. גללו אותו לתצוגה ונסו שוב.',
@@ -361,6 +368,7 @@ export const he: Dictionary = {
     'החזיקו את קוד ה-QR בתוך המסגרת. עוברים מ-Google Authenticator? פתחו בטלפון את מסך הייצוא וכוונו אליו את המצלמה — אם יש כמה קודים, הציגו אותם בזה אחר זה.',
   'camera.privacy': 'התמונה נקראת במכשיר הזה ונזרקת. שום דבר לא מוקלט ושום דבר לא מועלה.',
   'camera.blocked': 'Chrome חסם את הגישה למצלמה. אפשרו אותה לדף הזה, או השתמשו בדרך אחרת להוספת חשבון.',
+  'camera.blocked.firefox': 'Firefox חסם את הגישה למצלמה. אפשרו אותה לדף הזה, או השתמשו בדרך אחרת להוספת חשבון.',
   'camera.none': 'לא נמצאה מצלמה במחשב הזה.',
   'camera.busy': 'המצלמה בשימוש של תוכנה אחרת.',
 
@@ -465,6 +473,8 @@ export const he: Dictionary = {
   'about.fact.access.title': 'בלי גישה גורפת לאתרים',
   'about.fact.access.body':
     'התוסף אינו מבקש הרשאות לאתרים. קריאת קוד QR מדף, או מילוי קוד בו, משתמשות ב-activeTab — הרשאה ש-Chrome נותן רק לכרטיסייה שבה הפעלתם את התוסף.',
+  'about.fact.access.body.firefox':
+    'התוסף אינו מבקש הרשאות לאתרים. קריאת קוד QR מדף, או מילוי קוד בו, משתמשות ב-activeTab — הרשאה ש-Firefox נותן רק לכרטיסייה שבה הפעלתם את התוסף.',
   'about.fact.standards.title': 'תקנים, לא כבילה',
   'about.fact.standards.body': 'TOTP לפי RFC 6238 ו-HOTP לפי RFC 4226, עם ייבוא וייצוא של otpauth://. אפשר לעבור לאפליקציה אחרת בכל עת ולקחת הכול איתכם.',
   'about.version': 'גרסה {version}',
@@ -484,6 +494,7 @@ export const he: Dictionary = {
   'about.logos.body':
     'ל-{count} שירותים יש סמל אמיתי. הגרפיקה מ-<simple>Simple Icons</simple> (CC0 1.0),‏ LobeHub Icons,‏ SVG Logos,‏ CoreUI Brands,‏ Arcticons ו-<fa>Font Awesome Free</fa> (סמלים, CC BY 4.0). כל שמות המוצרים והלוגואים שייכים לבעליהם ומשמשים רק לזיהוי השירות שאליו שייך החשבון. שירות בלי סמל באף אחד מהאוספים מקבל אריח עם אות.',
   'about.shortcut.change': 'אפשר לשנות ב-chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'אפשר לשנות ב-about:addons.',
   'accounts.title': 'חשבונות',
   'accounts.description': 'כל מה שנשמר בכספת הזו. הקודים נוצרים במכשיר הזה, לעולם לא בשרת.',
   'accounts.empty': 'עדיין אין חשבונות. הוסיפו אחד כדי להתחיל.',
@@ -534,6 +545,8 @@ export const he: Dictionary = {
   'import.stopAndReview': 'עצירה ובדיקה של {count}',
   'import.noNativeReader':
     'ל-Chrome במחשב הזה אין קורא QR מובנה, ולכן קוד גדול — כמו ייצוא של Google Authenticator — לעיתים קרובות לא ייסרק במצלמה. אם הוא לא נסרק, צלמו מסך של כל קוד בטלפון ובחרו את כולם בבחירת קבצים.',
+  'import.noNativeReader.firefox':
+    'ל-Firefox במחשב הזה אין קורא QR מובנה, ולכן קוד גדול — כמו ייצוא של Google Authenticator — לעיתים קרובות לא ייסרק במצלמה. אם הוא לא נסרק, צלמו מסך של כל קוד בטלפון ובחרו את כולם בבחירת קבצים.',
   'import.encrypted': 'הגיבוי הזה מוצפן. הזינו את הסיסמה שאיתה הוא נוצר.',
   'import.backupPassword': 'סיסמת הגיבוי',
   'import.open': 'פתיחת הגיבוי',
@@ -751,10 +764,16 @@ export const he: Dictionary = {
   },
   'account.signOutNote': 'התנתקות מסירה את הקודים שלכם מהדפדפן הזה. הם נשארים בחשבון Keyrook שלכם — התחברו שוב כדי להחזיר אותם.',
   'accountPage.title': 'חשבון Keyrook שלך',
-  'accountPage.body': 'הסיסמה, מפתח השחזור, ההתחלה מחדש והמחיקה נמצאים בדף החשבון, לכל אפליקציות Keyrook יחד.',
-  'accountPage.bodyNoRoot': 'הסיסמה והמחיקה נמצאות בדף החשבון. את מפתח השחזור יוצרים כאן, באבטחה, עד שאפליקציה אחרת של Keyrook תשתמש בחשבון.',
-  'accountPage.bodyProvider': 'מפתח השחזור, ההתחלה מחדש והמחיקה נמצאים בדף החשבון, לכל אפליקציות Keyrook יחד.',
-  'accountPage.bodyNoRootProvider': 'המחיקה נמצאת בדף החשבון. את מפתח השחזור יוצרים כאן, באבטחה, עד שאפליקציה אחרת של Keyrook תשתמש בחשבון.',
+  'accountPage.body': 'הכתובת, הסיסמה, מפתח השחזור, ההתחלה מחדש והמחיקה נמצאים בדף החשבון, לכל אפליקציות Keyrook יחד.',
+  'accountPage.bodyNoRoot': 'הכתובת, הסיסמה והמחיקה נמצאות בדף החשבון. את מפתח השחזור יוצרים כאן, באבטחה, עד שאפליקציה אחרת של Keyrook תשתמש בחשבון.',
+  'accountPage.bodyProvider': 'הכתובת, מפתח השחזור, ההתחלה מחדש והמחיקה נמצאים בדף החשבון, לכל אפליקציות Keyrook יחד.',
+  'accountPage.bodyNoRootProvider': 'הכתובת והמחיקה נמצאות בדף החשבון. את מפתח השחזור יוצרים כאן, באבטחה, עד שאפליקציה אחרת של Keyrook תשתמש בחשבון.',
+  'accountPage.address': 'כתובת אימייל',
+  'accountPage.changeAddress': 'שינוי כתובת',
+  'accountPage.activity': 'פעילות אחרונה',
+  'accountPage.activityBody': 'כניסות ושינויים בחשבון שלכם ב־90 הימים האחרונים, עם המכשיר, האפליקציה והמדינה, בדף החשבון.',
+  'accountPage.data': 'נתוני החשבון',
+  'accountPage.dataBody': 'הורידו מדף החשבון את מה שהשרת של Keyrook שומר על החשבון שלכם. הקודים שלכם לא נמצאים בו: השרת שומר אותם מוצפנים בלבד. ייצאו אותם בגיבוי.',
   'sheetCheck.lead': 'הקלידו פעם אחת את מפתח השחזור ששמרתם, כדי שהאפליקציה הזו תדע שהיא יכולה להחזיר את הקודים שלכם. הוא נבדק במכשיר הזה ולא נשלח לשום מקום.',
   'sheetCheck.submit': 'בדיקה',
   'sheetCheck.lost': 'איבדתם אותו, או שמעולם לא היה לכם? צרו חדש בדף החשבון.',
@@ -800,12 +819,8 @@ export const he: Dictionary = {
   'password.change': 'שינוי סיסמה…',
   'password.formTitle': 'שינוי סיסמת החשבון',
   'devices.title': 'מכשירים מחוברים',
-  'devices.description':
-    'נתקו מכשיר שכבר אינכם משתמשים בו או שאין לכם עוד. אם פועלת בו גרסה עדכנית של Keyrook Authenticator, בפעם הבאה שיתחבר הוא יסיר מעצמו את הקודים של החשבון הזה, וישמור רק את מה שמעולם לא שלח. עד אז, או אם לא יתחבר שוב לעולם, הוא שומר את מה שהיה לו, נעול באותה סיסמה.',
-  'devices.descriptionProvider':
-    'נתקו מכשיר שכבר אינכם משתמשים בו או שאין לכם עוד. אם פועלת בו גרסה עדכנית של Keyrook Authenticator, בפעם הבאה שיתחבר הוא יסיר מעצמו את הקודים של החשבון הזה, וישמור רק את מה שמעולם לא שלח. עד אז, או אם לא יתחבר שוב לעולם, הוא שומר את מה שהיה לו, נעול כפי שהכספת נעולה במכשיר ההוא.',
-  'devices.this': 'המכשיר הזה',
-  'devices.when': 'התחבר {created} · פעיל לאחרונה {seen}',
+  'devices.onAccountPage':
+    'כל המכשירים המחוברים לחשבון שלכם מופיעים בדף החשבון, ושם אפשר לנתק או להסיר כל אחד מהם.',
   'removed.kept': 'קודים שנוספו או שונו כאן ולא הגיעו לחשבון עדיין נמצאים כאן.',
   'delete.row': 'מחיקת החשבון',
   'delete.rowDescription': 'מסירה כל עותק מוצפן שהשרת מחזיק. המכשיר הזה שומר את הכספת בדיוק כמו שהיא; מכשירים אחרים מפסיקים להסתנכרן.',
@@ -948,6 +963,7 @@ export const he: Dictionary = {
   'backup.choice.import.title': 'ייבוא',
   'backup.choice.import.body': 'מגיבוי, מייצוא של אפליקציה אחרת או מקישורי otpauth://.',
   'backup.choice.move.body': 'קודי העברה, דף להדפסה או קובץ קריא. לא מוצפן.',
+  'backup.accountData': 'רק Keyrook Authenticator יכולה לייצא את הקודים שלכם: השרת שומר אותם מוצפנים. את מה שהשרת שומר על החשבון שלכם, בלי קודים ומפתחות, מורידים מדף החשבון.',
   'security.description': 'איך הכספת הזו נפתחת, והדרך שלכם חזרה אם הדפדפן הזה אבד.',
   'security.deviceKeyHint': 'אין מה להקליד. לא עוצר תוכנה זדונית שרצה בשמכם במחשב הזה.',
   'security.passwordHint': 'מתבקשת בכל פעם שהכספת ננעלה.',
@@ -1012,10 +1028,6 @@ export const he: Dictionary = {
   'about.fact.keys.body.phone':
     'החשבונות שלכם מוצפנים במפתח נתונים שעטוף בעצמו במפתח נוסף. עם סיסמה ראשית, המפתח העוטף נגזר ב-PBKDF2 ב-600,000 סבבים וקיים רק בזיכרון כל עוד הכספת פתוחה. בלי סיסמה, זה מפתח שחתום במאגר המפתחות של הטלפון עצמו, ולכן העתק של קובצי האפליקציה לא יכול לפתוח את הכספת.',
   'rate.store.play': 'חנות Google Play',
-  'add.noNativeReader.phone':
-    'קוד גדול — כמו ייצוא של Google Authenticator — לעיתים קרובות לא ייסרק כאן במצלמה. אם הוא לא נסרק, צלמו אותו באפליקציית המצלמה של הטלפון והשתמשו בהעלאת תמונת QR.',
-  'import.noNativeReader.phone':
-    'קוד גדול — כמו ייצוא של Google Authenticator — לעיתים קרובות לא ייסרק כאן במצלמה. אם הוא לא נסרק, צלמו כל קוד באפליקציית המצלמה של הטלפון ובחרו את כולם בבחירת קבצים.',
   'error.signOutUnsynced.phone':
     'חלק מהשינויים בטלפון הזה עדיין לא הגיעו לחשבון שלכם, והתנתקות עכשיו תאבד אותם. התחברו לאינטרנט ונסו שוב.',
   'account.signOutNote.phone':

@@ -19,6 +19,8 @@ export const et: Dictionary = {
   'error.noAccountSheet': 'Sellel kontol pole veel taastevõtit. Looge see kontolehel.',
   'error.recoveryKeyWrong': 'See taastevõti ei sobi selle kontoga.',
   'error.noRecoveryKit': 'Sellel hoidlal pole taastevõtit.',
+  'error.accountData.withheld':
+    'Firefox ei ole lubanud Keyrook Authenticatoril Keyrooki kontole midagi saata, seega ei saadetud midagi. Lubage see, kui Firefox küsib, või lehel about:addons.',
   'error.syncUnavailable': 'Selles versioonis pole sünkroonimine saadaval.',
   'error.notSignedIn': 'Te pole sisse logitud.',
   'error.alreadySignedIn': 'Olete juba sisse logitud.',
@@ -43,6 +45,7 @@ export const et: Dictionary = {
   'error.noActiveTab': 'Aktiivset vahekaarti pole.',
   'error.autofillNotHere': 'Automaatne täitmine töötab ainult tavalistel veebilehtedel.',
   'error.autofillBlocked': 'Chrome ei lubanud laiendusel seda lehte lugeda. Avage hüpikaken lehelt, mida soovite täita.',
+  'error.autofillBlocked.firefox': 'Firefox ei lubanud laiendusel seda lehte lugeda. Avage hüpikaken lehelt, mida soovite täita.',
   'error.signinCancelled': 'Sisselogimine tühistati.',
   'error.signinStateMismatch': 'Sisselogimine ei tulnud tagasi sellisena, nagu see läks. Proovige uuesti.',
   'error.signinUnfinished': 'Sisselogimine jäi pooleli. Proovige uuesti.',
@@ -292,6 +295,7 @@ export const et: Dictionary = {
   'rate.body': '<b>Kas Keyrook Authenticator on teile kasulik?</b> Hinnang {store} aitab teistel seda leida.',
   'rate.store.chrome': 'Chrome’i veebipoes',
   'rate.store.edge': 'Edge’i lisandmoodulite poes',
+  'rate.store.firefox': 'Firefoxi lisandmoodulite poes',
   'rate.notNow': 'Mitte praegu',
   'rate.rate': 'Hinda',
 
@@ -306,6 +310,7 @@ export const et: Dictionary = {
   'add.camera.title': 'Skanni kaameraga',
   'add.camera.description': 'Telefonis oleva koodi jaoks — ka Google Authenticatori eksport.',
   'add.camera.elsewhere': 'Avab korra Seaded, et Chrome saaks kaamerat küsida. Pärast seda töötab otse siin.',
+  'add.camera.elsewhere.firefox': 'Avab korra Seaded, et Firefox saaks kaamerat küsida. Pärast seda töötab otse siin.',
   'add.upload.title': 'Laadi üles QR-koodi pilt',
   'add.upload.description': 'Varem salvestatud ekraanipilt või foto.',
   'add.manual.title': 'Sisesta seadistusvõti käsitsi',
@@ -317,6 +322,8 @@ export const et: Dictionary = {
   'common.done': 'Valmis',
   'add.noNativeReader':
     'Chrome’il pole selles arvutis sisseehitatud QR-lugejat, nii et suurt koodi — näiteks Google Authenticatori eksporti — ei saa kaameraga sageli skannida. Kui see ei õnnestu, tehke telefonis ekraanipilt ja kasutage valikut Laadi üles QR-koodi pilt.',
+  'add.noNativeReader.firefox':
+    'Firefoxil pole selles arvutis sisseehitatud QR-lugejat, nii et suurt koodi — näiteks Google Authenticatori eksporti — ei saa kaameraga sageli skannida. Kui see ei õnnestu, tehke telefonis ekraanipilt ja kasutage valikut Laadi üles QR-koodi pilt.',
   'add.openScannerInSettings': 'Ava skanner Seadetes',
   'add.noneFound': 'Kontosid ei leitud.',
   'add.noQrOnPage': 'Lehe nähtavas osas pole QR-koodi. Kerige see nähtavale ja proovige uuesti.',
@@ -360,6 +367,7 @@ export const et: Dictionary = {
     'Hoidke QR-koodi raami sees. Kolite Google Authenticatorist? Avage telefonis selle ekspordikuva ja suunake kaamera sellele — kui koode on mitu, näidake neid ükshaaval.',
   'camera.privacy': 'Pilt loetakse selles seadmes ja visatakse ära. Midagi ei salvestata ega laadita üles.',
   'camera.blocked': 'Chrome blokeeris kaamera. Lubage see sellele lehele või lisage konto muul viisil.',
+  'camera.blocked.firefox': 'Firefox blokeeris kaamera. Lubage see sellele lehele või lisage konto muul viisil.',
   'camera.none': 'Selles arvutis kaamerat ei leitud.',
   'camera.busy': 'Kaamerat kasutab teine programm.',
 
@@ -463,6 +471,8 @@ export const et: Dictionary = {
   'about.fact.access.title': 'Laia juurdepääsu saitidele pole',
   'about.fact.access.body':
     'See laiendus ei küsi saitide õigusi. QR-koodi lugemine lehelt või koodi sisestamine sinna kasutab activeTabi — õigust, mille Chrome annab ainult vahekaardile, kus laienduse käivitasite.',
+  'about.fact.access.body.firefox':
+    'See laiendus ei küsi saitide õigusi. QR-koodi lugemine lehelt või koodi sisestamine sinna kasutab activeTabi — õigust, mille Firefox annab ainult vahekaardile, kus laienduse käivitasite.',
   'about.fact.standards.title': 'Standardid, mitte lõks',
   'about.fact.standards.body': 'RFC 6238 TOTP ja RFC 4226 HOTP koos otpauth:// impordi ja ekspordiga. Saate igal ajal teise rakendusse kolida ja kõik kaasa võtta.',
   'about.version': 'Versioon {version}',
@@ -483,6 +493,7 @@ export const et: Dictionary = {
   'about.logos.body':
     '{count} teenusel on päris märk. Graafika allikad: <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons ja <fa>Font Awesome Free</fa> (ikoonid, CC BY 4.0). Kõik tootenimed ja logod kuuluvad nende omanikele ja neid kasutatakse ainult konto teenuse tuvastamiseks. Teenus, millel neis kogudes märki pole, saab tähega paani.',
   'about.shortcut.change': 'Muutke seda aadressil chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Muutke seda aadressil about:addons.',
   'accounts.title': 'Kontod',
   'accounts.description': 'Kõik, mis on selles hoidlas salvestatud. Koodid luuakse selles seadmes, mitte kunagi serveris.',
   'accounts.empty': 'Kontosid veel pole. Alustamiseks lisage üks.',
@@ -533,6 +544,8 @@ export const et: Dictionary = {
   'import.stopAndReview': 'Peata ja vaata üle {count}',
   'import.noNativeReader':
     'Chrome’il pole selles arvutis sisseehitatud QR-lugejat, nii et suurt koodi — näiteks Google Authenticatori eksporti — ei saa kaameraga sageli skannida. Kui see ei õnnestu, tehke telefonis igast koodist ekraanipilt ja valige need kõik nupuga Vali failid.',
+  'import.noNativeReader.firefox':
+    'Firefoxil pole selles arvutis sisseehitatud QR-lugejat, nii et suurt koodi — näiteks Google Authenticatori eksporti — ei saa kaameraga sageli skannida. Kui see ei õnnestu, tehke telefonis igast koodist ekraanipilt ja valige need kõik nupuga Vali failid.',
   'import.encrypted': 'See varukoopia on krüpteeritud. Sisestage parool, millega see loodi.',
   'import.backupPassword': 'Varukoopia parool',
   'import.open': 'Ava varukoopia',
@@ -748,10 +761,16 @@ export const et: Dictionary = {
   },
   'account.signOutNote': 'Väljalogimine eemaldab teie koodid sellest brauserist. Need jäävad teie Keyrooki kontole — logige uuesti sisse, et need tagasi tuua.',
   'accountPage.title': 'Teie Keyrooki konto',
-  'accountPage.body': 'Parool, taastevõti, otsast alustamine ja kustutamine on kontolehel, kõigi Keyrooki rakenduste jaoks korraga.',
-  'accountPage.bodyNoRoot': 'Parool ja kustutamine on kontolehel. Taastevõti luuakse siin, jaotises Turvalisus, kuni kontot hakkab kasutama mõni teine Keyrooki rakendus.',
-  'accountPage.bodyProvider': 'Taastevõti, otsast alustamine ja kustutamine on kontolehel, kõigi Keyrooki rakenduste jaoks korraga.',
-  'accountPage.bodyNoRootProvider': 'Kustutamine on kontolehel. Taastevõti luuakse siin, jaotises Turvalisus, kuni kontot hakkab kasutama mõni teine Keyrooki rakendus.',
+  'accountPage.body': 'Aadress, parool, taastevõti, otsast alustamine ja kustutamine on kontolehel, kõigi Keyrooki rakenduste jaoks korraga.',
+  'accountPage.bodyNoRoot': 'Aadress, parool ja kustutamine on kontolehel. Taastevõti luuakse siin, jaotises Turvalisus, kuni kontot hakkab kasutama mõni teine Keyrooki rakendus.',
+  'accountPage.bodyProvider': 'Aadress, taastevõti, otsast alustamine ja kustutamine on kontolehel, kõigi Keyrooki rakenduste jaoks korraga.',
+  'accountPage.bodyNoRootProvider': 'Aadress ja kustutamine on kontolehel. Taastevõti luuakse siin, jaotises Turvalisus, kuni kontot hakkab kasutama mõni teine Keyrooki rakendus.',
+  'accountPage.address': 'E-posti aadress',
+  'accountPage.changeAddress': 'Muuda aadressi',
+  'accountPage.activity': 'Viimased tegevused',
+  'accountPage.activityBody': 'Teie konto sisselogimised ja muudatused viimase 90 päeva jooksul, koos seadme, rakenduse ja riigiga, kontolehel.',
+  'accountPage.data': 'Konto andmed',
+  'accountPage.dataBody': 'Laadige kontolehelt alla, mida Keyrooki server teie konto kohta hoiab. Teie koode seal ei ole: server hoiab neid ainult krüpteerituna. Eksportige need jaotises Varukoopia.',
   'sheetCheck.lead': 'Sisestage salvestatud taastevõti üks kord, et see rakendus teaks, et saab teie koodid tagasi tuua. Seda kontrollitakse selles seadmes ja ei saadeta kuhugi.',
   'sheetCheck.submit': 'Kontrollige',
   'sheetCheck.lost': 'Kadunud või pole kunagi olnud? Looge kontolehel uus.',
@@ -797,12 +816,8 @@ export const et: Dictionary = {
   'password.change': 'Muuda parooli…',
   'password.formTitle': 'Konto parooli muutmine',
   'devices.title': 'Sisse logitud seadmed',
-  'devices.description':
-    'Logige välja seade, mida te enam ei kasuta või mida teil enam pole. Kui seal töötab ajakohane Keyrook Authenticator, eemaldab see järgmisel ühendusel ise selle konto koodid ja jätab alles vaid selle, mida see kunagi ei saatnud. Seni, või kui see enam kunagi ei ühendu, säilitab see, mis tal oli, lukustatuna sama parooliga.',
-  'devices.descriptionProvider':
-    'Logige välja seade, mida te enam ei kasuta või mida teil enam pole. Kui seal töötab ajakohane Keyrook Authenticator, eemaldab see järgmisel ühendusel ise selle konto koodid ja jätab alles vaid selle, mida see kunagi ei saatnud. Seni, või kui see enam kunagi ei ühendu, säilitab see, mis tal oli, lukustatuna nii, nagu hoidla selles seadmes lukus on.',
-  'devices.this': 'See seade',
-  'devices.when': 'Sisse logitud {created} · viimati aktiivne {seen}',
+  'devices.onAccountPage':
+    'Kõiki teie kontole sisse logitud seadmeid näete kontolehel, kus saate neid ka välja logida või eemaldada.',
   'removed.kept': 'Siin lisatud või muudetud koodid, mis kontole ei jõudnud, on endiselt siin.',
   'delete.row': 'Kustuta konto',
   'delete.rowDescription': 'Eemaldab serverist iga krüpteeritud koopia. See seade jätab hoidla, nagu see on; teised seadmed lõpetavad sünkroonimise.',
@@ -945,6 +960,7 @@ export const et: Dictionary = {
   'backup.choice.import.title': 'Import',
   'backup.choice.import.body': 'Varukoopiast, teise rakenduse ekspordist või otpauth:// linkidest.',
   'backup.choice.move.body': 'Ülekandekoodid, prinditav leht või loetav fail. Krüpteerimata.',
+  'backup.accountData': 'Teie koode saab eksportida ainult Keyrook Authenticator: server hoiab neid krüpteerituna. Mida server teie konto kohta hoiab, ilma koodide ja võtmeteta, laadite alla kontolehelt.',
   'security.description': 'Kuidas see hoidla avaneb ja teie tee tagasi, kui kaotate selle brauseri.',
   'security.deviceKeyHint': 'Midagi pole vaja trükkida. Ei peata pahavara, mis selles arvutis teie nimel töötab.',
   'security.passwordHint': 'Küsitakse iga kord, kui hoidla lukustub.',
@@ -1012,10 +1028,6 @@ export const et: Dictionary = {
   'about.fact.keys.body.phone':
     'Teie kontod on krüpteeritud andmevõtmega, mis on omakorda mähitud teise võtmesse. Ülemparooli korral tuletatakse mähkimisvõti PBKDF2-ga 600 000 vooruga ja see on mälus ainult siis, kui hoidla on avatud. Ilma paroolita on see telefoni enda võtmehoidla pitseeritud võti, nii et rakenduse failide koopia ei saa hoidlat avada.',
   'rate.store.play': 'Google Play poes',
-  'add.noNativeReader.phone':
-    'Suurt koodi — näiteks Google Authenticatori eksporti — ei saa siin kaameraga sageli skannida. Kui see ei õnnestu, pildistage see telefoni kaamerarakendusega ja kasutage valikut Laadi üles QR-koodi pilt.',
-  'import.noNativeReader.phone':
-    'Suurt koodi — näiteks Google Authenticatori eksporti — ei saa siin kaameraga sageli skannida. Kui see ei õnnestu, pildistage iga kood telefoni kaamerarakendusega ja valige need kõik nupuga Vali failid.',
   'error.signOutUnsynced.phone':
     'Mõned selle telefoni muudatused pole veel teie kontole jõudnud ja väljalogimine praegu kaotaks need. Looge internetiühendus ja proovige uuesti.',
   'account.signOutNote.phone':

@@ -31,19 +31,19 @@ export async function open(
   box: SealedBox,
   additionalData?: Uint8Array,
 ): Promise<Uint8Array> {
-  const params: AesGcmParams = {
-    name: 'AES-GCM',
-    iv: fromBase64(box.iv) as BufferSource,
-    tagLength: 128,
-  };
-  if (additionalData) params.additionalData = additionalData as BufferSource;
-
   try {
+    const params: AesGcmParams = {
+      name: 'AES-GCM',
+      iv: fromBase64(box.iv) as BufferSource,
+      tagLength: 128,
+    };
+    if (additionalData) params.additionalData = additionalData as BufferSource;
     const plaintext = await crypto.subtle.decrypt(params, key, fromBase64(box.ct) as BufferSource);
     return new Uint8Array(plaintext);
   } catch {
-    // GCM authentication failure. The overwhelmingly common cause is a wrong
-    // password, so say that rather than leaking a crypto-level message.
+    // GCM authentication failure, or no box at all, as a server may send in
+    // place of one: either opens nothing. The overwhelmingly common cause is
+    // a wrong password, so say that rather than leaking a crypto-level message.
     throw new DecryptionError();
   }
 }

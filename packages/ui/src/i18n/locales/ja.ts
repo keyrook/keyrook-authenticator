@@ -20,6 +20,8 @@ export const ja: Dictionary = {
   'error.noAccountSheet': 'このアカウントにはまだ回復キーがありません。アカウントページで作成してください。',
   'error.recoveryKeyWrong': 'この回復キーはこのアカウントのものではありません。',
   'error.noRecoveryKit': 'この保管庫には回復キーがありません。',
+  'error.accountData.withheld':
+    'Firefox が Keyrook Authenticator に Keyrook アカウントへの送信を許可していないため、何も送信されていません。Firefox に尋ねられたときに許可するか、about:addons で許可してください。',
   'error.syncUnavailable': 'このビルドでは同期を利用できません。',
   'error.notSignedIn': 'ログインしていません。',
   'error.alreadySignedIn': 'すでにログインしています。',
@@ -47,6 +49,8 @@ export const ja: Dictionary = {
   'error.autofillNotHere': '自動入力は通常のウェブページでのみ使えます。',
   'error.autofillBlocked':
     'Chrome が拡張機能によるこのページの読み取りを許可しませんでした。入力したいページからポップアップを開いてください。',
+  'error.autofillBlocked.firefox':
+    'Firefox が拡張機能によるこのページの読み取りを許可しませんでした。入力したいページからポップアップを開いてください。',
   'error.signinCancelled': 'ログインはキャンセルされました。',
   'error.signinStateMismatch': 'このログインは出発時と同じ状態で戻ってきませんでした。もう一度お試しください。',
   'error.signinUnfinished': 'ログインが完了しませんでした。もう一度お試しください。',
@@ -312,6 +316,7 @@ export const ja: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator は役に立っていますか？</b> {store} での評価が、ほかの人に見つけてもらうきっかけになります。',
   'rate.store.chrome': 'Chrome ウェブストア',
   'rate.store.edge': 'Edge アドオン',
+  'rate.store.firefox': 'Firefox アドオン',
   'rate.notNow': '今はしない',
   'rate.rate': '評価する',
 
@@ -329,6 +334,8 @@ export const ja: Dictionary = {
   'add.camera.description': 'スマートフォンに表示したコード用です。Google Authenticator のエクスポートにも使えます。',
   'add.camera.elsewhere':
     'Chrome がカメラの使用許可を求められるよう、一度だけ設定を開きます。その後はここで直接使えます。',
+  'add.camera.elsewhere.firefox':
+    'Firefox がカメラの使用許可を求められるよう、一度だけ設定を開きます。その後はここで直接使えます。',
   'add.upload.title': 'QR 画像をアップロード',
   'add.upload.description': '以前に保存したスクリーンショットや写真です。',
   'add.manual.title': 'セットアップキーを手動で入力',
@@ -340,6 +347,8 @@ export const ja: Dictionary = {
   'common.done': '完了',
   'add.noNativeReader':
     'このパソコンの Chrome には QR リーダーが組み込まれていないため、Google Authenticator のエクスポートのような大きなコードはカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンでスクリーンショットを撮り、「QR 画像をアップロード」を使ってください。',
+  'add.noNativeReader.firefox':
+    'このパソコンの Firefox には QR リーダーが組み込まれていないため、Google Authenticator のエクスポートのような大きなコードはカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンでスクリーンショットを撮り、「QR 画像をアップロード」を使ってください。',
   'add.openScannerInSettings': '設定でスキャナーを開く',
   'add.noneFound': 'アカウントが見つかりませんでした。',
   'add.noQrOnPage':
@@ -389,6 +398,8 @@ export const ja: Dictionary = {
     '画像はこのデバイス上で読み取って破棄します。何も記録せず、何もアップロードしません。',
   'camera.blocked':
     'Chrome がカメラへのアクセスをブロックしました。このページで許可するか、別の方法でアカウントを追加してください。',
+  'camera.blocked.firefox':
+    'Firefox がカメラへのアクセスをブロックしました。このページで許可するか、別の方法でアカウントを追加してください。',
   'camera.none': 'このパソコンにカメラが見つかりません。',
   'camera.busy': 'カメラは別のプログラムで使用中です。',
 
@@ -506,6 +517,8 @@ export const ja: Dictionary = {
   'about.fact.access.title': 'サイト全体へのアクセスはなし',
   'about.fact.access.body':
     '拡張機能はホスト権限を一切求めません。ページから QR コードを読み取ったり、コードを入力したりするときは activeTab を使います。これは Chrome が、拡張機能を起動したタブにだけ与える権限です。',
+  'about.fact.access.body.firefox':
+    '拡張機能はホスト権限を一切求めません。ページから QR コードを読み取ったり、コードを入力したりするときは activeTab を使います。これは Firefox が、拡張機能を起動したタブにだけ与える権限です。',
   'about.fact.standards.title': '囲い込みではなく標準規格',
   'about.fact.standards.body':
     'RFC 6238 TOTP と RFC 4226 HOTP に対応し、otpauth:// でのインポートとエクスポートができます。いつでもすべてを持って別のアプリに移れます。',
@@ -528,6 +541,7 @@ export const ja: Dictionary = {
   'about.logos.body':
     '{count} 個のサービスに本物のロゴがあります。アートワークは <simple>Simple Icons</simple>（CC0 1.0）、LobeHub Icons、SVG Logos、CoreUI Brands、Arcticons、<fa>Font Awesome Free</fa>（アイコン、CC BY 4.0）によるものです。製品名とロゴはすべて各所有者に帰属し、アカウントのサービスを識別するためだけに使っています。どのセットにもロゴがないサービスには、文字入りのタイルを表示します。',
   'about.shortcut.change': 'chrome://extensions/shortcuts で変更できます。',
+  'about.shortcut.change.firefox': 'about:addons で変更できます。',
   // --- 設定: アカウント ---------------------------------------------------------
   'accounts.title': 'アカウント',
   'accounts.description':
@@ -581,6 +595,8 @@ export const ja: Dictionary = {
   'import.stopAndReview': '停止して {count} 件を確認',
   'import.noNativeReader':
     'このパソコンの Chrome には QR リーダーが組み込まれていないため、Google Authenticator のエクスポートのような大きなコードはカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンで各コードのスクリーンショットを撮り、「ファイルを選択」ですべて選んでください。',
+  'import.noNativeReader.firefox':
+    'このパソコンの Firefox には QR リーダーが組み込まれていないため、Google Authenticator のエクスポートのような大きなコードはカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンで各コードのスクリーンショットを撮り、「ファイルを選択」ですべて選んでください。',
   'import.encrypted': 'このバックアップは暗号化されています。作成時のパスワードを入力してください。',
   'import.backupPassword': 'バックアップのパスワード',
   'import.open': 'バックアップを開く',
@@ -827,10 +843,16 @@ export const ja: Dictionary = {
   'account.signOutNote':
     'ログアウトすると、このブラウザからコードが削除されます。コードは Keyrook アカウントに残っているので、もう一度ログインすれば戻ります。',
   'accountPage.title': 'Keyrook アカウント',
-  'accountPage.body': 'パスワード、回復キー、やり直し、削除はアカウントページにあり、すべての Keyrook アプリに一度に反映されます。',
-  'accountPage.bodyNoRoot': 'パスワードと削除はアカウントページにあります。回復キーは、ほかの Keyrook アプリがこのアカウントを使うまで、ここの「セキュリティ」で作成します。',
-  'accountPage.bodyProvider': '回復キー、やり直し、削除はアカウントページにあり、すべての Keyrook アプリに一度に反映されます。',
-  'accountPage.bodyNoRootProvider': '削除はアカウントページにあります。回復キーは、ほかの Keyrook アプリがこのアカウントを使うまで、ここの「セキュリティ」で作成します。',
+  'accountPage.body': 'メールアドレス、パスワード、回復キー、やり直し、削除はアカウントページにあり、すべての Keyrook アプリに一度に反映されます。',
+  'accountPage.bodyNoRoot': 'メールアドレス、パスワード、削除はアカウントページにあります。回復キーは、ほかの Keyrook アプリがこのアカウントを使うまで、ここの「セキュリティ」で作成します。',
+  'accountPage.bodyProvider': 'メールアドレス、回復キー、やり直し、削除はアカウントページにあり、すべての Keyrook アプリに一度に反映されます。',
+  'accountPage.bodyNoRootProvider': 'メールアドレスと削除はアカウントページにあります。回復キーは、ほかの Keyrook アプリがこのアカウントを使うまで、ここの「セキュリティ」で作成します。',
+  'accountPage.address': 'メールアドレス',
+  'accountPage.changeAddress': 'アドレスを変更',
+  'accountPage.activity': '最近のアクティビティ',
+  'accountPage.activityBody': '過去 90 日間のアカウントへのログインと変更を、デバイス、アプリ、国とともにアカウントページで確認できます。',
+  'accountPage.data': 'アカウントのデータ',
+  'accountPage.dataBody': 'Keyrook のサーバーがアカウントについて保存している内容を、アカウントページからダウンロードできます。コードは含まれません。サーバーは暗号化した状態でしか保存していないためです。コードは「バックアップ」でエクスポートしてください。',
   'sheetCheck.lead': '保存した回復キーを一度だけ入力してください。このアプリが、そのキーでコードを取り戻せることを確認できます。確認はこのデバイス上で行われ、キーはどこにも送信されません。',
   'sheetCheck.submit': '確認する',
   'sheetCheck.lost': 'なくした、または一度も持っていない場合は、アカウントページで新しく作成してください。',
@@ -879,12 +901,7 @@ export const ja: Dictionary = {
   'password.change': 'パスワードを変更…',
   'password.formTitle': 'アカウントのパスワードを変更',
   'devices.title': 'ログイン中のデバイス',
-  'devices.description':
-    'もう使っていない、または手元にないデバイスをログアウトします。最新の Keyrook Authenticator を使っていれば、次に接続したときにこのアカウントのコードを自分で削除し、一度も送信していないものだけを残します。それまで、または二度と接続しない場合は、持っていた内容を同じパスワードで保持します。',
-  'devices.descriptionProvider':
-    'もう使っていない、または手元にないデバイスをログアウトします。最新の Keyrook Authenticator を使っていれば、次に接続したときにこのアカウントのコードを自分で削除し、一度も送信していないものだけを残します。それまで、または二度と接続しない場合は、持っていた内容を保管庫がそこでロックされているのと同じ方法でロックしたまま保持します。',
-  'devices.this': 'このデバイス',
-  'devices.when': '{created} にログイン · 最終アクティブ {seen}',
+  'devices.onAccountPage': 'アカウントにログイン中のすべてのデバイスはアカウントページで確認でき、そこでログアウトや削除もできます。',
   'removed.kept': 'ここで追加・変更して、まだアカウントに届いていなかったコードはそのまま残っています。',
   'delete.row': 'アカウントを削除',
   'delete.rowDescription':
@@ -1047,6 +1064,7 @@ export const ja: Dictionary = {
   'backup.choice.import.title': 'インポート',
   'backup.choice.import.body': 'バックアップ、他のアプリのエクスポート、otpauth:// リンクから。',
   'backup.choice.move.body': '転送コード、印刷用ページ、読める形式のファイル。暗号化されません。',
+  'backup.accountData': 'コードをエクスポートできるのは Keyrook Authenticator だけです。サーバーは暗号化した状態で保存しています。サーバーがアカウントについて保存している内容（コードや鍵は含みません）は、アカウントページからダウンロードできます。',
   'security.description': 'この保管庫の開き方と、このブラウザを失ったときに戻る方法。',
   'security.deviceKeyHint': '入力は不要です。このコンピュータであなたとして動くマルウェアは防げません。',
   'security.passwordHint': '保管庫がロックされるたびに入力します。',
@@ -1103,10 +1121,6 @@ export const ja: Dictionary = {
   'about.fact.keys.body.phone':
     'アカウントはデータキーで暗号化され、そのデータキー自体もラップされています。マスターパスワードがある場合、ラップ用のキーは PBKDF2（600,000 回）から導出され、ロック解除中のメモリ内にしか存在しません。ない場合は、スマートフォン自身のキーストアで封印されたキーなので、アプリのファイルをコピーしても保管庫は開けません。',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Google Authenticator のエクスポートのような大きなコードは、ここではカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンのカメラアプリで撮影し、「QR 画像をアップロード」を使ってください。',
-  'import.noNativeReader.phone':
-    'Google Authenticator のエクスポートのような大きなコードは、ここではカメラで読み取れないことがよくあります。読み取れない場合は、スマートフォンのカメラアプリで各コードを撮影し、「ファイルを選択」ですべて選んでください。',
   'error.signOutUnsynced.phone': 'このスマートフォンでの変更の一部がまだアカウントに届いていないため、今ログアウトすると失われます。インターネットに接続して、もう一度お試しください。',
   'account.signOutNote.phone': 'ログアウトすると、このスマートフォンからコードが削除されます。コードは Keyrook アカウントに残っているので、もう一度ログインすれば戻ります。',
   'secondStepTip.suggest.phone':

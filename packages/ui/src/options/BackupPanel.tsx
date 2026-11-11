@@ -19,6 +19,7 @@ import {
   type VaultItem,
 } from '@authx/core';
 import type { Mutate } from '../lib/protocol.js';
+import { accountPageUrl } from '../lib/links.js';
 import { planScan, startSession, type ScanSession } from '../lib/scan-session.js';
 import { CameraScanner } from '../components/CameraScanner.js';
 import { decodeQrFromFile } from '../components/qr.js';
@@ -89,6 +90,7 @@ export function BackupPanel({
   const [selection, setSelection] = useState<ExportSelection>('all');
   const chosen = chosenItems(items, selection);
   const open = JOBS.find((entry) => entry.id === job);
+  const signedIn = Boolean(data.account.email) && data.account.plan === 'synced';
 
   if (open) {
     return (
@@ -135,7 +137,7 @@ export function BackupPanel({
               </span>
               <span
                 id={`job-${id}-body`}
-                className="mt-0.5 block text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400"
+                className="kr-explain mt-0.5 block text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400"
               >
                 {t(body)}
               </span>
@@ -144,6 +146,22 @@ export function BackupPanel({
           </button>
         ))}
       </Section>
+      {signedIn && (
+        // Two downloads, easily taken for each other: this tab's hold the
+        // codes, which only this app can open; the account page's holds what
+        // the server keeps about the account, and no codes or keys.
+        <p className="kr-explain -mt-4 max-w-[62ch] px-1 text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+          {t('backup.accountData')}{' '}
+          <a
+            href={accountPageUrl('data')}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-neutral-800 underline underline-offset-2 dark:text-neutral-200"
+          >
+            {t('accountPage.open')}
+          </a>
+        </p>
+      )}
     </>
   );
 }

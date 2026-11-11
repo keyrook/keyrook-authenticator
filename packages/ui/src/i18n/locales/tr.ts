@@ -19,6 +19,8 @@ export const tr: Dictionary = {
   'error.noAccountSheet': 'Bu hesabın henüz kurtarma anahtarı yok. Hesap sayfasında bir tane oluşturun.',
   'error.recoveryKeyWrong': 'Bu kurtarma anahtarı bu hesapla eşleşmiyor.',
   'error.noRecoveryKit': 'Bu kasanın kurtarma anahtarı yok.',
+  'error.accountData.withheld':
+    'Firefox, Keyrook Authenticator’ın bir Keyrook hesabına bir şey göndermesine izin vermedi, bu yüzden hiçbir şey gönderilmedi. Firefox sorduğunda izin verin veya about:addons sayfasından verin.',
   'error.syncUnavailable': 'Bu sürümde eşitleme yok.',
   'error.notSignedIn': 'Oturum açılmadı.',
   'error.alreadySignedIn': 'Zaten oturum açıldı.',
@@ -44,6 +46,7 @@ export const tr: Dictionary = {
   'error.noActiveTab': 'Etkin sekme yok.',
   'error.autofillNotHere': 'Otomatik doldurma yalnızca normal web sayfalarında çalışır.',
   'error.autofillBlocked': 'Chrome, uzantının bu sayfayı okumasına izin vermedi. Açılır pencereyi doldurmak istediğiniz sayfada açın.',
+  'error.autofillBlocked.firefox': 'Firefox, uzantının bu sayfayı okumasına izin vermedi. Açılır pencereyi doldurmak istediğiniz sayfada açın.',
   'error.signinCancelled': 'Oturum açma iptal edildi.',
   'error.signinStateMismatch': 'Oturum açma, gittiği gibi geri dönmedi. Tekrar deneyin.',
   'error.signinUnfinished': 'Oturum açma tamamlanmadı. Tekrar deneyin.',
@@ -297,6 +300,7 @@ export const tr: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator işinize yarıyor mu?</b> {store} üzerindeki puanınız, başkalarının onu bulmasını sağlar.',
   'rate.store.chrome': 'Chrome Web Mağazası',
   'rate.store.edge': 'Edge Eklentileri',
+  'rate.store.firefox': 'Firefox Eklentileri',
   'rate.notNow': 'Şimdi değil',
   'rate.rate': 'Puanla',
 
@@ -311,6 +315,7 @@ export const tr: Dictionary = {
   'add.camera.title': 'Kamerayla tara',
   'add.camera.description': 'Telefonunuzdaki bir kod için — Google Authenticator dışa aktarımı dahil.',
   'add.camera.elsewhere': 'Chrome’un kamera izni isteyebilmesi için Ayarlar’ı bir kez açar. Sonrasında doğrudan burada çalışır.',
+  'add.camera.elsewhere.firefox': 'Firefox’un kamera izni isteyebilmesi için Ayarlar’ı bir kez açar. Sonrasında doğrudan burada çalışır.',
   'add.upload.title': 'QR görseli yükle',
   'add.upload.description': 'Daha önce kaydettiğiniz bir ekran görüntüsü ya da fotoğraf.',
   'add.manual.title': 'Kurulum anahtarını elle gir',
@@ -322,6 +327,8 @@ export const tr: Dictionary = {
   'common.done': 'Bitti',
   'add.noNativeReader':
     'Bu bilgisayardaki Chrome’da yerleşik QR okuyucu yok, bu yüzden büyük bir kod — Google Authenticator dışa aktarımı gibi — çoğu zaman kamerayla taranamaz. Taranmazsa telefonunuzda ekran görüntüsü alın ve QR görseli yükle seçeneğini kullanın.',
+  'add.noNativeReader.firefox':
+    'Bu bilgisayardaki Firefox’ta yerleşik QR okuyucu yok, bu yüzden büyük bir kod — Google Authenticator dışa aktarımı gibi — çoğu zaman kamerayla taranamaz. Taranmazsa telefonunuzda ekran görüntüsü alın ve QR görseli yükle seçeneğini kullanın.',
   'add.openScannerInSettings': 'Tarayıcıyı Ayarlar’da aç',
   'add.noneFound': 'Hesap bulunamadı.',
   'add.noQrOnPage': 'Sayfanın görünen kısmında QR kodu yok. Görünür olacak şekilde kaydırıp tekrar deneyin.',
@@ -366,6 +373,7 @@ export const tr: Dictionary = {
     'QR kodunu çerçevenin içinde tutun. Google Authenticator’dan mı aktarıyorsunuz? Telefonunuzda dışa aktarma ekranını açıp kamerayı ona doğrultun — birden çok kod varsa sırayla gösterin.',
   'camera.privacy': 'Görüntü bu cihazda okunur ve atılır. Hiçbir şey kaydedilmez, hiçbir şey yüklenmez.',
   'camera.blocked': 'Chrome kamera erişimini engelledi. Bu sayfa için izin verin ya da hesap eklemenin başka bir yolunu kullanın.',
+  'camera.blocked.firefox': 'Firefox kamera erişimini engelledi. Bu sayfa için izin verin ya da hesap eklemenin başka bir yolunu kullanın.',
   'camera.none': 'Bu bilgisayarda kamera bulunamadı.',
   'camera.busy': 'Kamera başka bir program tarafından kullanılıyor.',
 
@@ -472,6 +480,8 @@ export const tr: Dictionary = {
   'about.fact.access.title': 'Sitelere genel erişim yok',
   'about.fact.access.body':
     'Uzantı hiçbir site izni istemez. Bir sayfadan QR kodu okumak ya da bir sayfaya kod doldurmak activeTab kullanır — Chrome’un yalnızca uzantıyı çağırdığınız sekme için verdiği bir izin.',
+  'about.fact.access.body.firefox':
+    'Uzantı hiçbir site izni istemez. Bir sayfadan QR kodu okumak ya da bir sayfaya kod doldurmak activeTab kullanır — Firefox’un yalnızca uzantıyı çağırdığınız sekme için verdiği bir izin.',
   'about.fact.standards.title': 'Standartlar, bağımlılık değil',
   'about.fact.standards.body':
     'RFC 6238 TOTP ve RFC 4226 HOTP, otpauth:// içe ve dışa aktarma ile. İstediğiniz an başka bir uygulamaya geçip her şeyi yanınızda götürebilirsiniz.',
@@ -493,6 +503,7 @@ export const tr: Dictionary = {
   'about.logos.body':
     '{count} hizmetin gerçek bir işareti var. Görseller <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons ve <fa>Font Awesome Free</fa> (simgeler, CC BY 4.0) kaynaklıdır. Tüm ürün adları ve logolar sahiplerine aittir ve yalnızca bir hesabın ait olduğu hizmeti belirtmek için kullanılır. Bu setlerde işareti olmayan bir hizmet harfli bir kutucuk alır.',
   'about.shortcut.change': 'chrome://extensions/shortcuts adresinden değiştirin.',
+  'about.shortcut.change.firefox': 'about:addons adresinden değiştirin.',
   'accounts.title': 'Hesaplar',
   'accounts.description': 'Bu kasada saklanan her şey. Kodlar bu cihazda üretilir, asla bir sunucuda değil.',
   'accounts.empty': 'Henüz hesap yok. Başlamak için bir tane ekleyin.',
@@ -545,6 +556,8 @@ export const tr: Dictionary = {
   'import.stopAndReview': 'Dur ve {count} tanesini incele',
   'import.noNativeReader':
     'Bu bilgisayardaki Chrome’da yerleşik QR okuyucu yok, bu yüzden büyük bir kod — Google Authenticator dışa aktarımı gibi — çoğu zaman kamerayla taranamaz. Taranmazsa her kodun ekran görüntüsünü telefonunuzda alın ve hepsini Dosya seç ile seçin.',
+  'import.noNativeReader.firefox':
+    'Bu bilgisayardaki Firefox’ta yerleşik QR okuyucu yok, bu yüzden büyük bir kod — Google Authenticator dışa aktarımı gibi — çoğu zaman kamerayla taranamaz. Taranmazsa her kodun ekran görüntüsünü telefonunuzda alın ve hepsini Dosya seç ile seçin.',
   'import.encrypted': 'Bu yedek şifreli. Oluşturulurken kullanılan parolayı girin.',
   'import.backupPassword': 'Yedek parolası',
   'import.open': 'Yedeği aç',
@@ -777,10 +790,16 @@ export const tr: Dictionary = {
   },
   'account.signOutNote': 'Oturumu kapatmak kodlarınızı bu tarayıcıdan kaldırır. Kodlar Keyrook hesabınızda kalır — geri getirmek için yeniden oturum açın.',
   'accountPage.title': 'Keyrook hesabınız',
-  'accountPage.body': 'Parola, kurtarma anahtarı, baştan başlatma ve silme, tüm Keyrook uygulamaları için tek seferde hesap sayfasındadır.',
-  'accountPage.bodyNoRoot': 'Parola ve silme hesap sayfasındadır. Kurtarma anahtarı, hesabı başka bir Keyrook uygulaması kullanana kadar burada, Güvenlik altında oluşturulur.',
-  'accountPage.bodyProvider': 'Kurtarma anahtarı, baştan başlatma ve silme, tüm Keyrook uygulamaları için tek seferde hesap sayfasındadır.',
-  'accountPage.bodyNoRootProvider': 'Silme hesap sayfasındadır. Kurtarma anahtarı, hesabı başka bir Keyrook uygulaması kullanana kadar burada, Güvenlik altında oluşturulur.',
+  'accountPage.body': 'Adres, parola, kurtarma anahtarı, baştan başlatma ve silme, tüm Keyrook uygulamaları için tek seferde hesap sayfasındadır.',
+  'accountPage.bodyNoRoot': 'Adres, parola ve silme hesap sayfasındadır. Kurtarma anahtarı, hesabı başka bir Keyrook uygulaması kullanana kadar burada, Güvenlik altında oluşturulur.',
+  'accountPage.bodyProvider': 'Adres, kurtarma anahtarı, baştan başlatma ve silme, tüm Keyrook uygulamaları için tek seferde hesap sayfasındadır.',
+  'accountPage.bodyNoRootProvider': 'Adres ve silme hesap sayfasındadır. Kurtarma anahtarı, hesabı başka bir Keyrook uygulaması kullanana kadar burada, Güvenlik altında oluşturulur.',
+  'accountPage.address': 'E-posta adresi',
+  'accountPage.changeAddress': 'Adresi değiştir',
+  'accountPage.activity': 'Son etkinlikler',
+  'accountPage.activityBody': 'Son 90 gündeki oturum açmalar ve hesabınızdaki değişiklikler; cihaz, uygulama ve ülkeyle birlikte hesap sayfasında.',
+  'accountPage.data': 'Hesap verileri',
+  'accountPage.dataBody': 'Keyrook sunucusunun hesabınız hakkında tuttuklarını hesap sayfasından indirin. Kodlarınız bunun içinde yok: sunucu onları yalnızca şifreli tutar. Kodları Yedekleme altında dışa aktarın.',
   'sheetCheck.lead': 'Kaydettiğiniz kurtarma anahtarını bir kez yazın; böylece bu uygulama kodlarınızı geri getirebileceğini bilir. Anahtar bu cihazda kontrol edilir ve hiçbir yere gönderilmez.',
   'sheetCheck.submit': 'Kontrol et',
   'sheetCheck.lost': 'Kaybettiniz mi, yoksa hiç olmadı mı? Hesap sayfasında yenisini oluşturun.',
@@ -827,12 +846,8 @@ export const tr: Dictionary = {
   'password.change': 'Parolayı değiştir…',
   'password.formTitle': 'Hesap parolanızı değiştirin',
   'devices.title': 'Oturum açılmış cihazlar',
-  'devices.description':
-    'Artık kullanmadığınız ya da elinizde olmayan bir cihazın oturumunu kapatın. Üzerinde güncel bir Keyrook Authenticator çalışıyorsa, bir sonraki bağlantısında bu hesabın kodlarını kendisi kaldırır ve yalnızca hiç göndermediklerini tutar. O zamana kadar, ya da bir daha hiç bağlanmazsa, elindekini aynı parolayla kilitli tutar.',
-  'devices.descriptionProvider':
-    'Artık kullanmadığınız ya da elinizde olmayan bir cihazın oturumunu kapatın. Üzerinde güncel bir Keyrook Authenticator çalışıyorsa, bir sonraki bağlantısında bu hesabın kodlarını kendisi kaldırır ve yalnızca hiç göndermediklerini tutar. O zamana kadar, ya da bir daha hiç bağlanmazsa, elindekini kasanın o cihazda kilitli olduğu şekilde kilitli tutar.',
-  'devices.this': 'Bu cihaz',
-  'devices.when': '{created} tarihinde oturum açıldı · son etkinlik {seen}',
+  'devices.onAccountPage':
+    'Hesabınızda oturum açılmış tüm cihazları hesap sayfasında görebilir, oradan birinin oturumunu kapatabilir ya da kaldırabilirsiniz.',
   'removed.kept': 'Burada eklenen ya da değiştirilen ve hesaba ulaşmamış kodlar hâlâ burada.',
   'delete.row': 'Hesabınızı silin',
   'delete.rowDescription':
@@ -987,6 +1002,7 @@ export const tr: Dictionary = {
   'backup.choice.import.title': 'İçe aktar',
   'backup.choice.import.body': 'Bir yedekten, başka bir uygulamanın dışa aktarımından ya da otpauth:// bağlantılarından.',
   'backup.choice.move.body': 'Aktarım kodları, yazdırılacak bir sayfa ya da okunabilir bir dosya. Şifreli değil.',
+  'backup.accountData': 'Kodlarınızı yalnızca Keyrook Authenticator dışa aktarabilir: sunucu onları şifreli tutar. Sunucunun hesabınız hakkında tuttukları, kod ya da anahtar olmadan, hesap sayfasından indirilir.',
   'security.description': 'Bu kasanın nasıl açıldığı ve bu tarayıcı kaybolursa geri dönüş yolunuz.',
   'security.deviceKeyHint': 'Yazılacak bir şey yok. Bu bilgisayarda sizin adınıza çalışan kötü amaçlı yazılımı durdurmaz.',
   'security.passwordHint': 'Kasa her kilitlendiğinde sorulur.',
@@ -1055,10 +1071,6 @@ export const tr: Dictionary = {
   'about.fact.keys.body.phone':
     'Hesaplarınız, kendisi de sarmalanmış bir veri anahtarıyla şifrelenir. Ana parolayla sarmalama anahtarı 600.000 turluk PBKDF2’den gelir ve yalnızca kilit açıkken bellekte bulunur. Parola olmadan, telefonun kendi anahtar deposunun mühürlediği bir anahtardır; bu yüzden uygulama dosyalarının bir kopyası kasayı açamaz.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Büyük bir kod — Google Authenticator dışa aktarımı gibi — burada çoğu zaman kamerayla taranamaz. Taranmazsa telefonun kamera uygulamasıyla fotoğrafını çekin ve QR görseli yükle seçeneğini kullanın.',
-  'import.noNativeReader.phone':
-    'Büyük bir kod — Google Authenticator dışa aktarımı gibi — burada çoğu zaman kamerayla taranamaz. Taranmazsa her kodun fotoğrafını telefonun kamera uygulamasıyla çekin ve hepsini Dosya seç ile seçin.',
   'error.signOutUnsynced.phone':
     'Bu telefondaki bazı değişiklikler henüz hesabınıza ulaşmadı ve şimdi oturumu kapatmak bunları kaybettirir. İnternete bağlanın ve yeniden deneyin.',
   'account.signOutNote.phone':

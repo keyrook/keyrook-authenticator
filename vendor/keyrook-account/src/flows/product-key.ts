@@ -8,8 +8,9 @@
  * itself. The root's private half is opened only inside a flow and dropped
  * before it returns; what a product keeps is a `ProductKey`.
  */
-import { DecryptionError, generateDataKey, wrapDataKey } from '../crypto/aead.js';
+import { DecryptionError, generateDataKey, wrapDataKey, type SealedBox } from '../crypto/aead.js';
 import { openProductBox, sealProductBox } from '../keys/box.js';
+import { openMemberKeyWithProduct, sealMemberKeyUnderProduct, type MemberKey } from '../keys/org/member.js';
 import { openRootPin, sealRootPin } from '../keys/pin.js';
 import { AUTHENTICATOR, assertProductName, deriveProductKeyCheck } from '../keys/product.js';
 import {
@@ -31,7 +32,7 @@ import {
 } from '../sync/account.js';
 import { generateRecoveryKey } from '../sync/kit.js';
 import { prelogin, providerRegister, register, SyncHttpError, type Fetcher, type HttpSyncAdapter } from '../sync/http.js';
-import type { AccountKeysResponse, InitialKeys, LoginResponse, ProviderLogin, ProviderTicket, SecondStepProof } from '../sync/protocol.js';
+import type { AccountKeysResponse, InitialKeys, LoginResponse, ProviderLogin, ProviderTicket, RootSeen, SecondStepProof } from '../sync/protocol.js';
 import { deriveKeyCheck, deriveRecoveryAuthHash } from '../sync/recovery.js';
 
 /** Where the account lives, for the calls made before there is a session. */
@@ -189,15 +190,17 @@ export type OpenedProductKey =
   /**
    * This product's key, from its box. `rootChanged`: the root is not the one
    * this device last pinned. `mustReplace`: the recovery key leaked, and this
-   * product replaces its key now (`replaceProductKey`).
+   * product replaces its key now (`replaceProductKey`). `rootSeen`: someone
+   * else opened the root (`RootSeen`), and could again until it is replaced
+   * (`replaceAccountRoot`); the product says so.
    */
-  | { status: 'open'; productKey: ProductKey; rootChanged: boolean; mustReplace: boolean }
+  | { status: 'open'; productKey: ProductKey; rootChanged: boolean; mustReplace: boolean; rootSeen: RootSeen[] }
   /**
    * This product had no key on the account, and now has one. `tookOtherKey`:
    * another device of this product sealed its key first, and this device must
    * seal what it holds under `productKey.key` instead of its own.
    */
-  | { status: 'joined'; productKey: ProductKey; tookOtherKey: boolean }
+  | { status: 'joined'; productKey: ProductKey; tookOtherKey: boolean; rootSeen: RootSeen[] }
   /**
    * The account has no root. Keyrook Authenticator goes on as before; any other
    * product tells the person and calls `createAccountRoot`.
@@ -306,6 +309,7 @@ async function withRoot(
       productKey: { accountId, product, key, keyGeneration, root: root.publicKey, rootGeneration: current.generation, sheetVerifiedAt },
       rootChanged: !samePin || (input.pinned !== undefined && input.pinned.root !== root.publicKey),
       mustReplace: held.box.mustReplace,
+      rootSeen: held.rootSeen ?? [],
     };
   }
 
@@ -329,6 +333,7 @@ async function withRoot(
         sheetVerifiedAt: typedAt,
       },
       tookOtherKey: false,
+      rootSeen: held.rootSeen ?? [],
     };
   } catch (error) {
     if (!(error instanceof SyncHttpError) || error.status !== 409) throw error;
@@ -338,7 +343,7 @@ async function withRoot(
     assertSameAccount(again, accountId);
     if (!again.box || again.root?.publicKey !== root.publicKey) throw error;
     const opened = await withRoot(api, again, root, { ...input, existingKey: undefined });
-    return opened.status === 'open' ? { status: 'joined', productKey: opened.productKey, tookOtherKey: true } : opened;
+    return opened.status === 'open' ? { status: 'joined', productKey: opened.productKey, tookOtherKey: true, rootSeen: opened.rootSeen } : opened;
   }
 }
 
@@ -504,7 +509,10 @@ export async function keepOlderAuthenticatorWorking(
  * pulls may still be sealed under the previous key.
  *
  * The new box is sealed to the root this product pinned, and the server
- * refuses it unless that is the account's root now.
+ * refuses it unless that is the account's root now. Each family's member key
+ * this product holds is put under the new key once the box is replaced, as
+ * the product's pin of each family is when it next opens it
+ * (`openFamily`'s `previousKey`).
  */
 export async function replaceProductKey(
   api: HttpSyncAdapter,
@@ -519,6 +527,15 @@ export async function replaceProductKey(
   if (held.root.publicKey !== productKey.root) {
     throw new Error('The account’s root key changed. Open this product’s key again before replacing it.');
   }
+  // Opened before anything changes: one that does not open stops it here.
+  const members: { orgId: string; member: MemberKey }[] = [];
+  for (const entry of held.memberKeyBoxes ?? []) {
+    try {
+      members.push({ orgId: entry.orgId, member: await openMemberKeyWithProduct(entry.box as unknown as SealedBox, productKey.key, entry.orgId, accountId, product) });
+    } catch {
+      throw new Error('Your key for your family does not open with this app’s key. Nothing was changed.');
+    }
+  }
   const key = await generateDataKey();
   const updated = await api.replaceBox({
     box: await sealProductBox(key, productKey.root, accountId, product),
@@ -529,6 +546,9 @@ export async function replaceProductKey(
     rootGeneration: held.root.generation,
   });
   assertSameAccount(updated, accountId);
+  for (const { orgId, member } of members) {
+    await api.putOrgProductBox(orgId, product, { box: { ...(await sealMemberKeyUnderProduct(member, key, orgId, accountId, product)) } });
+  }
   return {
     productKey: {
       ...productKey,

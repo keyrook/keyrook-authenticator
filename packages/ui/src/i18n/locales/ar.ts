@@ -20,6 +20,8 @@ export const ar: Dictionary = {
   'error.noAccountSheet': 'لا يملك هذا الحساب مفتاح استرداد بعد. أنشئ واحدًا في صفحة الحساب.',
   'error.recoveryKeyWrong': 'مفتاح الاسترداد هذا لا يطابق هذا الحساب.',
   'error.noRecoveryKit': 'لا تملك هذه الخزنة مفتاح استرداد.',
+  'error.accountData.withheld':
+    'لم يسمح Firefox لتطبيق Keyrook Authenticator بإرسال أي شيء إلى حساب في Keyrook، لذا لم يُرسَل شيء. اسمح بذلك عندما يسألك Firefox، أو من about:addons.',
   'error.syncUnavailable': 'المزامنة غير متاحة في هذا الإصدار.',
   'error.notSignedIn': 'لم تسجّل الدخول.',
   'error.alreadySignedIn': 'سجّلت الدخول بالفعل.',
@@ -46,6 +48,8 @@ export const ar: Dictionary = {
   'error.autofillNotHere': 'لا يعمل الملء التلقائي إلا في صفحات الويب العادية.',
   'error.autofillBlocked':
     'لم يسمح Chrome للإضافة بقراءة هذه الصفحة. افتح النافذة المنبثقة من الصفحة التي تريد ملأها.',
+  'error.autofillBlocked.firefox':
+    'لم يسمح Firefox للإضافة بقراءة هذه الصفحة. افتح النافذة المنبثقة من الصفحة التي تريد ملأها.',
   'error.signinCancelled': 'أُلغي تسجيل الدخول.',
   'error.signinStateMismatch': 'لم يرجع تسجيل الدخول هذا كما ذهب. حاول مرة أخرى.',
   'error.signinUnfinished': 'لم يكتمل تسجيل الدخول. حاول مرة أخرى.',
@@ -332,6 +336,7 @@ export const ar: Dictionary = {
   'rate.body': '<b>هل تجد Keyrook Authenticator مفيدًا؟</b> التقييم على {store} هو ما يجعل الآخرين يعثرون عليه.',
   'rate.store.chrome': 'سوق Chrome الإلكتروني',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'ليس الآن',
   'rate.rate': 'قيّمه',
 
@@ -349,6 +354,8 @@ export const ar: Dictionary = {
   'add.camera.description': 'لرمز على هاتفك — بما في ذلك تصدير من Google Authenticator.',
   'add.camera.elsewhere':
     'يفتح الإعدادات مرة واحدة ليطلب Chrome استخدام الكاميرا. بعدها يعمل هنا مباشرة.',
+  'add.camera.elsewhere.firefox':
+    'يفتح الإعدادات مرة واحدة ليطلب Firefox استخدام الكاميرا. بعدها يعمل هنا مباشرة.',
   'add.upload.title': 'رفع صورة QR',
   'add.upload.description': 'لقطة شاشة أو صورة حفظتها من قبل.',
   'add.manual.title': 'إدخال مفتاح الإعداد يدويًا',
@@ -360,6 +367,8 @@ export const ar: Dictionary = {
   'common.done': 'تم',
   'add.noNativeReader':
     'لا يملك Chrome على هذا الحاسوب قارئ QR مدمجًا، لذا كثيرًا ما يتعذّر مسح رمز كبير — مثل تصدير Google Authenticator — بالكاميرا. إن تعذّر ذلك، فالتقط لقطة شاشة على هاتفك واستخدم «رفع صورة QR».',
+  'add.noNativeReader.firefox':
+    'لا يملك Firefox على هذا الحاسوب قارئ QR مدمجًا، لذا كثيرًا ما يتعذّر مسح رمز كبير — مثل تصدير Google Authenticator — بالكاميرا. إن تعذّر ذلك، فالتقط لقطة شاشة على هاتفك واستخدم «رفع صورة QR».',
   'add.openScannerInSettings': 'فتح الماسح في الإعدادات',
   'add.noneFound': 'لم يُعثر على حسابات.',
   'add.noQrOnPage': 'لم يُعثر على رمز QR في الجزء الظاهر من الصفحة. مرّر إليه وحاول مرة أخرى.',
@@ -455,6 +464,8 @@ export const ar: Dictionary = {
     'تُقرأ الصورة على هذا الجهاز ثم تُحذف. لا يُسجَّل شيء ولا يُرفع شيء.',
   'camera.blocked':
     'منع Chrome الوصول إلى الكاميرا. اسمح به لهذه الصفحة، أو استخدم طريقة أخرى لإضافة حساب.',
+  'camera.blocked.firefox':
+    'منع Firefox الوصول إلى الكاميرا. اسمح به لهذه الصفحة، أو استخدم طريقة أخرى لإضافة حساب.',
   'camera.none': 'لم يُعثر على كاميرا في هذا الحاسوب.',
   'camera.busy': 'الكاميرا يستخدمها برنامج آخر.',
 
@@ -591,6 +602,8 @@ export const ar: Dictionary = {
   'about.fact.access.title': 'لا وصول شامل إلى المواقع',
   'about.fact.access.body':
     'لا تطلب الإضافة أذونات للمواقع. قراءة رمز QR من صفحة أو ملء رمز فيها يستخدم activeTab — إذنًا يمنحه Chrome فقط لعلامة التبويب التي استدعيت عليها الإضافة.',
+  'about.fact.access.body.firefox':
+    'لا تطلب الإضافة أذونات للمواقع. قراءة رمز QR من صفحة أو ملء رمز فيها يستخدم activeTab — إذنًا يمنحه Firefox فقط لعلامة التبويب التي استدعيت عليها الإضافة.',
   'about.fact.standards.title': 'معايير مفتوحة، لا احتكار',
   'about.fact.standards.body':
     'TOTP وفق RFC 6238 وHOTP وفق RFC 4226، مع استيراد وتصدير otpauth://. يمكنك الانتقال إلى تطبيق آخر في أي وقت وأخذ كل شيء معك.',
@@ -613,6 +626,7 @@ export const ar: Dictionary = {
   'about.logos.body':
     'لـ{count} خدمة شعار حقيقي. الرسوم من <simple>Simple Icons</simple> (CC0 1.0) وLobeHub Icons وSVG Logos وCoreUI Brands وArcticons و<fa>Font Awesome Free</fa> (أيقونات، CC BY 4.0). جميع أسماء المنتجات والشعارات ملك لأصحابها وتُستخدم فقط لتمييز الخدمة التي ينتمي إليها الحساب. الخدمة التي لا شعار لها في هذه المجموعات تحصل على مربع بحرفها الأول.',
   'about.shortcut.change': 'غيّره من chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'غيّره من about:addons.',
   // --- الإعدادات: الحسابات ------------------------------------------------------
   'accounts.title': 'الحسابات',
   'accounts.description':
@@ -671,6 +685,8 @@ export const ar: Dictionary = {
   'import.stopAndReview': 'التوقف ومراجعة {count}',
   'import.noNativeReader':
     'لا يملك Chrome على هذا الحاسوب قارئ QR مدمجًا، لذا كثيرًا ما يتعذّر مسح رمز كبير — مثل تصدير Google Authenticator — بالكاميرا. إن تعذّر ذلك، فالتقط لقطة شاشة لكل رمز على هاتفك واخترها كلها من «اختيار ملفات».',
+  'import.noNativeReader.firefox':
+    'لا يملك Firefox على هذا الحاسوب قارئ QR مدمجًا، لذا كثيرًا ما يتعذّر مسح رمز كبير — مثل تصدير Google Authenticator — بالكاميرا. إن تعذّر ذلك، فالتقط لقطة شاشة لكل رمز على هاتفك واخترها كلها من «اختيار ملفات».',
   'import.encrypted': 'هذه النسخة الاحتياطية مشفّرة. أدخل كلمة المرور التي أُنشئت بها.',
   'import.backupPassword': 'كلمة مرور النسخة الاحتياطية',
   'import.open': 'فتح النسخة الاحتياطية',
@@ -970,10 +986,16 @@ export const ar: Dictionary = {
   'account.signOutNote':
     'تسجيل الخروج يزيل رموزك من هذا المتصفح. تبقى في حسابك في Keyrook — سجّل الدخول مرة أخرى لاستعادتها.',
   'accountPage.title': 'حسابك في Keyrook',
-  'accountPage.body': 'كلمة المرور ومفتاح الاسترداد والبدء من جديد والحذف كلها في صفحة الحساب، لكل تطبيقات Keyrook معًا.',
-  'accountPage.bodyNoRoot': 'كلمة المرور والحذف في صفحة الحساب. أما مفتاح الاسترداد فيُنشأ هنا، ضمن الأمان، إلى أن يستخدم تطبيق آخر من Keyrook الحساب.',
-  'accountPage.bodyProvider': 'مفتاح الاسترداد والبدء من جديد والحذف كلها في صفحة الحساب، لكل تطبيقات Keyrook معًا.',
-  'accountPage.bodyNoRootProvider': 'الحذف في صفحة الحساب. أما مفتاح الاسترداد فيُنشأ هنا، ضمن الأمان، إلى أن يستخدم تطبيق آخر من Keyrook الحساب.',
+  'accountPage.body': 'العنوان وكلمة المرور ومفتاح الاسترداد والبدء من جديد والحذف كلها في صفحة الحساب، لكل تطبيقات Keyrook معًا.',
+  'accountPage.bodyNoRoot': 'العنوان وكلمة المرور والحذف في صفحة الحساب. أما مفتاح الاسترداد فيُنشأ هنا، ضمن الأمان، إلى أن يستخدم تطبيق آخر من Keyrook الحساب.',
+  'accountPage.bodyProvider': 'العنوان ومفتاح الاسترداد والبدء من جديد والحذف كلها في صفحة الحساب، لكل تطبيقات Keyrook معًا.',
+  'accountPage.bodyNoRootProvider': 'العنوان والحذف في صفحة الحساب. أما مفتاح الاسترداد فيُنشأ هنا، ضمن الأمان، إلى أن يستخدم تطبيق آخر من Keyrook الحساب.',
+  'accountPage.address': 'عنوان البريد الإلكتروني',
+  'accountPage.changeAddress': 'تغيير العنوان',
+  'accountPage.activity': 'النشاط الأخير',
+  'accountPage.activityBody': 'عمليات تسجيل الدخول والتغييرات على حسابك في آخر 90 يومًا، مع الجهاز والتطبيق والبلد، في صفحة الحساب.',
+  'accountPage.data': 'بيانات الحساب',
+  'accountPage.dataBody': 'نزّل من صفحة الحساب ما يحتفظ به خادم Keyrook عن حسابك. رموزك ليست فيه: فالخادم لا يحتفظ بها إلا مشفّرة. صدّرها من النسخ الاحتياطي.',
   'sheetCheck.lead': 'اكتب مفتاح الاسترداد الذي حفظته مرة واحدة، ليعرف هذا التطبيق أنه يستطيع إعادة رموزك. يُتحقق منه على هذا الجهاز ولا يُرسل إلى أي مكان.',
   'sheetCheck.submit': 'تحقّق منه',
   'sheetCheck.lost': 'فقدته، أو لم يكن لديك واحد قط؟ أنشئ مفتاحًا جديدًا في صفحة الحساب.',
@@ -1022,12 +1044,8 @@ export const ar: Dictionary = {
   'password.change': 'تغيير كلمة المرور…',
   'password.formTitle': 'تغيير كلمة مرور حسابك',
   'devices.title': 'الأجهزة المسجّلة',
-  'devices.description':
-    'سجّل خروج جهاز لم تعد تستخدمه أو لم يعد معك. إن كان يعمل عليه إصدار حديث من Keyrook Authenticator، فإنه يزيل رموز هذا الحساب من نفسه عند اتصاله التالي، ولا يحتفظ إلا بما لم يرسله قط. وحتى ذلك الحين، أو إن لم يتصل مجددًا، يحتفظ بما كان لديه، مقفلًا بكلمة المرور نفسها.',
-  'devices.descriptionProvider':
-    'سجّل خروج جهاز لم تعد تستخدمه أو لم يعد معك. إن كان يعمل عليه إصدار حديث من Keyrook Authenticator، فإنه يزيل رموز هذا الحساب من نفسه عند اتصاله التالي، ولا يحتفظ إلا بما لم يرسله قط. وحتى ذلك الحين، أو إن لم يتصل مجددًا، يحتفظ بما كان لديه، مقفلًا كما تُقفل خزنته على ذلك الجهاز.',
-  'devices.this': 'هذا الجهاز',
-  'devices.when': 'سُجّل الدخول {created} · آخر نشاط {seen}',
+  'devices.onAccountPage':
+    'اعرض كل الأجهزة المسجّلة في حسابك، وسجّل خروج أيٍّ منها أو أزِله، من صفحة الحساب.',
   'removed.kept': 'الرموز التي أُضيفت أو عُدّلت هنا ولم تصل إلى الحساب لا تزال هنا.',
   'delete.row': 'حذف حسابك',
   'delete.rowDescription':
@@ -1215,6 +1233,7 @@ export const ar: Dictionary = {
   'backup.choice.import.title': 'استيراد',
   'backup.choice.import.body': 'من نسخة احتياطية، أو تصدير تطبيق آخر، أو روابط otpauth://.',
   'backup.choice.move.body': 'رموز نقل، أو ورقة للطباعة، أو ملف مقروء. غير مشفّر.',
+  'backup.accountData': 'لا يصدّر رموزك إلا Keyrook Authenticator: فالخادم يحتفظ بها مشفّرة. أما ما يحتفظ به الخادم عن حسابك، بلا رموز ولا مفاتيح، فيُنزَّل من صفحة الحساب.',
   'security.description': 'كيف تُفتح هذه الخزنة، وطريق عودتك إن فقدت هذا المتصفح.',
   'security.deviceKeyHint': 'لا شيء لتكتبه. لا يمنع برمجيات خبيثة تعمل باسمك على هذا الحاسوب.',
   'security.passwordHint': 'تُطلب كلما أُقفلت الخزنة.',
@@ -1279,10 +1298,6 @@ export const ar: Dictionary = {
   'about.fact.keys.body.phone':
     'تُشفَّر حساباتك بمفتاح بيانات محمي بدوره بمفتاح آخر. مع كلمة المرور الرئيسية يُشتق المفتاح الحامي بـ PBKDF2 بـ600٬000 جولة ولا يوجد إلا في الذاكرة ما دامت الخزنة مفتوحة. ومن دونها يكون مفتاحًا مختومًا بمخزن المفاتيح الخاص بالهاتف، فلا تستطيع نسخة من ملفات التطبيق فتح الخزنة.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'كثيرًا ما يتعذّر مسح رمز كبير — مثل تصدير Google Authenticator — بالكاميرا هنا. إن تعذّر ذلك، فالتقط صورة له بتطبيق الكاميرا في الهاتف واستخدم «رفع صورة QR».',
-  'import.noNativeReader.phone':
-    'كثيرًا ما يتعذّر مسح رمز كبير — مثل تصدير Google Authenticator — بالكاميرا هنا. إن تعذّر ذلك، فالتقط صورة لكل رمز بتطبيق الكاميرا في الهاتف واخترها كلها من «اختيار ملفات».',
   'error.signOutUnsynced.phone':
     'بعض التغييرات على هذا الهاتف لم تصل إلى حسابك بعد، وتسجيل الخروج الآن سيُضيّعها. اتصل بالإنترنت وحاول مرة أخرى.',
   'account.signOutNote.phone':

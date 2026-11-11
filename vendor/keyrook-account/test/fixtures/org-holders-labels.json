@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "ORG_ID": "7c1e4a2b-3d5f-4a6b-8c9d-0e1f2a3b4c5d",
+    "COLLECTION_ID": "c0llect10n-8f3a",
+    "GENERATION": 3,
+    "MINH_ID": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5e",
+    "LAN_ID": "9f8e7d6c-5b4a-4c3d-8e2f-1a0b9c8d7e6f",
+    "COLLECTION_KEY": "bHV4+1lCzQzpWEXX0ALeLyIa4elYXjmRkiRuDMkVo4g="
+  },
+  "holders": {
+    "iv": "VB9FWRb0HsCqw2QQ",
+    "ct": "yt866DElCxvqsnCoincj1nkAer/wBTrckT1iYUSp7+g0pUJrE9UIHD5nCmASKpKk/GBwNWMrZr/m4XbBe6GUJavVUFg9xqiaWOn+KE4EnJDUjySn9DlZaYL2y0suTc7MCsUgYsAd78AC0mc="
+  }
+}

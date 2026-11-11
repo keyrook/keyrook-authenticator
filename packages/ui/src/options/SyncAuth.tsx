@@ -9,12 +9,13 @@ import {
   type SignInResult,
   type SyncSummary,
 } from '../lib/protocol.js';
+import { host } from '../host.js';
 import { AlertIcon, CheckIcon, CloudLockIcon, KeyIcon } from '../components/icons.js';
 import { PasswordField } from '../components/password.js';
 import { Button, Callout, Field, Spinner, cx } from '../components/primitives.js';
-import { ACCOUNT_PAGE_URL, PRIVACY_URL, SECURITY_MODEL_URL } from '../lib/links.js';
+import { accountPageUrl, PRIVACY_URL, SECURITY_MODEL_URL } from '../lib/links.js';
 import { SourceLink } from '../components/SourceLink.js';
-import { AuthCard, Footnote, FormShell, Mark, TextLink, useSubmit } from './auth-ui.js';
+import { askToSend, AuthCard, Footnote, FormShell, Mark, TextLink, useSubmit } from './auth-ui.js';
 import { AddOnAccountPage, JoinAccount, OrDivider, ProviderButtons, ProviderNewAccount, providerLabel } from './ProviderSignIn.js';
 import type { MessageKey } from '../i18n/locales/en.js';
 import { offersPasskey, PasskeyButton, type PasskeyFallback } from './PasskeySignIn.js';
@@ -303,7 +304,7 @@ function Intro({
         <Mark icon={<CloudLockIcon />} />
         <div>
           <h2 className="text-[18px] font-semibold tracking-tight">{t('intro.title')}</h2>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+          <p className="kr-explain mt-1.5 text-[13px] leading-relaxed text-neutral-600 dark:text-neutral-400">
             {t('intro.subtitle')}
           </p>
         </div>
@@ -314,7 +315,7 @@ function Intro({
           {t('intro.signedOutProvider', { email: signedOutElsewhere, provider: providerLabel(signedOutProvider) })}
         </Callout>
       ) : (
-        <ul className="flex flex-col gap-2.5">
+        <ul className="kr-explain flex flex-col gap-2.5">
           {BENEFITS.map((benefit) => (
             <li key={benefit} className="flex gap-2.5 text-[13px] leading-snug text-neutral-700 dark:text-neutral-300">
               <CheckIcon className="mt-px shrink-0 text-[15px] text-brand-600 dark:text-brand-400" />
@@ -341,7 +342,7 @@ function Intro({
               {passkey}
             </div>
             <OrDivider>{t('intro.orEmail')}</OrDivider>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 app:grid-cols-1">
               <Button className="w-full" onClick={onCreate}>
                 {t('intro.create')}
               </Button>
@@ -467,6 +468,7 @@ function CreateForm({
 
   const askForCode = () =>
     run(async () => {
+      await askToSend();
       await send({ type: 'account/startSignUp', email, password });
       setCode('');
       setStage('code');
@@ -678,6 +680,7 @@ function SignInForm({
       onSubmit={() =>
         void run(async () => {
           if (!ready) return;
+          await askToSend();
           const result = await send({ type: 'account/signIn', email, password });
           if ('secondStep' in result) setAsked(result.secondStep);
           else onSignedIn(result);
@@ -765,6 +768,7 @@ function RecoverForm({
       onSubmit={() =>
         void run(async () => {
           if (!ready) return;
+          await askToSend();
           onSignedIn(await send({ type: 'account/recover', email, recoveryKey, password }));
         })
       }
@@ -813,7 +817,7 @@ function RecoverForm({
         <Footnote>
           {t('recoverAccount.elsewhere')}{' '}
           <a
-            href={ACCOUNT_PAGE_URL}
+            href={accountPageUrl()}
             target="_blank"
             rel="noreferrer"
             className="font-medium text-brand-600 hover:text-brand-700 hover:underline dark:text-brand-400 dark:hover:text-brand-300"
@@ -973,7 +977,8 @@ export function SignedInWelcome({
           </Button>
         </div>
 
-        {!failed && backup.total > 0 && (
+        {/* A phone has no toolbar: its codes are the app's first screen. */}
+        {!failed && backup.total > 0 && host().device !== 'phone' && (
           <Footnote>{t('welcome.toolbar')}</Footnote>
         )}
       </div>

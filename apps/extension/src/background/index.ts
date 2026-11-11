@@ -12,7 +12,7 @@ import type { FieldDetection, Request, TabContext } from '@authx/ui/lib/protocol
 import { installPlatform } from '@authx/service/platform.js';
 import { refreshProviderOffer } from '@authx/service/provider.js';
 import { finishTabSignIn, handle, onTimer, toEnvelope, unlockedData } from '@authx/service/service.js';
-import { SYNC_API_URL, SYNC_ENABLED } from '../lib/config.js';
+import { IN_FIREFOX, SYNC_API_URL, SYNC_ENABLED } from '../lib/config.js';
 import { isTrustedSender } from '../lib/messaging.js';
 import { chromePlatform, setLockedTitle } from '../lib/platform.js';
 
@@ -104,7 +104,9 @@ chrome.runtime.onMessage.addListener((message: Request, sender, sendResponse) =>
  */
 const SYNC_ORIGIN = SYNC_ENABLED ? new URL(SYNC_API_URL).origin : null;
 
-chrome.runtime.onMessageExternal?.addListener((message: unknown, sender, sendResponse) => {
+// Not on Firefox, which lets no web page message an extension: there the
+// event is other extensions', and this one listens to none of them.
+if (!IN_FIREFOX) chrome.runtime.onMessageExternal?.addListener((message: unknown, sender, sendResponse) => {
   const answer = (message as { answer?: unknown } | null)?.answer;
   const tabId = sender.tab?.id;
   if (

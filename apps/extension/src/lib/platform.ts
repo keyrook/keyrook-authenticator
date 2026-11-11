@@ -1,6 +1,7 @@
 import type { KeyValueStore, Platform } from '@authx/service/platform.js';
 import { APP_NAME } from '@authx/ui/lib/name.js';
-import { SYNC_API_URL } from './config.js';
+import { IN_FIREFOX, SYNC_API_URL } from './config.js';
+import { accountDataAllowed } from './consent.js';
 import { destroyDeviceKey, getDeviceKey, getOrCreateDeviceKey } from './deviceKey.js';
 import { VAULT_CHANGED } from './messaging.js';
 
@@ -35,7 +36,11 @@ function deviceName(): string {
       : navigator.userAgent.includes('Linux')
         ? 'Linux'
         : 'Browser';
-  const browser = navigator.userAgent.includes('Edg/') ? 'Edge' : 'Chrome';
+  const browser = navigator.userAgent.includes('Firefox/')
+    ? 'Firefox'
+    : navigator.userAgent.includes('Edg/')
+      ? 'Edge'
+      : 'Chrome';
   return `${browser} on ${platform}`;
 }
 
@@ -76,7 +81,12 @@ export const chromePlatform: Platform = {
 
   deviceName,
 
-  // The browser's own sign-in window, back to this extension's
-  // `chromiumapp.org` address.
+  // The browser's own sign-in window, back to this extension's address: on
+  // Chrome `<id>.chromiumapp.org`, on Firefox `<SHA-1 of the id>.extensions.allizom.org`.
   signInWindow: (url) => chrome.identity.launchWebAuthFlow({ url, interactive: true }),
+
+  // Firefox: Google and GitHub by that window alone, since no web page can
+  // message a Firefox extension; and nothing sent to the account until the
+  // person has said yes to Firefox's data consent (consent.ts).
+  ...(IN_FIREFOX ? { signInReturn: 'window' as const, accountDataAllowed } : {}),
 };

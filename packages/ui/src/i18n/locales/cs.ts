@@ -19,6 +19,8 @@ export const cs: Dictionary = {
   'error.noAccountSheet': 'Tento účet zatím nemá obnovovací klíč. Vytvořte ho na stránce účtu.',
   'error.recoveryKeyWrong': 'Tento obnovovací klíč nepatří k tomuto účtu.',
   'error.noRecoveryKit': 'Tento trezor nemá obnovovací klíč.',
+  'error.accountData.withheld':
+    'Firefox nepovolil aplikaci Keyrook Authenticator nic odesílat do účtu Keyrook, takže nic odesláno nebylo. Povolte to, až se Firefox zeptá, nebo v about:addons.',
   'error.syncUnavailable': 'Synchronizace v této verzi není k dispozici.',
   'error.notSignedIn': 'Nejste přihlášeni.',
   'error.alreadySignedIn': 'Už jste přihlášeni.',
@@ -44,6 +46,7 @@ export const cs: Dictionary = {
   'error.noActiveTab': 'Žádná aktivní karta.',
   'error.autofillNotHere': 'Automatické vyplňování funguje jen na běžných webových stránkách.',
   'error.autofillBlocked': 'Chrome rozšíření nedovolil přečíst tuto stránku. Otevřete vyskakovací okno na stránce, kterou chcete vyplnit.',
+  'error.autofillBlocked.firefox': 'Firefox rozšíření nedovolil přečíst tuto stránku. Otevřete vyskakovací okno na stránce, kterou chcete vyplnit.',
   'error.signinCancelled': 'Přihlášení bylo zrušeno.',
   'error.signinStateMismatch': 'Přihlášení se nevrátilo tak, jak odešlo. Zkuste to znovu.',
   'error.signinUnfinished': 'Přihlášení nebylo dokončeno. Zkuste to znovu.',
@@ -299,6 +302,7 @@ export const cs: Dictionary = {
   'rate.body': '<b>Je vám Keyrook Authenticator užitečný?</b> Hodnocení v {store} pomáhá ostatním ho najít.',
   'rate.store.chrome': 'Internetovém obchodě Chrome',
   'rate.store.edge': 'Doplňcích Edge',
+  'rate.store.firefox': 'Doplňcích Firefox',
   'rate.notNow': 'Teď ne',
   'rate.rate': 'Ohodnotit',
 
@@ -313,6 +317,7 @@ export const cs: Dictionary = {
   'add.camera.title': 'Skenovat kamerou',
   'add.camera.description': 'Pro kód v telefonu — včetně exportu z Google Authenticator.',
   'add.camera.elsewhere': 'Jednou otevře Nastavení, aby Chrome mohl požádat o kameru. Potom to funguje přímo tady.',
+  'add.camera.elsewhere.firefox': 'Jednou otevře Nastavení, aby Firefox mohl požádat o kameru. Potom to funguje přímo tady.',
   'add.upload.title': 'Nahrát obrázek QR',
   'add.upload.description': 'Dříve uložený snímek obrazovky nebo fotka.',
   'add.manual.title': 'Zadat klíč pro nastavení ručně',
@@ -324,6 +329,8 @@ export const cs: Dictionary = {
   'common.done': 'Hotovo',
   'add.noNativeReader':
     'Chrome na tomto počítači nemá vestavěnou čtečku QR, takže velký kód — třeba export z Google Authenticator — se kamerou často nenaskenuje. Pokud to nejde, pořiďte snímek v telefonu a použijte Nahrát obrázek QR.',
+  'add.noNativeReader.firefox':
+    'Firefox na tomto počítači nemá vestavěnou čtečku QR, takže velký kód — třeba export z Google Authenticator — se kamerou často nenaskenuje. Pokud to nejde, pořiďte snímek v telefonu a použijte Nahrát obrázek QR.',
   'add.openScannerInSettings': 'Otevřít skener v Nastavení',
   'add.noneFound': 'Nenalezeny žádné účty.',
   'add.noQrOnPage': 'Ve viditelné části stránky není QR kód. Posuňte ho do zobrazení a zkuste to znovu.',
@@ -368,6 +375,7 @@ export const cs: Dictionary = {
     'Držte QR kód uvnitř rámečku. Přecházíte z Google Authenticator? Otevřete v telefonu obrazovku exportu a namiřte na ni kameru — pokud je kódů víc, ukazujte je jeden po druhém.',
   'camera.privacy': 'Obraz se přečte v tomto zařízení a zahodí. Nic se nenahrává ani neodesílá.',
   'camera.blocked': 'Chrome zablokoval přístup ke kameře. Povolte ho pro tuto stránku, nebo účet přidejte jinak.',
+  'camera.blocked.firefox': 'Firefox zablokoval přístup ke kameře. Povolte ho pro tuto stránku, nebo účet přidejte jinak.',
   'camera.none': 'Na tomto počítači nebyla nalezena kamera.',
   'camera.busy': 'Kameru používá jiný program.',
 
@@ -473,6 +481,8 @@ export const cs: Dictionary = {
   'about.fact.access.title': 'Žádný plošný přístup k webům',
   'about.fact.access.body':
     'Rozšíření nežádá o žádná oprávnění k webům. Čtení QR kódu ze stránky nebo vyplnění kódu do ní používá activeTab — oprávnění, které Chrome udělí jen pro kartu, na které jste rozšíření vyvolali.',
+  'about.fact.access.body.firefox':
+    'Rozšíření nežádá o žádná oprávnění k webům. Čtení QR kódu ze stránky nebo vyplnění kódu do ní používá activeTab — oprávnění, které Firefox udělí jen pro kartu, na které jste rozšíření vyvolali.',
   'about.fact.standards.title': 'Standardy, žádné uzamčení',
   'about.fact.standards.body': 'RFC 6238 TOTP a RFC 4226 HOTP, s importem a exportem otpauth://. Kdykoli můžete přejít do jiné aplikace a vzít si vše s sebou.',
   'about.version': 'Verze {version}',
@@ -493,6 +503,7 @@ export const cs: Dictionary = {
   'about.logos.body':
     '{count} služeb má skutečnou značku. Grafika z <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons a <fa>Font Awesome Free</fa> (ikony, CC BY 4.0). Všechny názvy produktů a loga patří svým vlastníkům a slouží jen k označení služby, k níž účet patří. Služba bez značky v těchto sadách dostane dlaždici s písmenem.',
   'about.shortcut.change': 'Změníte ho na chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Změníte ho na about:addons.',
   'accounts.title': 'Účty',
   'accounts.description': 'Vše, co je v tomto trezoru. Kódy vznikají v tomto zařízení, nikdy na serveru.',
   'accounts.empty': 'Zatím žádné účty. Přidejte první a začněte.',
@@ -545,6 +556,8 @@ export const cs: Dictionary = {
   'import.stopAndReview': 'Zastavit a zkontrolovat {count}',
   'import.noNativeReader':
     'Chrome na tomto počítači nemá vestavěnou čtečku QR, takže velký kód — třeba export z Google Authenticator — se kamerou často nenaskenuje. Pokud to nejde, vyfoťte každý kód v telefonu jako snímek a vyberte je všechny přes Vybrat soubory.',
+  'import.noNativeReader.firefox':
+    'Firefox na tomto počítači nemá vestavěnou čtečku QR, takže velký kód — třeba export z Google Authenticator — se kamerou často nenaskenuje. Pokud to nejde, vyfoťte každý kód v telefonu jako snímek a vyberte je všechny přes Vybrat soubory.',
   'import.encrypted': 'Tato záloha je šifrovaná. Zadejte heslo, se kterým byla vytvořena.',
   'import.backupPassword': 'Heslo zálohy',
   'import.open': 'Otevřít zálohu',
@@ -772,10 +785,16 @@ export const cs: Dictionary = {
   },
   'account.signOutNote': 'Odhlášení odstraní vaše kódy z tohoto prohlížeče. Zůstanou ve vašem účtu Keyrook — přihlaste se znovu a vrátí se.',
   'accountPage.title': 'Váš účet Keyrook',
-  'accountPage.body': 'Heslo, obnovovací klíč, začátek znovu i smazání najdete na stránce účtu, pro všechny aplikace Keyrook najednou.',
-  'accountPage.bodyNoRoot': 'Heslo a smazání najdete na stránce účtu. Obnovovací klíč se vytváří tady, v Zabezpečení, dokud účet nezačne používat jiná aplikace Keyrook.',
-  'accountPage.bodyProvider': 'Obnovovací klíč, začátek znovu i smazání najdete na stránce účtu, pro všechny aplikace Keyrook najednou.',
-  'accountPage.bodyNoRootProvider': 'Smazání najdete na stránce účtu. Obnovovací klíč se vytváří tady, v Zabezpečení, dokud účet nezačne používat jiná aplikace Keyrook.',
+  'accountPage.body': 'Adresu, heslo, obnovovací klíč, začátek znovu i smazání najdete na stránce účtu, pro všechny aplikace Keyrook najednou.',
+  'accountPage.bodyNoRoot': 'Adresu, heslo a smazání najdete na stránce účtu. Obnovovací klíč se vytváří tady, v Zabezpečení, dokud účet nezačne používat jiná aplikace Keyrook.',
+  'accountPage.bodyProvider': 'Adresu, obnovovací klíč, začátek znovu i smazání najdete na stránce účtu, pro všechny aplikace Keyrook najednou.',
+  'accountPage.bodyNoRootProvider': 'Adresu a smazání najdete na stránce účtu. Obnovovací klíč se vytváří tady, v Zabezpečení, dokud účet nezačne používat jiná aplikace Keyrook.',
+  'accountPage.address': 'E-mailová adresa',
+  'accountPage.changeAddress': 'Změnit adresu',
+  'accountPage.activity': 'Nedávná aktivita',
+  'accountPage.activityBody': 'Přihlášení a změny vašeho účtu za posledních 90 dní, se zařízením, aplikací a zemí, na stránce účtu.',
+  'accountPage.data': 'Data účtu',
+  'accountPage.dataBody': 'Stáhněte si ze stránky účtu, co o vašem účtu uchovává server Keyrook. Vaše kódy v tom nejsou: server je má jen zašifrované. Exportujte je v Záloze.',
   'sheetCheck.lead': 'Jednou zadejte obnovovací klíč, který jste si uložili, aby tato aplikace věděla, že umí vaše kódy vrátit. Ověří se na tomto zařízení a nikam se neodesílá.',
   'sheetCheck.submit': 'Ověřit',
   'sheetCheck.lost': 'Ztratili jste ho, nebo jste ho nikdy neměli? Vytvořte nový na stránce účtu.',
@@ -821,12 +840,8 @@ export const cs: Dictionary = {
   'password.change': 'Změnit heslo…',
   'password.formTitle': 'Změna hesla k účtu',
   'devices.title': 'Přihlášená zařízení',
-  'devices.description':
-    'Odhlaste zařízení, které už nepoužíváte nebo nemáte. Pokud na něm běží aktuální Keyrook Authenticator, při příštím připojení si kódy tohoto účtu samo odstraní a ponechá jen to, co nikdy neodeslalo. Do té doby, nebo pokud se už nikdy nepřipojí, si ponechá, co mělo, pod stejným heslem.',
-  'devices.descriptionProvider':
-    'Odhlaste zařízení, které už nepoužíváte nebo nemáte. Pokud na něm běží aktuální Keyrook Authenticator, při příštím připojení si kódy tohoto účtu samo odstraní a ponechá jen to, co nikdy neodeslalo. Do té doby, nebo pokud se už nikdy nepřipojí, si ponechá, co mělo, zamčené tak, jak je na něm zamčený trezor.',
-  'devices.this': 'Toto zařízení',
-  'devices.when': 'Přihlášeno {created} · naposledy aktivní {seen}',
+  'devices.onAccountPage':
+    'Všechna zařízení přihlášená k vašemu účtu uvidíte na stránce účtu, kde je můžete také odhlásit nebo odebrat.',
   'removed.kept': 'Kódy přidané nebo změněné zde, které se do účtu nedostaly, tu zůstávají.',
   'delete.row': 'Smazat účet',
   'delete.rowDescription': 'Odstraní všechny šifrované kopie ze serveru. Toto zařízení si trezor ponechá tak, jak je; ostatní zařízení přestanou synchronizovat.',
@@ -973,6 +988,7 @@ export const cs: Dictionary = {
   'backup.choice.import.title': 'Importovat',
   'backup.choice.import.body': 'Ze zálohy, exportu jiné aplikace nebo odkazů otpauth://.',
   'backup.choice.move.body': 'Přenosové kódy, stránka k tisku nebo čitelný soubor. Nešifrováno.',
+  'backup.accountData': 'Vaše kódy umí exportovat jen Keyrook Authenticator: server je má zašifrované. Co server o vašem účtu uchovává, bez kódů a klíčů, si stáhnete ze stránky účtu.',
   'security.description': 'Jak se tento trezor otevírá a jak se vrátit, když tento prohlížeč ztratíte.',
   'security.deviceKeyHint': 'Nic se nepíše. Nezastaví malware, který na tomto počítači běží pod vaším jménem.',
   'security.passwordHint': 'Vyžaduje se pokaždé, když se trezor zamkne.',
@@ -1040,10 +1056,6 @@ export const cs: Dictionary = {
   'about.fact.keys.body.phone':
     'Vaše účty jsou šifrované datovým klíčem, který je sám zabalený dalším klíčem. S hlavním heslem pochází obalový klíč z PBKDF2 o 600 000 kolech a existuje jen v paměti, dokud je trezor odemčený. Bez hesla je to klíč zapečetěný vlastním úložištěm klíčů telefonu, takže kopie souborů aplikace trezor neotevře.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Velký kód — třeba export z Google Authenticator — se tu kamerou často nenaskenuje. Pokud to nejde, vyfoťte ho aplikací fotoaparátu v telefonu a použijte Nahrát obrázek QR.',
-  'import.noNativeReader.phone':
-    'Velký kód — třeba export z Google Authenticator — se tu kamerou často nenaskenuje. Pokud to nejde, vyfoťte každý kód aplikací fotoaparátu v telefonu a vyberte je všechny přes Vybrat soubory.',
   'error.signOutUnsynced.phone':
     'Některé změny v tomto telefonu se ještě nedostaly do vašeho účtu a odhlášení by je teď ztratilo. Připojte se k internetu a zkuste to znovu.',
   'account.signOutNote.phone':

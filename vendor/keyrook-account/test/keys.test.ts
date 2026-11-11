@@ -158,7 +158,7 @@ describe("a product's box", () => {
     );
   });
 
-  it('refuses a box tampered with anywhere', async () => {
+  it('refuses a box tampered with anywhere, or one with a part missing, as one that does not open', async () => {
     const root = await newAccountRoot();
     const box = await sealProductBox(await generateDataKey(), root.publicKey, ACCOUNT, PASSHOLD);
     const another = await sealProductBox(await generateDataKey(), root.publicKey, ACCOUNT, PASSHOLD);
@@ -168,6 +168,9 @@ describe("a product's box", () => {
       { ...box, iv: another.iv },
       { ...box, ct: flip(box.ct) },
       { ...box, epk: 'not a point' },
+      // What a server may send in place of a box: refused as one that does not open, so a device asks for another way in.
+      { ...box, ct: undefined as unknown as string },
+      { ...box, iv: 42 as unknown as string },
     ];
     for (const bad of tampered) {
       await expect(openProductBox(bad, root, ACCOUNT, PASSHOLD)).rejects.toBeInstanceOf(DecryptionError);

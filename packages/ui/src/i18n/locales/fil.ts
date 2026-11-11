@@ -21,6 +21,8 @@ export const fil: Dictionary = {
   'error.noAccountSheet': 'Wala pang recovery key ang account na ito. Gumawa ng isa sa account page.',
   'error.recoveryKeyWrong': 'Hindi tugma ang recovery key na iyan sa account na ito.',
   'error.noRecoveryKit': 'Walang recovery key ang vault na ito.',
+  'error.accountData.withheld':
+    'Hindi pinayagan ng Firefox ang Keyrook Authenticator na magpadala ng kahit ano sa isang Keyrook account, kaya walang naipadala. Payagan ito kapag nagtanong ang Firefox, o sa about:addons.',
   'error.syncUnavailable': 'Hindi available ang sync sa build na ito.',
   'error.notSignedIn': 'Hindi ka naka-sign in.',
   'error.alreadySignedIn': 'Naka-sign in ka na.',
@@ -45,6 +47,7 @@ export const fil: Dictionary = {
   'error.noActiveTab': 'Walang aktibong tab.',
   'error.autofillNotHere': 'Gumagana lang ang autofill sa mga karaniwang web page.',
   'error.autofillBlocked': 'Hindi pinayagan ng Chrome ang extension na basahin ang page na ito. Buksan ang popup mula sa page na gusto mong punan.',
+  'error.autofillBlocked.firefox': 'Hindi pinayagan ng Firefox ang extension na basahin ang page na ito. Buksan ang popup mula sa page na gusto mong punan.',
   'error.signinCancelled': 'Kinansela ang pag-sign in.',
   'error.signinStateMismatch': 'Hindi bumalik ang pag-sign in nang gaya ng pagkakaalis nito. Subukan ulit.',
   'error.signinUnfinished': 'Hindi natapos ang pag-sign in. Subukan ulit.',
@@ -294,6 +297,7 @@ export const fil: Dictionary = {
   'rate.body': '<b>Nakakatulong ba sa iyo ang Keyrook Authenticator?</b> Ang rating sa {store} ay tumutulong sa iba na mahanap ito.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Hindi ngayon',
   'rate.rate': 'I-rate',
 
@@ -308,6 +312,7 @@ export const fil: Dictionary = {
   'add.camera.title': 'I-scan gamit ang camera',
   'add.camera.description': 'Para sa code sa telepono — kasama ang export ng Google Authenticator.',
   'add.camera.elsewhere': 'Bubuksan ang Mga Setting nang isang beses para makahingi ang Chrome ng camera. Pagkatapos, gagana na ito rito mismo.',
+  'add.camera.elsewhere.firefox': 'Bubuksan ang Mga Setting nang isang beses para makahingi ang Firefox ng camera. Pagkatapos, gagana na ito rito mismo.',
   'add.upload.title': 'Mag-upload ng larawan ng QR code',
   'add.upload.description': 'Screenshot o litratong na-save mo dati.',
   'add.manual.title': 'Manwal na ilagay ang setup key',
@@ -319,6 +324,8 @@ export const fil: Dictionary = {
   'common.done': 'Tapos na',
   'add.noNativeReader':
     'Walang built-in na QR reader ang Chrome sa computer na ito, kaya kadalasang hindi ma-scan ng camera ang malaking code — gaya ng export ng Google Authenticator. Kung hindi gumana, mag-screenshot sa telepono at gamitin ang Mag-upload ng larawan ng QR code.',
+  'add.noNativeReader.firefox':
+    'Walang built-in na QR reader ang Firefox sa computer na ito, kaya kadalasang hindi ma-scan ng camera ang malaking code — gaya ng export ng Google Authenticator. Kung hindi gumana, mag-screenshot sa telepono at gamitin ang Mag-upload ng larawan ng QR code.',
   'add.openScannerInSettings': 'Buksan ang scanner sa Mga Setting',
   'add.noneFound': 'Walang nakitang account.',
   'add.noQrOnPage': 'Walang QR code sa nakikitang bahagi ng page. I-scroll ito sa view at subukan ulit.',
@@ -362,6 +369,7 @@ export const fil: Dictionary = {
     'Ilagay ang QR code sa loob ng frame. Lilipat mula sa Google Authenticator? Buksan ang export screen nito sa telepono at itutok ang camera rito — kung marami ang code, ipakita nang isa-isa.',
   'camera.privacy': 'Binabasa ang larawan sa device na ito at itinatapon. Walang nire-record o ina-upload.',
   'camera.blocked': 'Na-block ng Chrome ang camera. Payagan ito para sa page na ito, o magdagdag ng account sa ibang paraan.',
+  'camera.blocked.firefox': 'Na-block ng Firefox ang camera. Payagan ito para sa page na ito, o magdagdag ng account sa ibang paraan.',
   'camera.none': 'Walang nakitang camera sa computer na ito.',
   'camera.busy': 'Ginagamit ng ibang program ang camera.',
 
@@ -465,6 +473,8 @@ export const fil: Dictionary = {
   'about.fact.access.title': 'Walang malawak na access sa mga site',
   'about.fact.access.body':
     'Hindi humihingi ng anumang pahintulot sa site ang extension na ito. Ang pagbasa ng QR code mula sa page o paglalagay ng code dito ay gumagamit ng activeTab — pahintulot na ibinibigay lang ng Chrome para sa tab kung saan mo binuksan ang extension.',
+  'about.fact.access.body.firefox':
+    'Hindi humihingi ng anumang pahintulot sa site ang extension na ito. Ang pagbasa ng QR code mula sa page o paglalagay ng code dito ay gumagamit ng activeTab — pahintulot na ibinibigay lang ng Firefox para sa tab kung saan mo binuksan ang extension.',
   'about.fact.standards.title': 'Mga pamantayan, hindi pagkakulong',
   'about.fact.standards.body': 'RFC 6238 TOTP at RFC 4226 HOTP, na may import at export ng otpauth://. Maaari kang lumipat sa ibang app anumang oras at dalhin ang lahat.',
   'about.version': 'Bersyon {version}',
@@ -485,6 +495,7 @@ export const fil: Dictionary = {
   'about.logos.body':
     '{count} serbisyo ang may tunay na logo. Mga larawan mula sa <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons at <fa>Font Awesome Free</fa> (icons, CC BY 4.0). Pag-aari ng kani-kanilang may-ari ang lahat ng pangalan at logo ng produkto at ginagamit lang para matukoy ang serbisyo ng account. Ang serbisyong walang logo sa mga koleksyong iyon ay binibigyan ng tile na may titik.',
   'about.shortcut.change': 'Palitan ito sa chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Palitan ito sa about:addons.',
   'accounts.title': 'Mga Account',
   'accounts.description': 'Lahat ng naka-save sa vault na ito. Sa device na ito ginagawa ang mga code, hindi kailanman sa server.',
   'accounts.empty': 'Wala pang account. Magdagdag ng isa para makapagsimula.',
@@ -535,6 +546,8 @@ export const fil: Dictionary = {
   'import.stopAndReview': 'Ihinto at suriin ang {count}',
   'import.noNativeReader':
     'Walang built-in na QR reader ang Chrome sa computer na ito, kaya kadalasang hindi ma-scan ng camera ang malaking code — gaya ng export ng Google Authenticator. Kung hindi gumana, i-screenshot ang bawat code sa telepono at piliin silang lahat gamit ang Pumili ng mga file.',
+  'import.noNativeReader.firefox':
+    'Walang built-in na QR reader ang Firefox sa computer na ito, kaya kadalasang hindi ma-scan ng camera ang malaking code — gaya ng export ng Google Authenticator. Kung hindi gumana, i-screenshot ang bawat code sa telepono at piliin silang lahat gamit ang Pumili ng mga file.',
   'import.encrypted': 'Naka-encrypt ang backup na ito. Ilagay ang password na ginamit sa paggawa nito.',
   'import.backupPassword': 'Password ng backup',
   'import.open': 'Buksan ang backup',
@@ -750,10 +763,16 @@ export const fil: Dictionary = {
   },
   'account.signOutNote': 'Kapag nag-sign out, aalisin ang mga code mo sa browser na ito. Mananatili ang mga ito sa Keyrook account mo — mag-sign in ulit para maibalik ang mga ito.',
   'accountPage.title': 'Ang iyong Keyrook account',
-  'accountPage.body': 'Nasa account page ang password, recovery key, pagsisimula ulit, at pag-delete — para sa lahat ng Keyrook app nang sabay.',
-  'accountPage.bodyNoRoot': 'Nasa account page ang password at pag-delete. Dito ginagawa ang recovery key, sa Seguridad, hangga’t walang ibang Keyrook app na gumagamit ng account.',
-  'accountPage.bodyProvider': 'Nasa account page ang recovery key, pagsisimula ulit, at pag-delete — para sa lahat ng Keyrook app nang sabay.',
-  'accountPage.bodyNoRootProvider': 'Nasa account page ang pag-delete. Dito ginagawa ang recovery key, sa Seguridad, hangga’t walang ibang Keyrook app na gumagamit ng account.',
+  'accountPage.body': 'Nasa account page ang address, password, recovery key, pagsisimula ulit, at pag-delete — para sa lahat ng Keyrook app nang sabay.',
+  'accountPage.bodyNoRoot': 'Nasa account page ang address, password, at pag-delete. Dito ginagawa ang recovery key, sa Seguridad, hangga’t walang ibang Keyrook app na gumagamit ng account.',
+  'accountPage.bodyProvider': 'Nasa account page ang address, recovery key, pagsisimula ulit, at pag-delete — para sa lahat ng Keyrook app nang sabay.',
+  'accountPage.bodyNoRootProvider': 'Nasa account page ang address at pag-delete. Dito ginagawa ang recovery key, sa Seguridad, hangga’t walang ibang Keyrook app na gumagamit ng account.',
+  'accountPage.address': 'Email address',
+  'accountPage.changeAddress': 'Palitan ang address',
+  'accountPage.activity': 'Kamakailang aktibidad',
+  'accountPage.activityBody': 'Mga pag-sign in at pagbabago sa account mo sa nakaraang 90 araw, kasama ang device, app, at bansa, sa account page.',
+  'accountPage.data': 'Data ng account',
+  'accountPage.dataBody': 'I-download mula sa account page ang hawak ng server ng Keyrook tungkol sa account mo. Wala rito ang mga code mo: naka-encrypt lang ang mga ito sa server. I-export ang mga ito sa Backup.',
   'sheetCheck.lead': 'I-type nang isang beses ang recovery key na itinabi mo, para malaman ng app na ito na kaya nitong ibalik ang mga code mo. Sinusuri ito sa device na ito at hindi ipinapadala kahit saan.',
   'sheetCheck.submit': 'Suriin ito',
   'sheetCheck.lost': 'Nawala, o hindi ka nagkaroon kahit kailan? Gumawa ng bago sa account page.',
@@ -799,12 +818,8 @@ export const fil: Dictionary = {
   'password.change': 'Palitan ang password…',
   'password.formTitle': 'Palitan ang password ng account',
   'devices.title': 'Mga device na naka-sign in',
-  'devices.description':
-    'Mag-sign out sa device na hindi mo na ginagamit o wala na sa iyo. Kung updated na Keyrook Authenticator ang tumatakbo rito, sa susunod na pagkonekta nito ay kusa nitong aalisin ang mga code ng account na ito, at itatabi lang ang hindi nito kailanman naipadala. Hanggang doon, o kung hindi na ito muling kumonekta, pananatilihin nito ang dati nitong laman, naka-lock sa parehong password.',
-  'devices.descriptionProvider':
-    'Mag-sign out sa device na hindi mo na ginagamit o wala na sa iyo. Kung updated na Keyrook Authenticator ang tumatakbo rito, sa susunod na pagkonekta nito ay kusa nitong aalisin ang mga code ng account na ito, at itatabi lang ang hindi nito kailanman naipadala. Hanggang doon, o kung hindi na ito muling kumonekta, pananatilihin nito ang dati nitong laman, naka-lock kung paano naka-lock ang vault nito sa device na iyon.',
-  'devices.this': 'Ang device na ito',
-  'devices.when': 'Nag-sign in {created} · huling aktibo {seen}',
+  'devices.onAccountPage':
+    'Makikita sa account page ang bawat device na naka-sign in sa account mo, at doon mo rin mai-sign out o maaalis ang isa.',
   'removed.kept': 'Narito pa rin ang mga code na idinagdag o binago rito na hindi pa nakarating sa account.',
   'delete.row': 'Burahin ang account',
   'delete.rowDescription': 'Inaalis ang bawat naka-encrypt na kopya sa server. Pananatilihin ng device na ito ang vault nang gaya ng dati; titigil sa pag-sync ang ibang device.',
@@ -947,6 +962,7 @@ export const fil: Dictionary = {
   'backup.choice.import.title': 'Import',
   'backup.choice.import.body': 'Mula sa backup, export ng ibang app, o mga otpauth:// link.',
   'backup.choice.move.body': 'Mga transfer code, page na ipi-print o nababasang file. Hindi naka-encrypt.',
+  'backup.accountData': 'Ang Keyrook Authenticator lang ang makakapag-export ng mga code mo: naka-encrypt ang mga ito sa server. Ang hawak ng server tungkol sa account mo, nang walang code o key, ay dina-download mula sa account page.',
   'security.description': 'Paano bumubukas ang vault na ito, at ang paraan mo para makabalik kung mawala ang browser na ito.',
   'security.deviceKeyHint': 'Walang ita-type. Hindi napipigilan ang malware na tumatakbo bilang ikaw sa computer na ito.',
   'security.passwordHint': 'Hinihingi tuwing nagla-lock ang vault.',
@@ -1015,10 +1031,6 @@ export const fil: Dictionary = {
   'about.fact.keys.body.phone':
     'Naka-encrypt ang mga account mo sa isang data key, na nakabalot naman sa isa pang key. Kung may master password, galing sa PBKDF2 na may 600,000 round ang pambalot na key at nasa memory lang ito habang bukas ang vault. Kung walang password, ito ay key na selyado ng sariling key store ng telepono, kaya hindi mabubuksan ng kopya ng mga file ng app ang vault.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Kadalasang hindi ma-scan dito ng camera ang malaking code — gaya ng export ng Google Authenticator. Kung hindi gumana, kunan ito ng litrato gamit ang camera app ng telepono at gamitin ang Mag-upload ng larawan ng QR code.',
-  'import.noNativeReader.phone':
-    'Kadalasang hindi ma-scan dito ng camera ang malaking code — gaya ng export ng Google Authenticator. Kung hindi gumana, kunan ng litrato ang bawat code gamit ang camera app ng telepono at piliin silang lahat gamit ang Pumili ng mga file.',
   'error.signOutUnsynced.phone':
     'May ilang pagbabago sa teleponong ito na hindi pa nakakarating sa account mo, at mawawala ang mga ito kung magsa-sign out ka ngayon. Kumonekta sa internet at subukan ulit.',
   'account.signOutNote.phone':

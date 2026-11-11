@@ -13,6 +13,8 @@ import {
 import { mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
+export { base32Bytes, migrationUri } from './export-codes.js';
+
 const EXTENSION_PATH = resolve(import.meta.dirname, '../dist');
 // Throwaway browser profiles stay inside the project rather than in the OS temp
 // directory: nothing this repo does should leave anything behind on the machine.
@@ -117,66 +119,6 @@ export async function openOptions(context: BrowserContext, extensionId: string) 
   const page = await context.newPage();
   await page.goto(`chrome-extension://${extensionId}/options.html`);
   return page;
-}
-
-export function base32Bytes(input: string): Buffer {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-  let bits = 0;
-  let value = 0;
-  const out: number[] = [];
-  for (const char of input) {
-    value = (value << 5) | alphabet.indexOf(char);
-    bits += 5;
-    if (bits >= 8) {
-      out.push((value >>> (bits - 8)) & 0xff);
-      bits -= 8;
-    }
-  }
-  return Buffer.from(out);
-}
-
-/** Build a Google Authenticator export payload, protobuf wire format by hand. */
-export function migrationUri(
-  entries: { secret: string; name: string; issuer: string }[],
-  batch: { size: number; index: number; id?: number } = { size: 1, index: 0 },
-): string {
-  const varint = (value: number): number[] => {
-    const out: number[] = [];
-    let rest = value;
-    while (rest > 0x7f) {
-      out.push((rest & 0x7f) | 0x80);
-      rest = Math.floor(rest / 128);
-    }
-    out.push(rest);
-    return out;
-  };
-  const tag = (field: number, wire: number) => varint((field << 3) | wire);
-  const bytes = (field: number, value: Buffer | Uint8Array) => [
-    ...tag(field, 2),
-    ...varint(value.length),
-    ...value,
-  ];
-  const str = (field: number, value: string) => bytes(field, Buffer.from(value, 'utf8'));
-  const num = (field: number, value: number) => [...tag(field, 0), ...varint(value)];
-
-  const body: number[] = [];
-  for (const entry of entries) {
-    const params = [
-      ...bytes(1, base32Bytes(entry.secret)),
-      ...str(2, entry.name),
-      ...str(3, entry.issuer),
-      ...num(4, 1), // SHA1
-      ...num(5, 1), // six digits
-      ...num(6, 2), // TOTP
-    ];
-    body.push(...tag(1, 2), ...varint(params.length), ...params);
-  }
-  body.push(...num(2, 1), ...num(3, batch.size), ...num(4, batch.index));
-  if (batch.id !== undefined) body.push(...num(5, batch.id));
-
-  return `otpauth-migration://offline?data=${encodeURIComponent(
-    Buffer.from(body).toString('base64'),
-  )}`;
 }
 
 export async function createDeviceVault(page: Page) {

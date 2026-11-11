@@ -117,7 +117,7 @@ export function SetupScreen({
       )}
 
       <div className="mt-auto flex flex-col items-center gap-1.5 pt-2">
-        <p className="text-center text-[11px] leading-relaxed text-neutral-400 dark:text-neutral-500">
+        <p className="kr-explain text-center text-[11px] leading-relaxed text-neutral-400 dark:text-neutral-500">
           {/* Sync is offered only by a build that has a server to sync with. */}
           {t(host().syncEnabled ? 'setup.footer' : 'setup.footer.noSync')}
         </p>
@@ -169,7 +169,7 @@ function ProtectionOption({
       <span className="text-[13px] leading-snug text-neutral-600 dark:text-neutral-300">
         {description}
       </span>
-      <span className="text-[11px] leading-snug text-neutral-400 dark:text-neutral-500">{footnote}</span>
+      <span className="kr-explain text-[11px] leading-snug text-neutral-400 dark:text-neutral-500">{footnote}</span>
     </button>
   );
 }

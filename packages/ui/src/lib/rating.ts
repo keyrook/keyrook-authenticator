@@ -86,6 +86,7 @@ export async function updateRating(change: (state: RatingState) => RatingState):
 const STORE_NAMES = {
   chrome: 'rate.store.chrome',
   edge: 'rate.store.edge',
+  firefox: 'rate.store.firefox',
   play: 'rate.store.play',
 } as const satisfies Record<StoreListing['store'], MessageKey>;
 

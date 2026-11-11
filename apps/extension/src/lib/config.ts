@@ -20,3 +20,15 @@ export const SYNC_ENABLED = SYNC_API_URL.length > 0;
  * passkey.
  */
 export const ACCOUNT_RP = SYNC_ENABLED ? (import.meta.env.VITE_ACCOUNT_RP ?? '') : '';
+
+/**
+ * The account's page, for a server that has one of its own; empty for the
+ * official page, which the pages link when told nothing.
+ */
+export const ACCOUNT_PAGE_URL = import.meta.env.VITE_ACCOUNT_PAGE_URL ?? '';
+
+/**
+ * The browser this build is for: `firefox` for `npm run build:firefox`,
+ * Chrome's otherwise — Edge and Opera run the Chrome build as it is.
+ */
+export const IN_FIREFOX = import.meta.env.VITE_BROWSER === 'firefox';

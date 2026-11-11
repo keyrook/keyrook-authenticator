@@ -12,9 +12,10 @@ export const PRODUCTION_SYNC_API_URL = 'https://api.keyrook.com';
 
 /**
  * The site the Keyrook account's passkeys belong to — their RP ID — for the
- * server a build talks to: the account's page, for the official server; and
- * `localhost` for the kit's server on this machine, whose page it places at
- * localhost:5174. No other server's: a build against one asks no passkey.
+ * server a build talks to: the account's page, for the official server;
+ * staging's own page, for staging; and `localhost` for the kit's server on this
+ * machine, whose page it places at localhost:5174. No other server's: a build
+ * against one asks no passkey.
  *
  * Chrome lets an extension ask another site's passkeys only with the host
  * permission for that site, so this is also the one optional host permission
@@ -23,11 +24,33 @@ export const PRODUCTION_SYNC_API_URL = 'https://api.keyrook.com';
  */
 export const PRODUCTION_ACCOUNT_RP = 'account.keyrook.com';
 
+/**
+ * Staging, for a build tried by hand before a change reaches production
+ * (keyrook-account's docs/deploy.md). Matched by its whole origin, so a
+ * look-alike address asks no passkey. Being named here lets nothing past
+ * check-release, which holds a release to the official server alone.
+ */
+export const STAGING_SYNC_API_URL = 'https://api-staging.keyrook.com';
+export const STAGING_ACCOUNT_RP = 'account-staging.keyrook.com';
+
 export function accountRpFor(syncApiUrl) {
   if (!syncApiUrl) return '';
   const url = new URL(syncApiUrl);
   if (url.origin === new URL(PRODUCTION_SYNC_API_URL).origin) return PRODUCTION_ACCOUNT_RP;
+  if (url.origin === new URL(STAGING_SYNC_API_URL).origin) return STAGING_ACCOUNT_RP;
   return url.hostname === 'localhost' || url.hostname === '127.0.0.1' ? 'localhost' : '';
+}
+
+/**
+ * The account's page for that server, or empty for the official one, which
+ * the pages link when told nothing (packages/ui/src/lib/links.ts). Worked out
+ * here so that staging's address enters no bundle but staging's: a test
+ * account sent to the official page does not exist there, and a passkey made
+ * for it there would be the official site's.
+ */
+export function accountPageFor(syncApiUrl) {
+  const rp = accountRpFor(syncApiUrl);
+  return rp === STAGING_ACCOUNT_RP ? `https://${rp}` : '';
 }
 
 /**

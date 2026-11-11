@@ -152,6 +152,28 @@ describe('a record that will not open', () => {
     expect(merged.rejected).toBe(1);
     expect(liveItems(merged.data)[0]!.secret).toBe('JBSWY3DPEHPK3PXP');
   });
+
+  it('is skipped too when what the server sends is not a box at all', async () => {
+    const key = await generateDataKey();
+    const good = settled(item('GitHub', 'JBSWY3DPEHPK3PXP'));
+    const sealed = await itemToRecord(item('Forged', 'MZXW6YTBOI'), key, 'attacker');
+
+    // Any JSON can stand where a box goes. Until @keyrook/account opened these
+    // as boxes that do not open (keyrook-account 44e81dd), each threw a
+    // TypeError past the skip and stopped the cycle, as one forgery once did.
+    const broken = [
+      { ...sealed, id: 'no-iv', box: { ct: sealed.box!.ct } },
+      { ...sealed, id: 'number-iv', box: { ...sealed.box!, iv: 42 } },
+      { ...sealed, id: 'not-base64', box: { ...sealed.box!, ct: '%%%' } },
+      { ...sealed, id: 'empty', box: {} },
+    ] as unknown as RemoteRecord[];
+    const records = [...broken, await itemToRecord(good, key, 'device-b')];
+
+    const outcome = await syncOnce(vault(), { adapter: new HostileServer(records), dataKey: key });
+
+    expect(outcome.rejectedRecords).toBe(broken.length);
+    expect(liveItems(outcome.data).map((entry) => entry.issuer)).toEqual(['GitHub']);
+  });
 });
 
 describe('deletions arriving from the server', () => {

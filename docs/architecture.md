@@ -370,8 +370,12 @@ ways data leaves a page.
 a content script carries the extension's own id, so that leaves the whole vault
 API reachable from whatever page the script was last injected into.
 
-The discriminator is the **origin** — an extension page reports
-`chrome-extension://<id>`, a content script reports the page's own. Not
+The discriminator is the **origin** — an extension page reports the
+extension's own, a content script reports the page's. The extension's own is
+the one the browser gives it (`chrome.runtime.getURL('')`), never one built
+from the id: on Chrome that is `chrome-extension://<id>`, but Firefox gives
+each install a `moz-extension://<uuid>` of its own, nothing like the add-on's
+id. Not
 `sender.tab`: the options page is an extension page that lives in a tab, and
 gating on that locks the settings screen out of its own vault. That mistake was
 made and caught here by the tests.

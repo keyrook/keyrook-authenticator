@@ -19,6 +19,8 @@ export const id: Dictionary = {
   'error.noAccountSheet': 'Akun ini belum punya kunci pemulihan. Buat satu di halaman akun.',
   'error.recoveryKeyWrong': 'Kunci pemulihan itu tidak cocok dengan akun ini.',
   'error.noRecoveryKit': 'Brankas ini tidak punya kunci pemulihan.',
+  'error.accountData.withheld':
+    'Firefox tidak mengizinkan Keyrook Authenticator mengirim apa pun ke akun Keyrook, jadi tidak ada yang dikirim. Izinkan saat Firefox bertanya, atau di about:addons.',
   'error.syncUnavailable': 'Sinkronisasi tidak tersedia di versi ini.',
   'error.notSignedIn': 'Belum masuk.',
   'error.alreadySignedIn': 'Sudah masuk.',
@@ -44,6 +46,7 @@ export const id: Dictionary = {
   'error.noActiveTab': 'Tidak ada tab aktif.',
   'error.autofillNotHere': 'Isi otomatis hanya berfungsi di halaman web biasa.',
   'error.autofillBlocked': 'Chrome tidak mengizinkan ekstensi membaca halaman ini. Buka popup dari halaman yang ingin Anda isi.',
+  'error.autofillBlocked.firefox': 'Firefox tidak mengizinkan ekstensi membaca halaman ini. Buka popup dari halaman yang ingin Anda isi.',
   'error.signinCancelled': 'Proses masuk dibatalkan.',
   'error.signinStateMismatch': 'Proses masuk itu tidak kembali seperti saat berangkat. Coba lagi.',
   'error.signinUnfinished': 'Proses masuk tidak selesai. Coba lagi.',
@@ -290,6 +293,7 @@ export const id: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator bermanfaat?</b> Nilai di {store} membantu orang lain menemukannya.',
   'rate.store.chrome': 'Chrome Web Store',
   'rate.store.edge': 'Add-on Edge',
+  'rate.store.firefox': 'Add-on Firefox',
   'rate.notNow': 'Nanti saja',
   'rate.rate': 'Beri nilai',
 
@@ -304,6 +308,7 @@ export const id: Dictionary = {
   'add.camera.title': 'Pindai dengan kamera',
   'add.camera.description': 'Untuk kode di ponsel Anda — termasuk ekspor Google Authenticator.',
   'add.camera.elsewhere': 'Membuka Setelan sekali agar Chrome bisa meminta izin kamera. Setelah itu langsung berfungsi di sini.',
+  'add.camera.elsewhere.firefox': 'Membuka Setelan sekali agar Firefox bisa meminta izin kamera. Setelah itu langsung berfungsi di sini.',
   'add.upload.title': 'Unggah gambar QR',
   'add.upload.description': 'Tangkapan layar atau foto yang Anda simpan sebelumnya.',
   'add.manual.title': 'Masukkan kunci penyiapan secara manual',
@@ -315,6 +320,8 @@ export const id: Dictionary = {
   'common.done': 'Selesai',
   'add.noNativeReader':
     'Chrome di komputer ini tidak punya pembaca QR bawaan, jadi kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera. Jika tidak bisa, ambil tangkapan layar di ponsel dan gunakan Unggah gambar QR.',
+  'add.noNativeReader.firefox':
+    'Firefox di komputer ini tidak punya pembaca QR bawaan, jadi kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera. Jika tidak bisa, ambil tangkapan layar di ponsel dan gunakan Unggah gambar QR.',
   'add.openScannerInSettings': 'Buka pemindai di Setelan',
   'add.noneFound': 'Tidak ada akun yang ditemukan.',
   'add.noQrOnPage': 'Tidak ada kode QR di bagian halaman yang terlihat. Gulir hingga terlihat lalu coba lagi.',
@@ -355,6 +362,7 @@ export const id: Dictionary = {
     'Arahkan kode QR ke dalam bingkai. Memindahkan dari Google Authenticator? Buka layar ekspornya di ponsel dan arahkan kamera ke sana — jika ada beberapa kode, tampilkan satu per satu.',
   'camera.privacy': 'Gambar dibaca di perangkat ini lalu dibuang. Tidak ada yang direkam dan tidak ada yang diunggah.',
   'camera.blocked': 'Chrome memblokir akses kamera. Izinkan untuk halaman ini, atau gunakan cara lain untuk menambah akun.',
+  'camera.blocked.firefox': 'Firefox memblokir akses kamera. Izinkan untuk halaman ini, atau gunakan cara lain untuk menambah akun.',
   'camera.none': 'Tidak ada kamera di komputer ini.',
   'camera.busy': 'Kamera sedang dipakai program lain.',
 
@@ -458,6 +466,8 @@ export const id: Dictionary = {
   'about.fact.access.title': 'Tanpa akses menyeluruh ke situs',
   'about.fact.access.body':
     'Ekstensi tidak meminta izin host apa pun. Membaca kode QR dari halaman, atau mengisi kode ke halaman, memakai activeTab — izin yang Chrome berikan hanya untuk tab tempat Anda memanggil ekstensi.',
+  'about.fact.access.body.firefox':
+    'Ekstensi tidak meminta izin host apa pun. Membaca kode QR dari halaman, atau mengisi kode ke halaman, memakai activeTab — izin yang Firefox berikan hanya untuk tab tempat Anda memanggil ekstensi.',
   'about.fact.standards.title': 'Standar, bukan penguncian',
   'about.fact.standards.body':
     'TOTP RFC 6238 dan HOTP RFC 4226, dengan impor dan ekspor otpauth://. Anda bisa pindah ke aplikasi lain kapan saja dan membawa semuanya.',
@@ -479,6 +489,7 @@ export const id: Dictionary = {
   'about.logos.body':
     '{count} layanan punya tanda asli. Gambar dari <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons, dan <fa>Font Awesome Free</fa> (ikon, CC BY 4.0). Semua nama produk dan logo milik pemiliknya dan hanya dipakai untuk menunjukkan layanan pemilik akun. Layanan tanpa tanda di set mana pun mendapat petak berhuruf.',
   'about.shortcut.change': 'Ubah di chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Ubah di about:addons.',
   'accounts.title': 'Akun',
   'accounts.description': 'Semua yang tersimpan di brankas ini. Kode dibuat di perangkat ini, tidak pernah oleh server.',
   'accounts.empty': 'Belum ada akun. Tambahkan satu untuk memulai.',
@@ -530,6 +541,8 @@ export const id: Dictionary = {
   'import.stopAndReview': 'Berhenti dan tinjau {count}',
   'import.noNativeReader':
     'Chrome di komputer ini tidak punya pembaca QR bawaan, jadi kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera. Jika tidak bisa, ambil tangkapan layar setiap kode di ponsel dan pilih semuanya lewat Pilih file.',
+  'import.noNativeReader.firefox':
+    'Firefox di komputer ini tidak punya pembaca QR bawaan, jadi kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera. Jika tidak bisa, ambil tangkapan layar setiap kode di ponsel dan pilih semuanya lewat Pilih file.',
   'import.encrypted': 'Cadangan ini terenkripsi. Masukkan kata sandi yang dipakai saat membuatnya.',
   'import.backupPassword': 'Kata sandi cadangan',
   'import.open': 'Buka cadangan',
@@ -750,10 +763,16 @@ export const id: Dictionary = {
   },
   'account.signOutNote': 'Keluar menghapus kode Anda dari browser ini. Kode tetap ada di akun Keyrook Anda — masuk lagi untuk mengembalikannya.',
   'accountPage.title': 'Akun Keyrook Anda',
-  'accountPage.body': 'Sandi, kunci pemulihan, memulai ulang, dan menghapus akun ada di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
-  'accountPage.bodyNoRoot': 'Kata sandi dan penghapusan akun ada di halaman akun. Kunci pemulihan dibuat di sini, di Keamanan, sampai aplikasi Keyrook lain memakai akun ini.',
-  'accountPage.bodyProvider': 'Kunci pemulihan, memulai ulang, dan menghapus akun ada di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
-  'accountPage.bodyNoRootProvider': 'Penghapusan akun ada di halaman akun. Kunci pemulihan dibuat di sini, di Keamanan, sampai aplikasi Keyrook lain memakai akun ini.',
+  'accountPage.body': 'Alamat, sandi, kunci pemulihan, memulai ulang, dan menghapus akun ada di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
+  'accountPage.bodyNoRoot': 'Alamat, kata sandi, dan penghapusan akun ada di halaman akun. Kunci pemulihan dibuat di sini, di Keamanan, sampai aplikasi Keyrook lain memakai akun ini.',
+  'accountPage.bodyProvider': 'Alamat, kunci pemulihan, memulai ulang, dan menghapus akun ada di halaman akun, untuk semua aplikasi Keyrook sekaligus.',
+  'accountPage.bodyNoRootProvider': 'Alamat dan penghapusan akun ada di halaman akun. Kunci pemulihan dibuat di sini, di Keamanan, sampai aplikasi Keyrook lain memakai akun ini.',
+  'accountPage.address': 'Alamat email',
+  'accountPage.changeAddress': 'Ubah alamat',
+  'accountPage.activity': 'Aktivitas terbaru',
+  'accountPage.activityBody': 'Proses masuk dan perubahan pada akun Anda dalam 90 hari terakhir, beserta perangkat, aplikasi, dan negaranya, di halaman akun.',
+  'accountPage.data': 'Data akun',
+  'accountPage.dataBody': 'Unduh dari halaman akun apa yang disimpan server Keyrook tentang akun Anda. Kode Anda tidak ada di dalamnya: server hanya menyimpannya dalam bentuk terenkripsi. Ekspor kode di Cadangan.',
   'sheetCheck.lead': 'Ketik sekali kunci pemulihan yang Anda simpan, agar aplikasi ini tahu kunci itu bisa mengembalikan kode Anda. Kunci diperiksa di perangkat ini dan tidak dikirim ke mana pun.',
   'sheetCheck.submit': 'Periksa',
   'sheetCheck.lost': 'Hilang, atau belum pernah punya? Buat yang baru di halaman akun.',
@@ -800,12 +819,8 @@ export const id: Dictionary = {
   'password.change': 'Ubah kata sandi…',
   'password.formTitle': 'Ubah kata sandi akun Anda',
   'devices.title': 'Perangkat yang masuk',
-  'devices.description':
-    'Keluarkan perangkat yang tidak lagi Anda pakai atau miliki. Jika perangkat itu menjalankan Keyrook Authenticator versi terbaru, saat tersambung berikutnya ia akan menghapus sendiri kode akun ini, dan hanya menyimpan apa yang belum pernah dikirimnya. Sampai saat itu, atau jika tidak pernah tersambung lagi, perangkat itu menyimpan apa yang dimilikinya, terkunci dengan kata sandi yang sama.',
-  'devices.descriptionProvider':
-    'Keluarkan perangkat yang tidak lagi Anda pakai atau miliki. Jika perangkat itu menjalankan Keyrook Authenticator versi terbaru, saat tersambung berikutnya ia akan menghapus sendiri kode akun ini, dan hanya menyimpan apa yang belum pernah dikirimnya. Sampai saat itu, atau jika tidak pernah tersambung lagi, perangkat itu menyimpan apa yang dimilikinya, terkunci seperti brankasnya terkunci di perangkat itu.',
-  'devices.this': 'Perangkat ini',
-  'devices.when': 'Masuk {created} · terakhir aktif {seen}',
+  'devices.onAccountPage':
+    'Lihat semua perangkat yang masuk ke akun Anda, lalu keluarkan atau hapus salah satunya, di halaman akun.',
   'removed.kept': 'Kode yang ditambahkan atau diubah di sini dan belum sampai ke akun masih ada di sini.',
   'delete.row': 'Hapus akun Anda',
   'delete.rowDescription':
@@ -952,6 +967,7 @@ export const id: Dictionary = {
   'backup.choice.import.title': 'Impor',
   'backup.choice.import.body': 'Dari cadangan, ekspor aplikasi lain, atau tautan otpauth://.',
   'backup.choice.move.body': 'Kode transfer, halaman untuk dicetak, atau file yang bisa dibaca. Tidak terenkripsi.',
+  'backup.accountData': 'Hanya Keyrook Authenticator yang bisa mengekspor kode Anda: server menyimpannya dalam bentuk terenkripsi. Apa yang disimpan server tentang akun Anda, tanpa kode atau kunci, diunduh dari halaman akun.',
   'security.description': 'Cara brankas ini dibuka, dan jalan kembali Anda jika browser ini hilang.',
   'security.deviceKeyHint': 'Tidak ada yang perlu diketik. Tidak menghentikan malware yang berjalan atas nama Anda di komputer ini.',
   'security.passwordHint': 'Ditanyakan setiap kali brankas terkunci.',
@@ -1020,10 +1036,6 @@ export const id: Dictionary = {
   'about.fact.keys.body.phone':
     'Akun Anda dienkripsi dengan kunci data yang dibungkus lagi oleh kunci lain. Dengan kata sandi utama, kunci pembungkus berasal dari PBKDF2 dengan 600.000 putaran dan hanya ada di memori selama terbuka. Tanpa kata sandi, kuncinya disegel oleh penyimpanan kunci milik ponsel sendiri, sehingga salinan file aplikasi tidak bisa membuka brankas.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera di sini. Jika tidak bisa, foto kode itu dengan aplikasi kamera ponsel dan gunakan Unggah gambar QR.',
-  'import.noNativeReader.phone':
-    'Kode besar — seperti ekspor Google Authenticator — sering tidak bisa dipindai dari kamera di sini. Jika tidak bisa, foto setiap kode dengan aplikasi kamera ponsel dan pilih semuanya lewat Pilih file.',
   'error.signOutUnsynced.phone':
     'Beberapa perubahan di ponsel ini belum sampai ke akun Anda, dan keluar sekarang akan menghilangkannya. Sambungkan ke internet lalu coba lagi.',
   'account.signOutNote.phone':

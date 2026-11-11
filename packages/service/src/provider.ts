@@ -58,7 +58,8 @@ import {
   type VaultFile,
 } from '@authx/core';
 import { platform } from './platform.js';
-import { fail } from '@authx/ui/i18n/errors.js';
+import { AppError, fail, knownMessage } from '@authx/ui/i18n/errors.js';
+import type { MessageKey } from '@authx/ui/i18n/locales/en.js';
 import type {
   ProviderOffer,
   ProviderOutcome,
@@ -66,7 +67,7 @@ import type {
   SecondStepAnswer,
 } from '@authx/ui/lib/protocol.js';
 import { finishSignInStep } from './second-step.js';
-import { adapter, deviceName, markEverythingPending, serverFetch, storeSession } from './sync.js';
+import { accountDataAllowed, adapter, deviceName, markEverythingPending, serverFetch, storeSession } from './sync.js';
 
 const PENDING_KEY = 'authx.providerPending';
 const APPROVING_KEY = 'authx.approving';
@@ -131,8 +132,19 @@ const asOffer = (known: ProviderOffer): ProviderOffer => ({
   secondStep: known.secondStep === true,
 });
 
+/**
+ * What the official server offers, said without asking it: on Firefox before
+ * the person has let anything be sent, the sign-in card is drawn from this,
+ * and the click on one of its buttons is what asks (docs/firefox.md, Data
+ * consent). By the window, since only Firefox asks.
+ */
+export const OFFER_UNASKED: ProviderOffer = { providers: ['google', 'github'], inTab: false, passkeys: false, secondStep: true };
+
 /** Asks the server, and remembers the answer for next time. */
 export async function refreshProviderOffer(): Promise<ProviderOffer> {
+  // Not even this, before the person has said yes: it names the build and
+  // its version, which Firefox counts as data sent.
+  if (!(await accountDataAllowed())) return OFFER_UNASKED;
   // Briefly: a server that does not answer should leave the email forms, not
   // a card waiting on it.
   const named = serverFetch();
@@ -142,10 +154,12 @@ export async function refreshProviderOffer(): Promise<ProviderOffer> {
   // An app has no tab to come back to, and a server that cannot hand the
   // answer back to it offers the app no provider at all: the browser it would
   // end in is not the app.
+  // Firefox's return page can hand nothing to a tab, whatever the server says
+  // it can do for Chrome's.
   const offer: ProviderOffer =
     platform().signInReturn === 'app'
       ? { providers: byApp ? providers : [], inTab: false, passkeys, secondStep }
-      : { providers, inTab: byMessage, passkeys, secondStep };
+      : { providers, inTab: byMessage && platform().signInReturn !== 'window', passkeys, secondStep };
   await platform().disk.set(OFFER_KEY, offer);
   return offer;
 }
@@ -155,6 +169,7 @@ export async function refreshProviderOffer(): Promise<ProviderOffer> {
  * server's answer only the first time, when there is no last one.
  */
 export async function providerOffer(): Promise<ProviderOffer> {
+  if (!(await accountDataAllowed())) return OFFER_UNASKED;
   const known = await platform().disk.get(OFFER_KEY);
   const fresh = refreshProviderOffer();
   if (isOffer(known)) {
@@ -170,6 +185,9 @@ async function flowStart(
   purpose: 'signin' | 'reauth',
   returnBy: 'redirect' | 'message',
 ): Promise<{ url: string; state: string; verifier: string }> {
+  // The window or the tab opens the server's address itself, past
+  // serverFetch's check: so the check is made here too.
+  if (!(await accountDataAllowed())) fail('error.accountData.withheld');
   const verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));
   const challenge = base64url(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))));
   const state = base64url(crypto.getRandomValues(new Uint8Array(16)));
@@ -594,15 +612,69 @@ export async function denyPairing(id: string): Promise<void> {
 // --- Proving the owner --------------------------------------------------------
 
 /**
+ * A Google or GitHub sign-in made to prove the owner, until the server spends
+ * it. It spends one only once the second step is right too (keyrook-account
+ * eb96706), so a change refused for a missing or wrong code is asked again
+ * with the same sign-in, not with another trip to the provider.
+ */
+const REAUTH_KEY = 'authx.ownerReauth';
+/** The server's two minutes from issuing it, less the trip back and a request's time. */
+const REAUTH_FOR = 100_000;
+
+interface KeptReauth {
+  provider: SignInProvider;
+  email: string | null;
+  reauth: ProviderTicket;
+  until: number;
+  /** Set only by `settleOwnerProof`: until then, nothing says the server left it unspent. */
+  stepRefused: boolean;
+}
+
+/**
  * What a change to the account needs: the password on a password account, a
- * fresh sign-in with the provider on a provider account.
+ * fresh sign-in with the provider on a provider account — or the one a change
+ * just made, while only its second step was refused (`settleOwnerProof`).
  */
 export async function ownerProof(data: VaultData, authHash: () => Promise<string>): Promise<OwnerProof> {
   if (data.account.method === 'provider') {
     // Signed in with a passkey, which does not say whose sign-in the account
     // is: there is no password to ask for, and no provider to ask either.
     if (!data.account.provider) fail('error.providerHasNoPassword');
-    return { reauth: await providerFlow(data.account.provider, 'reauth') };
+    const provider = data.account.provider;
+    const kept = (await platform().memory.get(REAUTH_KEY)) as KeptReauth | undefined;
+    if (kept?.stepRefused && kept.provider === provider && kept.email === data.account.email && Date.now() < kept.until) {
+      return { reauth: kept.reauth };
+    }
+    const reauth = await providerFlow(provider, 'reauth');
+    const keep: KeptReauth = { provider, email: data.account.email, reauth, until: Date.now() + REAUTH_FOR, stepRefused: false };
+    await platform().memory.set(REAUTH_KEY, keep);
+    return { reauth };
   }
   return { authHash: await authHash() };
+}
+
+/** Refusals of the second step alone, the server's or this app's before sending: the sign-in beside them is unspent. */
+const STEP_REFUSED = new Set<MessageKey>([
+  'error.secondStep.missing',
+  'error.secondStep.wrongCode',
+  'error.secondStep.used',
+  'error.recoveryKeyMalformed',
+]);
+
+/**
+ * What became of a change made on `proof`, with what it threw if it failed.
+ * A sign-in in it is kept for the next try only when the second step alone
+ * was refused; made, or refused for anything else, it is forgotten — the
+ * server may have spent it — and the next try signs in again.
+ */
+export async function settleOwnerProof(proof: OwnerProof | null, error?: unknown): Promise<void> {
+  if (!proof || !('reauth' in proof)) return;
+  const key = error instanceof AppError ? error.key : error instanceof Error ? knownMessage(error.message)?.key : undefined;
+  const kept = (await platform().memory.get(REAUTH_KEY)) as KeptReauth | undefined;
+  if (key !== undefined && STEP_REFUSED.has(key) && kept?.reauth.ticket === proof.reauth.ticket) {
+    const refused: KeptReauth = { ...kept, stepRefused: true };
+    await platform().memory.set(REAUTH_KEY, refused);
+    return;
+  }
+  await platform().memory.remove(REAUTH_KEY);
 }

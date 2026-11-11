@@ -1,0 +1,17 @@
+{
+  "inputs": {
+    "ORG_ID": "7c1e4a2b-3d5f-4a6b-8c9d-0e1f2a3b4c5d",
+    "MINH_ID": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5e",
+    "LAN_ID": "9f8e7d6c-5b4a-4c3d-8e2f-1a0b9c8d7e6f",
+    "HOA_ID": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
+    "MINH_MEMBER_PKCS8": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgqeLfjuUx7GaSPNoIscghRhKcEasK4U+9WVH6pj1xXxChRANCAAT16c8+AYrDRjAReSS8DwbSJizylbiFEvDVkaJeJ+/jUFdQ4dC3R+8KHvQ9SssxSAaTCaRdbRqNYt1YnbP3c6Vh",
+    "LAN_MEMBER_PKCS8": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgtOJ9K3ntDMm6YsCj9ro/pFxAyV/+eBn8TUAqQRrrz2ChRANCAAQnw4Ffxkx/MW+ZyZ6ifBuD0f0N255LaxsjMTh9oURZWhJkq7DSips4vJW8t5DzA4GtajXKnQ93vhxCl/Tvrq8z"
+  },
+  "publicKeys": {
+    "minh": "BPXpzz4BisNGMBF5JLwPBtImLPKVuIUS8NWRol4n7+NQV1Dh0LdH7woe9D1KyzFIBpMJpF1tGo1i3Vids/dzpWE=",
+    "lan": "BCfDgV/GTH8xb5nJnqJ8G4PR/Q3bnktrGyMxOH2hRFlaEmSrsNKKmzi8lby3kPMDga1qNcqdD3e+HEKX9O+urzM=",
+    "hoa": "BL/CRZC15jIXN1f5VagWABTcJeCHWh+ulQdkut2zczRTQTGLDicgxsF599epXTWG84fGxXw7sbOBFB4gbcYQRHo="
+  },
+  "toLan": "0+mTb2IdFDp+2mXEho8vt6/ZAvjKAUvdfbVoAgG1I4g=",
+  "toMinh": "CrCjBzOmJKsRIYsbMh2PmxeWpzQbtcc6ZJdqVfMC3Hk="
+}

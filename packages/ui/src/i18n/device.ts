@@ -15,8 +15,6 @@ const ON_A_PHONE = {
   'vault.empty.body': 'vault.empty.body.phone',
   'add.camera.description': 'add.camera.description.phone',
   'add.fromGoogle': 'add.fromGoogle.phone',
-  'add.noNativeReader': 'add.noNativeReader.phone',
-  'import.noNativeReader': 'import.noNativeReader.phone',
   'camera.noCamera': 'camera.noCamera.phone',
   'camera.blocked': 'camera.blocked.phone',
   'camera.none': 'camera.none.phone',
@@ -44,8 +42,25 @@ const ON_A_PHONE = {
   'facts.autofill': 'facts.autofill.phone',
 } as const satisfies Partial<Record<MessageKey, MessageKey>>;
 
+/**
+ * The sentences that name Chrome, said in Firefox: what it refused, where its
+ * shortcuts are changed. Firefox has no QR reader of its own on any computer,
+ * so its note about one is always shown.
+ */
+const IN_FIREFOX = {
+  'error.autofillBlocked': 'error.autofillBlocked.firefox',
+  'add.camera.elsewhere': 'add.camera.elsewhere.firefox',
+  'add.noNativeReader': 'add.noNativeReader.firefox',
+  'import.noNativeReader': 'import.noNativeReader.firefox',
+  'camera.blocked': 'camera.blocked.firefox',
+  'about.fact.access.body': 'about.fact.access.body.firefox',
+  'about.shortcut.change': 'about.shortcut.change.firefox',
+} as const satisfies Partial<Record<MessageKey, MessageKey>>;
+
 /** The key for this sentence where the app runs now. */
 export function here(key: MessageKey): MessageKey {
-  if (host().device !== 'phone') return key;
-  return (ON_A_PHONE as Partial<Record<MessageKey, MessageKey>>)[key] ?? key;
+  const { device, browser } = host();
+  const variants: Partial<Record<MessageKey, MessageKey>> | null =
+    device === 'phone' ? ON_A_PHONE : browser === 'firefox' ? IN_FIREFOX : null;
+  return variants?.[key] ?? key;
 }

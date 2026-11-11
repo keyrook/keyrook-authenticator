@@ -19,6 +19,8 @@ export const da: Dictionary = {
   'error.noAccountSheet': 'Kontoen har endnu ingen gendannelsesnøgle. Lav en på kontosiden.',
   'error.recoveryKeyWrong': 'Gendannelsesnøglen passer ikke til denne konto.',
   'error.noRecoveryKit': 'Denne boks har ingen gendannelsesnøgle.',
+  'error.accountData.withheld':
+    'Firefox har ikke givet Keyrook Authenticator lov til at sende noget til en Keyrook-konto, så intet er sendt. Giv lov, når Firefox spørger, eller under about:addons.',
   'error.syncUnavailable': 'Synkronisering findes ikke i denne version.',
   'error.notSignedIn': 'Ikke logget ind.',
   'error.alreadySignedIn': 'Allerede logget ind.',
@@ -44,6 +46,7 @@ export const da: Dictionary = {
   'error.noActiveTab': 'Ingen aktiv fane.',
   'error.autofillNotHere': 'Autoudfyld virker kun på almindelige websider.',
   'error.autofillBlocked': 'Chrome lod ikke udvidelsen læse siden. Åbn pop op-vinduet fra den side, du vil udfylde.',
+  'error.autofillBlocked.firefox': 'Firefox lod ikke udvidelsen læse siden. Åbn pop op-vinduet fra den side, du vil udfylde.',
   'error.signinCancelled': 'Login blev annulleret.',
   'error.signinStateMismatch': 'Login kom ikke tilbage, som det gik ud. Prøv igen.',
   'error.signinUnfinished': 'Login blev ikke færdigt. Prøv igen.',
@@ -293,6 +296,7 @@ export const da: Dictionary = {
   'rate.body': '<b>Har du gavn af Keyrook Authenticator?</b> En bedømmelse i {store} er, hvordan andre finder det.',
   'rate.store.chrome': 'Chrome Webshop',
   'rate.store.edge': 'Edge-tilføjelsesprogrammer',
+  'rate.store.firefox': 'Firefox-tilføjelsesprogrammer',
   'rate.notNow': 'Ikke nu',
   'rate.rate': 'Bedøm',
 
@@ -307,6 +311,7 @@ export const da: Dictionary = {
   'add.camera.title': 'Scan med kameraet',
   'add.camera.description': 'Til en kode på telefonen — også en eksport fra Google Authenticator.',
   'add.camera.elsewhere': 'Åbner Indstillinger én gang, så Chrome kan bede om kameraet. Derefter virker det lige her.',
+  'add.camera.elsewhere.firefox': 'Åbner Indstillinger én gang, så Firefox kan bede om kameraet. Derefter virker det lige her.',
   'add.upload.title': 'Upload et QR-billede',
   'add.upload.description': 'Et skærmbillede eller foto, du har gemt tidligere.',
   'add.manual.title': 'Indtast en opsætningsnøgle manuelt',
@@ -318,6 +323,8 @@ export const da: Dictionary = {
   'common.done': 'Færdig',
   'add.noNativeReader':
     'Chrome på denne computer har ingen indbygget QR-læser, så en stor kode — som en eksport fra Google Authenticator — kan ofte ikke scannes med kameraet. Går det ikke, så tag et skærmbillede på telefonen, og brug Upload et QR-billede i stedet.',
+  'add.noNativeReader.firefox':
+    'Firefox på denne computer har ingen indbygget QR-læser, så en stor kode — som en eksport fra Google Authenticator — kan ofte ikke scannes med kameraet. Går det ikke, så tag et skærmbillede på telefonen, og brug Upload et QR-billede i stedet.',
   'add.openScannerInSettings': 'Åbn scanneren i Indstillinger',
   'add.noneFound': 'Ingen konti fundet.',
   'add.noQrOnPage': 'Ingen QR-kode i den synlige del af siden. Rul den frem, og prøv igen.',
@@ -361,6 +368,7 @@ export const da: Dictionary = {
     'Hold QR-koden inden for rammen. Flytter du fra Google Authenticator? Åbn eksportskærmen på telefonen, og ret kameraet mod den — viser den flere koder, så vis dem én ad gangen.',
   'camera.privacy': 'Billedet læses på denne enhed og smides væk. Intet optages, og intet uploades.',
   'camera.blocked': 'Chrome blokerede kameraet. Tillad det for siden, eller brug en anden måde at tilføje en konto på.',
+  'camera.blocked.firefox': 'Firefox blokerede kameraet. Tillad det for siden, eller brug en anden måde at tilføje en konto på.',
   'camera.none': 'Der blev ikke fundet noget kamera på denne computer.',
   'camera.busy': 'Kameraet bruges af et andet program.',
 
@@ -464,6 +472,8 @@ export const da: Dictionary = {
   'about.fact.access.title': 'Ingen generel adgang til websteder',
   'about.fact.access.body':
     'Udvidelsen beder ikke om værtstilladelser. At læse en QR-kode fra en side eller udfylde en kode bruger activeTab — en tilladelse, Chrome kun giver for den fane, hvor du åbnede udvidelsen.',
+  'about.fact.access.body.firefox':
+    'Udvidelsen beder ikke om værtstilladelser. At læse en QR-kode fra en side eller udfylde en kode bruger activeTab — en tilladelse, Firefox kun giver for den fane, hvor du åbnede udvidelsen.',
   'about.fact.standards.title': 'Standarder, ikke indlåsning',
   'about.fact.standards.body': 'RFC 6238 TOTP og RFC 4226 HOTP med import og eksport af otpauth://. Du kan til enhver tid skifte til en anden app og tage det hele med.',
   'about.version': 'Version {version}',
@@ -484,6 +494,7 @@ export const da: Dictionary = {
   'about.logos.body':
     '{count} tjenester har et rigtigt mærke. Grafik fra <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons og <fa>Font Awesome Free</fa> (ikoner, CC BY 4.0). Alle produktnavne og logoer tilhører deres ejere og bruges kun til at vise, hvilken tjeneste en konto hører til. En tjeneste uden mærke i nogen af samlingerne får en bogstavflise.',
   'about.shortcut.change': 'Skift den på chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Skift den på about:addons.',
   'accounts.title': 'Konti',
   'accounts.description': 'Alt, der ligger i boksen. Koder laves på denne enhed, aldrig af en server.',
   'accounts.empty': 'Ingen konti endnu. Tilføj en for at komme i gang.',
@@ -534,6 +545,8 @@ export const da: Dictionary = {
   'import.stopAndReview': 'Stop, og gennemse {count}',
   'import.noNativeReader':
     'Chrome på denne computer har ingen indbygget QR-læser, så en stor kode — som en eksport fra Google Authenticator — kan ofte ikke scannes med kameraet. Går det ikke, så tag et skærmbillede af hver kode på telefonen, og vælg dem alle med Vælg filer.',
+  'import.noNativeReader.firefox':
+    'Firefox på denne computer har ingen indbygget QR-læser, så en stor kode — som en eksport fra Google Authenticator — kan ofte ikke scannes med kameraet. Går det ikke, så tag et skærmbillede af hver kode på telefonen, og vælg dem alle med Vælg filer.',
   'import.encrypted': 'Sikkerhedskopien er krypteret. Indtast den adgangskode, den blev lavet med.',
   'import.backupPassword': 'Adgangskode til sikkerhedskopien',
   'import.open': 'Åbn sikkerhedskopien',
@@ -747,10 +760,16 @@ export const da: Dictionary = {
   },
   'account.signOutNote': 'Når du logger ud, fjernes dine koder fra denne browser. De bliver i din Keyrook-konto — log ind igen for at få dem tilbage.',
   'accountPage.title': 'Din Keyrook-konto',
-  'accountPage.body': 'Adgangskode, gendannelsesnøgle, at starte forfra og at slette kontoen findes på kontosiden, for alle Keyrook-apps på én gang.',
-  'accountPage.bodyNoRoot': 'Adgangskode og sletning findes på kontosiden. Gendannelsesnøglen laves her under Sikkerhed, indtil en anden Keyrook-app bruger kontoen.',
-  'accountPage.bodyProvider': 'Gendannelsesnøgle, at starte forfra og at slette kontoen findes på kontosiden, for alle Keyrook-apps på én gang.',
-  'accountPage.bodyNoRootProvider': 'Sletning findes på kontosiden. Gendannelsesnøglen laves her under Sikkerhed, indtil en anden Keyrook-app bruger kontoen.',
+  'accountPage.body': 'Adresse, adgangskode, gendannelsesnøgle, at starte forfra og at slette kontoen findes på kontosiden, for alle Keyrook-apps på én gang.',
+  'accountPage.bodyNoRoot': 'Adresse, adgangskode og sletning findes på kontosiden. Gendannelsesnøglen laves her under Sikkerhed, indtil en anden Keyrook-app bruger kontoen.',
+  'accountPage.bodyProvider': 'Adresse, gendannelsesnøgle, at starte forfra og at slette kontoen findes på kontosiden, for alle Keyrook-apps på én gang.',
+  'accountPage.bodyNoRootProvider': 'Adresse og sletning findes på kontosiden. Gendannelsesnøglen laves her under Sikkerhed, indtil en anden Keyrook-app bruger kontoen.',
+  'accountPage.address': 'Mailadresse',
+  'accountPage.changeAddress': 'Skift adresse',
+  'accountPage.activity': 'Seneste aktivitet',
+  'accountPage.activityBody': 'Logins og ændringer på din konto de seneste 90 dage, med enhed, app og land, på kontosiden.',
+  'accountPage.data': 'Kontodata',
+  'accountPage.dataBody': 'Download fra kontosiden det, Keyrooks server har om din konto. Dine koder er ikke med: serveren har dem kun krypteret. Eksportér dem under Sikkerhedskopi.',
   'sheetCheck.lead': 'Skriv den gendannelsesnøgle, du har gemt, én gang, så denne app ved, at den kan hente dine koder tilbage. Den tjekkes på denne enhed og sendes ingen steder hen.',
   'sheetCheck.submit': 'Tjek den',
   'sheetCheck.lost': 'Har du mistet den, eller har du aldrig haft en? Lav en ny på kontosiden.',
@@ -796,12 +815,8 @@ export const da: Dictionary = {
   'password.change': 'Skift adgangskode…',
   'password.formTitle': 'Skift adgangskoden til din konto',
   'devices.title': 'Enheder, der er logget ind',
-  'devices.description':
-    'Log en enhed ud, du ikke længere bruger eller har. Kører den en opdateret Keyrook Authenticator, fjerner den selv denne kontos koder, næste gang den forbinder, og beholder kun det, den aldrig har sendt. Indtil da, eller hvis den aldrig forbinder igen, beholder den det, den havde, låst bag samme adgangskode.',
-  'devices.descriptionProvider':
-    'Log en enhed ud, du ikke længere bruger eller har. Kører den en opdateret Keyrook Authenticator, fjerner den selv denne kontos koder, næste gang den forbinder, og beholder kun det, den aldrig har sendt. Indtil da, eller hvis den aldrig forbinder igen, beholder den det, den havde, låst på samme måde, som boksen er låst på den.',
-  'devices.this': 'Denne enhed',
-  'devices.when': 'Logget ind {created} · sidst aktiv {seen}',
+  'devices.onAccountPage':
+    'Se alle enheder, der er logget ind på din konto, og log en ud eller fjern den, på kontosiden.',
   'removed.kept': 'Koder, der er tilføjet eller ændret her og ikke nåede frem til kontoen, er her stadig.',
   'delete.row': 'Slet din konto',
   'delete.rowDescription': 'Fjerner alle krypterede kopier på serveren. Denne enhed beholder sin boks præcis som den er; andre enheder holder op med at synkronisere.',
@@ -944,6 +959,7 @@ export const da: Dictionary = {
   'backup.choice.import.title': 'Importér',
   'backup.choice.import.body': 'Fra en sikkerhedskopi, en anden apps eksport eller otpauth://-links.',
   'backup.choice.move.body': 'Overførselskoder, en side til udskrift eller en læsbar fil. Ikke krypteret.',
+  'backup.accountData': 'Kun Keyrook Authenticator kan eksportere dine koder: serveren har dem krypteret. Det, serveren har om din konto, uden koder eller nøgler, downloades fra kontosiden.',
   'security.description': 'Hvordan boksen åbnes, og din vej tilbage, hvis browseren forsvinder.',
   'security.deviceKeyHint': 'Intet at skrive. Stopper ikke malware, der kører som dig på denne computer.',
   'security.passwordHint': 'Spørges om, hver gang boksen er låst.',
@@ -1010,10 +1026,6 @@ export const da: Dictionary = {
   'about.fact.keys.body.phone':
     'Dine konti krypteres med en datanøgle, som selv er pakket ind. Med en hovedadgangskode kommer indpakningsnøglen fra PBKDF2 med 600.000 runder og findes kun i hukommelsen, mens boksen er låst op. Uden er den en nøgle forseglet af telefonens eget nøglelager, så en kopi af appens filer ikke kan åbne boksen.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'En stor kode — som en eksport fra Google Authenticator — kan ofte ikke scannes med kameraet her. Går det ikke, så tag et billede af den med telefonens kamera-app, og brug Upload et QR-billede i stedet.',
-  'import.noNativeReader.phone':
-    'En stor kode — som en eksport fra Google Authenticator — kan ofte ikke scannes med kameraet her. Går det ikke, så tag et billede af hver kode med telefonens kamera-app, og vælg dem alle med Vælg filer.',
   'error.signOutUnsynced.phone':
     'Nogle ændringer på denne telefon er endnu ikke nået frem til din konto, og hvis du logger ud nu, går de tabt. Opret forbindelse til internettet, og prøv igen.',
   'account.signOutNote.phone':

@@ -18,7 +18,7 @@ import { decodeQrFromDataUrl, decodeQrFromFile } from '../components/qr.js';
 import { ServiceField } from '../components/ServiceField.js';
 import { ArrowLeftIcon, CameraIcon, ImageIcon, KeyIcon, KeyboardIcon, QrIcon } from '../components/icons.js';
 import { QuickCode } from '../components/QuickCode.js';
-import { Button, Callout, Field, Spinner } from '../components/primitives.js';
+import { Button, Callout, Field, Spinner, cx } from '../components/primitives.js';
 import { errorText } from '../i18n/error-text.js';
 import { useT } from '../i18n/react.js';
 import { useBack } from '../lib/back.js';
@@ -215,16 +215,17 @@ export function AddSheet({
 
   return (
     <div className="absolute inset-0 z-10 flex flex-col bg-white animate-slide-up dark:bg-neutral-950">
-      <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 dark:border-neutral-900">
+      {/* On a phone, the bar every page of the app has: the way back, and where one is. */}
+      <header className="flex items-center gap-2 border-b border-neutral-100 px-3 py-2.5 app:min-h-16 app:gap-1 app:border-0 app:px-2 app:py-0 dark:border-neutral-900">
         <button
           type="button"
           onClick={back}
           aria-label={t('common.back')}
-          className="rounded-lg p-1.5 text-base text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-900"
+          className="rounded-lg p-1.5 text-base text-neutral-600 hover:bg-neutral-100 app:grid app:place-items-center app:rounded-full app:p-0 app:text-[22px] app:text-neutral-700 dark:hover:bg-neutral-900 dark:app:text-neutral-200"
         >
           <ArrowLeftIcon />
         </button>
-        <h2 className="text-[14px] font-semibold">
+        <h2 className="text-[14px] font-semibold app:text-[20px]! app:font-medium">
           {mode === 'manual'
             ? t('add.title.manual')
             : mode === 'camera'
@@ -289,7 +290,7 @@ export function AddSheet({
               }}
             />
 
-            <p className="mt-2 text-center text-[11px] leading-relaxed text-neutral-400 dark:text-neutral-500">
+            <p className="kr-explain mt-2 text-center text-[11px] leading-relaxed text-neutral-400 dark:text-neutral-500">
               {t('add.fromGoogle')}
             </p>
           </>
@@ -345,14 +346,18 @@ function Choice({
       type="button"
       onClick={onClick}
       disabled={busy}
-      className="flex items-start gap-3 rounded-xl border border-neutral-200 p-3 text-start transition hover:border-brand-400 hover:bg-brand-50/50 disabled:opacity-60 dark:border-neutral-800 dark:hover:border-brand-500 dark:hover:bg-brand-500/5"
+      className={cx(
+        'flex items-start gap-3 rounded-xl border border-neutral-200 p-3 text-start transition hover:border-brand-400 hover:bg-brand-50/50 disabled:opacity-60 dark:border-neutral-800 dark:hover:border-brand-500 dark:hover:bg-brand-500/5',
+        // On a phone, the cards of its Settings: an icon in a tile, no outline.
+        'app:items-center app:gap-4 app:rounded-[20px] app:border-0 app:bg-white app:px-4 app:py-3 app:ring-1 app:ring-neutral-200/70 dark:app:bg-neutral-900 dark:app:ring-0',
+      )}
     >
-      <span className="mt-0.5 shrink-0 text-lg text-brand-600 dark:text-brand-400">
+      <span className="mt-0.5 shrink-0 text-lg text-brand-600 dark:text-brand-400 app:mt-0 app:grid app:h-11 app:w-11 app:place-items-center app:rounded-xl app:bg-brand-50 app:text-[24px] dark:app:bg-brand-500/15 dark:app:text-brand-300">
         {busy ? <Spinner className="h-[1em] w-[1em]" /> : icon}
       </span>
       <span className="flex flex-col gap-0.5">
         <span className="text-[13px] font-medium text-neutral-800 dark:text-neutral-100">{title}</span>
-        <span className="text-[12px] leading-snug text-neutral-600 dark:text-neutral-400">
+        <span className="kr-explain text-[12px] leading-snug text-neutral-600 dark:text-neutral-400">
           {description}
         </span>
       </span>

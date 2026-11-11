@@ -27,15 +27,24 @@ export interface SenderIdentity {
  * script is injected into — and the script is injected into whatever page the
  * user last opened the popup on.
  *
- * The origin is the discriminator. An extension page reports
- * `chrome-extension://<id>`; a content script reports the page's own origin,
- * whatever that page happens to be.
+ * The origin is the discriminator. An extension page reports the extension's
+ * own origin; a content script reports the page's own origin, whatever that
+ * page happens to be. Chrome's own origin is `chrome-extension://<id>`;
+ * Firefox's is `moz-extension://<uuid>`, a uuid each install draws at random
+ * and nothing like the id (`authenticator@keyrook.com`). So it is the origin
+ * the browser gives this extension's own pages, not one built from the id.
  *
  * Not `sender.tab`: the options page is an extension page that lives in a tab,
  * so gating on that locks the settings screen out of its own vault.
  */
-export function isTrustedSender(sender: SenderIdentity, runtimeId: string): boolean {
-  return sender.id === runtimeId && sender.origin === `chrome-extension://${runtimeId}`;
+export function isTrustedSender(
+  sender: SenderIdentity,
+  runtimeId: string,
+  // `getURL('')` is that origin and a slash. Not `new URL(…).origin`: a
+  // scheme the URL standard does not know has the origin "null" there.
+  ownOrigin: string = chrome.runtime.getURL('').replace(/\/$/, ''),
+): boolean {
+  return sender.id === runtimeId && sender.origin === ownOrigin;
 }
 
 export type { FieldDetection };

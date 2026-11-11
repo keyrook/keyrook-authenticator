@@ -20,6 +20,8 @@ export const ko: Dictionary = {
   'error.noAccountSheet': '이 계정에는 아직 복구 키가 없습니다. 계정 페이지에서 만드세요.',
   'error.recoveryKeyWrong': '이 복구 키는 이 계정의 것이 아닙니다.',
   'error.noRecoveryKit': '이 보관함에는 복구 키가 없습니다.',
+  'error.accountData.withheld':
+    'Firefox가 Keyrook Authenticator에 Keyrook 계정으로 보내는 것을 허용하지 않아 아무것도 보내지 않았습니다. Firefox가 물을 때 허용하거나 about:addons에서 허용하세요.',
   'error.syncUnavailable': '이 빌드에서는 동기화를 사용할 수 없습니다.',
   'error.notSignedIn': '로그인되어 있지 않습니다.',
   'error.alreadySignedIn': '이미 로그인되어 있습니다.',
@@ -47,6 +49,8 @@ export const ko: Dictionary = {
   'error.autofillNotHere': '자동 입력은 일반 웹페이지에서만 작동합니다.',
   'error.autofillBlocked':
     'Chrome이 확장 프로그램의 이 페이지 읽기를 허용하지 않았습니다. 입력하려는 페이지에서 팝업을 여세요.',
+  'error.autofillBlocked.firefox':
+    'Firefox가 확장 프로그램의 이 페이지 읽기를 허용하지 않았습니다. 입력하려는 페이지에서 팝업을 여세요.',
   'error.signinCancelled': '로그인이 취소되었습니다.',
   'error.signinStateMismatch': '이 로그인이 시작할 때와 같은 상태로 돌아오지 않았습니다. 다시 시도하세요.',
   'error.signinUnfinished': '로그인이 끝나지 않았습니다. 다시 시도하세요.',
@@ -312,6 +316,7 @@ export const ko: Dictionary = {
   'rate.body': '<b>Keyrook Authenticator가 유용한가요?</b> {store}에 남긴 평가로 다른 사람들이 이 앱을 찾습니다.',
   'rate.store.chrome': 'Chrome 웹 스토어',
   'rate.store.edge': 'Edge 추가 기능',
+  'rate.store.firefox': 'Firefox 추가 기능',
   'rate.notNow': '나중에',
   'rate.rate': '평가하기',
 
@@ -329,6 +334,8 @@ export const ko: Dictionary = {
   'add.camera.description': '휴대전화에 표시된 코드용입니다. Google Authenticator 내보내기도 됩니다.',
   'add.camera.elsewhere':
     'Chrome이 카메라 사용을 요청할 수 있도록 설정을 한 번 엽니다. 그다음부터는 여기서 바로 됩니다.',
+  'add.camera.elsewhere.firefox':
+    'Firefox가 카메라 사용을 요청할 수 있도록 설정을 한 번 엽니다. 그다음부터는 여기서 바로 됩니다.',
   'add.upload.title': 'QR 이미지 업로드',
   'add.upload.description': '전에 저장해 둔 스크린샷이나 사진입니다.',
   'add.manual.title': '설정 키 직접 입력',
@@ -340,6 +347,8 @@ export const ko: Dictionary = {
   'common.done': '완료',
   'add.noNativeReader':
     '이 컴퓨터의 Chrome에는 내장 QR 리더가 없어서 Google Authenticator 내보내기처럼 큰 코드는 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화에서 스크린샷을 찍어 ‘QR 이미지 업로드’를 사용하세요.',
+  'add.noNativeReader.firefox':
+    '이 컴퓨터의 Firefox에는 내장 QR 리더가 없어서 Google Authenticator 내보내기처럼 큰 코드는 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화에서 스크린샷을 찍어 ‘QR 이미지 업로드’를 사용하세요.',
   'add.openScannerInSettings': '설정에서 스캐너 열기',
   'add.noneFound': '계정을 찾지 못했습니다.',
   'add.noQrOnPage':
@@ -389,6 +398,8 @@ export const ko: Dictionary = {
     '이미지는 이 기기에서 읽은 뒤 버립니다. 아무것도 기록하거나 업로드하지 않습니다.',
   'camera.blocked':
     'Chrome이 카메라 접근을 차단했습니다. 이 페이지에서 허용하거나 다른 방법으로 계정을 추가하세요.',
+  'camera.blocked.firefox':
+    'Firefox가 카메라 접근을 차단했습니다. 이 페이지에서 허용하거나 다른 방법으로 계정을 추가하세요.',
   'camera.none': '이 컴퓨터에서 카메라를 찾지 못했습니다.',
   'camera.busy': '다른 프로그램이 카메라를 사용 중입니다.',
 
@@ -506,6 +517,8 @@ export const ko: Dictionary = {
   'about.fact.access.title': '사이트 전체에 대한 접근 없음',
   'about.fact.access.body':
     '이 확장 프로그램은 호스트 권한을 요청하지 않습니다. 페이지에서 QR 코드를 읽거나 코드를 입력할 때는 activeTab을 씁니다. Chrome이 확장 프로그램을 실행한 탭에만 주는 권한입니다.',
+  'about.fact.access.body.firefox':
+    '이 확장 프로그램은 호스트 권한을 요청하지 않습니다. 페이지에서 QR 코드를 읽거나 코드를 입력할 때는 activeTab을 씁니다. Firefox가 확장 프로그램을 실행한 탭에만 주는 권한입니다.',
   'about.fact.standards.title': '종속이 아닌 표준',
   'about.fact.standards.body':
     'RFC 6238 TOTP와 RFC 4226 HOTP를 지원하며 otpauth://로 가져오고 내보낼 수 있습니다. 언제든 모든 것을 가지고 다른 앱으로 옮길 수 있습니다.',
@@ -528,6 +541,7 @@ export const ko: Dictionary = {
   'about.logos.body':
     '서비스 {count}개에 실제 로고가 있습니다. 그림 출처: <simple>Simple Icons</simple>(CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons, <fa>Font Awesome Free</fa>(아이콘, CC BY 4.0). 모든 제품명과 로고는 각 소유자의 것이며 계정이 속한 서비스를 알아보는 데만 사용합니다. 어느 세트에도 로고가 없는 서비스는 글자 타일로 표시합니다.',
   'about.shortcut.change': 'chrome://extensions/shortcuts에서 바꿀 수 있습니다.',
+  'about.shortcut.change.firefox': 'about:addons에서 바꿀 수 있습니다.',
   // --- 설정: 계정 ---------------------------------------------------------------
   'accounts.title': '계정',
   'accounts.description':
@@ -581,6 +595,8 @@ export const ko: Dictionary = {
   'import.stopAndReview': '멈추고 {count}개 확인',
   'import.noNativeReader':
     '이 컴퓨터의 Chrome에는 내장 QR 리더가 없어서 Google Authenticator 내보내기처럼 큰 코드는 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화에서 코드마다 스크린샷을 찍고 ‘파일 선택’으로 모두 고르세요.',
+  'import.noNativeReader.firefox':
+    '이 컴퓨터의 Firefox에는 내장 QR 리더가 없어서 Google Authenticator 내보내기처럼 큰 코드는 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화에서 코드마다 스크린샷을 찍고 ‘파일 선택’으로 모두 고르세요.',
   'import.encrypted': '이 백업은 암호화되어 있습니다. 만들 때 사용한 비밀번호를 입력하세요.',
   'import.backupPassword': '백업 비밀번호',
   'import.open': '백업 열기',
@@ -827,10 +843,16 @@ export const ko: Dictionary = {
   'account.signOutNote':
     '로그아웃하면 이 브라우저에서 코드가 삭제됩니다. 코드는 Keyrook 계정에 남아 있으니 다시 로그인하면 돌아옵니다.',
   'accountPage.title': '내 Keyrook 계정',
-  'accountPage.body': '비밀번호, 복구 키, 처음부터 다시 시작, 삭제는 계정 페이지에 있으며 모든 Keyrook 앱에 한 번에 적용됩니다.',
-  'accountPage.bodyNoRoot': '비밀번호와 삭제는 계정 페이지에 있습니다. 복구 키는 다른 Keyrook 앱이 이 계정을 쓰기 전까지 여기 보안에서 만듭니다.',
-  'accountPage.bodyProvider': '복구 키, 처음부터 다시 시작, 삭제는 계정 페이지에 있으며 모든 Keyrook 앱에 한 번에 적용됩니다.',
-  'accountPage.bodyNoRootProvider': '삭제는 계정 페이지에 있습니다. 복구 키는 다른 Keyrook 앱이 이 계정을 쓰기 전까지 여기 보안에서 만듭니다.',
+  'accountPage.body': '주소, 비밀번호, 복구 키, 처음부터 다시 시작, 삭제는 계정 페이지에 있으며 모든 Keyrook 앱에 한 번에 적용됩니다.',
+  'accountPage.bodyNoRoot': '주소, 비밀번호, 삭제는 계정 페이지에 있습니다. 복구 키는 다른 Keyrook 앱이 이 계정을 쓰기 전까지 여기 보안에서 만듭니다.',
+  'accountPage.bodyProvider': '주소, 복구 키, 처음부터 다시 시작, 삭제는 계정 페이지에 있으며 모든 Keyrook 앱에 한 번에 적용됩니다.',
+  'accountPage.bodyNoRootProvider': '주소와 삭제는 계정 페이지에 있습니다. 복구 키는 다른 Keyrook 앱이 이 계정을 쓰기 전까지 여기 보안에서 만듭니다.',
+  'accountPage.address': '이메일 주소',
+  'accountPage.changeAddress': '주소 변경',
+  'accountPage.activity': '최근 활동',
+  'accountPage.activityBody': '최근 90일 동안 계정에 있었던 로그인과 변경 사항을 기기, 앱, 국가와 함께 계정 페이지에서 확인하세요.',
+  'accountPage.data': '계정 데이터',
+  'accountPage.dataBody': 'Keyrook 서버가 계정에 대해 보관하는 내용을 계정 페이지에서 내려받으세요. 코드는 들어 있지 않습니다. 서버는 코드를 암호화된 상태로만 보관합니다. 코드는 백업에서 내보내세요.',
   'sheetCheck.lead': '저장해 둔 복구 키를 한 번 입력하면, 이 앱이 그 키로 코드를 되찾을 수 있음을 알게 됩니다. 이 기기에서 확인하며 어디에도 보내지 않습니다.',
   'sheetCheck.submit': '확인하기',
   'sheetCheck.lost': '잃어버렸거나 처음부터 없었나요? 계정 페이지에서 새로 만드세요.',
@@ -879,12 +901,7 @@ export const ko: Dictionary = {
   'password.change': '비밀번호 변경…',
   'password.formTitle': '계정 비밀번호 변경',
   'devices.title': '로그인된 기기',
-  'devices.description':
-    '더 이상 쓰지 않거나 가지고 있지 않은 기기를 로그아웃하세요. 최신 Keyrook Authenticator를 쓰고 있다면, 다음에 연결될 때 이 계정의 코드를 스스로 삭제하고 한 번도 보내지 않은 것만 남깁니다. 그때까지, 또는 다시 연결되지 않으면, 가지고 있던 내용을 같은 비밀번호로 보관합니다.',
-  'devices.descriptionProvider':
-    '더 이상 쓰지 않거나 가지고 있지 않은 기기를 로그아웃하세요. 최신 Keyrook Authenticator를 쓰고 있다면, 다음에 연결될 때 이 계정의 코드를 스스로 삭제하고 한 번도 보내지 않은 것만 남깁니다. 그때까지, 또는 다시 연결되지 않으면, 가지고 있던 내용을 그 기기에서 보관함이 잠긴 방식 그대로 보관합니다.',
-  'devices.this': '이 기기',
-  'devices.when': '{created} 로그인 · 마지막 활동 {seen}',
+  'devices.onAccountPage': '계정 페이지에서 계정에 로그인된 모든 기기를 확인하고, 로그아웃하거나 삭제하세요.',
   'removed.kept': '여기서 추가하거나 변경했지만 계정에 전달되지 않은 코드는 그대로 남아 있습니다.',
   'delete.row': '계정 삭제',
   'delete.rowDescription':
@@ -1047,6 +1064,7 @@ export const ko: Dictionary = {
   'backup.choice.import.title': '가져오기',
   'backup.choice.import.body': '백업, 다른 앱에서 내보낸 파일, otpauth:// 링크에서 가져옵니다.',
   'backup.choice.move.body': '전송 코드, 인쇄용 페이지, 읽을 수 있는 파일. 암호화되지 않습니다.',
+  'backup.accountData': '코드를 내보낼 수 있는 것은 Keyrook Authenticator뿐입니다. 서버는 코드를 암호화해 보관합니다. 서버가 계정에 대해 보관하는 내용은 코드나 키 없이 계정 페이지에서 내려받습니다.',
   'security.description': '이 보관함을 여는 방법과, 이 브라우저를 잃었을 때 다시 들어오는 방법입니다.',
   'security.deviceKeyHint': '입력할 것이 없습니다. 이 컴퓨터에서 사용자 권한으로 실행되는 악성코드는 막지 못합니다.',
   'security.passwordHint': '보관함이 잠길 때마다 입력합니다.',
@@ -1103,10 +1121,6 @@ export const ko: Dictionary = {
   'about.fact.keys.body.phone':
     '계정은 데이터 키로 암호화되고, 그 데이터 키도 다시 래핑되어 있습니다. 마스터 비밀번호가 있으면 래핑 키는 PBKDF2(600,000회)로 만들어지며 잠금 해제된 동안 메모리에만 있습니다. 없으면 휴대전화 자체의 키 저장소가 봉인한 키이므로, 앱 파일을 복사해도 보관함을 열 수 없습니다.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Google Authenticator 내보내기처럼 큰 코드는 여기서 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화의 카메라 앱으로 사진을 찍어 ‘QR 이미지 업로드’를 사용하세요.',
-  'import.noNativeReader.phone':
-    'Google Authenticator 내보내기처럼 큰 코드는 여기서 카메라로 스캔되지 않는 경우가 많습니다. 스캔되지 않으면 휴대전화의 카메라 앱으로 코드마다 사진을 찍고 ‘파일 선택’으로 모두 고르세요.',
   'error.signOutUnsynced.phone': '이 휴대폰의 일부 변경 사항이 아직 계정에 반영되지 않아 지금 로그아웃하면 사라집니다. 인터넷에 연결한 뒤 다시 시도하세요.',
   'account.signOutNote.phone': '로그아웃하면 이 휴대폰에서 코드가 삭제됩니다. 코드는 Keyrook 계정에 남아 있으니 다시 로그인하면 돌아옵니다.',
   'secondStepTip.suggest.phone':

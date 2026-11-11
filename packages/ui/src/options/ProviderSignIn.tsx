@@ -14,7 +14,7 @@ import { BRAND_ICONS } from '../components/brand-icons.js';
 import { PasswordField } from '../components/password.js';
 import { Button, Callout, Field, Spinner, cx } from '../components/primitives.js';
 import { Section } from './Section.js';
-import { Footnote, FormShell, TextLink, useSubmit } from './auth-ui.js';
+import { askToSend, Footnote, FormShell, TextLink, useSubmit } from './auth-ui.js';
 import { errorKey, errorText } from '../i18n/error-text.js';
 import type { MessageKey } from '../i18n/locales/en.js';
 import { useT } from '../i18n/react.js';
@@ -77,7 +77,7 @@ export function ProviderMark({ provider, className = 'h-[18px] w-[18px]' }: { pr
 
 /** How "Continue with …" looks: Google, GitHub and a passkey alike. */
 export const CONTINUE_BUTTON = cx(
-  'relative inline-flex h-10 w-full items-center justify-center gap-2.5 rounded-xl border text-sm font-medium transition-colors select-none',
+  'relative inline-flex h-10 w-full items-center justify-center gap-2.5 rounded-xl border app:min-h-12 app:rounded-full text-sm font-medium transition-colors select-none',
   'border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-50 active:bg-neutral-100',
   'dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800',
   'disabled:cursor-not-allowed disabled:opacity-60',
@@ -132,6 +132,9 @@ export function ProviderButtons({
         window.close();
         return;
       }
+      // Here, not from the popup above: Settings, where the sign-in finishes,
+      // asks in its own click.
+      await askToSend();
       if (offer.inTab) {
         const { url } = await send({ type: 'provider/begin', provider });
         // Busy until the page is gone.
@@ -608,6 +611,8 @@ export function PairingRequests({
     <Section
       title={t('approve.title')}
       description={provider ? t('approve.description', { provider: providerLabel(provider) }) : t('approve.descriptionAny')}
+      // Whom not to let in: said on a phone too.
+      keep
     >
       <div className="flex flex-col divide-y divide-neutral-100 dark:divide-neutral-900">
         {notice && (

@@ -19,6 +19,8 @@ export const hu: Dictionary = {
   'error.noAccountSheet': 'Ennek a fióknak még nincs helyreállítási kulcsa. Hozz létre egyet a fiókoldalon.',
   'error.recoveryKeyWrong': 'Ez a helyreállítási kulcs nem ehhez a fiókhoz tartozik.',
   'error.noRecoveryKit': 'Ennek a széfnek nincs helyreállítási kulcsa.',
+  'error.accountData.withheld':
+    'A Firefox nem engedte, hogy a Keyrook Authenticator bármit küldjön egy Keyrook-fióknak, ezért semmi sem lett elküldve. Engedélyezd, amikor a Firefox rákérdez, vagy az about:addons oldalon.',
   'error.syncUnavailable': 'Ebben a verzióban nincs szinkronizálás.',
   'error.notSignedIn': 'Nem vagy bejelentkezve.',
   'error.alreadySignedIn': 'Már be vagy jelentkezve.',
@@ -43,6 +45,7 @@ export const hu: Dictionary = {
   'error.noActiveTab': 'Nincs aktív lap.',
   'error.autofillNotHere': 'Az automatikus kitöltés csak normál weboldalakon működik.',
   'error.autofillBlocked': 'A Chrome nem engedte, hogy a bővítmény elolvassa ezt az oldalt. Nyisd meg a felugró ablakot a kitöltendő oldalon.',
+  'error.autofillBlocked.firefox': 'A Firefox nem engedte, hogy a bővítmény elolvassa ezt az oldalt. Nyisd meg a felugró ablakot a kitöltendő oldalon.',
   'error.signinCancelled': 'A bejelentkezés megszakadt.',
   'error.signinStateMismatch': 'A bejelentkezés nem úgy tért vissza, ahogy elindult. Próbáld újra.',
   'error.signinUnfinished': 'A bejelentkezés nem fejeződött be. Próbáld újra.',
@@ -293,6 +296,7 @@ export const hu: Dictionary = {
   'rate.body': '<b>Hasznos a Keyrook Authenticator?</b> Egy értékelés itt: {store} — így találnak rá mások is.',
   'rate.store.chrome': 'Chrome Internetes áruház',
   'rate.store.edge': 'Edge-bővítmények',
+  'rate.store.firefox': 'Firefox-bővítmények',
   'rate.notNow': 'Most nem',
   'rate.rate': 'Értékelem',
 
@@ -307,6 +311,7 @@ export const hu: Dictionary = {
   'add.camera.title': 'Beolvasás kamerával',
   'add.camera.description': 'A telefonodon lévő kódhoz — Google Authenticator-exportáláshoz is.',
   'add.camera.elsewhere': 'Egyszer megnyitja a Beállításokat, hogy a Chrome engedélyt kérhessen a kamerához. Utána itt is működik.',
+  'add.camera.elsewhere.firefox': 'Egyszer megnyitja a Beállításokat, hogy a Firefox engedélyt kérhessen a kamerához. Utána itt is működik.',
   'add.upload.title': 'QR-kép feltöltése',
   'add.upload.description': 'Egy korábban mentett képernyőkép vagy fotó.',
   'add.manual.title': 'Beállítási kulcs kézi megadása',
@@ -318,6 +323,8 @@ export const hu: Dictionary = {
   'common.done': 'Kész',
   'add.noNativeReader':
     'Ezen a gépen a Chrome-ban nincs beépített QR-olvasó, ezért egy nagy kódot — például egy Google Authenticator-exportálást — gyakran nem lehet kamerával beolvasni. Ha nem megy, készíts képernyőképet a telefonon, és használd a QR-kép feltöltését.',
+  'add.noNativeReader.firefox':
+    'Ezen a gépen a Firefoxban nincs beépített QR-olvasó, ezért egy nagy kódot — például egy Google Authenticator-exportálást — gyakran nem lehet kamerával beolvasni. Ha nem megy, készíts képernyőképet a telefonon, és használd a QR-kép feltöltését.',
   'add.openScannerInSettings': 'Olvasó megnyitása a Beállításokban',
   'add.noneFound': 'Nem található fiók.',
   'add.noQrOnPage': 'Az oldal látható részén nincs QR-kód. Görgesd láthatóvá, és próbáld újra.',
@@ -361,6 +368,7 @@ export const hu: Dictionary = {
     'Tartsd a QR-kódot a kereten belül. Google Authenticatorból költözöl? Nyisd meg a telefonon az exportálási képernyőt, és fordítsd felé a kamerát — ha több kód van, egymás után mutasd őket.',
   'camera.privacy': 'A képet ezen az eszközön olvassuk be, majd eldobjuk. Semmit sem rögzítünk és semmit sem töltünk fel.',
   'camera.blocked': 'A Chrome letiltotta a kamerát. Engedélyezd ehhez az oldalhoz, vagy válassz másik módot a fiók hozzáadására.',
+  'camera.blocked.firefox': 'A Firefox letiltotta a kamerát. Engedélyezd ehhez az oldalhoz, vagy válassz másik módot a fiók hozzáadására.',
   'camera.none': 'Ezen a gépen nem található kamera.',
   'camera.busy': 'A kamerát egy másik program használja.',
 
@@ -465,6 +473,8 @@ export const hu: Dictionary = {
   'about.fact.access.title': 'Nincs általános hozzáférés a webhelyekhez',
   'about.fact.access.body':
     'A bővítmény nem kér webhely-engedélyt. QR-kód olvasása egy oldalról vagy kód kitöltése az activeTab engedéllyel történik — ezt a Chrome csak arra a lapra adja meg, ahol a bővítményt meghívtad.',
+  'about.fact.access.body.firefox':
+    'A bővítmény nem kér webhely-engedélyt. QR-kód olvasása egy oldalról vagy kód kitöltése az activeTab engedéllyel történik — ezt a Firefox csak arra a lapra adja meg, ahol a bővítményt meghívtad.',
   'about.fact.standards.title': 'Szabványok, nem bezártság',
   'about.fact.standards.body': 'RFC 6238 TOTP és RFC 4226 HOTP, otpauth:// importtal és exporttal. Bármikor átválthatsz egy másik alkalmazásra, és mindent magaddal vihetsz.',
   'about.version': 'Verzió: {version}',
@@ -485,6 +495,7 @@ export const hu: Dictionary = {
   'about.logos.body':
     '{count} szolgáltatásnak van valódi jele. A grafikák forrása: <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons és <fa>Font Awesome Free</fa> (ikonok, CC BY 4.0). Minden terméknév és logó a tulajdonosáé, és csak arra szolgál, hogy jelölje, melyik szolgáltatáshoz tartozik egy fiók. A jel nélküli szolgáltatás betűs csempét kap.',
   'about.shortcut.change': 'Módosítás: chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Módosítás: about:addons.',
   'accounts.title': 'Fiókok',
   'accounts.description': 'Minden, ami ebben a széfben van. A kódok ezen az eszközön készülnek, sosem a szerveren.',
   'accounts.empty': 'Még nincsenek fiókok. Adj hozzá egyet a kezdéshez.',
@@ -536,6 +547,8 @@ export const hu: Dictionary = {
   'import.stopAndReview': 'Leállás és {count} áttekintése',
   'import.noNativeReader':
     'Ezen a gépen a Chrome-ban nincs beépített QR-olvasó, ezért egy nagy kódot — például egy Google Authenticator-exportálást — gyakran nem lehet kamerával beolvasni. Ha nem megy, készíts minden kódról képernyőképet a telefonon, és válaszd ki mindet a Fájlok kiválasztásával.',
+  'import.noNativeReader.firefox':
+    'Ezen a gépen a Firefoxban nincs beépített QR-olvasó, ezért egy nagy kódot — például egy Google Authenticator-exportálást — gyakran nem lehet kamerával beolvasni. Ha nem megy, készíts minden kódról képernyőképet a telefonon, és válaszd ki mindet a Fájlok kiválasztásával.',
   'import.encrypted': 'Ez a mentés titkosított. Add meg a létrehozásakor használt jelszót.',
   'import.backupPassword': 'A mentés jelszava',
   'import.open': 'Mentés megnyitása',
@@ -752,10 +765,16 @@ export const hu: Dictionary = {
   },
   'account.signOutNote': 'A kijelentkezés eltávolítja a kódjaidat ebből a böngészőből. A Keyrook-fiókodban megmaradnak — jelentkezz be újra, és visszakerülnek.',
   'accountPage.title': 'A Keyrook-fiókod',
-  'accountPage.body': 'A jelszó, a helyreállítási kulcs, az újrakezdés és a törlés a fiókoldalon van, egyszerre minden Keyrook-apphoz.',
-  'accountPage.bodyNoRoot': 'A jelszó és a törlés a fiókoldalon van. A helyreállítási kulcs itt, a Biztonság alatt készül, amíg egy másik Keyrook-app nem használja a fiókot.',
-  'accountPage.bodyProvider': 'A helyreállítási kulcs, az újrakezdés és a törlés a fiókoldalon van, egyszerre minden Keyrook-apphoz.',
-  'accountPage.bodyNoRootProvider': 'A törlés a fiókoldalon van. A helyreállítási kulcs itt, a Biztonság alatt készül, amíg egy másik Keyrook-app nem használja a fiókot.',
+  'accountPage.body': 'A cím, a jelszó, a helyreállítási kulcs, az újrakezdés és a törlés a fiókoldalon van, egyszerre minden Keyrook-apphoz.',
+  'accountPage.bodyNoRoot': 'A cím, a jelszó és a törlés a fiókoldalon van. A helyreállítási kulcs itt, a Biztonság alatt készül, amíg egy másik Keyrook-app nem használja a fiókot.',
+  'accountPage.bodyProvider': 'A cím, a helyreállítási kulcs, az újrakezdés és a törlés a fiókoldalon van, egyszerre minden Keyrook-apphoz.',
+  'accountPage.bodyNoRootProvider': 'A cím és a törlés a fiókoldalon van. A helyreállítási kulcs itt, a Biztonság alatt készül, amíg egy másik Keyrook-app nem használja a fiókot.',
+  'accountPage.address': 'E-mail-cím',
+  'accountPage.changeAddress': 'Cím módosítása',
+  'accountPage.activity': 'Legutóbbi tevékenység',
+  'accountPage.activityBody': 'A fiókod bejelentkezései és változásai az elmúlt 90 napból, az eszközzel, az appal és az országgal, a fiókoldalon.',
+  'accountPage.data': 'Fiókadatok',
+  'accountPage.dataBody': 'Töltsd le a fiókoldalról, amit a Keyrook szervere a fiókodról tárol. A kódjaid nincsenek benne: a szerver csak titkosítva tárolja őket. Exportáld őket a Biztonsági mentés alatt.',
   'sheetCheck.lead': 'Írd be egyszer a mentett helyreállítási kulcsot, hogy ez az app tudja: vissza tudja hozni a kódjaidat. Ezen az eszközön ellenőrizzük, és sehova sem küldjük.',
   'sheetCheck.submit': 'Ellenőrzés',
   'sheetCheck.lost': 'Elveszett, vagy sosem volt? Hozz létre újat a fiókoldalon.',
@@ -801,12 +820,8 @@ export const hu: Dictionary = {
   'password.change': 'Jelszó módosítása…',
   'password.formTitle': 'A fiók jelszavának módosítása',
   'devices.title': 'Bejelentkezett eszközök',
-  'devices.description':
-    'Jelentkeztesd ki azt az eszközt, amelyet már nem használsz, vagy amely már nincs meg. Ha naprakész Keyrook Authenticator fut rajta, a következő kapcsolódáskor magától eltávolítja ennek a fióknak a kódjait, és csak azt tartja meg, amit soha nem küldött el. Addig, vagy ha soha többé nem kapcsolódik, megtartja, ami volt rajta, ugyanazzal a jelszóval zárolva.',
-  'devices.descriptionProvider':
-    'Jelentkeztesd ki azt az eszközt, amelyet már nem használsz, vagy amely már nincs meg. Ha naprakész Keyrook Authenticator fut rajta, a következő kapcsolódáskor magától eltávolítja ennek a fióknak a kódjait, és csak azt tartja meg, amit soha nem küldött el. Addig, vagy ha soha többé nem kapcsolódik, megtartja, ami volt rajta, úgy zárolva, ahogy rajta a széf zárolva van.',
-  'devices.this': 'Ez az eszköz',
-  'devices.when': 'Bejelentkezve: {created} · utoljára aktív: {seen}',
+  'devices.onAccountPage':
+    'A fiókodba bejelentkezett összes eszközt a fiókoldalon látod, és ott ki is jelentkeztetheted vagy eltávolíthatod őket.',
   'removed.kept': 'Az itt hozzáadott vagy módosított kódok, amelyek nem jutottak el a fiókba, továbbra is itt vannak.',
   'delete.row': 'A fiókod törlése',
   'delete.rowDescription': 'Eltávolít minden titkosított másolatot a szerverről. Ez az eszköz megtartja a széfet; a többi eszköz leáll a szinkronizálással.',
@@ -950,6 +965,7 @@ export const hu: Dictionary = {
   'backup.choice.import.title': 'Importálás',
   'backup.choice.import.body': 'Biztonsági mentésből, egy másik alkalmazás exportjából vagy otpauth:// hivatkozásokból.',
   'backup.choice.move.body': 'Átviteli kódok, nyomtatható oldal vagy olvasható fájl. Nem titkosított.',
+  'backup.accountData': 'A kódjaidat csak a Keyrook Authenticator tudja exportálni: a szerver titkosítva tárolja őket. Amit a szerver a fiókodról tárol, kódok és kulcsok nélkül, azt a fiókoldalról töltheted le.',
   'security.description': 'Hogyan nyílik ez a széf, és hogyan jutsz vissza, ha a böngésző elvész.',
   'security.deviceKeyHint': 'Nincs mit begépelni. Nem állítja meg a gépen a te nevedben futó kártevőt.',
   'security.passwordHint': 'Valahányszor a széf zárolódott, kérjük.',
@@ -1017,10 +1033,6 @@ export const hu: Dictionary = {
   'about.fact.keys.body.phone':
     'A fiókjaidat egy adatkulcs titkosítja, amely maga is be van csomagolva. Mesterjelszóval a csomagoló kulcs 600 000 körös PBKDF2-ből származik, és csak a feloldás idején van a memóriában. Jelszó nélkül a telefon saját kulcstárolója által lepecsételt kulcs, így az alkalmazás fájljainak másolata nem nyitja meg a széfet.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'Egy nagy kódot — például egy Google Authenticator-exportálást — itt gyakran nem lehet kamerával beolvasni. Ha nem megy, fényképezd le a telefon kameraalkalmazásával, és használd a QR-kép feltöltését.',
-  'import.noNativeReader.phone':
-    'Egy nagy kódot — például egy Google Authenticator-exportálást — itt gyakran nem lehet kamerával beolvasni. Ha nem megy, fényképezz le minden kódot a telefon kameraalkalmazásával, és válaszd ki mindet a Fájlok kiválasztásával.',
   'error.signOutUnsynced.phone':
     'Néhány módosítás ezen a telefonon még nem jutott el a fiókodba, és ha most kijelentkezel, elvesznek. Csatlakozz az internethez, és próbáld újra.',
   'account.signOutNote.phone':

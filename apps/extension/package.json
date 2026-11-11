@@ -1,21 +1,24 @@
 {
   "name": "@authx/extension",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
-  "description": "Keyrook Authenticator — Chrome MV3 extension.",
+  "description": "Keyrook Authenticator — the MV3 extension for Chrome, Edge, Opera and Firefox.",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "build": "node scripts/build.mjs",
     "build:as-edge": "node scripts/build.mjs --as-edge",
+    "build:firefox": "node scripts/build.mjs --browser firefox",
     "build:watch": "node scripts/build.mjs && vite build --watch",
     "dev": "vite",
     "icons": "node ../../scripts/gen-icons.mjs public/icons",
     "icons:brands": "node --experimental-strip-types ../../scripts/gen-brands.mjs",
     "shots": "VITE_SYNC_API_URL=http://localhost:8799 npm run build && playwright test --project=shots && npm run build",
+    "social": "VITE_SYNC_API_URL=http://localhost:8799 npm run build && SHOTS_SOCIAL=1 playwright test --project=shots social && npm run build",
     "review": "VITE_SYNC_API_URL=http://localhost:8799 npm run build && playwright test --project=review",
     "test:e2e": "npm run build && playwright test --project=e2e",
-    "zip": "node scripts/build.mjs --zip"
+    "zip": "node scripts/build.mjs --zip",
+    "zip:firefox": "node scripts/build.mjs --browser firefox --zip"
   },
   "dependencies": {
     "@authx/core": "*",

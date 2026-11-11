@@ -1,3 +1,5 @@
+import { host } from '../host.js';
+
 /**
  * Where the source and the security model are published.
  *
@@ -24,16 +26,24 @@ export const PRIVACY_URL = 'https://keyrook.com/authenticator/privacy/';
 export const ISSUES_URL = `${SOURCE_URL}/issues`;
 
 /**
- * The Keyrook account's own page: its password, its recovery key, starting
- * it over, deleting it — for every Keyrook app at once.
+ * The Keyrook account's own page: its address, its password, its recovery
+ * key, its recent activity, a download of what the server holds, starting it
+ * over, deleting it — for every Keyrook app at once. A build against a server
+ * with a page of its own says so through the Host: its accounts are not here.
  */
-export const ACCOUNT_PAGE_URL = 'https://account.keyrook.com';
+const ACCOUNT_PAGE_URL = 'https://account.keyrook.com';
 
 /**
  * The page's views a link opens by name, after signing in if it has to
  * (keyrook-account's docs/console.md). The names never change; deleting the
- * account has none.
+ * account has none, and is under `data`. `profile` changes the address, `data`
+ * downloads what the server holds and deletes the account, and `activity`
+ * lists 90 days of sign-ins and security changes (keyrook-account's
+ * docs/settings.md): this app only links to them.
  */
-export type AccountPageView = 'devices' | 'signin' | 'recovery' | 'passkeys';
+export type AccountPageView = 'devices' | 'signin' | 'recovery' | 'passkeys' | 'profile' | 'data' | 'activity';
 
-export const accountPageUrl = (view?: AccountPageView) => (view ? `${ACCOUNT_PAGE_URL}/#${view}` : ACCOUNT_PAGE_URL);
+export function accountPageUrl(view?: AccountPageView): string {
+  const page = host().accountPageUrl ?? ACCOUNT_PAGE_URL;
+  return view ? `${page}/#${view}` : page;
+}

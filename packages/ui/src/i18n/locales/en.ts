@@ -27,6 +27,8 @@ export const en = {
   'error.noAccountSheet': 'This account has no recovery key yet. Make one on the account page.',
   'error.recoveryKeyWrong': 'That recovery key does not match this account.',
   'error.noRecoveryKit': 'This vault does not have a recovery key.',
+  'error.accountData.withheld':
+    'Firefox has not let Keyrook Authenticator send anything to a Keyrook account, so nothing was sent. Allow it when Firefox asks, or at about:addons.',
   'error.syncUnavailable': 'Sync is not available in this build.',
   'error.notSignedIn': 'Not signed in.',
   'error.alreadySignedIn': 'Already signed in.',
@@ -53,6 +55,8 @@ export const en = {
   'error.autofillNotHere': 'Autofill only works on regular web pages.',
   'error.autofillBlocked':
     'Chrome would not let the extension read this page. Open the popup from the page you want to fill.',
+  'error.autofillBlocked.firefox':
+    'Firefox would not let the extension read this page. Open the popup from the page you want to fill.',
   'error.signinCancelled': 'Sign-in was cancelled.',
   'error.signinStateMismatch': 'That sign-in did not come back the way it left. Try again.',
   'error.signinUnfinished': 'Sign-in did not finish. Try again.',
@@ -325,6 +329,7 @@ export const en = {
   'rate.body': '<b>Finding Keyrook Authenticator useful?</b> A rating on {store} is how other people find it.',
   'rate.store.chrome': 'the Chrome Web Store',
   'rate.store.edge': 'Edge Add-ons',
+  'rate.store.firefox': 'Firefox Add-ons',
   'rate.notNow': 'Not now',
   'rate.rate': 'Rate it',
 
@@ -342,6 +347,8 @@ export const en = {
   'add.camera.description': 'For a code on your phone — including a Google Authenticator export.',
   'add.camera.elsewhere':
     'Opens Settings once so Chrome can ask to use the camera. After that it works right here.',
+  'add.camera.elsewhere.firefox':
+    'Opens Settings once so Firefox can ask to use the camera. After that it works right here.',
   'add.upload.title': 'Upload a QR image',
   'add.upload.description': 'A screenshot or photo you saved earlier.',
   'add.manual.title': 'Enter a setup key manually',
@@ -353,6 +360,8 @@ export const en = {
   'common.done': 'Done',
   'add.noNativeReader':
     'Chrome on this computer has no built-in QR reader, so a large code — like a Google Authenticator export — often will not scan from a camera. If yours will not, screenshot it on your phone and use Upload a QR image instead.',
+  'add.noNativeReader.firefox':
+    'Firefox on this computer has no built-in QR reader, so a large code — like a Google Authenticator export — often will not scan from a camera. If yours will not, screenshot it on your phone and use Upload a QR image instead.',
   'add.openScannerInSettings': 'Open the scanner in Settings',
   'add.noneFound': 'No accounts found.',
   'add.noQrOnPage': 'No QR code found on the visible part of the page. Scroll it into view and try again.',
@@ -405,6 +414,8 @@ export const en = {
     'The picture is read on this device and thrown away. Nothing is recorded and nothing is uploaded.',
   'camera.blocked':
     'Chrome blocked access to the camera. Allow it for this page, or use one of the other ways to add an account.',
+  'camera.blocked.firefox':
+    'Firefox blocked access to the camera. Allow it for this page, or use one of the other ways to add an account.',
   'camera.none': 'No camera found on this computer.',
   'camera.busy': 'The camera is in use by another program.',
 
@@ -523,6 +534,8 @@ export const en = {
   'about.fact.access.title': 'No blanket site access',
   'about.fact.access.body':
     'The extension asks for no host permissions. Reading a QR code from a page, or filling a code into one, uses activeTab — a grant Chrome hands out only for the tab you invoked the extension on.',
+  'about.fact.access.body.firefox':
+    'The extension asks for no host permissions. Reading a QR code from a page, or filling a code into one, uses activeTab — a grant Firefox hands out only for the tab you invoked the extension on.',
   'about.fact.standards.title': 'Standards, not lock-in',
   'about.fact.standards.body':
     'RFC 6238 TOTP and RFC 4226 HOTP, with otpauth:// import and export. You can leave for another app at any time and take everything with you.',
@@ -545,6 +558,7 @@ export const en = {
   'about.logos.body':
     '{count} services have a real mark. Artwork from <simple>Simple Icons</simple> (CC0 1.0), LobeHub Icons, SVG Logos, CoreUI Brands, Arcticons and <fa>Font Awesome Free</fa> (icons, CC BY 4.0). All product names and logos belong to their owners and are used only to identify the service an account belongs to. A service with no mark in either set gets a lettered tile.',
   'about.shortcut.change': 'Change it at chrome://extensions/shortcuts.',
+  'about.shortcut.change.firefox': 'Change it at about:addons, under ⚙ → Manage Extension Shortcuts.',
   // --- Settings: accounts --------------------------------------------------------
   'accounts.title': 'Accounts',
   'accounts.description':
@@ -599,6 +613,8 @@ export const en = {
   'import.stopAndReview': 'Stop and review {count}',
   'import.noNativeReader':
     'Chrome on this computer has no built-in QR reader, so a large code — like a Google Authenticator export — often will not scan from a camera. If yours will not, screenshot each code on your phone and pick them all with Choose files.',
+  'import.noNativeReader.firefox':
+    'Firefox on this computer has no built-in QR reader, so a large code — like a Google Authenticator export — often will not scan from a camera. If yours will not, screenshot each code on your phone and pick them all with Choose files.',
   'import.encrypted': 'This backup is encrypted. Enter the password it was created with.',
   'import.backupPassword': 'Backup password',
   'import.open': 'Open backup',
@@ -854,10 +870,16 @@ export const en = {
   'account.signOutNote':
     'Signing out removes your codes from this browser. They stay in your Keyrook account — sign in again to bring them back.',
   'accountPage.title': 'Your Keyrook account',
-  'accountPage.body': 'Its password, its recovery key, starting it over and deleting it are on the account page, for every Keyrook app at once.',
-  'accountPage.bodyNoRoot': 'Its password and deleting it are on the account page. Its recovery key is made here, under Security, until another Keyrook app uses the account.',
-  'accountPage.bodyProvider': 'Its recovery key, starting it over and deleting it are on the account page, for every Keyrook app at once.',
-  'accountPage.bodyNoRootProvider': 'Deleting it is on the account page. Its recovery key is made here, under Security, until another Keyrook app uses the account.',
+  'accountPage.body': 'Its address, its password, its recovery key, starting it over and deleting it are on the account page, for every Keyrook app at once.',
+  'accountPage.bodyNoRoot': 'Its address, its password and deleting it are on the account page. Its recovery key is made here, under Security, until another Keyrook app uses the account.',
+  'accountPage.bodyProvider': 'Its address, its recovery key, starting it over and deleting it are on the account page, for every Keyrook app at once.',
+  'accountPage.bodyNoRootProvider': 'Its address and deleting it are on the account page. Its recovery key is made here, under Security, until another Keyrook app uses the account.',
+  'accountPage.address': 'Email address',
+  'accountPage.changeAddress': 'Change address',
+  'accountPage.activity': 'Recent activity',
+  'accountPage.activityBody': 'Sign-ins and changes to your account in the last 90 days, with the device, the app and the country, on the account page.',
+  'accountPage.data': 'Account data',
+  'accountPage.dataBody': 'Download what Keyrook’s server holds about your account, from the account page. Your codes are not in it: the server holds them only encrypted. Export them under Backup.',
   'sheetCheck.lead': 'Type the recovery key you saved, once, so this app knows it can bring your codes back. It is checked on this device and sent nowhere.',
   'sheetCheck.submit': 'Check it',
   'sheetCheck.lost': 'Lost it, or never had one? Make a new one on the account page.',
@@ -908,12 +930,8 @@ export const en = {
   'password.change': 'Change password…',
   'password.formTitle': 'Change your account password',
   'devices.title': 'Signed-in devices',
-  'devices.description':
-    'Sign out a device you no longer use or no longer have. If it runs an up-to-date Keyrook Authenticator, it takes this account’s codes off itself the next time it connects, keeping only what it never sent. Until then, or if it never connects again, it keeps what it had, locked behind the same password.',
-  'devices.descriptionProvider':
-    'Sign out a device you no longer use or no longer have. If it runs an up-to-date Keyrook Authenticator, it takes this account’s codes off itself the next time it connects, keeping only what it never sent. Until then, or if it never connects again, it keeps what it had, locked the way its vault is locked on that device.',
-  'devices.this': 'This device',
-  'devices.when': 'Signed in {created} · last active {seen}',
+  'devices.onAccountPage':
+    'See every device signed in to your account, and sign one out or remove it, on the account page.',
   'removed.kept': 'Codes added or changed here that had not reached the account are still here.',
   'delete.row': 'Delete your account',
   'delete.rowDescription':
@@ -1087,6 +1105,7 @@ export const en = {
   'backup.choice.import.title': 'Import',
   'backup.choice.import.body': 'From a backup, another app’s export, or otpauth:// links.',
   'backup.choice.move.body': 'Transfer codes, a page to print, or a readable file. Not encrypted.',
+  'backup.accountData': 'Only Keyrook Authenticator can export your codes: the server holds them encrypted. What the server keeps about your account, with no codes or keys, is downloaded from the account page.',
   'security.description': 'How this vault opens, and your way back in if this browser is lost.',
   'security.deviceKeyHint': 'Nothing to type. It does not stop malware running as you on this computer.',
   'security.passwordHint': 'Asked for whenever the vault has locked.',
@@ -1167,10 +1186,6 @@ export const en = {
   'about.fact.keys.body.phone':
     'Your accounts are encrypted with a data key that is itself wrapped. With a master password, the wrapping key comes from PBKDF2 at 600,000 rounds and exists only in memory while unlocked. Without one, it is a key sealed by the phone’s own key store, so a copy of the app’s files cannot open the vault.',
   'rate.store.play': 'Google Play',
-  'add.noNativeReader.phone':
-    'A large code — like a Google Authenticator export — often will not scan from the camera here. If yours will not, take a photo of it with the phone’s camera app and use Upload a QR image instead.',
-  'import.noNativeReader.phone':
-    'A large code — like a Google Authenticator export — often will not scan from the camera here. If yours will not, take a photo of each code with the phone’s camera app and pick them all with Choose files.',
   'error.signOutUnsynced.phone':
     'Some changes on this phone haven’t reached your account yet, and signing out now would lose them. Connect to the internet and try again.',
   'account.signOutNote.phone':

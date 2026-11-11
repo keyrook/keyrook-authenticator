@@ -9,7 +9,24 @@ import type { SealedBox } from '../crypto/aead.js';
 import type { AccountKdfParams } from './account.js';
 import type { PullResult, PushResult, RemoteRecord, SyncAdapter } from './adapter.js';
 import type {
+  FamilyRecoveryAskRequest,
+  FamilyRecoveryAskResponse,
+  FamilyRecoveryStepRequired,
+  FamilyRecoveryCodeRequest,
+  FamilyRecoveryFinishRequest,
+  FamilyRecoveryStatusResponse,
+  OrgRecoveryBoxRequest,
+  OrgRecoveryBoxResponse,
+  OrgRecoveryHandoverRequest,
+  OrgRecoveryOffRequest,
+  OrgRecoveryOnRequest,
   SignInProvider,
+  AccountExport,
+  ActivityResponse,
+  SecurityEvent,
+  EmailChangeBeginRequest,
+  EmailChangeRequest,
+  EmailChangeResponse,
   AccountArchive,
   AccountArchivesResponse,
   AccountKeysResponse,
@@ -93,7 +110,31 @@ import type {
   SetRecoveryRequest,
   SyncErrorBody,
   SyncErrorCode,
+  AcceptOrgInviteRequest,
+  ConfirmOrgMemberRequest,
+  VerifyOrgMemberRequest,
+  CreateOrgRequest,
+  OrgDetail,
+  OrgEmergencyBox,
+  OrgEmergencyRequest,
+  OrgInvite,
+  OrgInviteRequest,
+  OrgProductBoxRequest,
+  OrgPullResponse,
+  OrgPushRequest,
+  OrgPushResponse,
+  OrgRecord,
+  OrgRoleRequest,
+  OrgRoster,
+  OrgsResponse,
+  RotateOrgRequest,
+  CollectionKeysRequest,
+  CreateCollectionRequest,
+  RenameCollectionRequest,
+  RotateCollectionRequest,
 } from './protocol.js';
+
+const collectionPath = (orgId: string, collectionId: string) => `/orgs/${encodeURIComponent(orgId)}/collections/${encodeURIComponent(collectionId)}`;
 
 export type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
 
@@ -352,6 +393,43 @@ export function startOver(baseUrl: string, body: StartOverRequest, fetcher: Fetc
   return request<StartOverScheduledResponse>(baseUrl, '/auth/start-over', { method: 'POST', body: JSON.stringify(body) }, fetcher);
 }
 
+/**
+ * A code to the address, to ask a family's organiser for help back in.
+ * Resolves the same way whether or not an organiser holds the account's root.
+ */
+export async function requestFamilyRecoveryCode(baseUrl: string, email: string, fetcher: Fetcher = fetch): Promise<void> {
+  await request<{ sent: true }>(
+    baseUrl,
+    '/auth/family-recovery/code',
+    { method: 'POST', body: JSON.stringify({ email } satisfies FamilyRecoveryCodeRequest) },
+    fetcher,
+  );
+}
+
+/** Spends the code: the request, its ticket, and who can help, each organiser told; or, without the account's second step, `{ secondStep: true }`. */
+export function askFamilyRecovery(
+  baseUrl: string,
+  body: FamilyRecoveryAskRequest,
+  fetcher: Fetcher = fetch,
+): Promise<FamilyRecoveryAskResponse | FamilyRecoveryStepRequired> {
+  return request<FamilyRecoveryAskResponse | FamilyRecoveryStepRequired>(baseUrl, '/auth/family-recovery', { method: 'POST', body: JSON.stringify(body) }, fetcher);
+}
+
+/** Where a request stands; once handed over, the root's box and every box sealed to the root. */
+export function familyRecoveryStatus(baseUrl: string, id: string, ticket: string, fetcher: Fetcher = fetch): Promise<FamilyRecoveryStatusResponse> {
+  return request<FamilyRecoveryStatusResponse>(
+    baseUrl,
+    `/auth/family-recovery/${encodeURIComponent(id)}`,
+    { method: 'POST', body: JSON.stringify({ ticket }) },
+    fetcher,
+  );
+}
+
+/** Replaces the root handed over, and signs the page in. */
+export function finishFamilyRecovery(baseUrl: string, id: string, body: FamilyRecoveryFinishRequest, fetcher: Fetcher = fetch): Promise<LoginResponse> {
+  return request<LoginResponse>(baseUrl, `/auth/family-recovery/${encodeURIComponent(id)}/finish`, { method: 'POST', body: JSON.stringify(body) }, fetcher);
+}
+
 /** A challenge to sign in with a passkey, for the origin asking: the page's, or a product's. */
 export function passkeySignInOptions(baseUrl: string, fetcher: Fetcher = fetch): Promise<PasskeySignInOptions> {
   return request<PasskeySignInOptions>(baseUrl, '/auth/passkey/options', { method: 'POST', body: '{}' }, fetcher);
@@ -419,14 +497,25 @@ export interface SignInOptions {
    * way to sign in with a provider.
    */
   byApp: boolean;
-  /** It signs in with passkeys (migration 8). A server from before says nothing, which is read as no. */
+  /** It signs in with passkeys. An older server says nothing, which is read as no. */
   passkeys: boolean;
-  /** An account may turn on a second step at sign-in (migration 9, `AUTHX_SECOND_STEP`). */
+  /** An account may turn on a second step at sign-in; a server may not offer it yet. */
   secondStep: boolean;
+  /** Families are offered; a server may keep them off. */
+  families: boolean;
+  /** A family's plan may hold recovery by an organiser, so a member may ask theirs for help back in. */
+  familyRecovery: boolean;
 }
 
 export async function signInOptions(baseUrl: string, fetcher: Fetcher = fetch): Promise<SignInOptions> {
-  const { providers, returnBy, passkeys, secondStep } = await request<{ providers: string[]; returnBy?: string[]; passkeys?: boolean; secondStep?: boolean }>(
+  const { providers, returnBy, passkeys, secondStep, families, familyRecovery } = await request<{
+    providers: string[];
+    returnBy?: string[];
+    passkeys?: boolean;
+    secondStep?: boolean;
+    families?: boolean;
+    familyRecovery?: boolean;
+  }>(
     baseUrl,
     '/providers',
     { method: 'GET' },
@@ -438,6 +527,8 @@ export async function signInOptions(baseUrl: string, fetcher: Fetcher = fetch): 
     byApp: Array.isArray(returnBy) && returnBy.includes('app'),
     passkeys: passkeys === true,
     secondStep: secondStep === true,
+    families: families === true,
+    familyRecovery: familyRecovery === true,
   };
 }
 
@@ -579,6 +670,26 @@ export class HttpSyncAdapter implements SyncAdapter {
 
   async devices(): Promise<DeviceSummary[]> {
     return (await this.authed<DevicesResponse>('/account/devices', { method: 'GET' })).devices;
+  }
+
+  /** Asks for a code at the address the account would move to, on the owner's proof. */
+  async beginEmailChange(body: EmailChangeBeginRequest): Promise<void> {
+    await this.authed<{ sent: true }>('/account/email/begin', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** Moves the account to the address the code was sent to; answers the address as kept. */
+  async changeEmail(body: EmailChangeRequest): Promise<string> {
+    return (await this.authed<EmailChangeResponse>('/account/email', { method: 'POST', body: JSON.stringify(body) })).email;
+  }
+
+  /** The last 90 days of sign-ins and changes to the account, newest first. */
+  async activity(): Promise<SecurityEvent[]> {
+    return (await this.authed<ActivityResponse>('/account/activity', { method: 'GET' })).events;
+  }
+
+  /** What the server holds about the account, as the page lets the person download it. */
+  async exportAccount(): Promise<AccountExport> {
+    return this.authed<AccountExport>('/account/export', { method: 'GET' });
   }
 
   /** Gives the account a name, or clears it with null; answers the name as kept. */
@@ -784,6 +895,179 @@ export class HttpSyncAdapter implements SyncAdapter {
 
   async denyPairing(id: string): Promise<void> {
     await this.authed<void>(`/pairing/${encodeURIComponent(id)}/deny`, { method: 'POST', body: '{}' });
+  }
+
+  // --- Families ---------------------------------------------------------------
+
+  async orgs(): Promise<OrgsResponse> {
+    return this.authed<OrgsResponse>('/orgs', { method: 'GET' });
+  }
+
+  async createOrg(body: CreateOrgRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>('/orgs', { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async org(orgId: string): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}`, { method: 'GET' });
+  }
+
+  async inviteToOrg(orgId: string, body: OrgInviteRequest): Promise<OrgInvite> {
+    return this.authed<OrgInvite>(`/orgs/${encodeURIComponent(orgId)}/invites`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** By an organiser, to take an invitation back; by the invited address, to decline it. */
+  async cancelOrgInvite(orgId: string, inviteId: string): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/invites/${encodeURIComponent(inviteId)}`, { method: 'DELETE' });
+  }
+
+  async acceptOrgInvite(orgId: string, body: AcceptOrgInviteRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/accept`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async verifyOrgMember(orgId: string, accountId: string, body: VerifyOrgMemberRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/members/${encodeURIComponent(accountId)}/verify`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async confirmOrgMember(orgId: string, accountId: string, body: ConfirmOrgMemberRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/members/${encodeURIComponent(accountId)}/confirm`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async putOrgRoster(orgId: string, roster: OrgRoster): Promise<OrgRoster> {
+    return this.authed<OrgRoster>(`/orgs/${encodeURIComponent(orgId)}/roster`, { method: 'PUT', body: JSON.stringify(roster) });
+  }
+
+  /** By an organiser, with the owner's proof: the family and all it shares, for everyone. */
+  async deleteOrg(orgId: string, proof: OwnerProofFields): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}`, { method: 'DELETE', body: JSON.stringify(proof) });
+  }
+
+  /** By an organiser, to remove someone; by anyone, with their own account id, to leave. */
+  async removeOrgMember(orgId: string, accountId: string): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/members/${encodeURIComponent(accountId)}`, { method: 'DELETE' });
+  }
+
+  async rotateOrg(orgId: string, body: RotateOrgRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/rotate`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async setOrgRole(orgId: string, accountId: string, body: OrgRoleRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/role/${encodeURIComponent(accountId)}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async putOrgProductBox(orgId: string, product: string, body: OrgProductBoxRequest): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/me/boxes/${encodeURIComponent(product)}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+  }
+
+  /** The caller's member key sealed again to the account's root, after the root was replaced where it could not be. */
+  async putOrgPagePin(orgId: string, body: OrgProductBoxRequest): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/me/page-pin`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async putOrgRootBox(orgId: string, body: OrgProductBoxRequest): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/me/root-box`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async createCollection(orgId: string, body: CreateCollectionRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/collections`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async renameCollection(orgId: string, collectionId: string, body: RenameCollectionRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(collectionPath(orgId, collectionId), { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  /** Lets confirmed members into a collection. */
+  async addCollectionKeys(orgId: string, collectionId: string, body: CollectionKeysRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`${collectionPath(orgId, collectionId)}/keys`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** A new key for a collection; whoever held it and is given none is let out. */
+  async rotateCollection(orgId: string, collectionId: string, body: RotateCollectionRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`${collectionPath(orgId, collectionId)}/rotate`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  async deleteCollection(orgId: string, collectionId: string): Promise<void> {
+    await this.authed<void>(collectionPath(orgId, collectionId), { method: 'DELETE' });
+  }
+
+  /** Names the caller's emergency contact, with their root sealed to them. */
+  async setOrgEmergency(orgId: string, body: OrgEmergencyRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/emergency`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async withdrawOrgEmergency(orgId: string): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/emergency`, { method: 'DELETE' });
+  }
+
+  /** By the contact: starts the wait; the one who named them is mailed. */
+  async requestOrgEmergency(orgId: string, grantorId: string): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/emergency/${encodeURIComponent(grantorId)}/request`, { method: 'POST', body: '{}' });
+  }
+
+  /** By the one who named a contact: ends their request. */
+  async refuseOrgEmergency(orgId: string): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/emergency/refuse`, { method: 'POST', body: '{}' });
+  }
+
+  async orgEmergencyBox(orgId: string, grantorId: string): Promise<OrgEmergencyBox> {
+    return this.authed<OrgEmergencyBox>(`/orgs/${encodeURIComponent(orgId)}/emergency/${encodeURIComponent(grantorId)}`, { method: 'GET' });
+  }
+
+  /** By an organiser: the next recovery key, to every organiser. */
+  async turnOnOrgRecovery(orgId: string, body: OrgRecoveryOnRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/recovery`, { method: 'POST', body: JSON.stringify(body) });
+  }
+
+  /** By an organiser: every root kept for them goes, and each member is told. */
+  async turnOffOrgRecovery(orgId: string, body: OrgRecoveryOffRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/recovery`, { method: 'DELETE', body: JSON.stringify(body) });
+  }
+
+  /** The caller's root, sealed by them to the recovery key in use. */
+  async putOrgRecoveryBox(orgId: string, body: OrgRecoveryBoxRequest): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/me/recovery`, { method: 'PUT', body: JSON.stringify(body) });
+  }
+
+  async deleteOrgRecoveryBox(orgId: string): Promise<OrgDetail> {
+    return this.authed<OrgDetail>(`/orgs/${encodeURIComponent(orgId)}/me/recovery`, { method: 'DELETE' });
+  }
+
+  /** By an organiser answering a request: the member's root, sealed to the recovery key. The member is mailed. */
+  async orgRecoveryBox(orgId: string, requestId: string): Promise<OrgRecoveryBoxResponse> {
+    return this.authed<OrgRecoveryBoxResponse>(`/orgs/${encodeURIComponent(orgId)}/recovery/requests/${encodeURIComponent(requestId)}/box`, {
+      method: 'POST',
+      body: '{}',
+    });
+  }
+
+  async handOverOrgRecovery(orgId: string, requestId: string, body: OrgRecoveryHandoverRequest): Promise<void> {
+    await this.authed<void>(`/orgs/${encodeURIComponent(orgId)}/recovery/requests/${encodeURIComponent(requestId)}/handover`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async orgPull(orgId: string, since: number, collectionId?: string): Promise<OrgPullResponse> {
+    const only = collectionId === undefined ? '' : `&collection=${encodeURIComponent(collectionId)}`;
+    return this.authed<OrgPullResponse>(`/orgs/${encodeURIComponent(orgId)}/sync?since=${since}${only}`, { method: 'GET' });
+  }
+
+  async orgPush(orgId: string, records: OrgRecord[]): Promise<OrgPushResponse> {
+    return this.authed<OrgPushResponse>(`/orgs/${encodeURIComponent(orgId)}/sync`, {
+      method: 'POST',
+      body: JSON.stringify({ records } satisfies OrgPushRequest),
+    });
   }
 
   // --- The account page -------------------------------------------------------

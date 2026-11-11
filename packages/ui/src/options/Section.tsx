@@ -19,11 +19,14 @@ export function PageHeader({
   action?: ReactNode;
 }) {
   return (
-    <header className="mb-8 flex items-start justify-between gap-6">
-      <div className="min-w-0">
-        <h1 className="text-[22px] font-semibold tracking-[-0.015em]">{title}</h1>
+    // On a phone with large text an action beside the title left the words a
+    // column a few wide: there it goes under them once they would get narrow.
+    <header className="mb-8 flex items-start justify-between gap-6 app:mb-4 app:flex-wrap app:gap-y-4 app:empty:hidden">
+      <div className="min-w-0 app:min-w-[60%] app:flex-1 app:empty:hidden">
+        {/* A phone's bar already names the page. */}
+        <h1 className="text-[22px] font-semibold tracking-[-0.015em] app:hidden">{title}</h1>
         {description && (
-          <p className="mt-1 max-w-[62ch] text-[13.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+          <p className="kr-explain mt-1 max-w-[62ch] text-[13.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
             {description}
           </p>
         )}
@@ -66,7 +69,7 @@ export function SubpageHeader({
       )}
       <h1 className="text-[22px] font-semibold tracking-[-0.015em]">{title}</h1>
       {description && (
-        <p className="mt-1 max-w-[62ch] text-[13.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+        <p className="kr-explain mt-1 max-w-[62ch] text-[13.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
           {description}
         </p>
       )}
@@ -82,12 +85,15 @@ export function SubpageHeader({
 export function Section({
   title,
   description,
+  keep = false,
   action,
   tone = 'default',
   children,
 }: {
   title?: string;
   description?: ReactNode;
+  /** The description is a warning, not an explanation: a phone shows it too (`kr-explain`). */
+  keep?: boolean;
   action?: ReactNode;
   /** A danger zone is outlined in red, so it is never mistaken for an ordinary setting. */
   tone?: 'default' | 'danger';
@@ -110,7 +116,12 @@ export function Section({
               </h2>
             )}
             {description && (
-              <p className="mt-0.5 max-w-[62ch] text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+              <p
+                className={cx(
+                  'mt-0.5 max-w-[62ch] text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400',
+                  !keep && 'kr-explain',
+                )}
+              >
                 {description}
               </p>
             )}
@@ -136,6 +147,7 @@ export function Row({
   label,
   name,
   description,
+  keep = false,
   control,
   children,
 }: {
@@ -146,6 +158,8 @@ export function Row({
    */
   name?: string;
   description?: ReactNode;
+  /** The description is a warning, not an explanation: a phone shows it too (`kr-explain`). */
+  keep?: boolean;
   control?: ReactNode;
   /** What opens under the row when its control is used: a form, a warning. */
   children?: ReactNode;
@@ -159,13 +173,22 @@ export function Row({
           each other — on a phone, a button would squeeze them into a column
           a few words wide. A switch still fits beside them. */}
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-        <div className="min-w-48 flex-1">
+        <div className="min-w-48 flex-1 app:min-w-[60%]">
           <div className="text-[13.5px] font-medium">{label}</div>
           {description && (
-            <p className="mt-0.5 text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400">{description}</p>
+            <p
+              className={cx(
+                'mt-0.5 text-[12.5px] leading-relaxed text-neutral-600 dark:text-neutral-400',
+                !keep && 'kr-explain',
+              )}
+            >
+              {description}
+            </p>
           )}
         </div>
-        {control && <div className="shrink-0">{control}</div>}
+        {/* No wider than the row: a long button under the words wraps, where
+            it once ran past the screen's edge on a phone with large text. */}
+        {control && <div className="max-w-full shrink-0">{control}</div>}
       </div>
       {children && <div className="mt-4">{children}</div>}
     </div>
